@@ -23,7 +23,7 @@
 
 #+BEGIN_SRC emacs-lisp
 (defvar *emacs-load-start* (current-time))
-#+END_SRC   
+#+END_SRC
 
 ** Personal Information
 
@@ -32,13 +32,13 @@
 #+END_SRC
 
 ** Style
-   
+
 *** Frame Changes
-    
+
     These following items make Emacs really beautiful on every
     platform.  I remove the menu bar, tool bar and the scroll bar for
     starters.  Then, I setup the fringe area with some items
-    
+
 #+BEGIN_SRC emacs-lisp
 (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
@@ -65,10 +65,18 @@
 (load-file custom-file)
 #+END_SRC
 
+*** Org Fonts
+
+    This face needs to be set to strike-through to look great
+
+#+BEGIN_SRC elisp :export none
+(org-done ((t (:foreground "green3" :weight bold :strike-through t))))
+#+END_SRC
+
 ** Small Settings
 *** Required packages
 #+BEGIN_SRC emacs-lisp
-  (eval-when-compile 
+  (eval-when-compile
     (require 'cl))
   (require 'saveplace)
   (require 'ffap)
@@ -77,7 +85,7 @@
   (require 'recentf)
 #+END_SRC
 *** Minibuffer History Save
-    
+
     This saves the minibuffer histories to preserve across emacs
     sessions.
 
@@ -102,7 +110,7 @@
 
     Try to expand the text before point in an intelligent way. Repeat
     the keypress to cycle through options.
-    
+
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "M-/") 'hippie-expand)
 #+END_SRC
@@ -136,7 +144,7 @@
 
 #+BEGIN_SRC emacs-lisp
 (show-paren-mode t)
-#+END_SRC    
+#+END_SRC
 
     While developing, documentation is nice to have handy and
     automatic.
@@ -154,7 +162,7 @@
 (epa-file-enable)
 #+END_SRC
 *** Font sizes (dynamic)
-    
+
     Changing font sizes in presentations is crucial to have at hand. I
     use the following keybindings. "C--" overrides the negative
     argument function, but that one is also accessible by "M--"
@@ -175,7 +183,7 @@
 (define-key view-mode-map "p" 'previous-line)
 (define-key view-mode-map "j" 'next-line)
 (define-key view-mode-map "k" 'previous-line)
-#+END_SRC    
+#+END_SRC
 
 *** Default File encoding
 
@@ -189,7 +197,7 @@
 (set-keyboard-coding-system 'utf-8)
 (setq default-buffer-file-coding-system 'utf-8)
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
-;; MS Windows clipboard is UTF-16LE 
+;; MS Windows clipboard is UTF-16LE
 (set-clipboard-coding-system 'utf-16le-dos)
 #+END_SRC
 
@@ -201,6 +209,26 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+#+END_SRC
+
+*** Vimrc generic mode
+
+    Good to have to help with my pentadactyl configs
+
+#+BEGIN_SRC elisp
+(define-generic-mode 'vimrc-generic-mode
+  '()
+  '()
+  '(("^[\t ]*:?\\(!\\|ab\\|map\\|unmap\\)[^\r\n\"]*\"[^\r\n\"]*\\(\"[^\r\n\"]*\"[^\r\n\"]*\\)*$"
+     (0 font-lock-warning-face))
+    ("\\(^\\|[\t ]\\)\\(\".*\\)$"
+     (2 font-lock-comment-face))
+    ("\"\\([^\n\r\"\\]\\|\\.\\)*\""
+     (0 font-lock-string-face)))
+  '("/vimrc\\'" "\\.vim\\(rc\\)?\\'")
+  '((lambda ()
+      (modify-syntax-entry ?\" ".")))
+  "Generic mode for Vim configuration files.")
 #+END_SRC
 
 ** BNB Helpers
@@ -264,7 +292,7 @@
     true. Otherwise, no flag is set and emacs is simply iconified.
 
 *** Fullscreen
-    
+
     To make emacs go fullscreen on windows, a helper program is
     needed. This is found online at bitbucket.
 
@@ -280,25 +308,25 @@
 *** Workweeks
 
 #+BEGIN_SRC emacs-lisp
-(defun bnb/workweek ()
-  (interactive)
-  (let* ((now (current-time))
-(weeks (string-to-number
-(format-time-string "%W" now)))
-(days (time-to-day-in-year now))
-(daynum (string-to-number
-(format-time-string "%w" now)))
-(left (% days 7)))
-    (if (and (= 0 daynum) (= left 0))
-weeks
-      (+ 1 weeks))))
-    
-(defun bnb/workweek-string ()
-  (interactive)
-  (concat "WW"
-(number-to-string
-(bnb/workweek))))
-#+END_SRC    
+  (defun bnb/workweek ()
+    (interactive)
+    (let* ((now (current-time))
+           (weeks (string-to-number
+                   (format-time-string "%W" now)))
+           (days (time-to-day-in-year now))
+           (daynum (string-to-number
+                    (format-time-string "%w" now)))
+           (left (% days 7)))
+      (if (and (= 0 daynum) (= left 0))
+          weeks
+        (+ 1 weeks))))
+
+  (defun bnb/workweek-string ()
+    (interactive)
+    (concat "WW"
+            (number-to-string
+             (bnb/workweek))))
+#+END_SRC
 
 ** Dired
 
@@ -324,7 +352,7 @@ weeks
 
    First, I start with some basic IDO setttings. I enabled it
    everywhere so that it will work in all contextes. I like flex
-   matching so I also turn that feature on. Finally, 
+   matching so I also turn that feature on. Finally,
 
 #+BEGIN_SRC emacs-lisp
 (setq ido-everywhere t)
@@ -370,11 +398,11 @@ weeks
    =ansi-term=.
 
 *** Eshell
-   
+
     Eshell can provide a shell that works the same on windows or
     linux. One of the really cool features is that you can define
     commands to use (like aliases) within the shell and have them
-    directly integrate with emacs.    
+    directly integrate with emacs.
 
 #+BEGIN_SRC emacs-lisp
 (defun eshell/emacs (&rest args)
@@ -394,7 +422,7 @@ weeks
 
    [[info:AUCTeX][AUCTeX Manual]]
 
-   Superb handling of TeX documents. 
+   Superb handling of TeX documents.
 
 *** RefTeX
 
@@ -431,15 +459,15 @@ weeks
     auto-save will parse the file on load and save
     respectively. Untabify will remove tabs (real ones) before saving.
 
-    I also have a default of =TeX-master= set to "master" as
-    recommended in the documentation. I'm giving that a spin, but I
-    think the jury is still out on that one.
+    I also have a default of =TeX-master= set to =nil=. I used to have
+    it set to "master" as recommended in the documentation, but I had
+    bad results for LaTeX files generated on the fly.
 
 #+BEGIN_SRC emacs-lisp
 (setq TeX-auto-untabify t)
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
-(setq-default TeX-master "master")
+(setq-default TeX-master nil)
 #+END_SRC
 
     For viewing the output, I can specify the command to use on the
@@ -466,9 +494,9 @@ weeks
 (setq TeX-PDF-mode 1)
 (setq TeX-engine 'xetex)
 #+END_SRC
-    
+
 ** Orgmode
-   
+
    The one feature I cannot do without. Let's set up some features.
 
 *** Auto mode
@@ -476,7 +504,7 @@ weeks
     I add gpg and _archive to the list of known org files.
 
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist 
+  (add-to-list 'auto-mode-alist
                '("\\.org\\(.gpg|_archive\\)?$" . org-mode))
 #+END_SRC
 
@@ -687,7 +715,20 @@ weeks
     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 #+END_SRC
-       
+
+**** Fonts
+
+     Setup a strikethrough font for agenda items.  Looks prettier.
+
+#+BEGIN_SRC elisp
+  (set-face-attribute 'org-agenda-done nil :strike-through t)
+
+  (defadvice enable-theme (after org-strike-done activate)
+    "Setup org-agenda-done faces to have strike-through on"
+    (and (message "Running advice")
+         (set-face-attribute 'org-agenda-done nil :strike-through t)))
+#+END_SRC
+
 *** Capture
 
     [[info:org#Capture][Capturing]] is crucial to a task system and in this vein, org is no
@@ -753,7 +794,7 @@ weeks
 #+END_SRC
 
 *** Agenda
-    
+
     Once I have captured and refiled my tasks, I need to remember to
     do them and see what is on the agenda. The ways to view the tasks
     at hand are nicely programmable.
@@ -868,7 +909,7 @@ weeks
      by the key that triggers it.
 
      - =a= Agenda with tip (keystroke tip)
-     - =w= Tasks waiting on something 
+     - =w= Tasks waiting on something
      - =r= Refile New notes and tasks
      - =n= Next
        Any task with the NEXT tag
@@ -887,13 +928,13 @@ weeks
 *** Export
 
     Some global export settings make sense for HTML and \LaTeX
-    
+
     For HTML, I just want to inline the links to images.
 
 #+BEGIN_SRC emacs-lisp
 (setq org-export-html-inline-images t)
 #+END_SRC
-    
+
     I also used to suppress the postamble with
     =org-export-html-postamble=.
 
@@ -910,6 +951,19 @@ weeks
         '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+#+END_SRC
+
+
+    Also, I want to enable some of the other contributed
+    exporters. To do this, simply require the files necessary that
+    are not on by default.
+
+    I add exporters for Markdown (=ox-md.el=) and beamer
+    (=ox-beamer.el=).
+
+#+BEGIN_SRC emacs-lisp
+  (require 'ox-md)
+  (require 'ox-beamer)
 #+END_SRC
 
 *** Clocking
@@ -981,6 +1035,14 @@ weeks
           org-bookmark
           org-calc)))
 #+END_SRC
+**** Org-protocol
+
+     For some reason, I have to load =org-protocol= explicitly in
+     order to work.
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-protocol)
+#+END_SRC
 
 **** Crypt
 
@@ -1024,7 +1086,7 @@ weeks
      (R . t)
      (C . t)
      (sqlite . t)))
-  
+
   (when (eq system-type 'windows-nt)
     (setq org-babel-R-command "C:/Progra~1/R/R-2.15.1/bin/R --slave --no-save"))
 #+END_SRC
@@ -1062,7 +1124,7 @@ weeks
 	      ("\\.pdf\\'" . default)
 	      ("\\.mm\\'" . default))))
 #+END_SRC
-    
+
 **** Goto Interface
 
      By using =C-c C-j=, you can jump easily around a large orgfile
@@ -1119,7 +1181,15 @@ weeks
 #+BEGIN_SRC emacs-lisp
 (setq org-completion-use-ido t)
 (setq org-outline-path-complete-in-steps nil)
-#+END_SRC     
+#+END_SRC
+
+     Additionally, I use the [[https://github.com/technomancy/ido-ubiquitous][ido-ubiquitous]] package to /really/ get
+     =ido= everywhere. Install it via the package system and then
+     enable it on startup.
+
+#+BEGIN_SRC emacs-lisp
+(ido-ubiquitous t)
+#+END_SRC
 
 **** Display settings
 
@@ -1141,12 +1211,12 @@ weeks
      flag to open a file collapsed. This I like too -- I get a
      compact view of the file and can jump to a relevant section with
      =C-c C-j=.
-     
+
 #+BEGIN_SRC emacs-lisp
 (setq org-cycle-separator-lines 0)
 (setq org-startup-folded 'content)
 #+END_SRC
-     
+
      When using SRC-blocks, org can provide highlighting native to
      the SRC type. Note that this may slow down some files.
 
@@ -1155,14 +1225,14 @@ weeks
 #+END_SRC
 
 **** Insertion
-     
+
      I define when org should leave a blank line before an
      item. In my case, it is headings and plain list items.
 
 #+BEGIN_SRC emacs-lisp
 (setq org-blank-before-new-entry '((heading)
                                    (plain-list-item)))
-#+END_SRC     
+#+END_SRC
 
      Also, when inserting a new heading, do so after the current
      subtree.
@@ -1177,11 +1247,11 @@ weeks
 (setq org-global-properties (quote (("STYLE_ALL" . "habit")
 				    ("Effort_ALL" . "0:10 0:30 1:00 2:00 3:00 4:00")
 				    ("Score_ALL" . "10 5 2 1"))))
-#+END_SRC     
+#+END_SRC
 
 *** Org-drill
 
-    
+
 
 ** Elisp Extras
 *** Google
@@ -1265,7 +1335,7 @@ weeks
 ** Server
 
    [[info:emacs#Emacs%20Server][Using Emacs as a server]] is a great way to keep the power
-   responsive. 
+   responsive.
 
 #+BEGIN_SRC emacs-lisp
 (server-start)
@@ -1281,7 +1351,7 @@ weeks
    report in the =*Messages*= buffer.
 
 #+BEGIN_SRC emacs-lisp
-  (message "Setup.org loaded in %ds" 
+  (message "Setup.org loaded in %ds"
            (- (car (cdr (current-time)))
               (car (cdr *emacs-load-start*))))
 #+END_SRC
