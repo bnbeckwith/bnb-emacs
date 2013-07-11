@@ -345,6 +345,23 @@
 (put 'dired-find-alternate-file 'disabled nil)
 #+END_SRC
 
+** Smart Tabs
+
+   [[http://www.emacswiki.org/emacs-en/SmartTabs][SmartTabs]] try to do the right thing regarding tabs/spaces in
+   indentation/alignment. It is installed through the package interface. Look for
+   =smart-tabs-mode=.
+
+    By default, I'm enabling it in all modes that I can.
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default indent-tabs-mode nil)
+  (smart-tabs-insinuate 'c 'javascript 'python 'cperl)
+#+END_SRC
+
+*** Notes
+
+    To retab the whole file, use =C-x h C-M-\=.
+
 ** IDO (Interactively Do Things)
 
    I do not believe I could live without this on emacs. Even for just
@@ -884,7 +901,7 @@
                   (org-agenda-remove-tags t)
                   (ps-paper-type 'a4))
                  ("~/TODO.pdf" "~/TODO.ps"))
-                ("S" "Scoreless" tags-todo "+Score<1"
+                ("l" "Scoreless" tags-todo "+Score<1"
                  ((org-agenda-todo-ignore-with-date nil)
                   (org-agenda-todo-ignore-scheduled nil)
                   (org-agenda-todo-ignore-deadlines nil)
@@ -1355,3 +1372,26 @@
            (- (car (cdr (current-time)))
               (car (cdr *emacs-load-start*))))
 #+END_SRC
+** Local customizations (system-name)
+
+   I also intend to have a generic call to an installed local file
+   that may need to behave differently from =custom.el=. This is
+   called last so that it can modify any existing setting made here
+   to work on the specific system in question.
+
+   In the code below, I add =~/.emacs.d/= to the load path and have a
+   protected call to =load-library=.  If the file exists, it gets
+   loaded, otherwise the error normally returned if the file is
+   non-existant gets ignored.
+
+#+BEGIN_SRC emacs-lisp
+    (add-to-list 'load-path "~/.emacs.d/")
+    (condition-case err
+        (progn
+          (load-library system-name)
+          (message "Loaded local settings file %s" system-name))
+      (file-error
+       (message "Skipping %s library as it does not exist."))
+      nil)
+#+END_SRC
+
