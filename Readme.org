@@ -1380,16 +1380,17 @@
    that work across machines. Perhaps it can be useful in a
    multi-machine work environment.
 
-** End Timer
+** Local customizations (custom.el)
 
-   Check how long it took to read this (generated) setup file and
-   report in the =*Messages*= buffer.
+   I typically use the customize interface to generate any local
+   settings such as proxies, paths, fonts, etc. that may vary from
+   machine to machine.
 
 #+BEGIN_SRC emacs-lisp
-  (message "Setup.org loaded in %ds"
-           (- (car (cdr (current-time)))
-              (car (cdr *emacs-load-start*))))
+(setq custom-file "~/.emacs.d/custom.el")
+(load-file custom-file)
 #+END_SRC
+
 ** Local customizations (system-name)
 
    I also intend to have a generic call to an installed local file
@@ -1413,3 +1414,13 @@
       nil)
 #+END_SRC
 
+** End Timer
+
+   Check how long it took to read this (generated) setup file and
+   report in the =*Messages*= buffer.
+
+#+BEGIN_SRC emacs-lisp
+  (message "Setup.org loaded in %ds"
+           (- (car (cdr (current-time)))
+              (car (cdr *emacs-load-start*))))
+#+END_SRC
