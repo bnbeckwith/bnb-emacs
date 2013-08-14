@@ -1208,6 +1208,17 @@
 (ido-ubiquitous t)
 #+END_SRC
 
+***** IDO Everywhere Settings
+
+      Here is a setting that disables =ido-ubiquitous= completion from
+      any commands listed.  I have =insert-char= here (called with
+      =C-x 8 <RET>=) because I like to see the buffer of UTF‑8 names
+      for completion.
+
+#+BEGIN_SRC emacs-lisp
+(setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command))
+#+END_SRC
+
 **** Display settings
 
      There are a collection of settings that define how the
