@@ -1342,22 +1342,29 @@
     of inactivity.
 
 #+BEGIN_SRC emacs-lisp
-(defun bnb/jump-to-org-agenda ()
-  (interactive)
-  (let ((buf (get-buffer "*Org Agenda*"))
-        wind)
-    (if buf
-        (if (setq wind (get-buffer-window buf))
-            (select-window wind)
-          (if (called-interactively-p)
-              (progn
-                (select-window (display-buffer buf t t))
-                (org-fit-window-to-buffer))
-            (with-selected-window (display-buffer buf)
-              (org-fit-window-to-buffer))))
-       (bnb/org-agenda-with-tip nil))))
+  (defun bnb/jump-to-org-agenda ()
+    (interactive)
+    (let ((buf (get-buffer "*Org Agenda*"))
+          wind)
+      (if buf
+          (if (setq wind (get-buffer-window buf))
+              (select-window wind)
+            (if (called-interactively-p)
+                (progn
+                  (select-window (display-buffer buf t t))
+                  (org-fit-window-to-buffer))
+              (with-selected-window (display-buffer buf)
+                (org-fit-window-to-buffer))))
+         (bnb/org-agenda-with-tip nil))))
 
-(run-with-idle-timer 300 t 'bnb/jump-to-org-agenda)
+  (defun bnb/idle-agenda (&optional arg)
+    (interactive "P")
+    (setq bnb/iagenda
+          (if arg
+              (cancel-timer bnb/iagenda)
+            (run-with-idle-timer 300 t 'bnb/jump-to-org-agenda))))
+
+  (bnb/idle-agenda)
 #+END_SRC
 
 ** Server
