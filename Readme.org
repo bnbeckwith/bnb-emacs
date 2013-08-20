@@ -1416,7 +1416,7 @@
           (load-library system-name)
           (message "Loaded local settings file %s" system-name))
       (file-error
-       (message "Skipping %s library as it does not exist."))
+       (message "Skipping %s library as it does not exist." system-name))
       nil)
 #+END_SRC
 
