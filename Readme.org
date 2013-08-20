@@ -343,8 +343,7 @@
    the current buffer and reduces the accumulating dired buffers.
 
 #+BEGIN_SRC emacs-lisp
-  (if (locate-library "dired+")
-      (require 'dired+)
+  (unless (package-installed-p 'dired+)
     (package-install 'dired+))
   (put 'dired-find-alternate-file 'disabled nil)
 #+END_SRC
@@ -1308,8 +1307,7 @@
     built-in keybindings.
 
 #+BEGIN_SRC emacs-lisp
-  (if (locate-library "keywiz")
-      (require 'keywiz)
+  (unless (package-installed-p 'keywiz)
     (package-install 'keywiz))
   (defun bnb/load-keybindings ()
     "Since we don't want to have to pass through a keywiz game each time..."
