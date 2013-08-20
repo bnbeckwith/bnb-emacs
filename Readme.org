@@ -192,14 +192,15 @@
     let me know if I shoudn't do this, will you?
 
 #+BEGIN_SRC emacs-lisp
-(prefer-coding-system       'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(setq default-buffer-file-coding-system 'utf-8)
-(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
-;; MS Windows clipboard is UTF-16LE
-(set-clipboard-coding-system 'utf-16le-dos)
+  (prefer-coding-system       'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (setq default-buffer-file-coding-system 'utf-8)
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+  ;; MS Windows clipboard is UTF-16LE
+  (when (eq system-type 'windows-nt)
+    (set-clipboard-coding-system 'utf-16le-dos))
 #+END_SRC
 
 *** Package archives
