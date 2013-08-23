@@ -1309,6 +1309,7 @@
 #+BEGIN_SRC emacs-lisp
   (unless (package-installed-p 'keywiz)
     (package-install 'keywiz))
+  (require 'keywiz)
   (defun bnb/load-keybindings ()
     "Since we don't want to have to pass through a keywiz game each time..."
     (setq keywiz-cached-commands nil)
