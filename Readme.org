@@ -271,11 +271,6 @@
     Now, the control window will be a small window instead of a
     separate frame.
 
-** BNB Helpers
-
-   This is a collection of code specific to how I use emacs.  Some
-   are from different websites or other Emacs users.
-
 *** Magit
 
     On windows, I need to use a different =git= to ensure that
@@ -288,6 +283,12 @@
   (global-set-key (kbd "<f6>") 'magit-status)
 #+END_SRC
 
+
+
+** BNB Helpers
+
+   This is a collection of code specific to how I use emacs.  Some
+   are from different websites or other Emacs users.
 
 *** Exit behavior
 
