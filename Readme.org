@@ -212,6 +212,31 @@
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 #+END_SRC
 
+    After these are set, I can make sure that the proper packages are
+    installed.  This may take some time the first time it runs.
+
+#+BEGIN_SRC emacs-lisp
+  (mapc
+   (lambda (package)
+     (when (not (package-installed-p package))
+       (messsage (format "Installing %s" package))
+       (package-install package)))
+   '(bookmark+
+     clojure-mode
+     color-theme-sanityinc-tomorrow
+     dired+
+     htmlize
+     highline
+     keywiz
+     magit
+     org-plus-contrib
+     paredit
+     rainbow-mode
+     writegood-mode))
+#+END_SRC
+
+
+
 *** Vimrc generic mode
 
     Good to have to help with my pentadactyl configs
@@ -232,10 +257,35 @@
   "Generic mode for Vim configuration files.")
 #+END_SRC
 
+*** Ediff single frame
+
+    I really dislike the multi-frame mode of =ediff=.  It is confusing
+    to use and really messes up my [[http://dwm.suckless.org][dwm]] usage. By explicitly setting
+    the following setting, it forces =ediff= to use only one
+    frame.
+
+#+BEGIN_SRC emacs-lisp
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+#+END_SRC
+
+    Now, the control window will be a small window instead of a
+    separate frame.
+
 ** BNB Helpers
 
    This is a collection of code specific to how I use emacs.  Some
    are from different websites or other Emacs users.
+
+*** Magit
+
+    On windows, I need to use a different =git= to ensure that
+    everything works easily.
+
+#+BEGIN_SRC emacs-lisp
+  (if (eq system-type 'windows-nt)
+      (setq magit-git-executable "C:/Program Files (x86)/Git/bin/git.exe"))
+#+END_SRC
+
 
 *** Exit behavior
 
