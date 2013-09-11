@@ -284,6 +284,8 @@
 #+BEGIN_SRC emacs-lisp
   (if (eq system-type 'windows-nt)
       (setq magit-git-executable "C:/Program Files (x86)/Git/bin/git.exe"))
+
+  (global-set-key (kbd "<f6>") 'magit-status)
 #+END_SRC
 
 
