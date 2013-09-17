@@ -410,6 +410,8 @@
     By default, I'm enabling it in all modes that I can.
 
 #+BEGIN_SRC emacs-lisp
+  (unless (package-installed-p 'smart-tabs-mode)
+    (package-install 'smart-tabs-mode))
   (setq-default indent-tabs-mode nil)
   (smart-tabs-insinuate 'c 'javascript 'python 'cperl)
 #+END_SRC
