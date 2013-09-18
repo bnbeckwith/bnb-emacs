@@ -1422,8 +1422,13 @@
               (cancel-timer bnb/iagenda)
             (run-with-idle-timer 300 t 'bnb/jump-to-org-agenda))))
 
-  (bnb/idle-agenda)
+  (when (eq system-type 'windows-nt)
+    (bnb/idle-agenda))
 #+END_SRC
+
+    The when clause at the end is because I primarily keep my agenda
+    information on Windows. No need to have my agenda open on the
+    different GNU/Linux boxes all the time.
 
 ** Server
 
