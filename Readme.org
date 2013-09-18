@@ -473,7 +473,7 @@
 *** Eshell
 
     Eshell can provide a shell that works the same on windows or
-    linux. One of the really cool features is that you can define
+    GNU/Linux. One of the really cool features is that you can define
     commands to use (like aliases) within the shell and have them
     directly integrate with emacs.
 
@@ -545,7 +545,7 @@
 
     For viewing the output, I can specify the command to use on the
     files generated in the process. However, the programs differ on
-    Linux and Windows, so I have differing settings below.
+    GNU/Linux and Windows, so I have differing settings below.
 
 #+BEGIN_SRC emacs-lisp
   (setq TeX-output-view-style
