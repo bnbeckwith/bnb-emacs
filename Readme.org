@@ -219,7 +219,7 @@
   (mapc
    (lambda (package)
      (when (not (package-installed-p package))
-       (messsage (format "Installing %s" package))
+       (message (format "Installing %s" package))
        (package-install package)))
    '(bookmark+
      clojure-mode
