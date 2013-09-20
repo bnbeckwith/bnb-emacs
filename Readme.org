@@ -74,6 +74,56 @@
 #+END_SRC
 
 ** Small Settings
+*** Package archives
+
+    I like to pull from the popular list of package archives.
+
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+#+END_SRC
+
+    After these are set, I can make sure that the proper packages are
+    installed.  This may take some time the first time it runs.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Idea lifted from prelude https://github.com/bbatsov/prelude
+
+  (defvar bnb/packages
+    '(airplay
+      bookmark+
+      clojure-mode
+      color-theme-sanityinc-tomorrow
+      dired+
+      htmlize
+      highline
+      keywiz
+      magit
+      org-plus-contrib
+      paredit
+      rainbow-mode
+      smart-tabs-mode
+      undo-tree
+      writegood-mode))
+
+  (defun bnb/packages-installed-p ()
+    (loop for p in bnb/packages
+          when (not (package-installed-p p)) do (return nil)
+          finally (return t)))
+
+  (unless (bnb/packages-installed-p)
+    ;; Need to update package contents
+    (message "%s" "Emacs refreshing package contents...")
+    (package-refresh-contents)
+    (message "done.")
+
+    ;; install the missing packages
+    (dolist (p bnb/packages)
+      (when (not (package-installed-p p))
+        (package-install p))))
+#+END_SRC
+
 *** Required packages
 #+BEGIN_SRC emacs-lisp
   (eval-when-compile
@@ -201,41 +251,6 @@
   (when (eq system-type 'windows-nt)
     (set-clipboard-coding-system 'utf-16le-dos))
 #+END_SRC
-
-*** Package archives
-
-    I like to pull from the popular list of package archives.
-
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-#+END_SRC
-
-    After these are set, I can make sure that the proper packages are
-    installed.  This may take some time the first time it runs.
-
-#+BEGIN_SRC emacs-lisp
-  (mapc
-   (lambda (package)
-     (when (not (package-installed-p package))
-       (message (format "Installing %s" package))
-       (package-install package)))
-   '(bookmark+
-     clojure-mode
-     color-theme-sanityinc-tomorrow
-     dired+
-     htmlize
-     highline
-     keywiz
-     magit
-     org-plus-contrib
-     paredit
-     rainbow-mode
-     writegood-mode))
-#+END_SRC
-
-
 
 *** Vimrc generic mode
 
