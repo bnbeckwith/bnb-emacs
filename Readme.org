@@ -257,7 +257,7 @@
 
     Good to have to help with my pentadactyl configs
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
 (define-generic-mode 'vimrc-generic-mode
   '()
   '()
@@ -808,7 +808,7 @@
 
      Setup a strikethrough font for agenda items.  Looks prettier.
 
-#+BEGIN_SRC elisp
+#+BEGIN_SRC emacs-lisp
   (set-face-attribute 'org-agenda-done nil :strike-through t)
 
   (defadvice enable-theme (after org-strike-done activate)
