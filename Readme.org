@@ -312,13 +312,10 @@
 
 *** Magit
 
-    On windows, I need to use a different =git= to ensure that
-    everything works easily.
+    Here I set a global key for ~magit-status~. Think 'G' is looks
+    like 6.
 
 #+BEGIN_SRC emacs-lisp
-  (if (eq system-type 'windows-nt)
-      (setq magit-git-executable "C:/Program Files (x86)/Git/bin/git.exe"))
-
   (global-set-key (kbd "<f6>") 'magit-status)
 #+END_SRC
 
