@@ -103,6 +103,7 @@
       magit
       org-plus-contrib
       paredit
+      powerline
       rainbow-mode
       smart-tabs-mode
       undo-tree
@@ -322,6 +323,26 @@
 #+END_SRC
 
 
+
+*** Powerline
+#+BEGIN_SRC emacs-lisp
+  (setq powerline-default-separator 'slant)
+  (powerline-default-theme)
+#+END_SRC
+*** Global Keys
+
+**** Edit This file
+
+     When I hit ~<F5>~, open this file for editing.  That way, any
+     time I have something I need to remember for my emacs setting, it
+     is just a button-push away.
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<f5>")
+                  (lambda ()
+                    (interactive)
+                    (find-file "~/.emacs.d/bnb-emacs/Readme.org")))
+#+END_SRC
 
 ** BNB Helpers
 
