@@ -213,8 +213,8 @@
 (require 'epa)
 (epa-file-enable)
 #+END_SRC
-*** Fonts
-**** Default
+*** Faces
+**** Default Fonts
 
      On windows, I have /Source Code Pro/ installed.  Let's use that
      there.
@@ -235,7 +235,7 @@
          (set-face-attribute 'org-agenda-done nil :strike-through t)))
 #+END_SRC
 
-****  Dynamic sizes
+****  Dynamic Font sizes
 
     Changing font sizes in presentations is crucial to have at hand. I
     use the following keybindings. "C--" overrides the negative
@@ -246,6 +246,18 @@
 (global-set-key (kbd "C--") 'text-scale-decrease)
 #+END_SRC
 
+
+**** Mode Line Style
+
+     I dislike the box around the =mode-line= making it look like a
+     button.  This face attribute, =box=, can be turned off get get a
+     more flat feel.
+
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'mode-line nil :box nil)
+  (set-face-attribute 'mode-line-inactive nil :box nil)
+  (set-face-attribute 'mode-line-highlight nil :box nil)
+#+END_SRC
 *** Read-only helpers
 
     For read-only files, look at them in view mode
@@ -317,6 +329,7 @@
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<f6>") 'magit-status)
+  (setenv "EDITOR" "C:/Program\ Files\ (x86)/GNU Emacs/bin/emacsclientw.exe")
 #+END_SRC
 
 
@@ -1338,7 +1351,7 @@
 
 #+BEGIN_SRC emacs-lisp
 (setq org-odd-levels-only nil)
-(setq org-hide-leading-stars t)
+(setq org-hide-leading-stars nil)
 #+END_SRC
 
      Cycling the headline states can produce different views of the
