@@ -212,7 +212,29 @@
 (require 'epa)
 (epa-file-enable)
 #+END_SRC
-*** Font sizes (dynamic)
+*** Fonts
+**** Default
+
+     On windows, I have /Source Code Pro/ installed.  Let's use that
+     there.
+
+#+BEGIN_SRC emacs-lisp
+  (when (eq system-type 'windows-nt)
+    (set-face-attribute 'default nil :font "Source Code Pro-10"))
+#+END_SRC
+
+     Setup a strikethrough font for agenda items.  Looks prettier.
+
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'org-agenda-done nil :strike-through t)
+
+  (defadvice enable-theme (after org-strike-done activate)
+    "Setup org-agenda-done faces to have strike-through on"
+    (and (message "Running advice")
+         (set-face-attribute 'org-agenda-done nil :strike-through t)))
+#+END_SRC
+
+****  Dynamic sizes
 
     Changing font sizes in presentations is crucial to have at hand. I
     use the following keybindings. "C--" overrides the negative
@@ -455,6 +477,7 @@
 #+BEGIN_SRC emacs-lisp
 (ido-mode t)
 #+END_SRC
+
 
 *** Keystrokes
 
@@ -802,19 +825,6 @@
   (let (org-log-done org-log-states)
     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
-#+END_SRC
-
-**** Fonts
-
-     Setup a strikethrough font for agenda items.  Looks prettier.
-
-#+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'org-agenda-done nil :strike-through t)
-
-  (defadvice enable-theme (after org-strike-done activate)
-    "Setup org-agenda-done faces to have strike-through on"
-    (and (message "Running advice")
-         (set-face-attribute 'org-agenda-done nil :strike-through t)))
 #+END_SRC
 
 *** Capture
