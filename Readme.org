@@ -1189,6 +1189,12 @@
 (setq org-habit-graph-column 50)
 #+END_SRC
 
+**** Drill
+
+#+BEGIN_SRC emacs-lisp
+(require 'org-drill)
+#+END_SRC
+
 *** Babel
 
 #+BEGIN_SRC emacs-lisp
