@@ -329,10 +329,7 @@
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<f6>") 'magit-status)
-  (setenv "EDITOR" "C:/Program\ Files\ (x86)/GNU Emacs/bin/emacsclientw.exe")
 #+END_SRC
-
-
 
 *** Powerline
 #+BEGIN_SRC emacs-lisp
