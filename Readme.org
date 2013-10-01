@@ -631,7 +631,9 @@
 
 *** Auto mode
 
-    I add gpg and _archive to the list of known org files.
+    I add gpg and _archive to the list of known org files. These two
+    alternative extensions are used for either encrypted org files
+    (=.org.gpg=) or for archives (=.org_archive=).
 
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist
