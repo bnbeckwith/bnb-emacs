@@ -392,7 +392,8 @@
     (run-hooks 'bnb/kill-emacs-hooks)
     (if bnb/really-kill-emacs
         ad-do-it
-      (iconify-frame)))
+      (when (eq system-type 'windows-nt)
+        (iconify-frame))))
 #+END_SRC
 
     Now, when any event triggers a call to =kill-emacs=, a small set
