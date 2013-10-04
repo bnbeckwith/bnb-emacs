@@ -5,7 +5,7 @@
   (=bnb-emacs=) in the =~/.emacs.d/= directory and run the code block
   to bootstrap the system.
 
-#+BEGIN_SRC emacs-lisp :tangle "../init.el"
+#+BEGIN_SRC emacs-lisp :tangle "../init.el" :exports code :results silent
 (require 'package)
 (package-initialize)
 
