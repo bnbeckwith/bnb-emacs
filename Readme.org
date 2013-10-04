@@ -351,6 +351,14 @@
                     (find-file "~/.emacs.d/bnb-emacs/Readme.org")))
 #+END_SRC
 
+*** Sounds
+    
+    I dislike the bell ringing when I hit =C-g=. To silence the bell,
+    just set the =ring-bell-function= to =nil=.
+
+#+BEGIN_SRC emacs-lisp
+  (setq ring-bell-function nil)
+#+END_SRC
 ** BNB Helpers
 
    This is a collection of code specific to how I use emacs.  Some
