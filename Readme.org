@@ -357,8 +357,10 @@
     just set the =ring-bell-function= to =nil=.
 
 #+BEGIN_SRC emacs-lisp
-  (setq ring-bell-function nil)
+  (setq visual-bell nil)
+  (setq ring-bell-function `(lambda () nil))
 #+END_SRC
+
 ** BNB Helpers
 
    This is a collection of code specific to how I use emacs.  Some
