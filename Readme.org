@@ -1492,7 +1492,7 @@
     (setq bnb/iagenda
           (if arg
               (cancel-timer bnb/iagenda)
-            (run-with-idle-timer 300 t 'bnb/jump-to-org-agenda))))
+            (run-with-idle-timer 3600 t 'bnb/jump-to-org-agenda))))
 
   (when (eq system-type 'windows-nt)
     (bnb/idle-agenda))
