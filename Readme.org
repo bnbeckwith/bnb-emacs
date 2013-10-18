@@ -1326,6 +1326,18 @@
      IDO integrates well into orgmode. Anytime completion is
      necessary, I like to use the IDO mechanics.
 
+     What follows is a few of the smaller settings to make =ido=
+     really sing.
+
+#+BEGIN_SRC emacs-lisp
+  ; Try to guess if point is at a filename
+  (setq ido-use-filename-at-point 'guess)
+
+  ; Do not ask to create a new buffer -- just do it.
+  (setq ido-create-new-buffer 'always)
+#+END_SRC
+
+
      If =outline-path-completion= is used, then it is best to have it
      not complete in steps with IDO mode.
 
