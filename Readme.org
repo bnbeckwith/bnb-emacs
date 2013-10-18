@@ -353,7 +353,7 @@
 #+END_SRC
 
 *** Sounds
-    
+
     I dislike the bell ringing when I hit =C-g=. To silence the bell,
     just set the =ring-bell-function= to =nil=.
 
@@ -1353,6 +1353,7 @@
 #+BEGIN_SRC emacs-lisp
 (ido-ubiquitous t)
 #+END_SRC
+
 
 ***** IDO Everywhere Settings
 
