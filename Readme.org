@@ -486,9 +486,14 @@
 
     By default, I'm enabling it in all modes that I can.
 
+    Since we are dealing with tabs here, I also take the time to set
+    the default width to 4.  This can be set to something different to get a
+    new effect with =smart-tabs-mode= since alignment is handled correctly.
+
 #+BEGIN_SRC emacs-lisp
   (setq-default indent-tabs-mode nil)
   (smart-tabs-insinuate 'c 'javascript 'python 'cperl)
+  (setq-default tab-width 4)
 #+END_SRC
 
 *** Notes
