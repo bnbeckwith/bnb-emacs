@@ -106,6 +106,7 @@
       powerline
       rainbow-mode
       smart-tabs-mode
+      smex
       undo-tree
       writegood-mode))
 
@@ -1345,6 +1346,34 @@
 
 #+BEGIN_SRC emacs-lisp
 (setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command))
+#+END_SRC
+
+***** Smex
+
+      [[http://www.emacswiki.org/emacs/Smex][Read more about Smex on the Emacs Wiki]]
+
+      This is built on top of =ido-mode= which is why it is here.
+      This provides better =M-x= functionality.
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-x") 'smex)
+  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+#+END_SRC
+
+      One of the nice things about the default command selection (read
+      non-ido) is the ability to type " " and have it expand to
+      "-". This is possible again with a bit of advice.
+
+#+BEGIN_SRC emacs-lisp
+  (defadvice smex (around space-inserts-hyphen activate compile)
+    (let ((ido-cannot-complete-command
+           `(lambda ()
+              (interactive)
+              (if (string= " " (this-command-keys))
+                  (insert ?-)
+                (funcall ,ido-cannot-complete-command)))))
+      ad-do-it))
 #+END_SRC
 
 **** Display settings
