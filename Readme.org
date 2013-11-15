@@ -722,6 +722,7 @@
 (global-set-key "\C-cr" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
 (global-set-key (kbd "<f12>") 'org-agenda)
+(global-set-key (kbd "<apps>") 'org-agenda)
 (global-set-key (kbd "<f9> v") 'visible-mode)
 (global-set-key (kbd "<f9> i") 'org-clock-in)
 (global-set-key (kbd "<f9> o") 'org-clock-out)
