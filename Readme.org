@@ -362,6 +362,15 @@
   (setq ring-bell-function `(lambda () nil))
 #+END_SRC
 
+*** Midnight Mode
+
+    This mode looks at midnight to see if any buffers have been unused
+    and kills them. By default, inactives means it hasn't been touched
+    for three days.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'midnight)
+#+END_SRC
 ** BNB Helpers
 
    This is a collection of code specific to how I use emacs.  Some
