@@ -96,6 +96,7 @@
       clojure-mode
       color-theme-sanityinc-tomorrow
       dired+
+      guide-key
       htmlize
       highline
       ido-ubiquitous
@@ -371,6 +372,21 @@
 #+BEGIN_SRC emacs-lisp
   (require 'midnight)
 #+END_SRC
+*** Guide Key
+
+    Provide a guide for long (and easy to forget) key sequences.  The
+    prefixes below, such as =C-x r=, have many options that can
+    follow.  This mode helpfully shows what options are available in a
+    small bottom window.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'guide-key)
+  (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x v" "C-x 8"))
+  (guide-key-mode 1)
+  (setq guide-key/recursive-key-sequence-flag t)
+  (setq guide-key/popup-window-position 'bottom)
+#+END_SRC
+
 ** BNB Helpers
 
    This is a collection of code specific to how I use emacs.  Some
@@ -916,7 +932,7 @@
        (file "~/Documents/Org/Refile.org")
        "* TODO EMAIL: %:title (%:sender)
     %c
-  
+
     %?" :clock-in t :clock-resume t)))
 #+END_SRC
 
