@@ -53,6 +53,23 @@
 (setq frame-title-format '("%b - %F"))
 #+END_SRC
 
+*** Org Fonts
+
+    This face needs to be set to strike-through to look great
+
+#+BEGIN_SRC elisp :export none
+(org-done ((t (:foreground "green3" :weight bold :strike-through t))))
+#+END_SRC
+
+*** Perspective Fonts
+
+    I set this face through customize.
+
+#+BEGIN_SRC elisp :export none
+  (eval-after-load 'perspective
+    (set-face-attribute 'persp-selected-face nil :foreground "SystemActiveTitle" :weight 'bold))
+#+END_SRC
+
 ** Local customizations (custom.el)
 
    I typically use the customize interface to generate any local
@@ -63,14 +80,6 @@
   (setq custom-file "~/.emacs.d/custom.el")
   (if (file-exists-p custom-file)
       (load-file custom-file))
-#+END_SRC
-
-*** Org Fonts
-
-    This face needs to be set to strike-through to look great
-
-#+BEGIN_SRC elisp :export none
-(org-done ((t (:foreground "green3" :weight bold :strike-through t))))
 #+END_SRC
 
 ** Small Settings
@@ -104,6 +113,7 @@
       magit
       org-plus-contrib
       paredit
+      perspective
       powerline
       rainbow-mode
       smart-tabs-mode
@@ -381,10 +391,44 @@
 
 #+BEGIN_SRC emacs-lisp
   (require 'guide-key)
-  (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x v" "C-x 8"))
+  (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x v" "C-x 8" "C-x x"))
   (guide-key-mode 1)
   (setq guide-key/recursive-key-sequence-flag t)
   (setq guide-key/popup-window-position 'bottom)
+#+END_SRC
+
+*** Perspective mode
+
+#+BEGIN_SRC emacs-lisp
+  (persp-mode t)
+  (defmacro custom-persp (name &rest body)
+    `(let ((initialize (not (gethash ,name perspectives-hash)))
+           (current-perspective persp-curr))
+       (persp-switch ,name)
+       (when initialize ,@body)
+       (setq persp-last current-perspective)))
+
+  (defun custom-persp-last ()
+    (interactive)
+    (persp-switch (persp-name persp-last)))
+
+  (define-key persp-mode-map (kbd "C-x x -") 'custom-persp-last)
+#+END_SRC
+
+    Now, add some custom perspectives
+
+#+BEGIN_SRC emacs-lisp
+  (defun bnb/persp/emacs ()
+    (interactive)
+    (custom-persp "emacs"
+                  (find-file "~/.emacs.d/bnb-emacs/Readme.org")))
+  (define-key persp-mode-map (kbd "C-x x e") 'bnb/persp/emacs)
+
+  (defun bnb/persp/org ()
+    (interactive)
+    (custom-persp "@org"
+                  (mapcar 'find-file org-agenda-files)))
+  (define-key persp-mode-map (kbd "C-x x o") 'bnb/persp/org)
 #+END_SRC
 
 ** BNB Helpers
