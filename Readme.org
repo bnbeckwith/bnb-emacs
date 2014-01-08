@@ -247,7 +247,7 @@
          (set-face-attribute 'org-agenda-done nil :strike-through t)))
 #+END_SRC
 
-****  Dynamic Font sizes
+**** Dynamic Font sizes
 
     Changing font sizes in presentations is crucial to have at hand. I
     use the following keybindings. "C--" overrides the negative
