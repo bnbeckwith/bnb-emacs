@@ -17,7 +17,7 @@
 ** Start Timer
 
    I use a timer to see how long it took my setup to load.  At the
-   end, I will check this timer and report on a the lenght of time to
+   end, I will check this timer and report on a the length of time to
    load.
 
 #+BEGIN_SRC emacs-lisp
@@ -236,7 +236,7 @@
     (set-face-attribute 'default nil :font "Source Code Pro-10"))
 #+END_SRC
 
-     Setup a strikethrough font for agenda items.  Looks prettier.
+     Setup a strike-through font for agenda items.  Looks prettier.
 
 #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'org-agenda-done nil :strike-through t)
@@ -286,7 +286,7 @@
 *** Default File encoding
 
     By default, I like to have the files be =utf-8= by default. Do
-    let me know if I shoudn't do this, will you?
+    let me know if I shouldn't do this, will you?
 
 #+BEGIN_SRC emacs-lisp
   (prefer-coding-system       'utf-8)
@@ -302,7 +302,8 @@
 
 *** Vimrc generic mode
 
-    Good to have to help with my pentadactyl configs
+    Good to have to help with my pentadactyl configuration as it is in
+    a vim-style of configuration.
 
 #+BEGIN_SRC emacs-lisp
 (define-generic-mode 'vimrc-generic-mode
@@ -376,7 +377,7 @@
 *** Midnight Mode
 
     This mode looks at midnight to see if any buffers have been unused
-    and kills them. By default, inactives means it hasn't been touched
+    and kills them. By default, /inactive/ means it hasn't been touched
     for three days.
 
 #+BEGIN_SRC emacs-lisp
@@ -415,7 +416,7 @@
   (define-key persp-mode-map (kbd "C-x x -") 'custom-persp-last)
 #+END_SRC
 
-    Now, add some custom perspectives
+    Now, add some custom perspectives for emacs or orgmode
 
 #+BEGIN_SRC emacs-lisp
   (defun bnb/persp/emacs ()
@@ -440,7 +441,7 @@
 
     Instead of exiting emacs, I prefer to leave it running and only
     minimize (iconize) it. Especially since I use =server= with emacs,
-    it is advantagous to not kill my session by accident
+    it is advantageous to not kill my session by accident
     (muscle-memory). This idea is from [[http://emacs-fu.blogspot.com/2009/03/windows-and-daemons.html][Emacs-Fu]].
 
     To accomplish this, I advise the =kill-emacs= function. But first,
@@ -574,8 +575,8 @@
    I do not believe I could live without this on emacs. Even for just
    finding files, it is awesome.
 
-   First, I start with some basic IDO setttings. I enabled it
-   everywhere so that it will work in all contextes. I like flex
+   First, I start with some basic IDO settings. I enabled it
+   everywhere so that it will work in all contexts. I like flex
    matching so I also turn that feature on. Finally,
 
 #+BEGIN_SRC emacs-lisp
@@ -1548,6 +1549,7 @@
          (buffer-substring (region-beginning) (region-end))
        (read-string "Google: "))))))
 #+END_SRC
+
 *** Keywiz from Sacha Chua
 
     Taken from
