@@ -102,6 +102,7 @@
   (defvar bnb/packages
     '(airplay
       bookmark+
+      cider
       clojure-mode
       color-theme-sanityinc-tomorrow
       dired+
@@ -569,6 +570,98 @@
 *** Notes
 
     To retab the whole file, use =C-x h C-M-\=.
+
+** CUA mode
+   
+   [[info:emacs#CUA%20Bindings][CUA]] has a primary feature of enabling cut, copy, paste and undo
+   shortcuts compatible with many applications (C-x, C-c,
+   C-v). However, it also has interesting rectangle features and
+   *that* is why I enable it. I also happen to turn off those other
+   bindings and prefer the emacs defaults.
+
+#+BEGIN_SRC emacs-lisp
+  (cua-mode t)
+  (setq cua-enable-cua-keys nil)
+#+END_SRC
+
+*** Bindings   
+
+**** CUA Rectangles
+
+    These take place with an active rectangle. To start/cancel a
+    rectangle use =C-RET=.
+
+    | Keys             | Function                                                              |
+    |------------------+-----------------------------------------------------------------------|
+    | M-<arrow>        | Move rectangle overlay                                                |
+    | C-SPACE          | Activate region bounded by rectangle                                  |
+    |------------------+-----------------------------------------------------------------------|
+    | M-a              | Align all words at the left edge                                      |
+    | M-b              | Fill rectangle with blanks (tabs and spaces)                          |
+    | M-c              | Closes the rectangle by removing left edge blanks                     |
+    | M-f              | Fills the rectangle with a single character (prompt)                  |
+    | M-i              | Increases number found on each line of rectangle                      |
+    | M-k              | Kills the rectangle as normal multi-line kill                         |
+    | M-l              | Downcases the rectangle                                               |
+    | M-m              | Copies the rectangle for normal multi-line paste                      |
+    | M-n              | Filles each line with increasing numbers (prompt)                     |
+    | M-o              | Opens the rect by moving hilighted text right and filling with blanks |
+    | M-p              | Toggles virtual straight rectangle edges                              |
+    | M-P              | Inserts tabs and spaces to make real straight edges                   |
+    | M-q              | Performs text filling on the rectangle                                |
+    | M-q              | Performs text filling on the rectangle                                |
+    | M-r              | Replaces REGEXP (prompt) by STRING (prompt) in rectangle              |
+    | M-R              | Reverse the lines in the rectangle                                    |
+    | M-s              | Fills each line of the rectangle with the same STRING (prompt)        |
+    | M-t              | Performs text fill of the rectangle with TEXT (prompt)                |
+    | M-u              | Upcases the rectangle                                                 |
+    | M-<Vertical Bar> | Runs shell command on rectangle                                       |
+    | M-'              | Restricts rectangle to lines with CHAR (prompt) at left column        |
+    | M-/              | Restricts rectangle to lines matching REGEXP (prompt)                 |
+    | C-?              | Shows a brief list of the above commands.                             |
+    |------------------+-----------------------------------------------------------------------|
+    | M-C-<UP/DOWN>    | Scrolls the lines INSIDE the rectangle up/down                        |
+
+**** CUA Global Mark
+
+     The global mark feature enables a target the receives any
+     typed/copied/killed text from any buffer (even the current one).
+
+ | Key           | function                                                                                                            |
+ |---------------+---------------------------------------------------------------------------------------------------------------------|
+ | <ch>          | All characters (including newlines) you type are inserted at the global mark!                                       |
+ | C-x           | If you cut a region or rectangle, it is automatically inserted at the global mark, and the global mark is advanced. |
+ | C-c           | If you copy a region or rectangle, it is immediately inserted  at the global mark, and the global mark is advanced. |
+ | C-v           | Copies a single character to the global mark.                                                                       |
+ | C-d           | Moves (i.e. deletes and inserts) a single character to the global mark.                                             |
+ | backspace     | deletes the character before the global mark                                                                        |
+ | delete        | deletes the character after the global mark.                                                                        |
+ |---------------+---------------------------------------------------------------------------------------------------------------------|
+ | S-C-space     | Jumps to and cancels the global mark.                                                                               |
+ | C-u S-C-space | Cancels the global mark (stays in current buffer).                                                                  |
+ |---------------+---------------------------------------------------------------------------------------------------------------------|
+ | TAB           | Indents the current line or rectangle to the column of the global mark.                                             |
+
+
+** Cider
+   
+   Cider will make a nREPL available for Clojure programming. The
+   configuaration snippets here are from the
+   [[https://github.com/clojure-emacs/cider][project page on github]].
+
+#+BEGIN_SRC emacs-lisp
+  ;; Enable eldoc
+  (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+  
+  ;; Hide special buffers
+  (setq nrepl-hide-special-buffers t)
+  
+  ;; Stop the error from popping up while working in buffers other than the REPL
+  (setq cider-popup-stacktraces nil)
+  
+  ;; Stop prompting to save file when killing repl buffer
+  (setq cider-prompt-save-file-on-load nil)
+#+END_SRC
 
 ** IDO (Interactively Do Things)
 
