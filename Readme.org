@@ -338,7 +338,9 @@
 
 *** Magit
 
-    Here I set a global key for ~magit-status~. Think 'G' is looks
+    [[info:magit#Top][Magit]] is a git interface for Emacs.
+
+    Here I set a global key for ~magit-status~. Think 'G' looks
     like 6.
 
 #+BEGIN_SRC emacs-lisp
