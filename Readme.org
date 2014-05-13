@@ -107,7 +107,8 @@
   ;; Idea lifted from prelude https://github.com/bbatsov/prelude
   (require 'cl)
   (defvar bnb/packages
-    '(airplay
+    '(ace-window
+      airplay
       bookmark+
       cider
       clojure-mode
