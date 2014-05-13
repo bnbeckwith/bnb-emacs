@@ -83,6 +83,13 @@
 #+END_SRC
 
 ** Small Settings
+*** Super keys
+
+#+BEGIN_SRC emacs-lisp
+;;  (setq w32-pass-lwindow-to-system nil)
+  (setq w32-lwindow-modifier 'super)
+#+END_SRC
+
 *** Package archives
 
     I like to pull from the popular list of package archives.
@@ -435,6 +442,15 @@
   (define-key persp-mode-map (kbd "C-x x o") 'bnb/persp/org)
 #+END_SRC
 
+*** Ace Window
+
+    Instead of =C-x o= traversal, =ace-window= mode provides numbers
+    for quick window access
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "s-s") 'ace-window)
+
+#+END_SRC
+
 ** BNB Helpers
 
    This is a collection of code specific to how I use emacs.  Some
@@ -574,7 +590,7 @@
     To retab the whole file, use =C-x h C-M-\=.
 
 ** CUA mode
-   
+
    [[info:emacs#CUA%20Bindings][CUA]] has a primary feature of enabling cut, copy, paste and undo
    shortcuts compatible with many applications (C-x, C-c,
    C-v). However, it also has interesting rectangle features and
@@ -586,7 +602,7 @@
   (setq cua-enable-cua-keys nil)
 #+END_SRC
 
-*** Bindings   
+*** Bindings
 
 **** CUA Rectangles
 
@@ -646,7 +662,7 @@
 
 
 ** Cider
-   
+
    Cider will make a nREPL available for Clojure programming. The
    configuaration snippets here are from the
    [[https://github.com/clojure-emacs/cider][project page on github]].
@@ -654,13 +670,13 @@
 #+BEGIN_SRC emacs-lisp
   ;; Enable eldoc
   (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-  
+
   ;; Hide special buffers
   (setq nrepl-hide-special-buffers t)
-  
+
   ;; Stop the error from popping up while working in buffers other than the REPL
   (setq cider-popup-stacktraces nil)
-  
+
   ;; Stop prompting to save file when killing repl buffer
   (setq cider-prompt-save-file-on-load nil)
 #+END_SRC
