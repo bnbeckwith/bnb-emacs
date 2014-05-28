@@ -98,6 +98,7 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(add-to-list 'package-archives '("sr" . "http://joseito.republika.pl/sunrise-commander/") t)
 #+END_SRC
 
     After these are set, I can make sure that the proper packages are
@@ -127,6 +128,7 @@
       rainbow-mode
       smart-tabs-mode
       smex
+      sunrise-commander
       undo-tree
       writegood-mode))
 
@@ -394,6 +396,30 @@
 #+BEGIN_SRC emacs-lisp
   (require 'midnight)
 #+END_SRC
+*** Sunrise Commander
+
+    Sunrise commander is Emacs' answer to the popular Midnight
+    Commander. I have a global key below to launch the default
+    interface.
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "s-/") 'sunrise)
+#+END_SRC
+
+**** Interesting Keys
+
+     | Key    | Purpose                        |
+     |--------+--------------------------------|
+     | C-cC-s | Switch horizontal/vertical/top |
+     | m      | Mark a file for action         |
+     | j      | Jump to a different directory  |
+     | J      | Move up a directory            |
+     | n      | Move cursor to next item       |
+     | p      | Move cursor to previous item   |
+     | R      | Rename (move) marked file      |
+     | q      | Quit                           |
+     | v      | Quick view file                |
+
 *** Guide Key
 
     Provide a guide for long (and easy to forget) key sequences.  The
