@@ -473,6 +473,7 @@
 
     Instead of =C-x o= traversal, =ace-window= mode provides numbers
     for quick window access
+
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "s-s") 'ace-window)
 
@@ -549,7 +550,7 @@
     I use Alexander's recommended settings.
 
 #+BEGIN_SRC emacs-lisp
-(defun bnb/toggle-full-screen () (interactive) (shell-command "emacs_fullscreen.exe"))
+(defun bnb/toggle-full-screen () (interactive) (shell-command "C:/Users/bnbeckwi/Documents/Apps/emacs_fullscreen/emacs_fullscreen.exe"))
 (global-set-key (kbd "<f11> <f11>") 'bnb/toggle-full-screen)
 #+END_SRC
 
