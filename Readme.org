@@ -13,8 +13,7 @@
 (org-babel-load-file "~/.emacs.d/bnb-emacs/Readme.org")
 #+END_SRC
 
-* Configuration
-** Start Timer
+* Start Timer
 
    I use a timer to see how long it took my setup to load.  At the
    end, I will check this timer and report on a the length of time to
@@ -24,15 +23,15 @@
 (defvar *emacs-load-start* (current-time))
 #+END_SRC
 
-** Personal Information
+* Personal Information
 
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Benjamin Beckwith")
 #+END_SRC
 
-** Style
+* Style
 
-*** Frame Changes
+** Frame Changes
 
     These following items make Emacs really beautiful on every
     platform.  I remove the menu bar, tool bar and the scroll bar for
@@ -44,7 +43,7 @@
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 #+END_SRC
 
-*** Window Changes
+** Window Changes
 
 #+BEGIN_SRC emacs-lisp
 (setq indicate-buffer-boundaries 'right)
@@ -53,7 +52,7 @@
 (setq frame-title-format '("%b - %F"))
 #+END_SRC
 
-*** Org Fonts
+** Org Fonts
 
     This face needs to be set to strike-through to look great
 
@@ -61,7 +60,7 @@
 (org-done ((t (:foreground "green3" :weight bold :strike-through t))))
 #+END_SRC
 
-*** Perspective Fonts
+** Perspective Fonts
 
     I set this face through customize.
 
@@ -70,7 +69,7 @@
     (set-face-attribute 'persp-selected-face nil :foreground "SystemActiveTitle" :weight 'bold))
 #+END_SRC
 
-** Local customizations (custom.el)
+* Local customizations (custom.el)
 
    I typically use the customize interface to generate any local
    settings such as proxies, paths, fonts, etc. that may vary from
@@ -82,15 +81,15 @@
       (load-file custom-file))
 #+END_SRC
 
-** Small Settings
-*** Super keys
+* Small Settings
+** Super keys
 
 #+BEGIN_SRC emacs-lisp
 ;;  (setq w32-pass-lwindow-to-system nil)
   (setq w32-lwindow-modifier 'super)
 #+END_SRC
 
-*** Package archives
+** Package archives
 
     I like to pull from the popular list of package archives.
 
@@ -149,7 +148,7 @@
         (package-install p))))
 #+END_SRC
 
-*** Required packages
+** Required packages
 #+BEGIN_SRC emacs-lisp
   (eval-when-compile
     (require 'cl))
@@ -159,7 +158,7 @@
   (require 'ansi-color)
   (require 'recentf)
 #+END_SRC
-*** Minibuffer History Save
+** Minibuffer History Save
 
     This saves the minibuffer histories to preserve across emacs
     sessions.
@@ -171,7 +170,7 @@
   (savehist-mode t)
 #+END_SRC
 
-*** Display times
+** Display times
 
 #+BEGIN_SRC emacs-lisp
 (setq display-time-world-list
@@ -181,7 +180,7 @@
 	("PST8PDT" "DuPont")))
 #+END_SRC
 
-*** Hippie Expand
+** Hippie Expand
 
     Try to expand the text before point in an intelligent way. Repeat
     the keypress to cycle through options.
@@ -189,7 +188,7 @@
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "M-/") 'hippie-expand)
 #+END_SRC
-*** Emacs Bookmarks
+** Emacs Bookmarks
 
     [[http://emacswiki.org/emacs/BookMarks]]
 
@@ -206,14 +205,14 @@
 (setq bookmark-save-flag t)
 #+END_SRC
 
-*** Writegood Mode
+** Writegood Mode
 
     This mode is installed and managed through the ELPA system.
 
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "C-c g") 'writegood-mode)
 #+END_SRC
-*** Development
+** Development
 
     For any lisp development, the following is nice to have.
 
@@ -230,14 +229,14 @@
 (add-hook 'eshell-mode-hook 'turn-on-eldoc-mode)
 #+END_SRC
 
-*** Encryption
+** Encryption
 
 #+BEGIN_SRC emacs-lisp
 (require 'epa)
 (epa-file-enable)
 #+END_SRC
-*** Faces
-**** Default Fonts
+** Faces
+*** Default Fonts
 
      On windows, I have /Source Code Pro/ installed.  Let's use that
      there.
@@ -258,7 +257,7 @@
          (set-face-attribute 'org-agenda-done nil :strike-through t)))
 #+END_SRC
 
-**** Dynamic Font sizes
+*** Dynamic Font sizes
 
     Changing font sizes in presentations is crucial to have at hand. I
     use the following keybindings. "C--" overrides the negative
@@ -270,7 +269,7 @@
 #+END_SRC
 
 
-**** Mode Line Style
+*** Mode Line Style
 
      I dislike the box around the =mode-line= making it look like a
      button.  This face attribute, =box=, can be turned off get get a
@@ -281,7 +280,7 @@
   (set-face-attribute 'mode-line-inactive nil :box nil)
   (set-face-attribute 'mode-line-highlight nil :box nil)
 #+END_SRC
-*** Read-only helpers
+** Read-only helpers
 
     For read-only files, look at them in view mode
 
@@ -294,7 +293,7 @@
 (define-key view-mode-map "k" 'previous-line)
 #+END_SRC
 
-*** Default File encoding
+** Default File encoding
 
     By default, I like to have the files be =utf-8= by default. Do
     let me know if I shouldn't do this, will you?
@@ -311,7 +310,7 @@
     (set-clipboard-coding-system 'utf-16le-dos))
 #+END_SRC
 
-*** Vimrc generic mode
+** Vimrc generic mode
 
     Good to have to help with my pentadactyl configuration as it is in
     a vim-style of configuration.
@@ -332,7 +331,7 @@
   "Generic mode for Vim configuration files.")
 #+END_SRC
 
-*** Ediff single frame
+** Ediff single frame
 
     I really dislike the multi-frame mode of =ediff=.  It is confusing
     to use and really messes up my [[http://dwm.suckless.org][dwm]] usage. By explicitly setting
@@ -346,7 +345,7 @@
     Now, the control window will be a small window instead of a
     separate frame.
 
-*** Magit
+** Magit
 
     [[info:magit#Top][Magit]] is a git interface for Emacs.
 
@@ -357,14 +356,14 @@
   (global-set-key (kbd "<f6>") 'magit-status)
 #+END_SRC
 
-*** Powerline
+** Powerline
 #+BEGIN_SRC emacs-lisp
   (setq powerline-default-separator 'slant)
   (powerline-default-theme)
 #+END_SRC
-*** Global Keys
+** Global Keys
 
-**** Edit This file
+*** Edit This file
 
      When I hit ~<F5>~, open this file for editing.  That way, any
      time I have something I need to remember for my emacs setting, it
@@ -377,7 +376,7 @@
                     (find-file "~/.emacs.d/bnb-emacs/Readme.org")))
 #+END_SRC
 
-*** Sounds
+** Sounds
 
     I dislike the bell ringing when I hit =C-g=. To silence the bell,
     just set the =ring-bell-function= to =nil=.
@@ -387,7 +386,7 @@
   (setq ring-bell-function `(lambda () nil))
 #+END_SRC
 
-*** Midnight Mode
+** Midnight Mode
 
     This mode looks at midnight to see if any buffers have been unused
     and kills them. By default, /inactive/ means it hasn't been touched
@@ -396,7 +395,7 @@
 #+BEGIN_SRC emacs-lisp
   (require 'midnight)
 #+END_SRC
-*** Sunrise Commander
+** Sunrise Commander
 
     Sunrise commander is Emacs' answer to the popular Midnight
     Commander. I have a global key below to launch the default
@@ -406,21 +405,21 @@
   (global-set-key (kbd "s-/") 'sunrise)
 #+END_SRC
 
-**** Interesting Keys
+*** Interesting Keys
 
-     | Key    | Purpose                        |
-     |--------+--------------------------------|
-     | C-cC-s | Switch horizontal/vertical/top |
-     | m      | Mark a file for action         |
-     | j      | Jump to a different directory  |
-     | J      | Move up a directory            |
-     | n      | Move cursor to next item       |
-     | p      | Move cursor to previous item   |
-     | R      | Rename (move) marked file      |
-     | q      | Quit                           |
-     | v      | Quick view file                |
+    | Key    | Purpose                        |
+    |--------+--------------------------------|
+    | C-cC-s | Switch horizontal/vertical/top |
+    | m      | Mark a file for action         |
+    | j      | Jump to a different directory  |
+    | J      | Move up a directory            |
+    | n      | Move cursor to next item       |
+    | p      | Move cursor to previous item   |
+    | R      | Rename (move) marked file      |
+    | q      | Quit                           |
+    | v      | Quick view file                |
 
-*** Guide Key
+** Guide Key
 
     Provide a guide for long (and easy to forget) key sequences.  The
     prefixes below, such as =C-x r=, have many options that can
@@ -435,7 +434,7 @@
   (setq guide-key/popup-window-position 'bottom)
 #+END_SRC
 
-*** Perspective mode
+** Perspective mode
 
 #+BEGIN_SRC emacs-lisp
   (persp-mode t)
@@ -469,7 +468,7 @@
   (define-key persp-mode-map (kbd "C-x x o") 'bnb/persp/org)
 #+END_SRC
 
-*** Ace Window
+** Ace Window
 
     Instead of =C-x o= traversal, =ace-window= mode provides numbers
     for quick window access
@@ -479,12 +478,12 @@
 
 #+END_SRC
 
-** BNB Helpers
+* BNB Helpers
 
-   This is a collection of code specific to how I use emacs.  Some
-   are from different websites or other Emacs users.
+  This is a collection of code specific to how I use emacs.  Some
+  are from different websites or other Emacs users.
 
-*** Exit behavior
+** Exit behavior
 
     Instead of exiting emacs, I prefer to leave it running and only
     minimize (iconize) it. Especially since I use =server= with emacs,
@@ -540,7 +539,7 @@
     checked and then the proper =kill-emacs= is called if
     true. Otherwise, no flag is set and emacs is simply iconified.
 
-*** Fullscreen
+** Fullscreen
 
     To make emacs go fullscreen on windows, a helper program is
     needed. This is found online at bitbucket.
@@ -554,7 +553,7 @@
 (global-set-key (kbd "<f11> <f11>") 'bnb/toggle-full-screen)
 #+END_SRC
 
-*** Workweeks
+** Workweeks
 
 #+BEGIN_SRC emacs-lisp
   (defun bnb/workweek ()
@@ -577,7 +576,7 @@
              (bnb/workweek))))
 #+END_SRC
 
-** Dired
+* Dired
 
    So, I used =dired+= instead of the regular dired. It offers more
    interesting colors and more flexible ways to mark files.
@@ -595,7 +594,7 @@
   (put 'dired-find-alternate-file 'disabled nil)
 #+END_SRC
 
-** Smart Tabs
+* Smart Tabs
 
    [[http://www.emacswiki.org/emacs-en/SmartTabs][SmartTabs]] try to do the right thing regarding tabs/spaces in
    indentation/alignment. It is installed through the package interface. Look for
@@ -613,11 +612,11 @@
   (setq-default tab-width 4)
 #+END_SRC
 
-*** Notes
+** Notes
 
-    To retab the whole file, use =C-x h C-M-\=.
+   To retab the whole file, use =C-x h C-M-\=.
 
-** CUA mode
+* CUA mode
 
    [[info:emacs#CUA%20Bindings][CUA]] has a primary feature of enabling cut, copy, paste and undo
    shortcuts compatible with many applications (C-x, C-c,
@@ -630,45 +629,45 @@
   (setq cua-enable-cua-keys nil)
 #+END_SRC
 
-*** Bindings
+** Bindings
 
-**** CUA Rectangles
+*** CUA Rectangles
 
-    These take place with an active rectangle. To start/cancel a
-    rectangle use =C-RET=.
+   These take place with an active rectangle. To start/cancel a
+   rectangle use =C-RET=.
 
-    | Keys             | Function                                                              |
-    |------------------+-----------------------------------------------------------------------|
-    | M-<arrow>        | Move rectangle overlay                                                |
-    | C-SPACE          | Activate region bounded by rectangle                                  |
-    |------------------+-----------------------------------------------------------------------|
-    | M-a              | Align all words at the left edge                                      |
-    | M-b              | Fill rectangle with blanks (tabs and spaces)                          |
-    | M-c              | Closes the rectangle by removing left edge blanks                     |
-    | M-f              | Fills the rectangle with a single character (prompt)                  |
-    | M-i              | Increases number found on each line of rectangle                      |
-    | M-k              | Kills the rectangle as normal multi-line kill                         |
-    | M-l              | Downcases the rectangle                                               |
-    | M-m              | Copies the rectangle for normal multi-line paste                      |
-    | M-n              | Filles each line with increasing numbers (prompt)                     |
-    | M-o              | Opens the rect by moving hilighted text right and filling with blanks |
-    | M-p              | Toggles virtual straight rectangle edges                              |
-    | M-P              | Inserts tabs and spaces to make real straight edges                   |
-    | M-q              | Performs text filling on the rectangle                                |
-    | M-q              | Performs text filling on the rectangle                                |
-    | M-r              | Replaces REGEXP (prompt) by STRING (prompt) in rectangle              |
-    | M-R              | Reverse the lines in the rectangle                                    |
-    | M-s              | Fills each line of the rectangle with the same STRING (prompt)        |
-    | M-t              | Performs text fill of the rectangle with TEXT (prompt)                |
-    | M-u              | Upcases the rectangle                                                 |
-    | M-<Vertical Bar> | Runs shell command on rectangle                                       |
-    | M-'              | Restricts rectangle to lines with CHAR (prompt) at left column        |
-    | M-/              | Restricts rectangle to lines matching REGEXP (prompt)                 |
-    | C-?              | Shows a brief list of the above commands.                             |
-    |------------------+-----------------------------------------------------------------------|
-    | M-C-<UP/DOWN>    | Scrolls the lines INSIDE the rectangle up/down                        |
+   | Keys             | Function                                                              |
+   |------------------+-----------------------------------------------------------------------|
+   | M-<arrow>        | Move rectangle overlay                                                |
+   | C-SPACE          | Activate region bounded by rectangle                                  |
+   |------------------+-----------------------------------------------------------------------|
+   | M-a              | Align all words at the left edge                                      |
+   | M-b              | Fill rectangle with blanks (tabs and spaces)                          |
+   | M-c              | Closes the rectangle by removing left edge blanks                     |
+   | M-f              | Fills the rectangle with a single character (prompt)                  |
+   | M-i              | Increases number found on each line of rectangle                      |
+   | M-k              | Kills the rectangle as normal multi-line kill                         |
+   | M-l              | Downcases the rectangle                                               |
+   | M-m              | Copies the rectangle for normal multi-line paste                      |
+   | M-n              | Filles each line with increasing numbers (prompt)                     |
+   | M-o              | Opens the rect by moving hilighted text right and filling with blanks |
+   | M-p              | Toggles virtual straight rectangle edges                              |
+   | M-P              | Inserts tabs and spaces to make real straight edges                   |
+   | M-q              | Performs text filling on the rectangle                                |
+   | M-q              | Performs text filling on the rectangle                                |
+   | M-r              | Replaces REGEXP (prompt) by STRING (prompt) in rectangle              |
+   | M-R              | Reverse the lines in the rectangle                                    |
+   | M-s              | Fills each line of the rectangle with the same STRING (prompt)        |
+   | M-t              | Performs text fill of the rectangle with TEXT (prompt)                |
+   | M-u              | Upcases the rectangle                                                 |
+   | M-<Vertical Bar> | Runs shell command on rectangle                                       |
+   | M-'              | Restricts rectangle to lines with CHAR (prompt) at left column        |
+   | M-/              | Restricts rectangle to lines matching REGEXP (prompt)                 |
+   | C-?              | Shows a brief list of the above commands.                             |
+   |------------------+-----------------------------------------------------------------------|
+   | M-C-<UP/DOWN>    | Scrolls the lines INSIDE the rectangle up/down                        |
 
-**** CUA Global Mark
+*** CUA Global Mark
 
      The global mark feature enables a target the receives any
      typed/copied/killed text from any buffer (even the current one).
@@ -689,7 +688,7 @@
  | TAB           | Indents the current line or rectangle to the column of the global mark.                                             |
 
 
-** Cider
+* Cider
 
    Cider will make a nREPL available for Clojure programming. The
    configuaration snippets here are from the
@@ -709,7 +708,7 @@
   (setq cider-prompt-save-file-on-load nil)
 #+END_SRC
 
-** IDO (Interactively Do Things)
+* IDO (Interactively Do Things)
 
    I do not believe I could live without this on emacs. Even for just
    finding files, it is awesome.
@@ -733,7 +732,7 @@
 #+END_SRC
 
 
-*** Keystrokes
+** Keystrokes
 
 | Keystroke | Operates on        | Description                            |
 |-----------+--------------------+----------------------------------------|
@@ -757,12 +756,12 @@
 | M-k       | Dirs/Files         | Kills active work dir from list        |
 | M-s M-s   | Dirs/Files         | Search list of work dirs for input     |
 
-** Shells
+* Shells
 
-   There are two useful shells in emacs: =eshell= and
-   =ansi-term=.
+  There are two useful shells in emacs: =eshell= and
+  =ansi-term=.
 
-*** Eshell
+** Eshell
 
     Eshell can provide a shell that works the same on windows or
     GNU/Linux. One of the really cool features is that you can define
@@ -783,13 +782,13 @@
     (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
 #+END_SRC
 
-** AucTeX
+* AucTeX
 
-   [[info:AUCTeX][AUCTeX Manual]]
+  [[info:AUCTeX][AUCTeX Manual]]
 
-   Superb handling of TeX documents.
+  Superb handling of TeX documents.
 
-*** RefTeX
+** RefTeX
 
     [[info:RefTeX][RefTeX Manual]]
 
@@ -810,7 +809,7 @@
     | C-c >     | View index                         |
     | C-c &     | View crossref                      |
 
-*** Hooks
+** Hooks
 #+BEGIN_SRC emacs-lisp
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
@@ -818,7 +817,7 @@
 (add-hook 'LaTeX-mode-hook 'orgtbl-mode)
 #+END_SRC
 
-*** TeX Settings
+** TeX Settings
 
     Here are some nice features to have enabled.  Parse-self and
     auto-save will parse the file on load and save
@@ -850,7 +849,7 @@
           ("^html?$" "." "start %o")))))
 #+END_SRC
 
-*** XeTeX settings
+** XeTeX settings
 
     To get more beautiful fonts, I use the XeTeX processor. I also
     use this in PDF mode.
@@ -860,11 +859,11 @@
 (setq TeX-engine 'xetex)
 #+END_SRC
 
-** Orgmode
+* Orgmode
 
-   The one feature I cannot do without. Let's set up some features.
+  The one feature I cannot do without. Let's set up some features.
 
-*** Auto mode
+** Auto mode
 
     I add gpg and _archive to the list of known org files. These two
     alternative extensions are used for either encrypted org files
@@ -875,7 +874,7 @@
                '("\\.org\\(.gpg|_archive\\)?$" . org-mode))
 #+END_SRC
 
-*** Hooks
+** Hooks
 
     First, I add in a keystroke to toggle the inline images.
 
@@ -892,9 +891,9 @@
 (add-hook 'bnb/kill-emacs-hooks 'org-save-all-org-buffers 'append)
 #+END_SRC
 
-*** Keys
+** Keys
 
-**** Global
+*** Global
 
      Some org-mode features are so useful that I need to have them be
      available globally.
@@ -930,7 +929,7 @@
 (global-set-key (kbd "<f11> g") 'org-clock-goto)
 #+END_SRC
 
-**** Speed
+*** Speed
 
      Using org-mode efficiently for task management is best done with
      speed keys. This are in effect when the cursor is on the first =*=
@@ -951,13 +950,13 @@
 				      ("W" . widen))))
 #+END_SRC
 
-*** Org TODO Configuration
+** Org TODO Configuration
 
-    This is the meat of what Org can do. Keeping track of todo items
-    with due dates, tags, etc. is really powerful. And I get to
-    customize it to suit my needs and my workflow.
+   This is the meat of what Org can do. Keeping track of todo items
+   with due dates, tags, etc. is really powerful. And I get to
+   customize it to suit my needs and my workflow.
 
-**** Keywords
+*** Keywords
 
       The keywords that org uses in the headlines exist as sequences
       describing the state changes. The characters in =()= also allow
@@ -984,7 +983,7 @@
  ("CLOSED" :foreground "forest green" :weight bold))))
 #+END_SRC
 
-**** Tags
+*** Tags
 
       Org uses tags on headlines for organization. I don't currently
       use them much. I organize mainly by file with a file tag
@@ -998,7 +997,7 @@
 (setq org-tag-alist '(("PROJECT" . ?p)))
 #+END_SRC
 
-**** Mechanics
+*** Mechanics
 
       The todo interface allows easy selection of states and triggers
       on certain states to store notes.
@@ -1046,7 +1045,7 @@
 (setq org-enable-priority-commands nil)
 #+END_SRC
 
-***** Logging
+**** Logging
 
       Org allows logging of states. I turn this on to prompt myself
       for reasons behind specific state changes. There is also a
@@ -1058,7 +1057,7 @@
 (setq org-drawers '("PROPERTIES" "LOGBOOK" "CLOCK"))
 #+END_SRC
 
-***** Sub-tasks
+**** Sub-tasks
 
        Naturally, some tasks are projects composed of smaller
        sub-tasks. Org allows for this as well. I like to enforce the
@@ -1084,7 +1083,7 @@
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 #+END_SRC
 
-*** Capture
+** Capture
 
     [[info:org#Capture][Capturing]] is crucial to a task system and in this vein, org is no
     slouch. The capture templates define what get captures, where it
@@ -1135,7 +1134,7 @@
     email at work, mark it to store in emacs and quickly get back to
     the message later.
 
-**** Capture-template helpers for data tables
+*** Capture-template helpers for data tables
 
      These helpers provide functionality used in the capture templates
      above.
@@ -1193,7 +1192,7 @@
         (format "| %s | %s | %s |" year ww score)))
 #+END_SRC
 
-*** Refile
+** Refile
 
     [[info:org#Refiling%20notes][Refiling notes]] is also spectacular with Org. That is what makes
     it possible for me to simply put every captured item into
@@ -1216,7 +1215,7 @@
 (setq org-refile-use-outline-path 'file)
 #+END_SRC
 
-*** Agenda
+** Agenda
 
     Once I have captured and refiled my tasks, I need to remember to
     do them and see what is on the agenda. The ways to view the tasks
@@ -1239,7 +1238,7 @@
 	      (800 1000 1200 1400 1600 1800 2000))))
 #+END_SRC
 
-**** Views
+*** Views
 
      The key to knowing what work there is the agenda views. These
      provide a landscape to list, filter or manipulate
@@ -1348,7 +1347,7 @@
      - =#= Stuck projects
      - =z= Agenda with Personal Files
      - =c= Select default clocking task
-*** Export
+** Export
 
     Some global export settings make sense for HTML and \LaTeX
 
@@ -1389,7 +1388,7 @@
   (require 'ox-beamer)
 #+END_SRC
 
-*** Clocking
+** Clocking
 
     I have found clocking to be useful in understanding where my time
     goes. And Org makes this easy, fast and painless to do. So very
@@ -1436,7 +1435,7 @@
 (setq org-time-stamp-rounding-minutes '(1 15))
 #+END_SRC
 
-*** Modules
+** Modules
 
     Org-modules allow for specific functionality within org-mode.
 
@@ -1458,7 +1457,7 @@
           org-bookmark
           org-calc)))
 #+END_SRC
-**** Org-protocol
+*** Org-protocol
 
      For some reason, I have to load =org-protocol= explicitly in
      order to work.
@@ -1467,7 +1466,7 @@
 (require 'org-protocol)
 #+END_SRC
 
-**** Crypt
+*** Crypt
 
      Encrypts contents of headlines with =gpg= when saved
      with the "crypt" tag.
@@ -1481,7 +1480,7 @@
      The =org-crypt-key= variable will let this use an address from
      the public keyring.
 
-**** Habit
+*** Habit
 
      Some tasks repeat, but you still want to log when you have done
      it. I use this to help me always do my weekly or yearly
@@ -1493,13 +1492,13 @@
 (setq org-habit-graph-column 50)
 #+END_SRC
 
-**** Drill
+*** Drill
 
 #+BEGIN_SRC emacs-lisp
 (require 'org-drill)
 #+END_SRC
 
-*** Babel
+** Babel
 
 #+BEGIN_SRC emacs-lisp
   (org-babel-do-load-languages
@@ -1520,8 +1519,8 @@
     (setq org-babel-R-command "C:/Progra~1/R/R-2.15.1/bin/R --slave --no-save"))
 #+END_SRC
 
-*** Miscellaneous Settings
-**** Columns
+** Miscellaneous Settings
+*** Columns
 
      The default columns are as follows.
 
@@ -1530,7 +1529,7 @@
       "%80ITEM(Task) %5Score{+} %10Effort(Effort){:} %10CLOCKSUM")
 #+END_SRC
 
-**** Automatically save org files
+*** Automatically save org files
 
     I like to save early and often. In earlier versions of orgmode, I
     sometimes had the capture buffer/timer crash on me. So, now I
@@ -1540,7 +1539,7 @@
 (run-at-time "00:59" 3600 'org-save-all-org-buffers)
 #+END_SRC
 
-**** File Applications
+*** File Applications
 
      This list lets org know how to handle the links of given file
      types. Most things open inside =emacs=, but the others
@@ -1554,7 +1553,7 @@
 	      ("\\.mm\\'" . default))))
 #+END_SRC
 
-**** Goto Interface
+*** Goto Interface
 
      By using =C-c C-j=, you can jump easily around a large orgfile
      such as this one. Naturally, the interface you use to do so is
@@ -1567,7 +1566,7 @@
 (setq org-goto-interface 'outline-path)
 #+END_SRC
 
-**** Special Control Keys
+*** Special Control Keys
 
      Orgmode has a different idea of some of the default emacs
      commands to make it easier to work with the structures involved.
@@ -1587,7 +1586,7 @@
 (setq org-special-ctrl-k t)
 #+END_SRC
 
-**** Auto-revert mode
+*** Auto-revert mode
 
      If the org files are under DVCS like git, then the edits may
      happen while open in emacs.
@@ -1599,7 +1598,7 @@
 (setq global-auto-revert-mode t)
 #+END_SRC
 
-**** IDO Integration
+*** IDO Integration
 
      IDO integrates well into orgmode. Anytime completion is
      necessary, I like to use the IDO mechanics.
@@ -1633,7 +1632,7 @@
 #+END_SRC
 
 
-***** IDO Everywhere Settings
+**** IDO Everywhere Settings
 
       Here is a setting that disables =ido-ubiquitous= completion from
       any commands listed.  I have =insert-char= here (called with
@@ -1644,7 +1643,7 @@
 (setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command))
 #+END_SRC
 
-***** Smex
+**** Smex
 
       [[http://www.emacswiki.org/emacs/Smex][Read more about Smex on the Emacs Wiki]]
 
@@ -1672,7 +1671,7 @@
       ad-do-it))
 #+END_SRC
 
-**** Display settings
+*** Display settings
 
      There are a collection of settings that define how the
      headlines, subtrees, and notes render.
@@ -1705,7 +1704,7 @@
 (setq org-src-fontify-natively t)
 #+END_SRC
 
-**** Insertion
+*** Insertion
 
      I define when org should leave a blank line before an
      item. In my case, it is headings and plain list items.
@@ -1722,7 +1721,7 @@
 (setq org-insert-heading-respect-content t)
 #+END_SRC
 
-**** Properties
+*** Properties
 
 #+BEGIN_SRC emacs-lisp
 (setq org-global-properties (quote (("STYLE_ALL" . "habit")
@@ -1730,12 +1729,12 @@
 				    ("Score_ALL" . "10 5 2 1"))))
 #+END_SRC
 
-*** Org-drill
+** Org-drill
 
 
 
-** Elisp Extras
-*** Google
+* Elisp Extras
+** Google
 
 #+BEGIN_SRC emacs-lisp
 (defun google ()
@@ -1749,7 +1748,7 @@
        (read-string "Google: "))))))
 #+END_SRC
 
-*** Keywiz from Sacha Chua
+** Keywiz from Sacha Chua
 
     Taken from
     [[http://sachachua.com/blog/2013/02/rediscovering-emacs-features-or-what-to-do-after-you-get-carried-away-installing-packages/]]
@@ -1790,7 +1789,7 @@
         "")))
 #+END_SRC
 
-*** Auto-display agenda
+** Auto-display agenda
 
     From
     http://lists.gnu.org/archive/html/emacs-orgmode/2010-03/msg00367.html,
@@ -1828,7 +1827,7 @@
     information on Windows. No need to have my agenda open on the
     different GNU/Linux boxes all the time.
 
-** Server
+* Server
 
    [[info:emacs#Emacs%20Server][Using Emacs as a server]] is a great way to keep the power
    responsive.
@@ -1841,7 +1840,7 @@
    that work across machines. Perhaps it can be useful in a
    multi-machine work environment.
 
-** Local customizations (custom.el)
+* Local customizations (custom.el)
 
    I typically use the customize interface to generate any local
    settings such as proxies, paths, fonts, etc. that may vary from
@@ -1852,7 +1851,7 @@
 (load-file custom-file)
 #+END_SRC
 
-** Local customizations (system-name)
+* Local customizations (system-name)
 
    I also intend to have a generic call to an installed local file
    that may need to behave differently from =custom.el=. This is
@@ -1875,7 +1874,7 @@
       nil)
 #+END_SRC
 
-** End Timer
+* End Timer
 
    Check how long it took to read this (generated) setup file and
    report in the =*Messages*= buffer.
