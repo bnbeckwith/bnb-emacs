@@ -1101,9 +1101,6 @@
       ("n" "Note" entry
        (file "~/Documents/Org/Refile.org")
        "* %?                                                                            :NOTE:\n  %U\n  %a\n  :CLOCK:\n  :END:")
-      ("w" "Weekly Report" entry
-       (file+headline "~/Documents/Org/WeeklyReports.org" "2013")
-       "* %(bnb/workweek-string) \n %? \n %i")
       ("i" "Isabelle Journal" entry (file+datetree "~/Documents/Personal/Org/Isabelle.org")
        "* %?\n\tEntered on %U")
       ("j" "Johannes Journal" entry (file+datetree "~/Documents/Personal/Org/Johannes.org")
@@ -1112,6 +1109,10 @@
        "* %?\n\tEntered on %U")
       ("e" "Journal" entry (file+datetree "~/Documents/Personal/Org/Journal.org")
        "* %?\n\tEntered on %U")
+      ("c" "Capture current TODO mix in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Burndown")
+       "%(bnb/org-count-tasks-by-status)")
+      ("s" "Capture Weekly Score in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Scores")
+       "%(bnb/add-weekly-score-table-entry)")
       ("o" "org-outlook" entry
        (file "~/Documents/Org/Refile.org")
        "* TODO EMAIL: %:title (%:sender)
@@ -1133,6 +1134,65 @@
     add a link to an Outlook message on windows. I can then get an
     email at work, mark it to store in emacs and quickly get back to
     the message later.
+
+**** Capture-template helpers for data tables
+
+     These helpers provide functionality used in the capture templates
+     above.
+
+     Modifed from [[http://sachachua.com/blog/2014/05/getting-r-ggplot2-work-emacs-org-mode-babel-blocks-also-tracking-number-todos/][Sacha Chua]], this code get the current mix of tasks
+     in the agenda files.  I use this as part of my weekly review for
+     task amount and mix at a glance.
+
+#+BEGIN_SRC emacs-lisp
+(defun bnb/org-count-tasks-by-status ()
+  (interactive)
+  (let ((counts (make-hash-table :test 'equal))
+        (today (format-time-string "%Y-%m-%d" (current-time)))
+        values output)
+    (org-map-entries
+     (lambda ()
+       (let ((status (elt (org-heading-components) 2)))
+         (when status
+           (puthash status (1+ (or (gethash status counts) 0)) counts))))
+     "-HOME"
+     'agenda)
+    (setq values (mapcar (lambda (x)
+                           (or (gethash x counts) 0))
+                         '("DONE" "STARTED" "TODO" "WAITING" "CANCELLED" "SOMEDAY")))
+    (setq output
+          (concat "| " today " | "
+                  (mapconcat 'number-to-string values " | ")
+                  " | "
+                  (number-to-string (apply '+ values))
+                  " | "
+                  (number-to-string
+                   (round (/ (* 100.0 (car values)) (apply '+ values))))
+                  "% |"))
+    (if (called-interactively-p 'any)
+        (insert output)
+      output)))
+#+END_SRC
+
+     I also have a helper function to get the score of done tasks
+     closed within the last week.  I store this in a table line with
+     year and workweek number.
+
+#+BEGIN_SRC emacs-lisp
+    (defun bnb/add-weekly-score-table-entry ()
+      (let ((score (apply
+                     '+
+                     (org-map-entries
+                      (lambda ()
+                        (let* ((status (string-to-number (org-entry-get (point) "Score"))))
+                          (or status 0)))
+                      "TODO=\"DONE\"+LEVEL<=2+CLOSED>=\"<-1w>\""
+                      'agenda)))
+             (year (format-time-string "%Y" (current-time)))
+             (ww (number-to-string (bnb/workweek))))
+        (format "| %s | %s | %s |" year ww score)))
+#+END_SRC
+
 *** Refile
 
     [[info:org#Refiling%20notes][Refiling notes]] is also spectacular with Org. That is what makes
