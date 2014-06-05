@@ -210,8 +210,11 @@
     This mode is installed and managed through the ELPA system.
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c g") 'writegood-mode)
+  (global-set-key (kbd "C-c g") 'writegood-mode)
+  (global-set-key (kbd "C-c C-g g") 'writegood-grade-level)
+  (global-set-key (kbd "C-c C-g e") 'writegood-reading-ease)
 #+END_SRC
+
 ** Development
 
     For any lisp development, the following is nice to have.
