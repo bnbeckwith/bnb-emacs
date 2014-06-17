@@ -1854,7 +1854,7 @@
 (load-file custom-file)
 #+END_SRC
 
-* Local customizations (system-name)
+* Local customizations (user-login-name)
 
    I also intend to have a generic call to an installed local file
    that may need to behave differently from =custom.el=. This is
@@ -1870,10 +1870,10 @@
     (add-to-list 'load-path "~/.emacs.d/")
     (condition-case err
         (progn
-          (load-library system-name)
-          (message "Loaded local settings file %s" system-name))
+          (load-library user-login-name)
+          (message "Loaded local settings file %s" user-login-name))
       (file-error
-       (message "Skipping %s library as it does not exist." system-name))
+       (message "Skipping %s library as it does not exist." user-login-name))
       nil)
 #+END_SRC
 
