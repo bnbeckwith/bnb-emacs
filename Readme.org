@@ -6,11 +6,11 @@
   to bootstrap the system.
 
 #+BEGIN_SRC emacs-lisp :tangle "../init.el" :exports code :results silent
-(require 'package)
-(package-initialize)
+  (require 'package)
+  (package-initialize)
 
-(require 'ob-tangle)
-(org-babel-load-file "~/.emacs.d/bnb-emacs/Readme.org")
+  (require 'ob-tangle)
+  (org-babel-load-file "~/.emacs.d/bnb-emacs/Readme.org")
 #+END_SRC
 
 * Start Timer
@@ -20,7 +20,7 @@
    load.
 
 #+BEGIN_SRC emacs-lisp
-(defvar *emacs-load-start* (current-time))
+  (defvar *emacs-load-start* (current-time))
 #+END_SRC
 
 * Personal Information
@@ -38,18 +38,18 @@
     starters.  Then, I setup the fringe area with some items
 
 #+BEGIN_SRC emacs-lisp
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+  (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+  (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+  (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 #+END_SRC
 
 ** Window Changes
 
 #+BEGIN_SRC emacs-lisp
-(setq indicate-buffer-boundaries 'right)
-(setq indicate-empty-lines t)
+  (setq indicate-buffer-boundaries 'right)
+  (setq indicate-empty-lines t)
 
-(setq frame-title-format '("%b - %F"))
+  (setq frame-title-format '("%b - %F"))
 #+END_SRC
 
 ** Org Fonts
@@ -94,10 +94,10 @@
     I like to pull from the popular list of package archives.
 
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-(add-to-list 'package-archives '("sr" . "http://joseito.republika.pl/sunrise-commander/") t)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+  (add-to-list 'package-archives '("sr" . "http://joseito.republika.pl/sunrise-commander/") t)
 #+END_SRC
 
     After these are set, I can make sure that the proper packages are
@@ -173,11 +173,11 @@
 ** Display times
 
 #+BEGIN_SRC emacs-lisp
-(setq display-time-world-list
-      '(("EST5EDT" "Hudson")
-	("CST6CST" "Iowa")
-	("MST7MST" "Fort Collins")
-	("PST8PDT" "DuPont")))
+  (setq display-time-world-list
+        '(("EST5EDT" "Hudson")
+          ("CST6CST" "Iowa")
+          ("MST7MST" "Fort Collins")
+          ("PST8PDT" "DuPont")))
 #+END_SRC
 
 ** Hippie Expand
@@ -186,7 +186,7 @@
     the keypress to cycle through options.
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "M-/") 'hippie-expand)
+  (global-set-key (kbd "M-/") 'hippie-expand)
 #+END_SRC
 ** Emacs Bookmarks
 
@@ -202,7 +202,7 @@
     I will auto-save my bookmarks.
 
 #+BEGIN_SRC emacs-lisp
-(setq bookmark-save-flag t)
+  (setq bookmark-save-flag t)
 #+END_SRC
 
 ** Writegood Mode
@@ -210,30 +210,30 @@
     This mode is installed and managed through the ELPA system.
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c g") 'writegood-mode)
+  (global-set-key (kbd "C-c g") 'writegood-mode)
 #+END_SRC
 ** Development
 
     For any lisp development, the following is nice to have.
 
 #+BEGIN_SRC emacs-lisp
-(show-paren-mode t)
+  (show-paren-mode t)
 #+END_SRC
 
     While developing, documentation is nice to have handy and
     automatic.
 
 #+BEGIN_SRC emacs-lisp
-(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'cperl-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'eshell-mode-hook 'turn-on-eldoc-mode)
+  (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+  (add-hook 'cperl-mode-hook 'turn-on-eldoc-mode)
+  (add-hook 'eshell-mode-hook 'turn-on-eldoc-mode)
 #+END_SRC
 
 ** Encryption
 
 #+BEGIN_SRC emacs-lisp
-(require 'epa)
-(epa-file-enable)
+  (require 'epa)
+  (epa-file-enable)
 #+END_SRC
 ** Faces
 *** Default Fonts
@@ -264,8 +264,8 @@
     argument function, but that one is also accessible by "M--"
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-+") 'text-scale-increase)
-(global-set-key (kbd "C--") 'text-scale-decrease)
+  (global-set-key (kbd "C-+") 'text-scale-increase)
+  (global-set-key (kbd "C--") 'text-scale-decrease)
 #+END_SRC
 
 
@@ -285,12 +285,12 @@
     For read-only files, look at them in view mode
 
 #+BEGIN_SRC emacs-lisp
-(require 'view)
-(setq view-read-only t)     ; enter view-mode for read-only files
-(define-key view-mode-map "n" 'next-line)
-(define-key view-mode-map "p" 'previous-line)
-(define-key view-mode-map "j" 'next-line)
-(define-key view-mode-map "k" 'previous-line)
+  (require 'view)
+  (setq view-read-only t)     ; enter view-mode for read-only files
+  (define-key view-mode-map "n" 'next-line)
+  (define-key view-mode-map "p" 'previous-line)
+  (define-key view-mode-map "j" 'next-line)
+  (define-key view-mode-map "k" 'previous-line)
 #+END_SRC
 
 ** Default File encoding
@@ -316,19 +316,19 @@
     a vim-style of configuration.
 
 #+BEGIN_SRC emacs-lisp
-(define-generic-mode 'vimrc-generic-mode
-  '()
-  '()
-  '(("^[\t ]*:?\\(!\\|ab\\|map\\|unmap\\)[^\r\n\"]*\"[^\r\n\"]*\\(\"[^\r\n\"]*\"[^\r\n\"]*\\)*$"
-     (0 font-lock-warning-face))
-    ("\\(^\\|[\t ]\\)\\(\".*\\)$"
-     (2 font-lock-comment-face))
-    ("\"\\([^\n\r\"\\]\\|\\.\\)*\""
-     (0 font-lock-string-face)))
-  '("/vimrc\\'" "\\.vim\\(rc\\)?\\'")
-  '((lambda ()
-      (modify-syntax-entry ?\" ".")))
-  "Generic mode for Vim configuration files.")
+  (define-generic-mode 'vimrc-generic-mode
+    '()
+    '()
+    '(("^[\t ]*:?\\(!\\|ab\\|map\\|unmap\\)[^\r\n\"]*\"[^\r\n\"]*\\(\"[^\r\n\"]*\"[^\r\n\"]*\\)*$"
+       (0 font-lock-warning-face))
+      ("\\(^\\|[\t ]\\)\\(\".*\\)$"
+       (2 font-lock-comment-face))
+      ("\"\\([^\n\r\"\\]\\|\\.\\)*\""
+       (0 font-lock-string-face)))
+    '("/vimrc\\'" "\\.vim\\(rc\\)?\\'")
+    '((lambda ()
+        (modify-syntax-entry ?\" ".")))
+    "Generic mode for Vim configuration files.")
 #+END_SRC
 
 ** Ediff single frame
@@ -475,7 +475,6 @@
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "s-s") 'ace-window)
-
 #+END_SRC
 
 * BNB Helpers
@@ -513,11 +512,11 @@
     to really exit. We always need an escape hatch.
 
 #+BEGIN_SRC emacs-lisp
-(defvar bnb/really-kill-emacs nil)
-(defun bnb/kill-emacs ()
-  (interactive)
-  (setq bnb/really-kill-emacs t)
-  (kill-emacs))
+  (defvar bnb/really-kill-emacs nil)
+  (defun bnb/kill-emacs ()
+    (interactive)
+    (setq bnb/really-kill-emacs t)
+    (kill-emacs))
 #+END_SRC
 
     Now that mechanism is in place, it is time to augment
@@ -549,8 +548,11 @@
     I use Alexander's recommended settings.
 
 #+BEGIN_SRC emacs-lisp
-(defun bnb/toggle-full-screen () (interactive) (shell-command "C:/Users/bnbeckwi/Documents/Apps/emacs_fullscreen/emacs_fullscreen.exe"))
-(global-set-key (kbd "<f11> <f11>") 'bnb/toggle-full-screen)
+  (defun bnb/toggle-full-screen () 
+    (interactive) 
+    (shell-command "C:/Users/bnbeckwi/Documents/Apps/emacs_fullscreen/emacs_fullscreen.exe"))
+
+  (global-set-key (kbd "<f11> <f11>") 'bnb/toggle-full-screen)
 #+END_SRC
 
 ** Workweeks
@@ -718,17 +720,17 @@
    matching so I also turn that feature on. Finally,
 
 #+BEGIN_SRC emacs-lisp
-(setq ido-everywhere t)
-(setq ido-enable-flex-matching t)
-(setq ido-create-new-buffer 'always)
+  (setq ido-everywhere t)
+  (setq ido-enable-flex-matching t)
+  (setq ido-create-new-buffer 'always)
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(setq ido-file-extensions-order '(".org" ".tex" ".el" ".txt" ".c" ".cpp" ".h" ".clj"))
+  (setq ido-file-extensions-order '(".org" ".tex" ".el" ".txt" ".c" ".cpp" ".h" ".clj"))
 #+END_SRC
 
 #+BEGIN_SRC emacs-lisp
-(ido-mode t)
+  (ido-mode t)
 #+END_SRC
 
 
@@ -769,17 +771,17 @@
     directly integrate with emacs.
 
 #+BEGIN_SRC emacs-lisp
-(defun eshell/emacs (&rest args)
-  "Open a file in emacs the natural way"
-  (if (null args)
-      ;; If emacs is called by itself, then just go to emacs directly
-      (bury-buffer)
-    ;; If opening multiple files with a directory name, e.g.
-    ;; > emacs bar/bar.txt foo.txt
-    ;; then the names must be expanded to complete file paths.
-    ;; Otherwise, find-file will look in the current directory which
-    ;; would fail for 'foo.txt' in the example above.
-    (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
+  (defun eshell/emacs (&rest args)
+    "Open a file in emacs the natural way"
+    (if (null args)
+        ;; If emacs is called by itself, then just go to emacs directly
+        (bury-buffer)
+      ;; If opening multiple files with a directory name, e.g.
+      ;; > emacs bar/bar.txt foo.txt
+      ;; then the names must be expanded to complete file paths.
+      ;; Otherwise, find-file will look in the current directory which
+      ;; would fail for 'foo.txt' in the example above.
+      (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
 #+END_SRC
 
 * AucTeX
@@ -796,7 +798,7 @@
     integrates well into AUCTeX.
 
 #+BEGIN_SRC emacs-lisp
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 #+END_SRC
 
     | Keystroke | Function                           |
@@ -811,10 +813,10 @@
 
 ** Hooks
 #+BEGIN_SRC emacs-lisp
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-(add-hook 'LaTeX-mode-hook 'auto-fill-mode)
-(add-hook 'LaTeX-mode-hook 'orgtbl-mode)
+  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+  (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
+  (add-hook 'LaTeX-mode-hook 'orgtbl-mode)
 #+END_SRC
 
 ** TeX Settings
@@ -828,10 +830,10 @@
     bad results for LaTeX files generated on the fly.
 
 #+BEGIN_SRC emacs-lisp
-(setq TeX-auto-untabify t)
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq-default TeX-master nil)
+  (setq TeX-auto-untabify t)
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq-default TeX-master nil)
 #+END_SRC
 
     For viewing the output, I can specify the command to use on the
@@ -855,8 +857,8 @@
     use this in PDF mode.
 
 #+BEGIN_SRC emacs-lisp
-(setq TeX-PDF-mode 1)
-(setq TeX-engine 'xetex)
+  (setq TeX-PDF-mode 1)
+  (setq TeX-engine 'xetex)
 #+END_SRC
 
 * Orgmode
@@ -879,16 +881,16 @@
     First, I add in a keystroke to toggle the inline images.
 
 #+BEGIN_SRC emacs-lisp
-(add-hook 'org-mode-hook
-           (lambda ()
-             (local-set-key (kbd "M-i") 'org-toggle-inline-images)))
+  (add-hook 'org-mode-hook
+             (lambda ()
+               (local-set-key (kbd "M-i") 'org-toggle-inline-images)))
 #+END_SRC
 
     The next hook just saves the org files opened before exiting
     emacs -- just in case.
 
 #+BEGIN_SRC emacs-lisp
-(add-hook 'bnb/kill-emacs-hooks 'org-save-all-org-buffers 'append)
+  (add-hook 'bnb/kill-emacs-hooks 'org-save-all-org-buffers 'append)
 #+END_SRC
 
 ** Keys
@@ -916,17 +918,17 @@
        Go to current/previous clocked task
 
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "C-c t") 'orgtbl-mode)
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cr" 'org-capture)
-(global-set-key "\C-cb" 'org-iswitchb)
-(global-set-key (kbd "<f12>") 'org-agenda)
-(global-set-key (kbd "<apps>") 'org-agenda)
-(global-set-key (kbd "<f9> v") 'visible-mode)
-(global-set-key (kbd "<f9> i") 'org-clock-in)
-(global-set-key (kbd "<f9> o") 'org-clock-out)
-(global-set-key (kbd "<f11> i") 'org-clock-in)
-(global-set-key (kbd "<f11> g") 'org-clock-goto)
+  (global-set-key (kbd "C-c t") 'orgtbl-mode)
+  (global-set-key "\C-cl" 'org-store-link)
+  (global-set-key "\C-cr" 'org-capture)
+  (global-set-key "\C-cb" 'org-iswitchb)
+  (global-set-key (kbd "<f12>") 'org-agenda)
+  (global-set-key (kbd "<apps>") 'org-agenda)
+  (global-set-key (kbd "<f9> v") 'visible-mode)
+  (global-set-key (kbd "<f9> i") 'org-clock-in)
+  (global-set-key (kbd "<f9> o") 'org-clock-out)
+  (global-set-key (kbd "<f11> i") 'org-clock-in)
+  (global-set-key (kbd "<f11> g") 'org-clock-goto)
 #+END_SRC
 
 *** Speed
@@ -937,17 +939,17 @@
      =?=. I enable this feature and add some of my own commands.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-use-speed-commands t)
-(setq org-speed-commands-user (quote (("0" . delete-window)
-				      ("1" . delete-other-windows)
-				      ("2" . split-window-vertically)
-				      ("3" . split-window-horizontally)
-				      ("h" . hide-other)
-				      ("R" . org-reveal)
-				      ("s" . org-save-all-org-buffers)
-				      ("z" . org-add-note)
-				      ("N" . org-narrow-to-subtree)
-				      ("W" . widen))))
+  (setq org-use-speed-commands t)
+  (setq org-speed-commands-user (quote (("0" . delete-window)
+                        ("1" . delete-other-windows)
+                        ("2" . split-window-vertically)
+                        ("3" . split-window-horizontally)
+                        ("h" . hide-other)
+                        ("R" . org-reveal)
+                        ("s" . org-save-all-org-buffers)
+                        ("z" . org-add-note)
+                        ("N" . org-narrow-to-subtree)
+                        ("W" . widen))))
 #+END_SRC
 
 ** Org TODO Configuration
@@ -963,24 +965,24 @@
       fast access to these states described [[info:org#Fast%20access%20to%20TODO%20states][here]].
 
 #+BEGIN_SRC emacs-lisp
-(setq org-todo-keywords
-      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
-	      (sequence "WAITING(w@/!)" "SOMEDAY(s!)" "|" "CANCELED(c@/!)")
-	      (sequence "OPEN(O)" "|" "CLOSED(C)"))))
+  (setq org-todo-keywords
+        (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
+            (sequence "WAITING(w@/!)" "SOMEDAY(s!)" "|" "CANCELED(c@/!)")
+            (sequence "OPEN(O)" "|" "CLOSED(C)"))))
 #+END_SRC
 
       Also, the keywords can be specifically colored to help the eye
       infer meaning quickly.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-todo-keyword-faces (quote (("TODO" :foreground "red" :weight bold)
- ("NEXT" :foreground "blue" :weight bold)
- ("DONE" :foreground "forest green" :weight bold)
- ("WAITING" :foreground "yellow" :weight bold)
- ("SOMEDAY" :foreground "goldenrod" :weight bold)
- ("CANCELED" :foreground "orangered" :weight bold)
- ("OPEN" :foreground "magenta" :weight bold)
- ("CLOSED" :foreground "forest green" :weight bold))))
+  (setq org-todo-keyword-faces (quote (("TODO" :foreground "red" :weight bold)
+   ("NEXT" :foreground "blue" :weight bold)
+   ("DONE" :foreground "forest green" :weight bold)
+   ("WAITING" :foreground "yellow" :weight bold)
+   ("SOMEDAY" :foreground "goldenrod" :weight bold)
+   ("CANCELED" :foreground "orangered" :weight bold)
+   ("OPEN" :foreground "magenta" :weight bold)
+   ("CLOSED" :foreground "forest green" :weight bold))))
 #+END_SRC
 
 *** Tags
@@ -994,7 +996,7 @@
       differentiate simple tasks from more complex ones.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-tag-alist '(("PROJECT" . ?p)))
+  (setq org-tag-alist '(("PROJECT" . ?p)))
 #+END_SRC
 
 *** Mechanics
@@ -1008,8 +1010,8 @@
       changes to avoid the logging prompts.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-use-fast-todo-selection t)
-(setq org-treat-S-cursor-todo-selection-as-state-change nil)
+  (setq org-use-fast-todo-selection t)
+  (setq org-treat-S-cursor-todo-selection-as-state-change nil)
 #+END_SRC
 
       Upon changing the state of todo items, I can automatically
@@ -1019,30 +1021,30 @@
       indicates to set the flag, empty means to remove it.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-todo-state-tags-triggers
-      (quote (("CANCELED"
-               ("CANCELED" . t))
-              ("WAITING"
-               ("WAITING" . t))
-              ("SOMEDAY"
-               ("SOMEDAY" . t))
-              (done
-               ("WAITING"))
-              ("TODO"
-               ("WAITING")
-               ("CANCELED"))
-              ("NEXT"
-               ("WAITING"))
-              ("DONE"
-               ("WAITING")
-               ("CANCELED")))))
+  (setq org-todo-state-tags-triggers
+        (quote (("CANCELED"
+                 ("CANCELED" . t))
+                ("WAITING"
+                 ("WAITING" . t))
+                ("SOMEDAY"
+                 ("SOMEDAY" . t))
+                (done
+                 ("WAITING"))
+                ("TODO"
+                 ("WAITING")
+                 ("CANCELED"))
+                ("NEXT"
+                 ("WAITING"))
+                ("DONE"
+                 ("WAITING")
+                 ("CANCELED")))))
 #+END_SRC
 
       Along with tags and states are priorities. I do not use task
       priorities myself so I turn them off.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-enable-priority-commands nil)
+  (setq org-enable-priority-commands nil)
 #+END_SRC
 
 **** Logging
@@ -1052,9 +1054,9 @@
       setting to set a different drawer for clocking and logs.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-log-done (quote note))
-(setq org-log-into-drawer t)
-(setq org-drawers '("PROPERTIES" "LOGBOOK" "CLOCK"))
+  (setq org-log-done (quote note))
+  (setq org-log-into-drawer t)
+  (setq org-drawers '("PROPERTIES" "LOGBOOK" "CLOCK"))
 #+END_SRC
 
 **** Sub-tasks
@@ -1066,8 +1068,8 @@
        without the completion of the sub-tasks.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-enforce-todo-checkbox-dependencies t)
-(setq org-enforce-todo-dependencies t)
+  (setq org-enforce-todo-checkbox-dependencies t)
+  (setq org-enforce-todo-dependencies t)
 #+END_SRC
 
        Because of the previous enforcement of state, I can also
@@ -1076,11 +1078,11 @@
        are all done.
 
 #+BEGIN_SRC emacs-lisp
-(defun org-summary-todo (n-done n-not-done)
-  "Switch entry to DONE when all sub-entries are done, to TODO otherwise."
-  (let (org-log-done org-log-states)
-    (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-(add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+  (defun org-summary-todo (n-done n-not-done)
+    "Switch entry to DONE when all sub-entries are done, to TODO otherwise."
+    (let (org-log-done org-log-states)
+      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+  (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 #+END_SRC
 
 ** Capture
@@ -1144,33 +1146,33 @@
      task amount and mix at a glance.
 
 #+BEGIN_SRC emacs-lisp
-(defun bnb/org-count-tasks-by-status ()
-  (interactive)
-  (let ((counts (make-hash-table :test 'equal))
-        (today (format-time-string "%Y-%m-%d" (current-time)))
-        values output)
-    (org-map-entries
-     (lambda ()
-       (let ((status (elt (org-heading-components) 2)))
-         (when status
-           (puthash status (1+ (or (gethash status counts) 0)) counts))))
-     "-HOME"
-     'agenda)
-    (setq values (mapcar (lambda (x)
-                           (or (gethash x counts) 0))
-                         '("DONE" "STARTED" "TODO" "WAITING" "CANCELLED" "SOMEDAY")))
-    (setq output
-          (concat "| " today " | "
-                  (mapconcat 'number-to-string values " | ")
-                  " | "
-                  (number-to-string (apply '+ values))
-                  " | "
-                  (number-to-string
-                   (round (/ (* 100.0 (car values)) (apply '+ values))))
-                  "% |"))
-    (if (called-interactively-p 'any)
-        (insert output)
-      output)))
+  (defun bnb/org-count-tasks-by-status ()
+    (interactive)
+    (let ((counts (make-hash-table :test 'equal))
+          (today (format-time-string "%Y-%m-%d" (current-time)))
+          values output)
+      (org-map-entries
+       (lambda ()
+         (let ((status (elt (org-heading-components) 2)))
+           (when status
+             (puthash status (1+ (or (gethash status counts) 0)) counts))))
+       "-HOME"
+       'agenda)
+      (setq values (mapcar (lambda (x)
+                             (or (gethash x counts) 0))
+                           '("DONE" "STARTED" "TODO" "WAITING" "CANCELLED" "SOMEDAY")))
+      (setq output
+            (concat "| " today " | "
+                    (mapconcat 'number-to-string values " | ")
+                    " | "
+                    (number-to-string (apply '+ values))
+                    " | "
+                    (number-to-string
+                     (round (/ (* 100.0 (car values)) (apply '+ values))))
+                    "% |"))
+      (if (called-interactively-p 'any)
+          (insert output)
+        output)))
 #+END_SRC
 
      I also have a helper function to get the score of done tasks
@@ -1178,18 +1180,18 @@
      year and workweek number.
 
 #+BEGIN_SRC emacs-lisp
-    (defun bnb/add-weekly-score-table-entry ()
-      (let ((score (apply
-                     '+
-                     (org-map-entries
-                      (lambda ()
-                        (let* ((status (string-to-number (org-entry-get (point) "Score"))))
-                          (or status 0)))
-                      "TODO=\"DONE\"+LEVEL<=2+CLOSED>=\"<-1w>\""
-                      'agenda)))
-             (year (format-time-string "%Y" (current-time)))
-             (ww (number-to-string (bnb/workweek))))
-        (format "| %s | %s | %s |" year ww score)))
+  (defun bnb/add-weekly-score-table-entry ()
+    (let ((score (apply
+                   '+
+                   (org-map-entries
+                    (lambda ()
+                      (let* ((status (string-to-number (org-entry-get (point) "Score"))))
+                        (or status 0)))
+                    "TODO=\"DONE\"+LEVEL<=2+CLOSED>=\"<-1w>\""
+                    'agenda)))
+           (year (format-time-string "%Y" (current-time)))
+           (ww (number-to-string (bnb/workweek))))
+      (format "| %s | %s | %s |" year ww score)))
 #+END_SRC
 
 ** Refile
@@ -1209,10 +1211,10 @@
     Finally, I set the filenames to be first for refiling.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-refile-use-cache t)
-(setq org-refile-targets '((org-agenda-files :maxlevel . 2)
-                           (nil :maxlevel . 5)))
-(setq org-refile-use-outline-path 'file)
+  (setq org-refile-use-cache t)
+  (setq org-refile-targets '((org-agenda-files :maxlevel . 2)
+                             (nil :maxlevel . 5)))
+  (setq org-refile-use-outline-path 'file)
 #+END_SRC
 
 ** Agenda
@@ -1226,16 +1228,16 @@
     and only show a time grid if a scheduled tasks exists.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-agenda-show-inherited-tags t)
+  (setq org-agenda-show-inherited-tags t)
 
-(setq org-agenda-log-mode-items '(clock))
+  (setq org-agenda-log-mode-items '(clock))
 
-(setq org-agenda-clockreport-parameter-plist (quote (:link nil :maxlevel 2 :fileskip0 t)))
+  (setq org-agenda-clockreport-parameter-plist (quote (:link nil :maxlevel 2 :fileskip0 t)))
 
-(setq org-agenda-time-grid
-      (quote ((daily today require-timed)
-	      "----------------"
-	      (800 1000 1200 1400 1600 1800 2000))))
+  (setq org-agenda-time-grid
+        (quote ((daily today require-timed)
+            "----------------"
+            (800 1000 1200 1400 1600 1800 2000))))
 #+END_SRC
 
 *** Views
@@ -1354,7 +1356,7 @@
     For HTML, I just want to inline the links to images.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-export-html-inline-images t)
+  (setq org-export-html-inline-images t)
 #+END_SRC
 
     I also used to suppress the postamble with
@@ -1399,9 +1401,9 @@
     twice (interrupted task).
 
 #+BEGIN_SRC emacs-lisp
-(org-clock-persistence-insinuate)
-(setq org-clock-history-length 28)
-(setq org-clock-in-resume t)
+  (org-clock-persistence-insinuate)
+  (setq org-clock-history-length 28)
+  (setq org-clock-in-resume t)
 #+END_SRC
 
     Behavior of the clock can change to accommodate other needs. I
@@ -1410,9 +1412,9 @@
     item completes.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-clock-into-drawer "CLOCK")
-(setq org-clock-out-remove-zero-time-clocks t)
-(setq org-clock-out-when-done t)
+  (setq org-clock-into-drawer "CLOCK")
+  (setq org-clock-out-remove-zero-time-clocks t)
+  (setq org-clock-out-when-done t)
 #+END_SRC
 
     Two settings help resolve most clock issues that I have
@@ -1421,8 +1423,8 @@
     to handle the situation where a dangling clock exists.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-clock-persist 'history)
-(setq org-clock-auto-clock-resolution 'when-no-clock-is-running)
+  (setq org-clock-persist 'history)
+  (setq org-clock-auto-clock-resolution 'when-no-clock-is-running)
 #+END_SRC
 
     Two final settings regarding clocking setup how I change and view
@@ -1431,8 +1433,8 @@
     minute increments.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-clock-report-include-clocking-task t)
-(setq org-time-stamp-rounding-minutes '(1 15))
+  (setq org-clock-report-include-clocking-task t)
+  (setq org-time-stamp-rounding-minutes '(1 15))
 #+END_SRC
 
 ** Modules
@@ -1463,7 +1465,7 @@
      order to work.
 
 #+BEGIN_SRC emacs-lisp
-(require 'org-protocol)
+  (require 'org-protocol)
 #+END_SRC
 
 *** Crypt
@@ -1472,9 +1474,9 @@
      with the "crypt" tag.
 
 #+BEGIN_SRC emacs-lisp
-(require 'org-crypt)
-(org-crypt-use-before-save-magic)
-(setq org-tags-exclude-from-inheritance (quote ("crypt")))
+  (require 'org-crypt)
+  (org-crypt-use-before-save-magic)
+  (setq org-tags-exclude-from-inheritance (quote ("crypt")))
 #+END_SRC
 
      The =org-crypt-key= variable will let this use an address from
@@ -1489,13 +1491,13 @@
      My one setting blow sets a width for the graph in Agenda View.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-habit-graph-column 50)
+  (setq org-habit-graph-column 50)
 #+END_SRC
 
 *** Drill
 
 #+BEGIN_SRC emacs-lisp
-(require 'org-drill)
+  (require 'org-drill)
 #+END_SRC
 
 ** Babel
@@ -1525,8 +1527,8 @@
      The default columns are as follows.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-columns-default-format
-      "%80ITEM(Task) %5Score{+} %10Effort(Effort){:} %10CLOCKSUM")
+  (setq org-columns-default-format
+        "%80ITEM(Task) %5Score{+} %10Effort(Effort){:} %10CLOCKSUM")
 #+END_SRC
 
 *** Automatically save org files
@@ -1536,7 +1538,7 @@
     save at the top of every hour to be sure.
 
 #+BEGIN_SRC emacs-lisp
-(run-at-time "00:59" 3600 'org-save-all-org-buffers)
+  (run-at-time "00:59" 3600 'org-save-all-org-buffers)
 #+END_SRC
 
 *** File Applications
@@ -1546,11 +1548,11 @@
      set to default rely on the OS to supply a program.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-file-apps
-      (quote ((auto-mode . emacs)
-	      ("\\.x?html?\\'" . default)
-	      ("\\.pdf\\'" . default)
-	      ("\\.mm\\'" . default))))
+  (setq org-file-apps
+        (quote ((auto-mode . emacs)
+            ("\\.x?html?\\'" . default)
+            ("\\.pdf\\'" . default)
+            ("\\.mm\\'" . default))))
 #+END_SRC
 
 *** Goto Interface
@@ -1563,7 +1565,7 @@
      and forth with the default and =outline-path-completion= setting.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-goto-interface 'outline-path)
+  (setq org-goto-interface 'outline-path)
 #+END_SRC
 
 *** Special Control Keys
@@ -1582,8 +1584,8 @@
      headline text, it kills the tags.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-special-ctrl-a/e t)
-(setq org-special-ctrl-k t)
+  (setq org-special-ctrl-a/e t)
+  (setq org-special-ctrl-k t)
 #+END_SRC
 
 *** Auto-revert mode
@@ -1595,7 +1597,7 @@
      exists elsewhere.
 
 #+BEGIN_SRC emacs-lisp
-(setq global-auto-revert-mode t)
+  (setq global-auto-revert-mode t)
 #+END_SRC
 
 *** IDO Integration
@@ -1619,8 +1621,8 @@
      not complete in steps with IDO mode.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-completion-use-ido t)
-(setq org-outline-path-complete-in-steps nil)
+  (setq org-completion-use-ido t)
+  (setq org-outline-path-complete-in-steps nil)
 #+END_SRC
 
      Additionally, I use the [[https://github.com/technomancy/ido-ubiquitous][ido-ubiquitous]] package to /really/ get
@@ -1628,7 +1630,7 @@
      enable it on startup.
 
 #+BEGIN_SRC emacs-lisp
-(ido-ubiquitous t)
+  (ido-ubiquitous t)
 #+END_SRC
 
 
@@ -1640,7 +1642,7 @@
       for completion.
 
 #+BEGIN_SRC emacs-lisp
-(setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command))
+  (setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command))
 #+END_SRC
 
 **** Smex
@@ -1681,8 +1683,8 @@
      hide the leading stars.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-odd-levels-only nil)
-(setq org-hide-leading-stars nil)
+  (setq org-odd-levels-only nil)
+  (setq org-hide-leading-stars nil)
 #+END_SRC
 
      Cycling the headline states can produce different views of the
@@ -1693,15 +1695,15 @@
      =C-c C-j=.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-cycle-separator-lines 0)
-(setq org-startup-folded 'content)
+  (setq org-cycle-separator-lines 0)
+  (setq org-startup-folded 'content)
 #+END_SRC
 
      When using SRC-blocks, org can provide highlighting native to
      the SRC type. Note that this may slow down some files.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-src-fontify-natively t)
+  (setq org-src-fontify-natively t)
 #+END_SRC
 
 *** Insertion
@@ -1710,23 +1712,23 @@
      item. In my case, it is headings and plain list items.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-blank-before-new-entry '((heading)
-                                   (plain-list-item)))
+  (setq org-blank-before-new-entry '((heading)
+                                     (plain-list-item)))
 #+END_SRC
 
      Also, when inserting a new heading, do so after the current
      subtree.
 
 #+BEGIN_SRC emacs-lisp
-(setq org-insert-heading-respect-content t)
+  (setq org-insert-heading-respect-content t)
 #+END_SRC
 
 *** Properties
 
 #+BEGIN_SRC emacs-lisp
-(setq org-global-properties (quote (("STYLE_ALL" . "habit")
-				    ("Effort_ALL" . "0:10 0:30 1:00 2:00 3:00 4:00")
-				    ("Score_ALL" . "10 5 2 1"))))
+  (setq org-global-properties (quote (("STYLE_ALL" . "habit")
+                      ("Effort_ALL" . "0:10 0:30 1:00 2:00 3:00 4:00")
+                      ("Score_ALL" . "10 5 2 1"))))
 #+END_SRC
 
 ** Org-drill
@@ -1833,7 +1835,7 @@
    responsive.
 
 #+BEGIN_SRC emacs-lisp
-(server-start)
+  (server-start)
 #+END_SRC
 
    I need to look into the TCP connections to see how
@@ -1847,8 +1849,8 @@
    machine to machine.
 
 #+BEGIN_SRC emacs-lisp
-(setq custom-file "~/.emacs.d/custom.el")
-(load-file custom-file)
+  (setq custom-file "~/.emacs.d/custom.el")
+  (load-file custom-file)
 #+END_SRC
 
 * Local customizations (system-name)
