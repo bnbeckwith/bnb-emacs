@@ -115,6 +115,7 @@
       clojure-mode
       color-theme-sanityinc-tomorrow
       dired+
+      edit-server
       guide-key
       htmlize
       highline
@@ -524,6 +525,15 @@
 
 #+BEGIN_SRC emacs-lisp
   (bind-key "s-s" 'ace-window)
+#+END_SRC
+
+** Edit Server
+
+   The edit server is used through chrome to use emacs to edit any
+   textareas.  It needs to be started explicitly.
+
+#+BEGIN_SRC emacs-lisp
+  (edit-server-start)
 #+END_SRC
 
 * BNB Helpers
