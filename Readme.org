@@ -54,10 +54,11 @@
 
 ** Org Fonts
 
-    This face needs to be set to strike-through to look great
+    This face needs to be set to strike-through to look great.
 
 #+BEGIN_SRC elisp :export none
-(org-done ((t (:foreground "green3" :weight bold :strike-through t))))
+  (eval-after-load 'org-mode
+   (set-face-attribute 'org-done nil :strike-through t))
 #+END_SRC
 
 ** Perspective Fonts
