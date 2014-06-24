@@ -376,7 +376,7 @@
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
 #+END_SRC
 
-    Now, the control window will be a small window instead of a
+    Now the control window will be a small window instead of a
     separate frame.
 
 ** Magit
