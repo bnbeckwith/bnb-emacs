@@ -400,19 +400,17 @@
   (bind-key "<f6>" 'magit-status)
 #+END_SRC
 
-** Global Keys
+** Open/Edit This file
 
-*** Edit This file
-
-     When I hit ~<F5>~, open this file for editing.  That way, any
-     time I have something I need to remember for my emacs setting, it
-     is just a button-push away.
+   When I hit ~<F5>~, open this file for editing.  That way, any
+   time I have something I need to remember for my emacs setting, it
+   is just a button-push away.
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "<f5>")
-                  (lambda ()
-                    (interactive)
-                    (find-file "~/.emacs.d/bnb-emacs/Readme.org")))
+  (bind-key "<f5>"
+            (lambda ()
+              (interactive)
+              (find-file "~/.emacs.d/bnb-emacs/Readme.org")))
 #+END_SRC
 
 ** Sounds
