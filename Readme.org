@@ -108,6 +108,16 @@
   (set-face-attribute 'mode-line-highlight nil :box nil)
 #+END_SRC
 
+** Powerline
+   
+   [[https://github.com/milkypostman/powerline][Powerline]] is a modification to the mode-line based on some
+   vim-customizations.
+
+#+BEGIN_SRC emacs-lisp
+  (setq powerline-default-separator 'slant)
+  (powerline-default-theme)
+#+END_SRC
+
 * Local customizations (custom.el)
 
    I typically use the customize interface to generate any local
@@ -390,11 +400,6 @@
   (bind-key "<f6>" 'magit-status)
 #+END_SRC
 
-** Powerline
-#+BEGIN_SRC emacs-lisp
-  (setq powerline-default-separator 'slant)
-  (powerline-default-theme)
-#+END_SRC
 ** Global Keys
 
 *** Edit This file
