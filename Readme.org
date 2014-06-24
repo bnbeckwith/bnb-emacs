@@ -536,6 +536,32 @@
   (edit-server-start)
 #+END_SRC
 
+** Regexp-Builder
+   
+   Emacs regular expressions are not the easiest to use out of the
+   box. Emacs now has [[help:re-builder][regexp-builder]] to assist you in building the
+   correct regexp as you type.
+
+   However, to complicate matters, there are five different /syntaxes/
+   of regular expression that the builder can use.  The =string=
+   syntax is what I tend to use most in searching and replacing, so I
+   will make that my default.
+
+#+BEGIN_SRC emacs-lisp
+  (setq reb-re-syntax 'string)
+#+END_SRC
+
+   | Key Binding | Meaning                                    |
+   |-------------+--------------------------------------------|
+   | C-c TAB     | Switch syntax                              |
+   | C-c C-e     | Sub-expression mode (show matching groups) |
+   | C-c C-s/r   | Search forward/backward                    |
+   | C-c C-w     | Copy regexp to kill ring                   |
+   | C-c C-q     | Quit the builder                           |
+
+   Be sure to consult the [[info:emacs#Regexps][syntax of regular expressions]] to learn more
+   about the weird backslashing.
+
 * BNB Helpers
 
   This is a collection of code specific to how I use emacs.  Some
