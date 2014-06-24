@@ -159,16 +159,6 @@
         (package-install p))))
 #+END_SRC
 
-** Required packages
-#+BEGIN_SRC emacs-lisp
-  (eval-when-compile
-    (require 'cl))
-  (require 'saveplace)
-  (require 'ffap)
-  (require 'uniquify)
-  (require 'ansi-color)
-  (require 'recentf)
-#+END_SRC
 ** Binding Keys
 
    For binding keys, I use the =bind-key= package. Not only does it
