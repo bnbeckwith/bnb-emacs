@@ -109,6 +109,7 @@
   (defvar bnb/packages
     '(ace-window
       airplay
+      bind-key
       bookmark+
       cider
       clojure-mode
@@ -158,6 +159,30 @@
   (require 'ansi-color)
   (require 'recentf)
 #+END_SRC
+** Binding Keys
+
+   For binding keys, I use the =bind-key= package. Not only does it
+   easily bind keys, but it does so with some nice features.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'bind-key)
+#+END_SRC
+
+
+   By using =bind-key=, you can specify the keystrokes that invoke a
+   command. This is regular behavior that you can already achieve in
+   Emacs and will result in a global binding.
+
+   If you also want to override any possible minor-mode bindings of
+   the same keys, you can use =bind-key*= instead.
+
+   There is also an =unbind-key= to, of course, remove any binding.
+
+   The real kicker is that it will keep track of these bindings and
+   let you see a summary of your customizations with
+
+: M-x describe-personal-keybindings
+
 ** Minibuffer History Save
 
     This saves the minibuffer histories to preserve across emacs
@@ -186,8 +211,9 @@
     the keypress to cycle through options.
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "M-/") 'hippie-expand)
+  (bind-key "M-/" 'hippie-expand)
 #+END_SRC
+
 ** Emacs Bookmarks
 
     [[http://emacswiki.org/emacs/BookMarks]]
@@ -210,9 +236,9 @@
     This mode is installed and managed through the ELPA system.
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c g") 'writegood-mode)
-  (global-set-key (kbd "C-c C-g g") 'writegood-grade-level)
-  (global-set-key (kbd "C-c C-g e") 'writegood-reading-ease)
+  (bind-key "C-c g" 'writegood-mode)
+  (bind-key "C-c C-g g" 'writegood-grade-level)
+  (bind-key "C-c C-g e" 'writegood-reading-ease)
 #+END_SRC
 
 ** Development
@@ -267,8 +293,8 @@
     argument function, but that one is also accessible by "M--"
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-+") 'text-scale-increase)
-  (global-set-key (kbd "C--") 'text-scale-decrease)
+  (bind-key "C-+" 'text-scale-increase)
+  (bind-key "C--" 'text-scale-decrease)
 #+END_SRC
 
 
@@ -356,7 +382,7 @@
     like 6.
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "<f6>") 'magit-status)
+  (bind-key "<f6>" 'magit-status)
 #+END_SRC
 
 ** Powerline
@@ -405,7 +431,7 @@
     interface.
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "s-/") 'sunrise)
+  (bind-key "s-/" 'sunrise)
 #+END_SRC
 
 *** Interesting Keys
@@ -477,7 +503,7 @@
     for quick window access
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "s-s") 'ace-window)
+  (bind-key "s-s" 'ace-window)
 #+END_SRC
 
 * BNB Helpers
@@ -555,7 +581,7 @@
     (interactive) 
     (shell-command "C:/Users/bnbeckwi/Documents/Apps/emacs_fullscreen/emacs_fullscreen.exe"))
 
-  (global-set-key (kbd "<f11> <f11>") 'bnb/toggle-full-screen)
+  (bind-key "<f11> <f11>" 'bnb/toggle-full-screen)
 #+END_SRC
 
 ** Workweeks
@@ -921,17 +947,17 @@
        Go to current/previous clocked task
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c t") 'orgtbl-mode)
+  (bind-key "C-c t" 'orgtbl-mode)
   (global-set-key "\C-cl" 'org-store-link)
   (global-set-key "\C-cr" 'org-capture)
   (global-set-key "\C-cb" 'org-iswitchb)
-  (global-set-key (kbd "<f12>") 'org-agenda)
-  (global-set-key (kbd "<apps>") 'org-agenda)
-  (global-set-key (kbd "<f9> v") 'visible-mode)
-  (global-set-key (kbd "<f9> i") 'org-clock-in)
-  (global-set-key (kbd "<f9> o") 'org-clock-out)
-  (global-set-key (kbd "<f11> i") 'org-clock-in)
-  (global-set-key (kbd "<f11> g") 'org-clock-goto)
+  (bind-key "<f12>" 'org-agenda)
+  (bind-key "<apps>" 'org-agenda)
+  (bind-key "<f9> v" 'visible-mode)
+  (bind-key "<f9> i" 'org-clock-in)
+  (bind-key "<f9> o" 'org-clock-out)
+  (bind-key "<f11> i" 'org-clock-in)
+  (bind-key "<f11> g" 'org-clock-goto)
 #+END_SRC
 
 *** Speed
@@ -1656,9 +1682,9 @@
       This provides better =M-x= functionality.
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "M-x") 'smex)
-  (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-  (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+  (bind-key "M-x" 'smex)
+  (bind-key "M-X" 'smex-major-mode-commands)
+  (bind-key "C-c C-c M-x" 'execute-extended-command)
 #+END_SRC
 
       One of the nice things about the default command selection (read
