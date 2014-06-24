@@ -52,15 +52,6 @@
   (setq frame-title-format '("%b - %F"))
 #+END_SRC
 
-** Org Fonts
-
-    This face needs to be set to strike-through to look great.
-
-#+BEGIN_SRC elisp :export none
-  (eval-after-load 'org-mode
-   (set-face-attribute 'org-done nil :strike-through t))
-#+END_SRC
-
 ** Perspective Fonts
 
     I set this face through customize.
@@ -68,6 +59,53 @@
 #+BEGIN_SRC elisp :export none
   (eval-after-load 'perspective
     (set-face-attribute 'persp-selected-face nil :foreground "SystemActiveTitle" :weight 'bold))
+#+END_SRC
+
+** Faces
+*** Default Fonts
+
+     On windows, I have /Source Code Pro/ installed.  Let's use that
+     there.
+
+#+BEGIN_SRC emacs-lisp
+  (when (eq system-type 'windows-nt)
+    (set-face-attribute 'default nil :font "Source Code Pro-10"))
+#+END_SRC
+
+     Setup a strike-through font for agenda items. The /done/ items
+     are now easily overlooked within an agenda or task list.
+
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'org-agenda-done nil :strike-through t)
+
+  (defadvice enable-theme (after org-strike-done activate)
+    "Setup org-agenda-done faces to have strike-through on"
+    (and (message "Running advice")
+         (set-face-attribute 'org-agenda-done nil :strike-through t)))
+#+END_SRC
+
+*** Dynamic Font sizes
+
+    Changing font sizes in presentations is crucial to have at hand. I
+    use the following keybindings. =C--= overrides the negative
+    argument function, but that one is also accessible by =M--=.
+
+#+BEGIN_SRC emacs-lisp
+  (bind-key "C-+" 'text-scale-increase)
+  (bind-key "C--" 'text-scale-decrease)
+#+END_SRC
+
+*** Mode Line Style
+
+     I dislike the box around the =mode-line= making it look like a
+     button.  This face attribute, =box=, can be turned off to get a
+     flat feel.  Be sure to do it to all =mode-line= faces that have
+     this attribute.
+
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'mode-line nil :box nil)
+  (set-face-attribute 'mode-line-inactive nil :box nil)
+  (set-face-attribute 'mode-line-highlight nil :box nil)
 #+END_SRC
 
 * Local customizations (custom.el)
@@ -272,51 +310,6 @@
    It is possible that you would need to [[elisp:(customize-group%20'epg)][customize the location of
    gpg]].
 
-** Faces
-*** Default Fonts
-
-     On windows, I have /Source Code Pro/ installed.  Let's use that
-     there.
-
-#+BEGIN_SRC emacs-lisp
-  (when (eq system-type 'windows-nt)
-    (set-face-attribute 'default nil :font "Source Code Pro-10"))
-#+END_SRC
-
-     Setup a strike-through font for agenda items.  Looks prettier.
-
-#+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'org-agenda-done nil :strike-through t)
-
-  (defadvice enable-theme (after org-strike-done activate)
-    "Setup org-agenda-done faces to have strike-through on"
-    (and (message "Running advice")
-         (set-face-attribute 'org-agenda-done nil :strike-through t)))
-#+END_SRC
-
-*** Dynamic Font sizes
-
-    Changing font sizes in presentations is crucial to have at hand. I
-    use the following keybindings. "C--" overrides the negative
-    argument function, but that one is also accessible by "M--"
-
-#+BEGIN_SRC emacs-lisp
-  (bind-key "C-+" 'text-scale-increase)
-  (bind-key "C--" 'text-scale-decrease)
-#+END_SRC
-
-
-*** Mode Line Style
-
-     I dislike the box around the =mode-line= making it look like a
-     button.  This face attribute, =box=, can be turned off get get a
-     more flat feel.
-
-#+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'mode-line nil :box nil)
-  (set-face-attribute 'mode-line-inactive nil :box nil)
-  (set-face-attribute 'mode-line-highlight nil :box nil)
-#+END_SRC
 ** Read-only helpers
 
     For read-only files, look at them in view mode
