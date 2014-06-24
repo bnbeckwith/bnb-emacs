@@ -448,6 +448,26 @@
     | q      | Quit                           |
     | v      | Quick view file                |
 
+*** Org Links in Sunrise Commander
+
+   Storing links from Sunrise-commander
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-store-link-functions 'org-diredish-store-link)
+
+  (defun org-diredish-store-link ()
+    "Store link to files/directories from dired."
+    (when (derived-mode-p 'dired-mode)
+      (let ((f (dired-filename-at-point)))
+        (setq link (concat "file+system" ":" f)
+              desc (concat f " (dired)"))
+        (org-add-link-props :link link :description desc)
+        link)))
+
+#+END_SRC
+
+
+
 ** Guide Key
 
     Provide a guide for long (and easy to forget) key sequences.  The
