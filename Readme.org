@@ -326,8 +326,11 @@
 
 ** Default File encoding
 
-    By default, I like to have the files be =utf-8= by default. Do
+    I like to have the files be =utf-8= by default. Do
     let me know if I shouldn't do this, will you?
+
+    Set =utf-8= for all coding systems except for the clipboard on
+    windows.  That one gets =utf-16le= to be compatible.
 
 #+BEGIN_SRC emacs-lisp
   (prefer-coding-system       'utf-8)
