@@ -260,10 +260,18 @@
 
 ** Encryption
 
+   [[info:epa#Top][EasyPG Assistant]] helps with integration of GnuPG.  The command
+   below turns on the automatic encryption/decryption of =*.gpg=
+   files.
+
 #+BEGIN_SRC emacs-lisp
   (require 'epa)
   (epa-file-enable)
 #+END_SRC
+
+   It is possible that you would need to [[elisp:(customize-group%20'epg)][customize the location of
+   gpg]].
+
 ** Faces
 *** Default Fonts
 
