@@ -312,15 +312,16 @@
 
 ** Read-only helpers
 
-    For read-only files, look at them in view mode
+   For read-only files, look at them in =view-mode= which will enable
+   vi-style navigation.
 
 #+BEGIN_SRC emacs-lisp
   (require 'view)
   (setq view-read-only t)     ; enter view-mode for read-only files
-  (define-key view-mode-map "n" 'next-line)
-  (define-key view-mode-map "p" 'previous-line)
-  (define-key view-mode-map "j" 'next-line)
-  (define-key view-mode-map "k" 'previous-line)
+  (bind-key "n" 'next-line     view-mode-map)   
+  (bind-key "p" 'previous-line view-mode-map)   
+  (bind-key "j" 'next-line     view-mode-map)   
+  (bind-key "k" 'previous-line view-mode-map)   
 #+END_SRC
 
 ** Default File encoding
