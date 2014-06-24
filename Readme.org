@@ -607,8 +607,8 @@
     I use Alexander's recommended settings.
 
 #+BEGIN_SRC emacs-lisp
-  (defun bnb/toggle-full-screen () 
-    (interactive) 
+  (defun bnb/toggle-full-screen ()
+    (interactive)
     (shell-command "C:/Users/bnbeckwi/Documents/Apps/emacs_fullscreen/emacs_fullscreen.exe"))
 
   (bind-key "<f11> <f11>" 'bnb/toggle-full-screen)
