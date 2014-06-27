@@ -488,6 +488,15 @@ choices.
    Be sure to consult the [[info:emacs#Regexps][syntax of regular expressions]] to learn more
    about the weird backslashing.
 
+** IBuffer
+
+   Use ~ibuffer~ instead of ~list-buffers~ for buffer management. The
+   most visible difference being the coloring that ~ibuffer~ uses.
+
+#+BEGIN_SRC emacs-lisp
+  (bind-key "C-x C-b" 'ibuffer)
+#+END_SRC
+
 * Style
 
 ** Frame Changes
