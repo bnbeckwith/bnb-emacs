@@ -54,7 +54,6 @@ choices.
 
   The next sections encompass some small settings to make Emacs mine.
 
-
 ** Super keys
 
    I like to be able to use the Windows (or super or hyper) keys for
@@ -248,10 +247,10 @@ choices.
 #+BEGIN_SRC emacs-lisp
   (require 'view)
   (setq view-read-only t)     ; enter view-mode for read-only files
-  (bind-key "n" 'next-line     view-mode-map)   
-  (bind-key "p" 'previous-line view-mode-map)   
-  (bind-key "j" 'next-line     view-mode-map)   
-  (bind-key "k" 'previous-line view-mode-map)   
+  (bind-key "n" 'next-line     view-mode-map)
+  (bind-key "p" 'previous-line view-mode-map)
+  (bind-key "j" 'next-line     view-mode-map)
+  (bind-key "k" 'previous-line view-mode-map)
 #+END_SRC
 
 ** Default File encoding
@@ -464,7 +463,7 @@ choices.
 #+END_SRC
 
 ** Regexp-Builder
-   
+
    Emacs regular expressions are not the easiest to use out of the
    box. Emacs now has [[help:re-builder][regexp-builder]] to assist you in building the
    correct regexp as you type.
@@ -569,7 +568,7 @@ choices.
 #+END_SRC
 
 ** Powerline
-   
+
    [[https://github.com/milkypostman/powerline][Powerline]] is a modification to the mode-line based on some
    vim-customizations.
 
