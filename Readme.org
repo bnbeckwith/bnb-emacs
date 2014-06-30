@@ -497,6 +497,22 @@ choices.
   (bind-key "C-x C-b" 'ibuffer)
 #+END_SRC
 
+*** Groups
+
+    The buffer list can be split into arbitrary groups for easier
+    management.
+
+#+BEGIN_SRC emacs-lisp
+  (setq ibuffer-saved-filter-groups
+        '(("Org"
+           ("Org" (mode . org-mode)))))
+#+END_SRC
+
+
+**** VC Grouping
+
+     =M-x ibuffer-vc-set-filter-groups-by-vc-root=
+
 * Style
 
 ** Frame Changes
