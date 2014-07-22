@@ -172,6 +172,32 @@ choices.
           ("PST8PDT" "DuPont")))
 #+END_SRC
 
+** Abbrev
+
+   The following block is courtesy of [[http://endlessparentheses.com/ispell-and-abbrev-the-perfect-auto-correct.html][Endless Parentheses]].
+
+#+BEGIN_SRC emacs-lisp
+  (bind-key "C-x C-i" 'bnb/ispell-word-then-abbrev)
+
+  (defun bnb/ispell-word-then-abbrev (p)
+    "Call `ispell-word'. Then create an abbrev for the correction
+  made. With prefix P, create local abbrev. Otherwise, it will be
+  global."
+    (interactive "P")
+    (let ((bef (downcase (or (thing-at-point 'word) ""))) aft)
+      (call-interactively 'ispell-word)
+      (setq aft (downcase (or (thing-at-point 'word) "")))
+      (unless (string= aft bef)
+        (message "\"%s\" now expands to \"%s\" %sally"
+                 bef aft (if p "loc" "glob"))
+        (define-abbrev
+          (if p global-abbrev-table local-abbrev-table)
+          bef aft))))
+
+  (setq save-abbrevs t)
+  (setq-default abbrev-mode t)
+#+END_SRC
+
 ** Hippie Expand
 
     Try to expand the text before point in an intelligent way. Repeat
