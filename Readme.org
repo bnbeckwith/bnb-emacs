@@ -1018,6 +1018,16 @@ choices.
   (add-hook 'bnb/kill-emacs-hooks 'org-save-all-org-buffers 'append)
 #+END_SRC
 
+
+    When I execute =babel= to get graphs from my work logs, I hate
+    having to toggle the inline images on/off again.  Here is a hook
+    from Rick Frankel to save the day.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-babel-after-execute-hook
+            (lambda () (org-display-inline-images nil t)))
+#+END_SRC
+
 ** Keys
 
 *** Global
