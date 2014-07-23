@@ -57,6 +57,9 @@ choices.
    settings such as proxies, paths, fonts, etc. that may vary from
    machine to machine.
 
+   Here, I set the custom file to reside in my =~/.emacs.d/= directory
+   and load it if it exists.
+
 #+BEGIN_SRC emacs-lisp
   (setq custom-file "~/.emacs.d/custom.el")
   (if (file-exists-p custom-file)
