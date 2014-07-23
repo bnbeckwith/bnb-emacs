@@ -656,6 +656,18 @@ choices.
   (set-face-attribute 'mode-line-highlight nil :box nil)
 #+END_SRC
 
+*** Missing Glyphs
+    
+    If I ever use a font with a missing glyph, this will let Emacs
+    check the /Symbola/ font for the missing data.
+
+    [[http://users.teilar.gr/~g1951d/][Download Symbola]] if you do not have it.
+
+#+BEGIN_SRC emacs-lisp
+  (set-fontset-font "fontset-default" nil
+                    (font-spec :size 20 :name "Symbola"))
+#+END_SRC    
+ 
 ** Powerline
 
    [[https://github.com/milkypostman/powerline][Powerline]] is a modification to the mode-line based on some
