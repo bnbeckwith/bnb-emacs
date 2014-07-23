@@ -12,6 +12,7 @@
 #+HTML_MATHJAX:
 #+INFOJS_OPT:
 #+LATEX_HEADER:
+#+PROPERTY: header-args:emacs-lisp :results silent
 
 This document tangles (in literate programming style) the necessary
 commands to initialize Emacs to my liking and the documentation for my
