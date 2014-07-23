@@ -123,9 +123,11 @@ choices.
       paredit
       perspective
       powerline
+      projectile
       rainbow-mode
       smart-tabs-mode
       smex
+      sublime-themes
       sunrise-commander
       undo-tree
       writegood-mode))
