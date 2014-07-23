@@ -187,12 +187,18 @@ choices.
 
 ** Display times
 
+   This block sets up a list of timezones and locations to display
+   when calling ~display-time-world~. I also bind a key to get to the
+   information quickly.
+
 #+BEGIN_SRC emacs-lisp
   (setq display-time-world-list
         '(("EST5EDT" "Hudson")
           ("CST6CST" "Iowa")
           ("MST7MST" "Fort Collins")
           ("PST8PDT" "DuPont")))
+
+  (bind-key "C-c C-z" 'display-time-world)
 #+END_SRC
 
 ** Abbrev
