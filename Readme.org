@@ -71,7 +71,7 @@ choices.
   The next sections encompass some small settings to make Emacs mine.
 
 ** Super keys
-
+   
    I like to be able to use the Windows (or super or hyper) keys for
    shortcuts. I need to take care to not interfere with the
    built-in shortcuts or my bindings will not work.
@@ -94,6 +94,10 @@ choices.
 
     After these are set, I can make sure that the proper packages are
     installed.  This may take some time the first time it runs.
+
+    Org-mode and Sunrise Commander have their own repositories that
+    keep me on the bleeding edge. They is why they have their own
+    repositories above.
 
 #+BEGIN_SRC emacs-lisp
   ;; Idea lifted from prelude https://github.com/bbatsov/prelude
