@@ -891,11 +891,19 @@ choices.
  | TAB           | Indents the current line or rectangle to the column of the global mark.                                             |
 
 
-* Cider
+* Clojure
+
+  The easiest way to edit clojure code is with =paredit= so let's have
+  it automatically load each time.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'clojure-mode-hook 'paredit-mode)
+#+END_SRC
+
+** Cider
 
    Cider will make a nREPL available for Clojure programming. The
-   configuaration snippets here are from the
-   [[https://github.com/clojure-emacs/cider][project page on github]].
+   configuaration snippets here are from the [[https://github.com/clojure-emacs/cider][project page on github]].
 
 #+BEGIN_SRC emacs-lisp
   ;; Enable eldoc
