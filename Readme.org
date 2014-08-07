@@ -46,7 +46,7 @@ choices.
 
 * Personal Information
 
-  The full name is used for email messages. 
+  The full name is used for email messages.
 
 #+BEGIN_SRC emacs-lisp
   (setq user-full-name "Benjamin Beckwith")
@@ -72,7 +72,7 @@ choices.
   The next sections encompass some small settings to make Emacs mine.
 
 ** Super keys
-   
+
    I like to be able to use the Windows (or super or hyper) keys for
    shortcuts. I need to take care to not interfere with the
    built-in shortcuts or my bindings will not work.
