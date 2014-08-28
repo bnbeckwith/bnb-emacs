@@ -584,6 +584,29 @@ choices.
   (add-hook 'image-mode 'auto-revert-mode)
 #+END_SRC
 
+** Recentf
+
+   First, I need to enable this mode to gain the functionality.
+
+#+BEGIN_SRC emacs-lisp
+  (recentf-mode t)
+#+END_SRC
+
+*** Opening Recent files with IDO
+
+    From the [[http://www.emacswiki.org/emacs/RecentFiles#toc7][EmacsWiki]], the following code helps open recent files
+    quickly.
+
+#+BEGIN_SRC emacs-lisp
+  (defun recentf-ido-find-file ()
+    "Find a recent file using Ido."
+    (interactive)
+    (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
+      (when file
+        (find-file file))))
+  (bind-key "C-x C-r" 'recentf-ido-find-file)
+#+END_SRC
+
 * Style
 
 ** Frame Changes
