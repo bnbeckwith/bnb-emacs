@@ -569,6 +569,21 @@ choices.
 
      =M-x ibuffer-vc-set-filter-groups-by-vc-root=
 
+** Hooks
+ 
+   In general, hooks may be best with other configuration items, but
+   if they are just pieces on their own, they belong here.
+   
+*** Auto Reverting in modes
+
+    For view-only buffers rendering content, it is useful to have them
+    ~auto-revert~ in case of changes. 
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+  (add-hook 'image-mode 'auto-revert-mode)
+#+END_SRC
+
 * Style
 
 ** Frame Changes
