@@ -100,7 +100,7 @@ choices.
    keep me on the bleeding edge. They is why they have their own
    repositories above.
    
-   #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
   ;; Idea lifted from prelude https://github.com/bbatsov/prelude
   (require 'cl)
   (defvar bnb/packages
@@ -113,6 +113,7 @@ choices.
       color-theme-sanityinc-tomorrow
       dired+
       edit-server
+      expand-region
       guide-key
       htmlize
       highline
@@ -130,6 +131,7 @@ choices.
       sublime-themes
       sunrise-commander
       undo-tree
+      word-goal-mode
       writegood-mode))
 
   (defun bnb/packages-installed-p ()
@@ -147,7 +149,7 @@ choices.
     (dolist (p bnb/packages)
       (when (not (package-installed-p p))
         (package-install p))))
-   #+END_SRC
+#+END_SRC
    
 ** Binding Keys
    
