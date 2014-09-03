@@ -568,6 +568,15 @@ choices.
      
      =M-x ibuffer-vc-set-filter-groups-by-vc-root=
      
+** Expand Region
+
+   Nice way to expand selections to semantic regions. Read more on
+   [[https://github.com/magnars/expand-region.el]].
+
+#+BEGIN_SRC emacs-lisp
+  (bind-key (kbd "C-=") 'er/expand-region)
+#+END_SRC
+
 ** Hooks
    
    In general, hooks may be best with other configuration items, but
