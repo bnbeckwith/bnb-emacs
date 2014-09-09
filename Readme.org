@@ -1179,6 +1179,16 @@ choices.
   (setq TeX-engine 'xetex)
    #+END_SRC
 
+** Preview Settings
+   
+   In order for preview to work with ~tikzpicture~ environments, it
+   has to be added to the default preamble list.
+
+#+BEGIN_SRC emacs-lisp
+  (eval-after-load "preview"
+    '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
+#+END_SRC
+
 * Orgmode
 
   The one feature I cannot do without. Let's set up some features.
