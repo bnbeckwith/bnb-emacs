@@ -68,38 +68,38 @@ choices.
 #+END_SRC
 
 * Small Settings
-  
+
   The next sections encompass some small settings to make Emacs mine.
-  
+
 ** Super keys
-   
+
    I like to be able to use the Windows (or super or hyper) keys for
    shortcuts. I need to take care to not interfere with the
    built-in shortcuts or my bindings will not work.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq w32-pass-lwindow-to-system nil)
   (setq w32-lwindow-modifier 'super)
    #+END_SRC
-   
+
 ** Package archives
-   
+
    I like to pull from the popular list of package archives.
-   
+
    #+BEGIN_SRC emacs-lisp
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
   (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
   (add-to-list 'package-archives '("sr" . "http://joseito.republika.pl/sunrise-commander/") t)
    #+END_SRC
-   
+
    I install the proper packages with these repositories. This may
    take some time the first time it runs.
-   
+
    Org-mode and Sunrise Commander have their own repositories that
    keep me on the bleeding edge. They is why they have their own
    repositories above.
-   
+
 #+BEGIN_SRC emacs-lisp
   ;; Idea lifted from prelude https://github.com/bbatsov/prelude
   (require 'cl)
@@ -150,49 +150,49 @@ choices.
       (when (not (package-installed-p p))
         (package-install p))))
 #+END_SRC
-   
+
 ** Binding Keys
-   
+
    For binding keys, I use the =bind-key= package. Not only does it
    easily bind keys, but it does so with some nice features.
-   
+
    #+BEGIN_SRC emacs-lisp
   (require 'bind-key)
    #+END_SRC
-   
-   
+
+
    By using =bind-key=, you can specify the keystrokes that invoke a
    command. This is regular behavior that you can already achieve in
    Emacs and will result in a global binding.
-   
+
    If you also want to override any possible minor-mode bindings of
    the same keys, you can use =bind-key*= instead.
-   
+
    There is also an =unbind-key= to, of course, remove any binding.
-   
+
    The real kicker is that it will keep track of these bindings and
    let you see a summary of your customizations with
-   
+
 : M-x describe-personal-keybindings
-   
+
 ** Minibuffer History Save
-   
+
    This saves the minibuffer histories to preserve across emacs
    sessions.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq savehist-additional-variables
         '(search-ring regexp-search-ring)
         savehist-file "~/.emacs.d/savehist")
   (savehist-mode t)
    #+END_SRC
-   
+
 ** Display times
-   
+
    This block sets up a list of timezones and locations to display
    when calling ~display-time-world~. I also bind a key to get to the
    information quickly.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq display-time-world-list
         '(("EST5EDT" "Hudson")
@@ -202,11 +202,11 @@ choices.
 
   (bind-key "C-c C-z" 'display-time-world)
    #+END_SRC
-   
+
 ** Abbrev
-   
+
    The following block is courtesy of [[http://endlessparentheses.com/ispell-and-abbrev-the-perfect-auto-correct.html][Endless Parentheses]].
-   
+
    #+BEGIN_SRC emacs-lisp
   (bind-key "C-x C-i" 'bnb/ispell-word-then-abbrev)
 
@@ -228,79 +228,79 @@ choices.
   (setq save-abbrevs t)
   (setq-default abbrev-mode t)
    #+END_SRC
-   
+
 ** Hippie Expand
-   
+
    Try to expand the text before point in an intelligent way. Repeat
    the keypress to cycle through options.
-   
+
    #+BEGIN_SRC emacs-lisp
   (bind-key "M-/" 'hippie-expand)
    #+END_SRC
-   
+
 ** Emacs Bookmarks
-   
+
    [[http://emacswiki.org/emacs/BookMarks]]
-   
+
    | Keystroke           | Action                  |
    |---------------------+-------------------------|
    | C-x r m             | Set a bookmark          |
    | C-x r b             | Jump to a bookmark      |
    | C-x r l             | List your bookmarks     |
    | M-x bookmark-delete | Delete bookmark by name |
-   
+
    I will auto-save my bookmarks.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq bookmark-save-flag t)
    #+END_SRC
-   
+
 ** Writegood Mode
-   
+
    This mode installs through the ELPA system.
-   
+
    #+BEGIN_SRC emacs-lisp
   (bind-key "C-c g" 'writegood-mode)
   (bind-key "C-c C-g g" 'writegood-grade-level)
   (bind-key "C-c C-g e" 'writegood-reading-ease)
    #+END_SRC
-   
+
 ** Development
-   
+
    For any lisp development, the following is nice to have.
-   
+
    #+BEGIN_SRC emacs-lisp
   (show-paren-mode t)
    #+END_SRC
-   
+
    While developing, documentation is nice to have handy and
    automatic.
-   
+
    #+BEGIN_SRC emacs-lisp
   (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
   (add-hook 'cperl-mode-hook 'turn-on-eldoc-mode)
   (add-hook 'eshell-mode-hook 'turn-on-eldoc-mode)
    #+END_SRC
-   
+
 ** Encryption
-   
+
    [[info:epa#Top][EasyPG Assistant]] helps with integration of GnuPG.  The command
    below turns on the automatic encryption/decryption of =*.gpg=
    files.
-   
+
    #+BEGIN_SRC emacs-lisp
   (require 'epa)
   (epa-file-enable)
    #+END_SRC
-   
+
    It is possible that you would need to [[elisp:(customize-group%20'epg)][customize the location of
    gpg]].
-   
+
 ** Read-only helpers
-   
+
    For read-only files, look at them in =view-mode= which will enable
    vi-style navigation.
-   
+
    #+BEGIN_SRC emacs-lisp
   (require 'view)
   (setq view-read-only t)     ; enter view-mode for read-only files
@@ -309,15 +309,15 @@ choices.
   (bind-key "j" 'next-line     view-mode-map)
   (bind-key "k" 'previous-line view-mode-map)
    #+END_SRC
-   
+
 ** Default File encoding
-   
+
    I like to have the files be =utf-8= by default. Do
    let me know if I shouldn't do this, will you?
-   
+
    Set =utf-8= for all coding systems except for the clipboard on
    windows.  That one gets =utf-16le= to be compatible.
-   
+
    #+BEGIN_SRC emacs-lisp
   (prefer-coding-system       'utf-8)
   (set-default-coding-systems 'utf-8)
@@ -330,12 +330,12 @@ choices.
   (when (eq system-type 'windows-nt)
     (set-clipboard-coding-system 'utf-16le-dos))
    #+END_SRC
-   
+
 ** Vimrc generic mode
-   
+
    Good to have to help with my pentadactyl configuration as it is in
    a vim-style of configuration.
-   
+
    #+BEGIN_SRC emacs-lisp
   (define-generic-mode 'vimrc-generic-mode
     '()
@@ -351,76 +351,76 @@ choices.
         (modify-syntax-entry ?\" ".")))
     "Generic mode for Vim configuration files.")
    #+END_SRC
-   
+
 ** Ediff single frame
-   
+
    I really dislike the multi-frame mode of =ediff=.  It is confusing
    to use and really messes up my [[http://dwm.suckless.org][dwm]] usage. By explicitly setting
    the following setting, it forces =ediff= to use only one
    frame.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
    #+END_SRC
-   
+
    Now the control window will be a small window instead of a
    separate frame.
-   
+
 ** Magit
-   
+
    [[info:magit#Top][Magit]] is a git interface for Emacs.
-   
+
    Here I set a global key for ~magit-status~. Think 'G' looks
    like 6.
-   
+
    #+BEGIN_SRC emacs-lisp
   (bind-key "<f6>" 'magit-status)
    #+END_SRC
-   
+
 ** Open/Edit This file
-   
+
    When I hit ~<F5>~, open this file for editing.  That way, any
    time I have something I need to remember for my emacs setting, it
    is just a button-push away.
-   
+
    #+BEGIN_SRC emacs-lisp
   (bind-key "<f5>"
             (lambda ()
               (interactive)
               (find-file "~/.emacs.d/bnb-emacs/Readme.org")))
    #+END_SRC
-   
+
 ** Sounds
-   
+
    I dislike the bell ringing when I hit =C-g=. To silence the bell,
    just set the =ring-bell-function= to =nil=.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq visual-bell nil)
   (setq ring-bell-function `(lambda () nil))
    #+END_SRC
-   
+
 ** Midnight Mode
-   
+
    This mode looks at midnight and kills any inactive buffers. By
    default, /inactive/ means is any buffer untouched for three days.
-   
+
    #+BEGIN_SRC emacs-lisp
   (require 'midnight)
    #+END_SRC
-   
+
 ** Sunrise Commander
-   
+
    Sunrise commander is Emacs' answer to the popular Midnight
    Commander. I have a global key below to launch the default
    interface.
-   
+
    #+BEGIN_SRC emacs-lisp
   (bind-key "s-/" 'sunrise)
    #+END_SRC
-   
+
 *** Interesting Keys
-    
+
     | Key    | Purpose                        |
     |--------+--------------------------------|
     | C-cC-s | Switch horizontal/vertical/top |
@@ -432,11 +432,11 @@ choices.
     | R      | Rename (move) marked file      |
     | q      | Quit                           |
     | v      | Quick view file                |
-    
+
 *** Org Links in Sunrise Commander
-    
+
     Storing links from Sunrise-commander
-    
+
     #+BEGIN_SRC emacs-lisp
   (add-hook 'org-store-link-functions 'org-diredish-store-link)
 
@@ -450,15 +450,15 @@ choices.
         link)))
 
     #+END_SRC
-    
-    
+
+
 ** Guide Key
-   
+
    Provide a guide for long (and easy to forget) key sequences.  The
    prefixes below, such as =C-x r=, have numerous options that can
    follow.  This mode helpfully shows what options are available in a
    small bottom window.
-   
+
    #+BEGIN_SRC emacs-lisp
   (require 'guide-key)
   (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x v" "C-x 8" "C-x x"))
@@ -466,9 +466,9 @@ choices.
   (setq guide-key/recursive-key-sequence-flag t)
   (setq guide-key/popup-window-position 'bottom)
    #+END_SRC
-   
+
 ** Perspective mode
-   
+
    #+BEGIN_SRC emacs-lisp
   (persp-mode t)
   (defmacro custom-persp (name &rest body)
@@ -484,9 +484,9 @@ choices.
 
   (define-key persp-mode-map (kbd "C-x x -") 'custom-persp-last)
    #+END_SRC
-   
+
    Now, add some custom perspectives for emacs or orgmode
-   
+
    #+BEGIN_SRC emacs-lisp
   (defun bnb/persp/emacs ()
     (interactive)
@@ -500,40 +500,40 @@ choices.
                   (mapcar 'find-file org-agenda-files)))
   (define-key persp-mode-map (kbd "C-x x o") 'bnb/persp/org)
    #+END_SRC
-   
+
 ** Ace Window
-   
+
    Instead of =C-x o= traversal, =ace-window= mode provides numbers
    for quick window access
-   
+
    #+BEGIN_SRC emacs-lisp
   (bind-key "s-a" 'ace-window)
    #+END_SRC
-   
+
 ** Edit Server
-   
+
    The edit server talks to Chrome and uses emacs to edit any
    textareas.  I start this server here.
-   
+
    #+BEGIN_SRC emacs-lisp
   (edit-server-start)
    #+END_SRC
-   
+
 ** Regexp-Builder
-   
+
    Emacs regular expressions are not the easiest to use out of the
    box. Emacs now has [[help:re-builder][regexp-builder]] to assist you in building the
    correct regexp as you type.
-   
+
    However, to complicate matters, there are five different /syntaxes/
    of regular expression that the builder can use.  The =string=
    syntax is what I tend to use most in searching and replacing, so I
    will make that my default.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq reb-re-syntax 'string)
    #+END_SRC
-   
+
    | Key Binding | Meaning                                    |
    |-------------+--------------------------------------------|
    | C-c TAB     | Switch syntax                              |
@@ -541,35 +541,35 @@ choices.
    | C-c C-s/r   | Search forward/backward                    |
    | C-c C-w     | Copy regexp to kill ring                   |
    | C-c C-q     | Quit the builder                           |
-   
+
    Be sure to consult the [[info:emacs#Regexps][syntax of regular expressions]] to learn more
    about the weird backslashing.
-   
+
 ** IBuffer
-   
+
    Use ~ibuffer~ instead of ~list-buffers~ for buffer management. The
    most visible difference being the coloring that ~ibuffer~ uses.
-   
+
    #+BEGIN_SRC emacs-lisp
   (bind-key "C-x C-b" 'ibuffer)
    #+END_SRC
-   
+
 *** Groups
-    
+
     The buffer list splits into arbitrary groups for easier
     management. Below I create an "Org" group for ~org-mode~ buffers.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq ibuffer-saved-filter-groups
         '(("Org"
            ("Org" (mode . org-mode)))))
     #+END_SRC
-    
-    
+
+
 **** VC Grouping
-     
+
      =M-x ibuffer-vc-set-filter-groups-by-vc-root=
-     
+
 ** Expand Region
 
    Nice way to expand selections to semantic regions. Read more on
@@ -580,33 +580,33 @@ choices.
 #+END_SRC
 
 ** Hooks
-   
+
    In general, hooks may be best with other configuration items, but
    if they are just pieces on their own, they belong here.
-   
+
 *** Auto Reverting in modes
-    
+
     For view-only buffers rendering content, it is useful to have them
-    ~auto-revert~ in case of changes. 
-    
+    ~auto-revert~ in case of changes.
+
     #+BEGIN_SRC emacs-lisp
   (add-hook 'doc-view-mode-hook 'auto-revert-mode)
   (add-hook 'image-mode 'auto-revert-mode)
     #+END_SRC
-    
+
 ** Recentf
-   
+
    First, I need to enable this mode to gain the functionality.
-   
+
    #+BEGIN_SRC emacs-lisp
   (recentf-mode t)
    #+END_SRC
-   
+
 *** Opening Recent files with IDO
-    
+
     From the [[http://www.emacswiki.org/emacs/RecentFiles#toc7][EmacsWiki]], the following code helps open recent files
     quickly.
-    
+
     #+BEGIN_SRC emacs-lisp
   (defun recentf-ido-find-file ()
     "Find a recent file using Ido."
@@ -616,52 +616,52 @@ choices.
         (find-file file))))
   (bind-key "C-x C-r" 'recentf-ido-find-file)
     #+END_SRC
-    
+
 * Style
-  
+
 ** Frame Changes
-   
+
    These following items make Emacs really beautiful on every
    platform.  I remove the menu bar, tool bar and the scroll bar for
    starters.  Then, I setup the fringe area with some items
-   
+
    #+BEGIN_SRC emacs-lisp
   (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
   (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
   (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
    #+END_SRC
-   
+
 ** Window Changes
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq-default indicate-buffer-boundaries 'right)
   (setq-default indicate-empty-lines t)
   (setq-default frame-title-format '("%b - %F"))
    #+END_SRC
-   
+
 ** Perspective Fonts
-   
+
    I set this face through customize.
-   
+
    #+BEGIN_SRC elisp :export none
   (eval-after-load 'perspective
     (set-face-attribute 'persp-selected-face nil :foreground "SystemActiveTitle" :weight 'bold))
    #+END_SRC
-   
+
 ** Faces
 *** Default Fonts
-    
+
     On windows, I have /Source Code Pro/ installed.  Let's use that
     there.
-    
+
     #+BEGIN_SRC emacs-lisp
   (when (eq system-type 'windows-nt)
     (set-face-attribute 'default nil :font "Source Code Pro-10"))
     #+END_SRC
-    
+
     Setup a strike-through font for agenda items. The /done/ items
     are now easily overlooked within an agenda or task list.
-    
+
     #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'org-agenda-done nil :strike-through t)
 
@@ -670,121 +670,121 @@ choices.
     (and (message "Running advice")
          (set-face-attribute 'org-agenda-done nil :strike-through t)))
     #+END_SRC
-    
-    
+
+
 **** Trying out fonts on Windows
-     
+
      #+BEGIN_SRC emacs-lisp
   (defun bnb/set-font ()
     (interactive)
     (set-face-attribute 'default nil :font (w32-select-font)))
      #+END_SRC
-     
+
 *** Dynamic Font sizes
-    
+
     Changing font sizes in presentations is crucial to have at hand. I
     use the following keybindings. =C--= overrides the negative
     argument function, but that one is also accessible by =M--=.
-    
+
     #+BEGIN_SRC emacs-lisp
   (bind-key "C-+" 'text-scale-increase)
   (bind-key "C--" 'text-scale-decrease)
     #+END_SRC
-    
+
 *** Mode Line Style
-    
+
     I dislike the box around the =mode-line= making it look like a
     button.  I disable (set to =nil=) this face attribute, =box=, to
     get a flat feel.  Be sure to do it to all =mode-line= faces that
     have this attribute.
-    
+
     #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'mode-line nil :box nil)
   (set-face-attribute 'mode-line-inactive nil :box nil)
   (set-face-attribute 'mode-line-highlight nil :box nil)
     #+END_SRC
-    
+
 *** Missing Glyphs
-    
+
     If I ever use a font with a missing glyph, this will let Emacs
     check the /Symbola/ font for the missing data.
-    
+
     [[http://users.teilar.gr/~g1951d/][Download Symbola]] if you do not have it.
-    
+
     #+BEGIN_SRC emacs-lisp
   (set-fontset-font "fontset-default" nil
                     (font-spec :size 20 :name "Symbola"))
     #+END_SRC
-    
+
 ** Themes
-   
+
    My favorite dark themes are =sanityinc-tomorrow-eighties= or
    =fogus=.  I have yet to find a pleasing light font, though
    =mccarthy= is close.
-   
+
    You can layer themes by enabling them in turn, but this is not the
    default usage for most of us. Github user =larstvei= has the
    following advice for that case.
-   
+
    #+BEGIN_SRC emacs-lisp
   (defadvice load-theme
     (before disable-theme-before-load (theme &optional no-confirm no-enable) activate)
     (mapc 'disable-theme custom-enabled-themes))
    #+END_SRC
-   
+
    It also seems that I have to reset =powerline= when running a new
    theme. The next piece of advice does that for me.
-   
+
    #+BEGIN_SRC emacs-lisp
   (defadvice load-theme
     (after theme-reset-powerline (theme &optional no-confirm no-enable) activate)
     (powerline-reset))
    #+END_SRC
-   
+
 ** Powerline
-   
+
    [[https://github.com/milkypostman/powerline][Powerline]] is a modification to the mode-line based on some
    vim-customizations.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq powerline-default-separator 'slant)
   (powerline-default-theme)
    #+END_SRC
-   
+
 * BNB Helpers
-  
+
   This is a collection of code specific to how I use emacs.  Some
   are from different websites or other Emacs users.
-  
+
 ** Exit behavior
-   
+
    Instead of exiting emacs, I prefer to leave it running and only
    minimize (iconize) it. Especially since I use =server= with emacs,
    it is advantageous to not kill my session by accident
    (muscle-memory). This idea is from [[http://emacs-fu.blogspot.com/2009/03/windows-and-daemons.html][Emacs-Fu]].
-   
+
    To accomplish this, I advise the =kill-emacs= function. But first,
    I need to have some pieces in place to perform some functionality
    if a killing operation triggers (keystrokes, button presses,
    etc).
-   
+
    I create a variable, =bnb/kill-emacs-hooks=, for functions that
    need to run before emacs is /killed/.
-   
+
    #+BEGIN_SRC emacs-lisp
   (defvar bnb/kill-emacs-hooks)
   (add-hook 'bnb/kill-emacs-hooks
             (lambda () (if (functionp 'server-edit)(server-edit))))
    #+END_SRC
-   
+
    In the hook above, I call the =server-edit= function to act as if
    I am closing emacs for a file opened via the server API. This has
    the effect of providing an illusion of opening the editor on a
    specific file and then closing it with normal keypresses.
-   
+
    Next, I provide a flag and a function to set the flag if emacs is
    to really exit. We always need an escape hatch.
-   
+
    #+BEGIN_SRC emacs-lisp
   (defvar bnb/really-kill-emacs nil)
   (defun bnb/kill-emacs ()
@@ -792,10 +792,10 @@ choices.
     (setq bnb/really-kill-emacs t)
     (kill-emacs))
    #+END_SRC
-   
+
    Now that mechanism is in place, it is time to augment
    =kill-emacs= with some advice around the function.
-   
+
    #+BEGIN_SRC emacs-lisp
   (defadvice kill-emacs (around bnb/pardon-emacs activate)
     "Only kill emacs if a prefix is set"
@@ -805,25 +805,25 @@ choices.
       (when (eq system-type 'windows-nt)
         (iconify-frame))))
    #+END_SRC
-   
+
    Now, when any event triggers a call to =kill-emacs=, a small set
    of activities happen. First, the =bnb/kill-emacs-hooks= execute
    and perform their jobs. Next, I check the flag for /really/
    exiting and then call the proper =kill-emacs= if true. Otherwise,
    the flag is false and emacs is simply iconified.
-   
+
 ** Fullscreen
-   
+
    NOTE: This goes away with Emacs 24.4 since this functionality is
    native.
-   
+
    To make emacs go fullscreen on windows, a helper program does the
    hard work. Find this online at bitbucket.
-   
+
    [[https://bitbucket.org/alexander_manenko/emacs-fullscreen-win32/wiki/Home]]
-   
+
    I use Alexander's recommended settings.
-   
+
    #+BEGIN_SRC emacs-lisp
   (defun bnb/toggle-full-screen ()
     (interactive)
@@ -831,9 +831,9 @@ choices.
 
   (bind-key "<f11> <f11>" 'bnb/toggle-full-screen)
    #+END_SRC
-   
+
 ** Workweeks
-   
+
    #+BEGIN_SRC emacs-lisp
     (defun bnb/workweek ()
       (interactive)
@@ -853,7 +853,7 @@ choices.
       (concat "WW"
               (number-to-string
                (bnb/workweek))))
-   
+
   (require 'calendar)
   (defun bnb/workweek-from-gregorian (&optional date)
     (let* ((date (or date (calendar-current-date)))
@@ -864,7 +864,7 @@ choices.
          (car
           (calendar-iso-from-absolute
            (calendar-absolute-from-gregorian date))))))
-           
+
   (setq calendar-week-start-day 1
         calendar-intermonth-text
           '(propertize
@@ -873,12 +873,12 @@ choices.
             'font-lock-face 'font-lock-function-name-face))
 
    #+END_SRC
-   
+
 * Company
-  
+
   [[http://company-mode.github.io][Company Mode]] is an in-buffer completion system. To get started, I
   need to load the mode and bind some keys.
-  
+
   #+BEGIN_SRC emacs-lisp
   (add-hook 'after-init-hook 'global-company-mode)
   (bind-key (kbd "<C-tab>") 'company-complete)
@@ -886,67 +886,67 @@ choices.
   ;; Turn off the auto downcasing of things
   (setq company-dabbrev-downcase nil)
   #+END_SRC
-  
+
 * Dired
-  
+
   So, I used =dired+= instead of the regular dired. It offers more
   interesting colors and more flexible ways to mark files.
-  
+
   For example, to mark by extension, press =*.=, then type the
   extension (with dot).
-  
+
   Here I enable the =dired-find-alternate-file= command. It lets my
   just type =a= to replace the current buffer and reduces the
   accumulating dired buffers.
-  
+
   #+BEGIN_SRC emacs-lisp
   (unless (package-installed-p 'dired+)
     (package-install 'dired+))
   (put 'dired-find-alternate-file 'disabled nil)
   #+END_SRC
-  
+
 * Smart Tabs
-  
+
   [[http://www.emacswiki.org/emacs-en/SmartTabs][SmartTabs]] try to do the right thing regarding tabs/spaces in
   indentation/alignment. It installs through the package interface. Look for
   =smart-tabs-mode=.
-  
+
   By default, I'm enabling it in all modes that I can.
-  
+
   Since we are dealing with tabs here, I also take the time to set
   the default width to 4.  Because of the way this mode works, any
   change in the default width will result in code that still aligns.
-  
+
   #+BEGIN_SRC emacs-lisp
   (setq-default indent-tabs-mode nil)
   (smart-tabs-insinuate 'c 'javascript 'python 'cperl 'c++)
   (setq-default tab-width 4)
   #+END_SRC
-  
+
 ** Notes
-   
+
    To re-tab the whole file, use =C-x h C-M-\=.
-   
+
 * CUA mode
-  
+
   [[info:emacs#CUA%20Bindings][CUA]] has a primary feature of enabling cut, copy, paste and undo
   shortcuts compatible with most applications (C-x, C-c,
   C-v). However, it also has interesting rectangle features and
   *that* is why I enable it. I also happen to turn off those other
   bindings and prefer the emacs defaults.
-  
+
   #+BEGIN_SRC emacs-lisp
   (cua-mode t)
   (setq cua-enable-cua-keys nil)
   #+END_SRC
-  
+
 ** Bindings
-   
+
 *** CUA Rectangles
-    
+
     These take place with an active rectangle. To start/cancel a
     rectangle use =C-RET=.
-    
+
     | Keys             | Function                                                              |
     |------------------+-----------------------------------------------------------------------|
     | M-<arrow>        | Move rectangle overlay                                                |
@@ -977,12 +977,12 @@ choices.
     | C-?              | Shows a brief list of the above commands.                             |
     |------------------+-----------------------------------------------------------------------|
     | M-C-<UP/DOWN>    | Scrolls the lines INSIDE the rectangle up/down                        |
-    
+
 *** CUA Global Mark
-    
+
     The global mark feature enables a target the receives any
     typed/copied/killed text from any buffer (even the current one).
-    
+
     | Key           | function                                                                                                            |
     |---------------+---------------------------------------------------------------------------------------------------------------------|
     | <ch>          | All characters (including newlines) you type are inserted at the global mark!                                       |
@@ -997,23 +997,23 @@ choices.
     | C-u S-C-space | Cancels the global mark (stays in current buffer).                                                                  |
     |---------------+---------------------------------------------------------------------------------------------------------------------|
     | TAB           | Indents the current line or rectangle to the column of the global mark.                                             |
-    
-    
+
+
 * Clojure
-  
+
   The easiest way to edit clojure code is with =paredit= so let's have
   it automatically load each time.
-  
+
   #+BEGIN_SRC emacs-lisp
   (add-hook 'clojure-mode-hook 'paredit-mode)
   #+END_SRC
-  
+
 ** Cider
-   
+
    Using Cider will make a nREPL available for Clojure
    programming. The configuaration snippets here are from the [[https://github.com/clojure-emacs/cider][project
    page on github]].
-   
+
    #+BEGIN_SRC emacs-lisp
   ;; Enable eldoc
   (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
@@ -1027,33 +1027,33 @@ choices.
   ;; Stop prompting to save file when killing repl buffer
   (setq cider-prompt-save-file-on-load nil)
    #+END_SRC
-   
+
 * IDO (Interactively Do Things)
-  
+
   I do not believe I could live without this on emacs. Even for just
   finding files, it is awesome.
-  
+
   First, I start with some basic IDO settings. I enabled it
   everywhere so that it will work in all contexts. I like flex
   matching so I also turn that feature on. Finally,
-  
+
   #+BEGIN_SRC emacs-lisp
   (setq ido-everywhere t)
   (setq ido-enable-flex-matching t)
   (setq ido-create-new-buffer 'always)
   #+END_SRC
-  
+
   #+BEGIN_SRC emacs-lisp
   (setq ido-file-extensions-order '(".org" ".tex" ".el" ".txt" ".c" ".cpp" ".h" ".clj"))
   #+END_SRC
-  
+
   #+BEGIN_SRC emacs-lisp
   (ido-mode t)
   #+END_SRC
-  
-  
+
+
 ** Keystrokes
-   
+
    | Keystroke | Operates on        | Description                            |
    |-----------+--------------------+----------------------------------------|
    | C-b       | Buffers            | Reverts to the old switch-buffer       |
@@ -1075,19 +1075,19 @@ choices.
    | M-n/M-p   | Dirs/Files         | Cycles through next/previous work dirs |
    | M-k       | Dirs/Files         | Kills active work dir from list        |
    | M-s M-s   | Dirs/Files         | Search list of work dirs for input     |
-   
+
 * Shells
-  
+
   There are two useful shells in emacs: =eshell= and
   =ansi-term=.
-  
+
 ** Eshell
-   
+
    Built-in Eshell can provide a shell that works the same on windows or
    GNU/Linux. One of the really cool features is that you can define
    commands to use (like aliases) within the shell and have them
    directly integrate with emacs.
-   
+
    #+BEGIN_SRC emacs-lisp
   (defun eshell/emacs (&rest args)
     "Open a file in emacs the natural way"
@@ -1101,24 +1101,24 @@ choices.
       ;; would fail for 'foo.txt' in the example above.
       (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
    #+END_SRC
-   
+
 * AucTeX
-  
+
   [[info:AUCTeX][AUCTeX Manual]]
-  
+
   Superb handling of TeX documents.
-  
+
 ** RefTeX
-   
+
    [[info:RefTeX][RefTeX Manual]]
-   
+
    RefTeX provides navigation, easy references, easy citations and
    integrates well into AUCTeX.
-   
+
    #+BEGIN_SRC emacs-lisp
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
    #+END_SRC
-   
+
    | Keystroke | Function                           |
    |-----------+------------------------------------|
    | C-c =     | Show TOC and jump to sections      |
@@ -1128,7 +1128,7 @@ choices.
    | C-c <     | Index entry                        |
    | C-c >     | View index                         |
    | C-c &     | View crossref                      |
-   
+
 ** Hooks
    #+BEGIN_SRC emacs-lisp
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
@@ -1136,28 +1136,28 @@ choices.
   (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
   (add-hook 'LaTeX-mode-hook 'orgtbl-mode)
    #+END_SRC
-   
+
 ** TeX Settings
-   
+
    Here are some nice features to have enabled.  Parse-self and
    auto-save will parse the file on load and save
    respectively. Untabify will remove tabs (real ones) before saving.
-   
+
    I also have a default of =TeX-master= set to =nil=. I used to have
    it set to "master" as recommended in the documentation, but I had
    bad results for LaTeX files generated on the fly.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq TeX-auto-untabify t)
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
   (setq-default TeX-master nil)
    #+END_SRC
-   
+
    For viewing the output, I can specify the command to use on the
    files generated in the process. However, the programs differ on
    GNU/Linux and Windows, so I have differing settings below.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq TeX-output-view-style
         (if (eq system-type 'windows-nt)
@@ -1168,66 +1168,66 @@ choices.
          (("^pdf$" "." "evince -f %o")
           ("^html?$" "." "start %o")))))
    #+END_SRC
-   
+
 ** XeTeX settings
-   
+
    To get more beautiful fonts, I use the XeTeX processor. I also
    use this in PDF mode.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq TeX-PDF-mode 1)
   (setq TeX-engine 'xetex)
    #+END_SRC
-   
+
 * Orgmode
-  
+
   The one feature I cannot do without. Let's set up some features.
-  
+
 ** Auto mode
-   
+
    I add gpg and _archive to the list of known org files. These two
    alternative extensions are for either encrypted org files
    (=.org.gpg=) or for archives (=.org_archive=).
-   
+
    #+BEGIN_SRC emacs-lisp
   (add-to-list 'auto-mode-alist
                '("\\.org\\(.gpg|_archive\\)?$" . org-mode))
    #+END_SRC
-   
+
 ** Hooks
-   
+
    First, I add in a keystroke to toggle the inline images.
-   
+
    #+BEGIN_SRC emacs-lisp
   (add-hook 'org-mode-hook
              (lambda ()
                (local-set-key (kbd "M-i") 'org-toggle-inline-images)))
    #+END_SRC
-   
+
    The next hook just saves the org files opened before exiting
    emacs -- just in case.
-   
+
    #+BEGIN_SRC emacs-lisp
   (add-hook 'bnb/kill-emacs-hooks 'org-save-all-org-buffers 'append)
    #+END_SRC
-   
-   
+
+
    When I execute =babel= to get graphs from my work logs, I hate
    having to toggle the inline images on/off again.  Here is a hook
    from Rick Frankel to save the day.
-   
+
    #+BEGIN_SRC emacs-lisp
   (add-hook 'org-babel-after-execute-hook
             (lambda () (org-display-inline-images nil t)))
    #+END_SRC
-   
+
 ** Keys
-   
+
 *** Global
-    
+
     Some org-mode features are so useful that I need to have them be
     available globally.
-    
+
      - orgtbl-mode
        Use orgtbl in other modes
      - org-store-link
@@ -1244,7 +1244,7 @@ choices.
        Clock in/out of current subtree
      - org-clock-goto
        Go to current/previous clocked task
-       
+
      #+BEGIN_SRC emacs-lisp
   (bind-key "C-c t" 'orgtbl-mode)
   (global-set-key "\C-cl" 'org-store-link)
@@ -1258,14 +1258,14 @@ choices.
   (bind-key "<f11> i" 'org-clock-in)
   (bind-key "<f11> g" 'org-clock-goto)
      #+END_SRC
-     
+
 *** Speed
-    
+
     Using org-mode efficiently for task management is best done with
     speed keys. This are in effect when the cursor is on the first =*=
     of a headline. And they come with an easy cheat-sheet by typing
     =?=. I enable this feature and add some of my own commands.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-use-speed-commands t)
   (setq org-speed-commands-user (quote (("0" . delete-window)
@@ -1278,29 +1278,29 @@ choices.
                         ("N" . org-narrow-to-subtree)
                         ("W" . widen))))
     #+END_SRC
-    
+
 ** Org TODO Configuration
-   
+
    This is the meat of what Org can do. Keeping track of todo items
    with due dates, tags, etc. is really powerful. And I get to
    customize it to suit my needs and my workflow.
-   
+
 *** Keywords
-    
+
     The keywords that org uses in the headlines exist as sequences
     describing the state changes. The characters in =()= also allow
     fast access to these states described [[info:org#Fast%20access%20to%20TODO%20states][here]].
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-todo-keywords
         (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
             (sequence "WAITING(w@/!)" "SOMEDAY(s!)" "|" "CANCELED(c@/!)")
             (sequence "OPEN(O)" "|" "CLOSED(C)"))))
     #+END_SRC
-    
+
     Also, the keywords can be specifically colored to help the eye
     infer meaning quickly.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-todo-keyword-faces (quote (("TODO" :foreground "red" :weight bold)
    ("NEXT" :foreground "blue" :weight bold)
@@ -1311,42 +1311,42 @@ choices.
    ("OPEN" :foreground "magenta" :weight bold)
    ("CLOSED" :foreground "forest green" :weight bold))))
     #+END_SRC
-    
+
 *** Tags
-    
+
     Org uses tags on headlines for organization. I don't currently
     use them much. I organize mainly by file with a file tag
     specified via [[info:org#In-buffer%20settings][in-buffer settings]] (=#+FILETAGS=).
-    
+
     However, a global tag list provides a selection list for the
     tagging interface. I use 'project' as my tag to easily
     differentiate simple tasks from more complex ones.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-tag-alist '(("PROJECT" . ?p)))
     #+END_SRC
-    
+
 *** Mechanics
-    
+
     The todo interface allows easy selection of states and triggers
     on certain states to store notes.
-    
+
     Instead of cycling through states (and possibly triggering log
     entries), I prefer fast entry to jump right to the correct
     state. I also turn off the S-cursor transitions as state
     changes to avoid the logging prompts.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-use-fast-todo-selection t)
   (setq org-treat-S-cursor-todo-selection-as-state-change nil)
     #+END_SRC
-    
+
     Upon changing the state of todo items, I can automatically
     add/remove tags with the following list. It's a bit lispy, but
     describes what happens upon entry in the specified state. The
     state named as a string has tuples of tags and flags. 't'
     indicates to set the flag, empty means to remove it.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-todo-state-tags-triggers
         (quote (("CANCELED"
@@ -1366,44 +1366,44 @@ choices.
                  ("WAITING")
                  ("CANCELED")))))
     #+END_SRC
-    
+
     Along with tags and states are priorities. I do not use task
     priorities myself so I turn them off.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-enable-priority-commands nil)
     #+END_SRC
-    
+
 **** Logging
-     
+
      Org allows logging of states. I turn this on to prompt myself
      for reasons behind specific state changes. There is also a
      setting to set a different drawer for clocking and logs.
-     
+
      #+BEGIN_SRC emacs-lisp
   (setq org-log-done (quote note))
   (setq org-log-into-drawer t)
   (setq org-drawers '("PROPERTIES" "LOGBOOK" "CLOCK"))
      #+END_SRC
-     
+
 **** Sub-tasks
-     
+
      Naturally, some tasks are projects composed of smaller
      sub-tasks. Org allows for this as well. I like to enforce the
      dependencies of regular todo items and plain checkbox
      lists. In this way, the overall item cannot change to done
      without the completion of the sub-tasks.
-     
+
      #+BEGIN_SRC emacs-lisp
   (setq org-enforce-todo-checkbox-dependencies t)
   (setq org-enforce-todo-dependencies t)
      #+END_SRC
-     
+
      Because of the previous enforcement of state, I can also
      automatically infer when a parent state is complete. The
      following code marks the parent complete once the sub-tasks
      are all done.
-     
+
      #+BEGIN_SRC emacs-lisp
   (defun org-summary-todo (n-done n-not-done)
     "Switch entry to DONE when all sub-entries are done, to TODO otherwise."
@@ -1411,13 +1411,13 @@ choices.
       (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
   (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
      #+END_SRC
-     
+
 ** Capture
-   
+
    [[info:org#Capture][Capturing]] is crucial to a task system and in this vein, org is no
    slouch. The capture templates define what get captures, where it
    goes, and what the user needs to type.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq org-capture-templates
         '(("t" "Todo" entry
@@ -1448,30 +1448,30 @@ choices.
 
     %?" :clock-in t :clock-resume t)))
    #+END_SRC
-   
+
    There are five main capture templates here. The first two store a
    todo item in my Refile.org file. The only difference is automatic
    (contextual) link storage in the second case.
-   
+
    The next item simply stores a note. The next for "Weekly Report"
    is a work in progress. I think that I'll have to either settle
    for a proper datetree or write a custom function.
-   
+
    The final item is not for direct use, but through the
    =org-protocol= interface and =org-outlook= usage. This lets me
    add a link to an Outlook message on windows. I can then get an
    email at work, mark it to store in emacs and quickly get back to
    the message later.
-   
+
 *** Capture-template helpers for data tables
-    
+
     These helpers provide functionality used in the capture templates
     above.
-    
+
     Modifed from [[http://sachachua.com/blog/2014/05/getting-r-ggplot2-work-emacs-org-mode-babel-blocks-also-tracking-number-todos/][Sacha Chua]], this code get the current mix of tasks
     in the agenda files.  I use this as part of my weekly review for
     task amount and mix at a glance.
-    
+
     #+BEGIN_SRC emacs-lisp
   (defun bnb/org-count-tasks-by-status ()
     (interactive)
@@ -1501,11 +1501,11 @@ choices.
           (insert output)
         output)))
     #+END_SRC
-    
+
     I also have a helper function to get the score of done tasks
     closed within the last week.  I store this in a table line with
     year and workweek number.
-    
+
     #+BEGIN_SRC emacs-lisp
   (defun bnb/add-weekly-score-table-entry ()
     (let ((score (apply
@@ -1520,40 +1520,40 @@ choices.
            (ww (number-to-string (bnb/workweek))))
       (format "| %s | %s | %s |" year ww score)))
     #+END_SRC
-    
+
 ** Refile
-   
+
    [[info:org#Refiling%20notes][Refiling notes]] is also spectacular with Org. That is what makes
    it possible for me to simply put every captured item into
    Refile.org and worry about organization later.
-   
+
    For my setup, I use separate files that hold a singular Tasks
    headline. Because of that, I turn on caching first.
-   
+
    For the refile targets, I will allow up to 2 levels of search for
    filing in any of the agenda files. For refiling within the current
    file, I set the max to five levels. Anything deeper than six
    levels will exhaust the depth of my thought.
-   
+
    Finally, I set the filenames to be first for refiling.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq org-refile-use-cache t)
   (setq org-refile-targets '((org-agenda-files :maxlevel . 2)
                              (nil :maxlevel . 5)))
   (setq org-refile-use-outline-path 'file)
    #+END_SRC
-   
+
 ** Agenda
-   
+
    Once I have captured and refiled my tasks, I need to remember to
    do them and see what is on the agenda. The ways to view the tasks
    at hand are nicely programmable.
-   
+
    Some basic settings control small tidbits in the agenda. I turn
    on tags in the agenda line, show the logged items for the day,
    and only show a time grid if a scheduled tasks exists.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq org-agenda-show-inherited-tags t)
 
@@ -1566,17 +1566,17 @@ choices.
             "----------------"
             (800 1000 1200 1400 1600 1800 2000))))
    #+END_SRC
-   
+
 *** Views
-    
+
     The key to knowing what work there is the agenda views. These
     provide a landscape to list, filter or manipulate
     tasks. =org-agenda-custom-commands= defines which views are
     available by default.
-    
+
     First, I define a little helper function (from Sacha Chua) to
     display a note with agenda.
-    
+
     #+BEGIN_SRC emacs-lisp
   (defun bnb/org-agenda-with-tip (arg)
     (org-agenda-list arg)
@@ -1586,7 +1586,7 @@ choices.
       (insert "\n" (bnb/random-keybinding))
       (goto-char pos)))
     #+END_SRC
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-agenda-custom-commands
         (quote (("a" "Agenda" bnb/org-agenda-with-tip)
@@ -1655,10 +1655,10 @@ choices.
                    '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
                   (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
     #+END_SRC
-    
+
     Phew! That is a lot of lisp! It is easiest to describe each view
     by the key that triggers it.
-    
+
      - =a= Agenda with tip (keystroke tip)
      - =w= Tasks waiting on something
      - =r= Refile New notes and tasks
@@ -1677,22 +1677,22 @@ choices.
      - =z= Agenda with Personal Files
      - =c= Select default clocking task
 ** Export
-   
+
    Some global export settings make sense for HTML and \LaTeX
-   
+
    For HTML, I just want to inline the links to images.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq org-export-html-inline-images t)
    #+END_SRC
-   
+
    I also used to suppress the postamble with
    =org-export-html-postamble=.
-   
+
    For \LaTeX, I want to convert fragments to images, and use minted
    for any source blocks. I also want to have =xelatex= as the
    backend.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq org-export-latex-listings 'minted)
   (setq org-export-latex-custom-lang-environments
@@ -1703,71 +1703,71 @@ choices.
           "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
           "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
    #+END_SRC
-   
-   
+
+
    Also, I want to enable some of the other contributed
    exporters. To do this, simply require the files necessary that
    are not on by default.
-   
+
    I add exporters for Markdown (=ox-md.el=) and beamer
    (=ox-beamer.el=).
-   
+
    #+BEGIN_SRC emacs-lisp
   (require 'ox-md)
   (require 'ox-beamer)
    #+END_SRC
-   
+
 ** Clocking
-   
+
    I have found clocking to be useful in understanding where my time
    goes. And Org makes this easy, fast and painless to do. So very
    nice.
-   
+
    The clock has some general settings around persistence (resuming
    clocks), history length and resuming a task after clocking in
    twice (interrupted task).
-   
+
    #+BEGIN_SRC emacs-lisp
   (org-clock-persistence-insinuate)
   (setq org-clock-history-length 28)
   (setq org-clock-in-resume t)
    #+END_SRC
-   
+
    Behavior of the clock can change to accommodate other needs. I
    like having clocks log into a specific drawer. Also, it is nice
    to remove zero-time clocks and clock out automatically when an
    item completes.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq org-clock-into-drawer "CLOCK")
   (setq org-clock-out-remove-zero-time-clocks t)
   (setq org-clock-out-when-done t)
    #+END_SRC
-   
+
    Two settings help resolve most clock issues that I have
    seen. Persisting the clock across sessions helps prevent loss of
    time by accident. Auto-resolution of open clocks help prompt how
    to handle the situation where a dangling clock exists.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq org-clock-persist 'history)
   (setq org-clock-auto-clock-resolution 'when-no-clock-is-running)
    #+END_SRC
-   
+
    Two final settings regarding clocking setup how I change and view
    the clocks. I want any clock reports to include the currently
    clocked task as well. And for clock editing, I change to 15
    minute increments.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq org-clock-report-include-clocking-task t)
   (setq org-time-stamp-rounding-minutes '(1 15))
    #+END_SRC
-   
+
 ** Modules
-   
+
    Org-modules allow for specific functionality within org-mode.
-   
+
    #+BEGIN_SRC emacs-lisp
   (setq org-modules
         (quote
@@ -1787,48 +1787,48 @@ choices.
           org-calc)))
    #+END_SRC
 *** Org-protocol
-    
+
     For some reason, I have to load =org-protocol= explicitly in
     order to work.
-    
+
     #+BEGIN_SRC emacs-lisp
   (require 'org-protocol)
     #+END_SRC
-    
+
 *** Crypt
-    
+
     Encrypts contents of headlines with =gpg= when saved
     with the "crypt" tag.
-    
+
     #+BEGIN_SRC emacs-lisp
   (require 'org-crypt)
   (org-crypt-use-before-save-magic)
   (setq org-tags-exclude-from-inheritance (quote ("crypt")))
     #+END_SRC
-    
+
     The =org-crypt-key= variable will let this use an address from
     the public keyring.
-    
+
 *** Habit
-    
+
     Some tasks repeat, but you still want to log when you have done
     it. I use this to help me always do my weekly or yearly
     reviews. By including it in =org-modules=, habits get activated.
-    
+
     My one setting blow sets a width for the graph in Agenda View.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-habit-graph-column 50)
     #+END_SRC
-    
+
 *** Drill
-    
+
 #+BEGIN_SRC emacs-lisp
   (require 'org-drill)
 #+END_SRC
-    
+
 ** Babel
-   
+
    #+BEGIN_SRC emacs-lisp
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -1847,33 +1847,33 @@ choices.
   (when (eq system-type 'windows-nt)
     (setq org-babel-R-command "C:/Progra~1/R/R-2.15.1/bin/R --slave --no-save"))
    #+END_SRC
-   
+
 ** Miscellaneous Settings
 *** Columns
-    
+
     The default columns are as follows.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-columns-default-format
         "%80ITEM(Task) %5Score{+} %10Effort(Effort){:} %10CLOCKSUM")
     #+END_SRC
-    
+
 *** Automatically save org files
-    
+
     I like to save early and often. In earlier versions of orgmode, I
     sometimes had the capture buffer/timer crash on me. So, now I
     save at the top of every hour to be sure.
-    
+
     #+BEGIN_SRC emacs-lisp
   (run-at-time "00:59" 3600 'org-save-all-org-buffers)
     #+END_SRC
-    
+
 *** File Applications
-    
+
     This list lets org know how to handle the links of given file
     types. Most things open inside =emacs=, but the others
     set to default rely on the OS to supply a program.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-file-apps
         (quote ((auto-mode . emacs)
@@ -1881,60 +1881,60 @@ choices.
             ("\\.pdf\\'" . default)
             ("\\.mm\\'" . default))))
     #+END_SRC
-    
+
 *** Goto Interface
-    
+
     By using =C-c C-j=, you can jump easily around a large orgfile
     such as this one. Naturally, the interface you use to do so is
     customizable.
-    
+
     I explicitly set it to the default because I sometimes go back
     and forth with the default and =outline-path-completion= setting.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-goto-interface 'outline-path)
     #+END_SRC
-    
+
 *** Special Control Keys
-    
+
     Orgmode has a different idea of some of the default emacs
     commands to make it easier to work with the structures involved.
-    
+
     For =C-a= or =C-e= within a headline, it will only try to
     navigate the headline text the first time. Additional keypresses
     will move to the true beginning/ending of lines.
-    
+
     =C-k= also can behave specially in headlines depending on its
     location. When point is at the beginning, it will kill the
     headline and the folded subtree below. In the middle of a
     headline, it kills the headline text up to the tags. After the
     headline text, it kills the tags.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-special-ctrl-a/e t)
   (setq org-special-ctrl-k t)
     #+END_SRC
-    
+
 *** Auto-revert mode
-    
+
     If the org files are under DVCS like git, then the edits may
     happen while open in emacs.
-    
+
     This is a global setting, but most useful for the org files that
     exists elsewhere.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq global-auto-revert-mode t)
     #+END_SRC
-    
+
 *** IDO Integration
-    
+
     IDO integrates well into orgmode. Anytime completion is
     necessary, I like to use the IDO mechanics.
-    
+
     What follows is a set of the smaller settings to make =ido=
     really sing.
-    
+
     #+BEGIN_SRC emacs-lisp
   ; Try to guess if point is at a filename
   (setq ido-use-filename-at-point 'guess)
@@ -1942,53 +1942,53 @@ choices.
   ; Do not ask to create a new buffer -- just do it.
   (setq ido-create-new-buffer 'always)
     #+END_SRC
-    
-    
+
+
     The =outline-path-completion= may conflict with IDO, so then it
     is best to have it not use IDO in this case.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-completion-use-ido t)
   (setq org-outline-path-complete-in-steps nil)
     #+END_SRC
-    
+
     Additionally, I use the [[https://github.com/technomancy/ido-ubiquitous][ido-ubiquitous]] package to /really/ get
     =ido= everywhere. Install it via the package system and then
     enable it on startup.
-    
+
     #+BEGIN_SRC emacs-lisp
   (ido-ubiquitous t)
     #+END_SRC
-    
-    
+
+
 **** IDO Everywhere Settings
-     
+
      Here is a setting that disables =ido-ubiquitous= completion from
      any commands listed.  I have =insert-char= here (called with
      =C-x 8 <RET>=) because I like to see the buffer of UTF‑8 names
      for completion.
-     
+
      #+BEGIN_SRC emacs-lisp
   (setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command))
      #+END_SRC
-     
+
 **** Smex
-     
+
      [[http://www.emacswiki.org/emacs/Smex][Read more about Smex on the Emacs Wiki]]
-     
+
      This builds on top of =ido-mode= which is why it is here.
      This provides better =M-x= functionality.
-     
+
      #+BEGIN_SRC emacs-lisp
   (bind-key "M-x" 'smex)
   (bind-key "M-X" 'smex-major-mode-commands)
   (bind-key "C-c C-c M-x" 'execute-extended-command)
      #+END_SRC
-     
+
      One of the nice things about the default command selection (read
      non-ido) is the ability to type " " and have it expand to
      "-". This is possible again with a bit of advice.
-     
+
      #+BEGIN_SRC emacs-lisp
   (defadvice smex (around space-inserts-hyphen activate compile)
     (let ((ido-cannot-complete-command
@@ -1999,40 +1999,40 @@ choices.
                 (funcall ,ido-cannot-complete-command)))))
       ad-do-it))
      #+END_SRC
-     
+
 *** Display settings
-    
+
     There are a collection of settings that define how the
     headlines, subtrees, and notes render.
-    
+
     For the headline stars, there are two settings of note. I am
     explicit that I do *not* want only odd levels. I also like to
     hide the leading stars.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-odd-levels-only nil)
   (setq org-hide-leading-stars nil)
     #+END_SRC
-    
+
     Cycling the headline states can produce different views of the
     files. I like this to be as compact as possible, so I try to
     squash the lines between the collapsed trees. There is also a
     flag to open a file collapsed. This I like too -- I get a
     compact view of the file and can jump to a relevant section with
     =C-c C-j=.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-cycle-separator-lines 0)
   (setq org-startup-folded 'content)
     #+END_SRC
-    
+
     When using SRC-blocks, org can provide highlighting native to
     the SRC type. Note that this may slow down some files.
-    
+
     #+BEGIN_SRC emacs-lisp
   (setq org-src-fontify-natively t)
     #+END_SRC
-    
+
 *** Insertion
 
      I define when org should leave a blank line before an
@@ -2063,7 +2063,7 @@ choices.
 
 
 * Elisp Extras
-  
+
 ** Google
 
 #+BEGIN_SRC emacs-lisp
@@ -2182,17 +2182,17 @@ choices.
 #+END_SRC
 
 * Local customizations (user-login-name)
-  
+
   I also intend to have a generic call to an installed local file
   that may need to behave differently from =custom.el=. This loads
   last so that it can modify any existing setting made here to work
   on the specific system in question.
-  
+
   In the code below, I add =~/.emacs.d/= to the load path and have a
   protected call to =load-library=.  If the file exists, it gets
   loaded, otherwise the error normally returned if the file is
   non-existant gets ignored.
-  
+
   #+BEGIN_SRC emacs-lisp
     (add-to-list 'load-path "~/.emacs.d/")
     (condition-case err
@@ -2203,5 +2203,5 @@ choices.
        (message "Skipping %s library as it does not exist." user-login-name))
       nil)
   #+END_SRC
-  
-  
+
+
