@@ -1273,7 +1273,6 @@ choices.
                         ("2" . split-window-vertically)
                         ("3" . split-window-horizontally)
                         ("h" . hide-other)
-                        ("R" . org-reveal)
                         ("s" . org-save-all-org-buffers)
                         ("z" . org-add-note)
                         ("N" . org-narrow-to-subtree)
