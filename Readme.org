@@ -78,8 +78,8 @@ choices.
    built-in shortcuts or my bindings will not work.
 
    #+BEGIN_SRC emacs-lisp
-  (setq w32-pass-lwindow-to-system nil)
-  (setq w32-lwindow-modifier 'super)
+     (setq w32-pass-lwindow-to-system t)
+     (setq w32-lwindow-modifier 'super)
    #+END_SRC
 
 ** Package archives
