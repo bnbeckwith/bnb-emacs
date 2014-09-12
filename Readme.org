@@ -1185,6 +1185,11 @@ choices.
    has to be added to the default preamble list.
 
 #+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-latex-packages-alist
+               '("" "tikz" t))
+
+  (setq org-latex-create-formula-image-program 'imagemagick)
+
   (eval-after-load "preview"
     '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
 #+END_SRC
