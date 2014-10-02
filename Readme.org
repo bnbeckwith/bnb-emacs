@@ -270,16 +270,15 @@ choices.
    For any lisp development, the following is nice to have.
 
    #+BEGIN_SRC emacs-lisp
-  (show-paren-mode t)
+     (show-paren-mode t)
    #+END_SRC
 
    While developing, documentation is nice to have handy and
    automatic.
 
    #+BEGIN_SRC emacs-lisp
-  (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-  (add-hook 'cperl-mode-hook 'turn-on-eldoc-mode)
-  (add-hook 'eshell-mode-hook 'turn-on-eldoc-mode)
+     (add-hook 'cperl-mode-hook 'turn-on-eldoc-mode)
+     (add-hook 'eshell-mode-hook 'turn-on-eldoc-mode)
    #+END_SRC
 
 ** Encryption
@@ -1047,6 +1046,16 @@ choices.
   ;; Stop prompting to save file when killing repl buffer
   (setq cider-prompt-save-file-on-load nil)
    #+END_SRC
+
+* Elisp
+
+  When modified =emasc-lisp=, it is most helpful to use =paredit= and
+  =eldoc=.
+
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+    (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+  #+END_SRC
 
 * IDO (Interactively Do Things)
 
