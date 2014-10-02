@@ -560,9 +560,19 @@ choices.
     management. Below I create an "Org" group for ~org-mode~ buffers.
 
     #+BEGIN_SRC emacs-lisp
-  (setq ibuffer-saved-filter-groups
-        '(("Org"
-           ("Org" (mode . org-mode)))))
+      (setq ibuffer-saved-filter-groups
+            '(("Standard"
+               ("Emacs" (or (filename . ".*bnb-emacs.*")
+                            (mode . emacs-lisp-mode)))
+               ("Org" (mode . org-mode))
+               ("Magit" (name . "\*magit"))
+               ("Mail" (or (mode . message-mode)
+                           (mode . mail-mode)))
+               ("HTML" (mode . html-mode))
+               ("Help" (or (name . "\*Help\*")
+                           (name . "\*Apropos\*")
+                           (name . "\*info\*"))))))
+
     #+END_SRC
 
 
@@ -1180,7 +1190,7 @@ choices.
    #+END_SRC
 
 ** Preview Settings
-   
+
    In order for preview to work with ~tikzpicture~ environments, it
    has to be added to the default preamble list.
 
