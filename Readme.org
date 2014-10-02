@@ -549,9 +549,19 @@ choices.
 
    Use ~ibuffer~ instead of ~list-buffers~ for buffer management. The
    most visible difference being the coloring that ~ibuffer~ uses.
+  
+   I also squash any empty groups from being displayed and add hooks
+   to automatically set the filter groups and update contents.
 
    #+BEGIN_SRC emacs-lisp
-  (bind-key "C-x C-b" 'ibuffer)
+     (bind-key "C-x C-b" 'ibuffer)
+       
+     (setq ibuffer-show-empty-filter-groups nil)
+
+     (add-hook 'ibuffer-mode-hook
+               '(lambda ()
+                  (ibuffer-auto-mode 1)
+                  (ibuffer-switch-to-saved-filter-groups "Standard")))
    #+END_SRC
 
 *** Groups
