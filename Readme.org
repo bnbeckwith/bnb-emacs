@@ -1064,22 +1064,68 @@ choices.
 
   First, I start with some basic IDO settings. I enabled it
   everywhere so that it will work in all contexts. I like flex
-  matching so I also turn that feature on. Finally,
+  matching so I also turn that feature on. Finally, I order the file
+  extensions to my liking and enable the mode.
 
   #+BEGIN_SRC emacs-lisp
-  (setq ido-everywhere t)
-  (setq ido-enable-flex-matching t)
-  (setq ido-create-new-buffer 'always)
+    (setq ido-everywhere t)
+    (setq ido-enable-flex-matching t)
+    ; Do not ask to create a new buffer -- just do it.
+    (setq ido-create-new-buffer 'always)
+    ; Try to guess if point is at a filename
+    (setq ido-use-filename-at-point 'guess)
+    ; Set extension ordering
+    (setq ido-file-extensions-order '(".org" ".tex" ".el" ".txt" ".c" ".cpp" ".h" ".clj"))
+    ; Enable mode
+    (ido-mode t)
   #+END_SRC
+
+  Additionally, I use the [[https://github.com/technomancy/ido-ubiquitous][ido-ubiquitous]] package to /really/ get =ido=
+  everywhere. Install it via the package system and then enable it
+  on startup.
 
   #+BEGIN_SRC emacs-lisp
-  (setq ido-file-extensions-order '(".org" ".tex" ".el" ".txt" ".c" ".cpp" ".h" ".clj"))
+    (ido-ubiquitous t)
   #+END_SRC
 
-  #+BEGIN_SRC emacs-lisp
-  (ido-mode t)
-  #+END_SRC
+** IDO Ubiquitous Settings
 
+   Here is a setting that disables =ido-ubiquitous= completion from
+   any commands listed.  I have =insert-char= here (called with
+   =C-x 8 <RET>=) because I like to see the buffer of UTF‑8 names
+   for completion.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command))
+   #+END_SRC
+
+** Smex
+
+   [[http://www.emacswiki.org/emacs/Smex][Read more about Smex on the Emacs Wiki]]
+
+   This builds on top of =ido-mode= which is why it is here.
+   This provides better =M-x= functionality.
+
+   #+BEGIN_SRC emacs-lisp
+     (bind-key "M-x" 'smex)
+     (bind-key "M-X" 'smex-major-mode-commands)
+     (bind-key "C-c C-c M-x" 'execute-extended-command)
+   #+END_SRC
+
+   One of the nice things about the default command selection (read
+   non-ido) is the ability to type " " and have it expand to
+   "-". This is possible again with a bit of advice.
+
+   #+BEGIN_SRC emacs-lisp
+     (defadvice smex (around space-inserts-hyphen activate compile)
+       (let ((ido-cannot-complete-command
+              `(lambda ()
+                 (interactive)
+                 (if (string= " " (this-command-keys))
+                     (insert ?-)
+                   (funcall ,ido-cannot-complete-command)))))
+         ad-do-it))
+   #+END_SRC
 
 ** Keystrokes
 
@@ -1984,18 +2030,6 @@ choices.
     IDO integrates well into orgmode. Anytime completion is
     necessary, I like to use the IDO mechanics.
 
-    What follows is a set of the smaller settings to make =ido=
-    really sing.
-
-    #+BEGIN_SRC emacs-lisp
-      ; Try to guess if point is at a filename
-      (setq ido-use-filename-at-point 'guess)
-
-      ; Do not ask to create a new buffer -- just do it.
-      (setq ido-create-new-buffer 'always)
-    #+END_SRC
-
-
     The =outline-path-completion= may conflict with IDO, so then it
     is best to have it not use IDO in this case.
 
@@ -2003,54 +2037,6 @@ choices.
       (setq org-completion-use-ido t)
       (setq org-outline-path-complete-in-steps nil)
     #+END_SRC
-
-    Additionally, I use the [[https://github.com/technomancy/ido-ubiquitous][ido-ubiquitous]] package to /really/ get
-    =ido= everywhere. Install it via the package system and then
-    enable it on startup.
-
-    #+BEGIN_SRC emacs-lisp
-      (ido-ubiquitous t)
-    #+END_SRC
-
-
-**** IDO Ubiquitous Settings
-
-     Here is a setting that disables =ido-ubiquitous= completion from
-     any commands listed.  I have =insert-char= here (called with
-     =C-x 8 <RET>=) because I like to see the buffer of UTF‑8 names
-     for completion.
-
-     #+BEGIN_SRC emacs-lisp
-       (setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command))
-     #+END_SRC
-
-**** Smex
-
-     [[http://www.emacswiki.org/emacs/Smex][Read more about Smex on the Emacs Wiki]]
-
-     This builds on top of =ido-mode= which is why it is here.
-     This provides better =M-x= functionality.
-
-     #+BEGIN_SRC emacs-lisp
-       (bind-key "M-x" 'smex)
-       (bind-key "M-X" 'smex-major-mode-commands)
-       (bind-key "C-c C-c M-x" 'execute-extended-command)
-     #+END_SRC
-
-     One of the nice things about the default command selection (read
-     non-ido) is the ability to type " " and have it expand to
-     "-". This is possible again with a bit of advice.
-
-     #+BEGIN_SRC emacs-lisp
-       (defadvice smex (around space-inserts-hyphen activate compile)
-         (let ((ido-cannot-complete-command
-                `(lambda ()
-                   (interactive)
-                   (if (string= " " (this-command-keys))
-                       (insert ?-)
-                     (funcall ,ido-cannot-complete-command)))))
-           ad-do-it))
-     #+END_SRC
 
 *** Display settings
 
