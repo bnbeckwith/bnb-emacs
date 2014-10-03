@@ -1988,11 +1988,11 @@ choices.
     really sing.
 
     #+BEGIN_SRC emacs-lisp
-  ; Try to guess if point is at a filename
-  (setq ido-use-filename-at-point 'guess)
+      ; Try to guess if point is at a filename
+      (setq ido-use-filename-at-point 'guess)
 
-  ; Do not ask to create a new buffer -- just do it.
-  (setq ido-create-new-buffer 'always)
+      ; Do not ask to create a new buffer -- just do it.
+      (setq ido-create-new-buffer 'always)
     #+END_SRC
 
 
@@ -2000,8 +2000,8 @@ choices.
     is best to have it not use IDO in this case.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-completion-use-ido t)
-  (setq org-outline-path-complete-in-steps nil)
+      (setq org-completion-use-ido t)
+      (setq org-outline-path-complete-in-steps nil)
     #+END_SRC
 
     Additionally, I use the [[https://github.com/technomancy/ido-ubiquitous][ido-ubiquitous]] package to /really/ get
@@ -2009,11 +2009,11 @@ choices.
     enable it on startup.
 
     #+BEGIN_SRC emacs-lisp
-  (ido-ubiquitous t)
+      (ido-ubiquitous t)
     #+END_SRC
 
 
-**** IDO Everywhere Settings
+**** IDO Ubiquitous Settings
 
      Here is a setting that disables =ido-ubiquitous= completion from
      any commands listed.  I have =insert-char= here (called with
@@ -2021,7 +2021,7 @@ choices.
      for completion.
 
      #+BEGIN_SRC emacs-lisp
-  (setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command))
+       (setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command))
      #+END_SRC
 
 **** Smex
@@ -2032,9 +2032,9 @@ choices.
      This provides better =M-x= functionality.
 
      #+BEGIN_SRC emacs-lisp
-  (bind-key "M-x" 'smex)
-  (bind-key "M-X" 'smex-major-mode-commands)
-  (bind-key "C-c C-c M-x" 'execute-extended-command)
+       (bind-key "M-x" 'smex)
+       (bind-key "M-X" 'smex-major-mode-commands)
+       (bind-key "C-c C-c M-x" 'execute-extended-command)
      #+END_SRC
 
      One of the nice things about the default command selection (read
@@ -2042,14 +2042,14 @@ choices.
      "-". This is possible again with a bit of advice.
 
      #+BEGIN_SRC emacs-lisp
-  (defadvice smex (around space-inserts-hyphen activate compile)
-    (let ((ido-cannot-complete-command
-           `(lambda ()
-              (interactive)
-              (if (string= " " (this-command-keys))
-                  (insert ?-)
-                (funcall ,ido-cannot-complete-command)))))
-      ad-do-it))
+       (defadvice smex (around space-inserts-hyphen activate compile)
+         (let ((ido-cannot-complete-command
+                `(lambda ()
+                   (interactive)
+                   (if (string= " " (this-command-keys))
+                       (insert ?-)
+                     (funcall ,ido-cannot-complete-command)))))
+           ad-do-it))
      #+END_SRC
 
 *** Display settings
