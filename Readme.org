@@ -1222,7 +1222,14 @@ choices.
   (eval-after-load "preview"
     '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
 #+END_SRC
+** DocView 
 
+   Have =docview= automatically revert the buffer.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+   #+END_SRC
+   
 * Orgmode
 
   The one feature I cannot do without. Let's set up some features.
