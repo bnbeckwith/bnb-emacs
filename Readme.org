@@ -174,7 +174,34 @@ choices.
    let you see a summary of your customizations with
 
 : M-x describe-personal-keybindings
+** Personal Keymaps
 
+   These are ideas from
+   [[http://endlessparentheses.com/the-toggle-map-and-wizardry.html]]
+
+*** Toggle Map
+
+    #+BEGIN_SRC emacs-lisp
+      (bind-key "C-x t c" 'column-number-mode)
+      (bind-key "C-x t e" 'toggle-debug-on-error)
+      (bind-key "C-x t f" 'auto-fill-mode)
+      (bind-key "C-x t l" 'toggle-truncate-lines)
+      (bind-key "C-x t q" 'toggle-debug-on-quit)
+      (bind-key "C-x t r" 'dired-toggle-read-only)
+      (bind-key "C-x t w" 'whitespace-mode)
+    #+END_SRC
+
+*** Launcher Map
+
+	#+BEGIN_SRC emacs-lisp
+      (bind-key "s-g c" 'calc)
+      (bind-key "s-g d" 'ediff-buffers)
+      (bind-key "s-g f" 'find-dired)
+      (bind-key "s-g g" 'lgrep)
+      (bind-key "s-g G" 'rgrep)
+      (bind-key "s-g e" 'ielm)
+      (bind-key "s-g t" 'proced)
+	#+END_SRC
 ** Minibuffer History Save
 
    This saves the minibuffer histories to preserve across emacs
@@ -459,11 +486,11 @@ choices.
    small bottom window.
 
    #+BEGIN_SRC emacs-lisp
-  (require 'guide-key)
-  (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x v" "C-x 8" "C-x x"))
-  (guide-key-mode 1)
-  (setq guide-key/recursive-key-sequence-flag t)
-  (setq guide-key/popup-window-position 'bottom)
+     (require 'guide-key)
+     (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x v" "C-x 8" "C-x x" "C-x t" "s-g"))
+     (guide-key-mode 1)
+     (setq guide-key/recursive-key-sequence-flag t)
+     (setq guide-key/popup-window-position 'bottom)
    #+END_SRC
 
 ** Perspective mode
