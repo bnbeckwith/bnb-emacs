@@ -575,13 +575,13 @@ choices.
 
    Use ~ibuffer~ instead of ~list-buffers~ for buffer management. The
    most visible difference being the coloring that ~ibuffer~ uses.
-  
+
    I also squash any empty groups from being displayed and add hooks
    to automatically set the filter groups and update contents.
 
    #+BEGIN_SRC emacs-lisp
      (bind-key "C-x C-b" 'ibuffer)
-       
+
      (setq ibuffer-show-empty-filter-groups nil)
 
      (add-hook 'ibuffer-mode-hook
@@ -1295,14 +1295,14 @@ choices.
   (eval-after-load "preview"
     '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
 #+END_SRC
-** DocView 
+** DocView
 
    Have =docview= automatically revert the buffer.
 
    #+BEGIN_SRC emacs-lisp
      (add-hook 'doc-view-mode-hook 'auto-revert-mode)
    #+END_SRC
-   
+
 * Orgmode
 
   The one feature I cannot do without. Let's set up some features.
