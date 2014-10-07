@@ -465,7 +465,7 @@ choices.
    interface.
 
    #+BEGIN_SRC emacs-lisp
-  (bind-key "s-/" 'sunrise)
+     (bind-key "s-/" 'sunrise)
    #+END_SRC
 
 *** Interesting Keys
