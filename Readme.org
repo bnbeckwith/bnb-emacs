@@ -105,6 +105,7 @@ choices.
   (require 'cl)
   (defvar bnb/packages
     '(ace-jump-mode
+      ace-isearch-mode
       ace-window
       airplay
       bind-key
@@ -551,20 +552,27 @@ choices.
   (define-key persp-mode-map (kbd "C-x x o") 'bnb/persp/org)
    #+END_SRC
 
-** Ace Jump
+** Ace Utilities
+*** Ace Jump
 
-   #+BEGIN_SRC emacs-lisp
-     (bind-key "s-g" 'ace-jump-mode)
-   #+END_SRC
+    I use ace-isearch to overload the =C-s= key and use ace-jump in
+    that way.
 
-** Ace Window
+*** Ace Isearch
 
-   Instead of =C-x o= traversal, =ace-window= mode provides numbers
-   for quick window access
+    #+BEGIN_SRC emacs-lisp
+      (global-ace-isearch-mode t)
+      (setq ace-isearch-input-idle-delay 1.4)
+    #+END_SRC
 
-   #+BEGIN_SRC emacs-lisp
-     (bind-key "s-a" 'ace-window)
-   #+END_SRC
+*** Ace Window
+
+    Instead of =C-x o= traversal, =ace-window= mode provides numbers
+    for quick window access
+
+    #+BEGIN_SRC emacs-lisp
+      (bind-key "s-a" 'ace-window)
+    #+END_SRC
 
 ** Edit Server
 
