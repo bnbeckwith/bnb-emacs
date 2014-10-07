@@ -104,7 +104,8 @@ choices.
   ;; Idea lifted from prelude https://github.com/bbatsov/prelude
   (require 'cl)
   (defvar bnb/packages
-    '(ace-window
+    '(ace-jump-mode
+      ace-window
       airplay
       bind-key
       bookmark+
@@ -194,14 +195,16 @@ choices.
 *** Launcher Map
 
 	#+BEGIN_SRC emacs-lisp
-      (bind-key "s-g c" 'calc)
-      (bind-key "s-g d" 'ediff-buffers)
-      (bind-key "s-g f" 'find-dired)
-      (bind-key "s-g g" 'lgrep)
-      (bind-key "s-g G" 'rgrep)
-      (bind-key "s-g e" 'ielm)
-      (bind-key "s-g t" 'proced)
+      (bind-key "C-x g c" 'calc)
+      (bind-key "C-x g d" 'ediff-buffers)
+      (bind-key "C-x g f" 'find-dired)
+      (bind-key "C-x g g" 'lgrep)
+      (bind-key "C-x g G" 'rgrep)
+      (bind-key "C-x g e" 'ielm)
+      (bind-key "C-x g t" 'proced)
+      (bind-key "C-x g k" 'describe-personal-keybindings)
 	#+END_SRC
+
 ** Minibuffer History Save
 
    This saves the minibuffer histories to preserve across emacs
@@ -487,7 +490,7 @@ choices.
 
    #+BEGIN_SRC emacs-lisp
      (require 'guide-key)
-     (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x v" "C-x 8" "C-x x" "C-x t" "s-g"))
+     (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x v" "C-x 8" "C-x x" "C-x t" "C-x g"))
      (guide-key-mode 1)
      (setq guide-key/recursive-key-sequence-flag t)
      (setq guide-key/popup-window-position 'bottom)
@@ -527,13 +530,19 @@ choices.
   (define-key persp-mode-map (kbd "C-x x o") 'bnb/persp/org)
    #+END_SRC
 
+** Ace Jump
+
+   #+BEGIN_SRC emacs-lisp
+     (bind-key "s-g" 'ace-jump-mode)
+   #+END_SRC
+
 ** Ace Window
 
    Instead of =C-x o= traversal, =ace-window= mode provides numbers
    for quick window access
 
    #+BEGIN_SRC emacs-lisp
-  (bind-key "s-a" 'ace-window)
+     (bind-key "s-a" 'ace-window)
    #+END_SRC
 
 ** Edit Server
