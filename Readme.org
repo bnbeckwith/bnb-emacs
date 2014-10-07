@@ -204,6 +204,25 @@ choices.
       (bind-key "C-x g t" 'proced)
       (bind-key "C-x g k" 'describe-personal-keybindings)
 	#+END_SRC
+*** Elisp Maps  
+
+    #+BEGIN_SRC emacs-lisp
+      (bind-key "C-c e b" 'do-eval-buffer) 
+      (bind-key "C-c e e" 'toggle-debug-on-error)
+      (bind-key "C-c e f" 'emacs-lisp-byte-compile-and-load)
+      (bind-key "C-c e r" 'eval-region)
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (define-prefix-command 'bnb/lisp-help-map)
+      (bind-key "C-h e" 'bnb/lisp-help-map)
+      (bind-key "C-h e e" 'view-echo-area-messages)
+      (bind-key "C-h e f" 'find-function)
+      (bind-key "C-h e k" 'find-function-on-key)
+      (bind-key "C-h e l" 'find-library)
+      (bind-key "C-h e v" 'find-variable)
+      (bind-key "C-h e V" 'apropos-value)
+    #+END_SRC
 
 ** Minibuffer History Save
 
@@ -490,7 +509,9 @@ choices.
 
    #+BEGIN_SRC emacs-lisp
      (require 'guide-key)
-     (setq guide-key/guide-key-sequence '("C-x r" "C-x 4" "C-x v" "C-x 8" "C-x x" "C-x t" "C-x g"))
+     (setq guide-key/guide-key-sequence  
+           '("C-x r" "C-x 4" "C-x v" "C-x 8" "C-x x" "C-x t" "C-x g"
+             "C-c e" "C-h e"))
      (guide-key-mode 1)
      (setq guide-key/recursive-key-sequence-flag t)
      (setq guide-key/popup-window-position 'bottom)
