@@ -105,7 +105,7 @@ choices.
   (require 'cl)
   (defvar bnb/packages
     '(ace-jump-mode
-      ace-isearch-mode
+      ace-isearch
       ace-window
       airplay
       bind-key
@@ -204,7 +204,8 @@ choices.
       (bind-key "C-x g e" 'ielm)
       (bind-key "C-x g t" 'proced)
       (bind-key "C-x g k" 'describe-personal-keybindings)
-	#+END_SRC
+	#+END_SRC 
+
 *** Elisp Maps  
 
     #+BEGIN_SRC emacs-lisp
@@ -667,6 +668,12 @@ choices.
 
    In general, hooks may be best with other configuration items, but
    if they are just pieces on their own, they belong here.
+
+*** Ensure proper lisping
+ 
+    #+BEGIN_SRC emacs-lisp
+      (add-hook 'after-save-hook  'check-parens nil t)
+    #+END_SRC
 
 *** Auto Reverting in modes
 
