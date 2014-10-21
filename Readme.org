@@ -2283,11 +2283,10 @@ choices.
   non-existant gets ignored.
 
   #+BEGIN_SRC emacs-lisp
-    (add-to-list 'load-path "~/.emacs.d/")
     (condition-case err
         (progn
-          (load-library user-login-name)
-          (message "Loaded local settings file %s" user-login-name))
+          (load-file (format "~/.emacs.d/%s.el"  user-login-name))
+          (message "Loaded local settings file %s.el" user-login-name))
       (file-error
        (message "Skipping %s library as it does not exist." user-login-name))
       nil)
