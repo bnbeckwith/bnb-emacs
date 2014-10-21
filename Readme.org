@@ -904,26 +904,6 @@ choices.
    exiting and then call the proper =kill-emacs= if true. Otherwise,
    the flag is false and emacs is simply iconified.
 
-** Fullscreen
-
-   NOTE: This goes away with Emacs 24.4 since this functionality is
-   native.
-
-   To make emacs go fullscreen on windows, a helper program does the
-   hard work. Find this online at bitbucket.
-
-   [[https://bitbucket.org/alexander_manenko/emacs-fullscreen-win32/wiki/Home]]
-
-   I use Alexander's recommended settings.
-
-   #+BEGIN_SRC emacs-lisp
-  (defun bnb/toggle-full-screen ()
-    (interactive)
-    (shell-command "C:/Users/bnbeckwi/Documents/Apps/emacs_fullscreen/emacs_fullscreen.exe"))
-
-  (bind-key "<f11> <f11>" 'bnb/toggle-full-screen)
-   #+END_SRC
-
 ** Workweeks
 
    #+BEGIN_SRC emacs-lisp
