@@ -807,6 +807,17 @@ choices.
                     (font-spec :size 20 :name "Symbola"))
     #+END_SRC
 
+** Powerline
+
+   [[https://github.com/milkypostman/powerline][Powerline]] is a modification to the mode-line based on some
+   vim-customizations.
+
+   #+BEGIN_SRC emacs-lisp
+     (require 'powerline)
+     (setq powerline-default-separator 'slant)
+     (powerline-default-theme)
+   #+END_SRC
+
 ** Themes
 
    My favorite dark themes are =sanityinc-tomorrow-eighties= or
@@ -830,16 +841,6 @@ choices.
   (defadvice load-theme
     (after theme-reset-powerline (theme &optional no-confirm no-enable) activate)
     (powerline-reset))
-   #+END_SRC
-
-** Powerline
-
-   [[https://github.com/milkypostman/powerline][Powerline]] is a modification to the mode-line based on some
-   vim-customizations.
-
-   #+BEGIN_SRC emacs-lisp
-  (setq powerline-default-separator 'slant)
-  (powerline-default-theme)
    #+END_SRC
 
 * BNB Helpers
