@@ -1396,17 +1396,15 @@ choices.
        Go to current/previous clocked task
 
      #+BEGIN_SRC emacs-lisp
-  (bind-key "C-c t" 'orgtbl-mode)
-  (global-set-key "\C-cl" 'org-store-link)
-  (global-set-key "\C-cr" 'org-capture)
-  (global-set-key "\C-cb" 'org-iswitchb)
-  (bind-key "<f12>" 'org-agenda)
-  (bind-key "<apps>" 'org-agenda)
-  (bind-key "<f9> v" 'visible-mode)
-  (bind-key "<f9> i" 'org-clock-in)
-  (bind-key "<f9> o" 'org-clock-out)
-  (bind-key "<f11> i" 'org-clock-in)
-  (bind-key "<f11> g" 'org-clock-goto)
+       (bind-key "C-c t" 'orgtbl-mode)
+       (global-set-key "\C-cl" 'org-store-link)
+       (global-set-key "\C-cr" 'org-capture)
+       (global-set-key "\C-cb" 'org-iswitchb)
+       (bind-key "<f12>" 'org-agenda)
+       (bind-key "<apps>" 'org-agenda)
+       (bind-key "<f9> v" 'visible-mode)
+       (bind-key "<f9> i" 'org-clock-in)
+       (bind-key "<f9> o" 'org-clock-out)
      #+END_SRC
 
 *** Speed
