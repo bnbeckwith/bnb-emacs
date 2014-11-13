@@ -87,10 +87,10 @@ choices.
    I like to pull from the popular list of package archives.
 
    #+BEGIN_SRC emacs-lisp
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-  (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
-  (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-  (add-to-list 'package-archives '("sr" . "http://joseito.republika.pl/sunrise-commander/") t)
+     (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+     (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+     (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+     (add-to-list 'package-archives '("sr" . "http://joseito.republika.pl/sunrise-commander/") t)
    #+END_SRC
 
    I install the proper packages with these repositories. This may
@@ -1861,8 +1861,8 @@ choices.
    (=ox-beamer.el=).
 
    #+BEGIN_SRC emacs-lisp
-  (require 'ox-md)
-  (require 'ox-beamer)
+     (require 'ox-md)
+     (require 'ox-beamer)
    #+END_SRC
 
 ** Clocking
