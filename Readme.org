@@ -1655,18 +1655,17 @@ choices.
     year and workweek number.
 
     #+BEGIN_SRC emacs-lisp
-  (defun bnb/add-weekly-score-table-entry ()
-    (let ((score (apply
-                   '+
-                   (org-map-entries
-                    (lambda ()
-                      (let* ((status (string-to-number (org-entry-get (point) "Score"))))
-                        (or status 0)))
-                    "TODO=\"DONE\"+LEVEL<=2+CLOSED>=\"<-1w>\""
-                    'agenda)))
-           (year (format-time-string "%Y" (current-time)))
-           (ww (number-to-string (bnb/workweek))))
-      (format "| %s | %s | %s |" year ww score)))
+      (defun bnb/add-weekly-score-table-entry ()
+        (let ((score (apply
+                       '+
+                       (org-map-entries
+                        (lambda ()
+                          (string-to-number (or (org-entry-get (point) "Score") "0")))
+                        "TODO=\"DONE\"+LEVEL<=2+CLOSED>=\"<-1w>\""
+                        'agenda)))
+               (year (format-time-string "%Y" (current-time)))
+               (ww (number-to-string (bnb/workweek))))
+          (format "| %s | %s | %s |" year ww score)))
     #+END_SRC
 
 ** Refile
