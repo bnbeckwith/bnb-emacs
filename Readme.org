@@ -25,13 +25,13 @@ choices.
   (=bnb-emacs=) in the =~/.emacs.d/= directory and run the code block
   (=C-c C-c=) to bootstrap the system.
 
-#+BEGIN_SRC emacs-lisp :tangle "../init.el" :exports code :results silent
-  (require 'package)
-  (package-initialize)
+  #+BEGIN_SRC emacs-lisp :tangle "../init.el" :exports code :results silent
+    (require 'package)
+    (package-initialize)
 
-  (require 'ob-tangle)
-  (org-babel-load-file "~/.emacs.d/bnb-emacs/Readme.org")
-#+END_SRC
+    (require 'ob-tangle)
+    (org-babel-load-file "~/.emacs.d/bnb-emacs/Readme.org")
+  #+END_SRC
 
   The bootstrapping is simple.  Emacs find =~/.emacs.d/init.el= and
   runs the code. The first step is to initialize the packages I have
@@ -48,9 +48,9 @@ choices.
 
   The full name is used for email messages.
 
-#+BEGIN_SRC emacs-lisp
-  (setq user-full-name "Benjamin Beckwith")
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (setq user-full-name "Benjamin Beckwith")
+  #+END_SRC
 
 * Local customizations (custom.el)
 
@@ -61,11 +61,11 @@ choices.
    Here, I set the custom file to reside in my =~/.emacs.d/= directory
    and load it if it exists.
 
-#+BEGIN_SRC emacs-lisp
-  (setq custom-file "~/.emacs.d/custom.el")
-  (if (file-exists-p custom-file)
-      (load-file custom-file))
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (setq custom-file "~/.emacs.d/custom.el")
+    (if (file-exists-p custom-file)
+        (load-file custom-file))
+  #+END_SRC
 
 * Small Settings
 
@@ -78,8 +78,8 @@ choices.
    built-in shortcuts or my bindings will not work.
 
    #+BEGIN_SRC emacs-lisp
-  (setq w32-pass-lwindow-to-system t)
-  (setq w32-lwindow-modifier 'super)
+     (setq w32-pass-lwindow-to-system t)
+     (setq w32-lwindow-modifier 'super)
    #+END_SRC
 
 ** Package archives
@@ -100,56 +100,56 @@ choices.
    keep me on the bleeding edge. They is why they have their own
    repositories above.
 
-#+BEGIN_SRC emacs-lisp
-  ;; Idea lifted from prelude https://github.com/bbatsov/prelude
-  (require 'cl)
-  (defvar bnb/packages
-    '(ace-jump-mode
-      ace-isearch
-      ace-window
-      airplay
-      bind-key
-      bookmark+
-      cider
-      clojure-mode
-      color-theme-sanityinc-tomorrow
-      dired+
-      edit-server
-      expand-region
-      guide-key
-      htmlize
-      highline
-      ido-ubiquitous
-      keywiz
-      magit
-      org-plus-contrib
-      paredit
-      powerline
-      projectile
-      rainbow-mode
-      smart-tabs-mode
-      sublime-themes
-      sunrise-commander
-      undo-tree
-      wc-goal-mode
-      writegood-mode))
+  #+BEGIN_SRC emacs-lisp
+    ;; Idea lifted from prelude https://github.com/bbatsov/prelude
+    (require 'cl)
+    (defvar bnb/packages
+      '(ace-jump-mode
+        ace-isearch
+        ace-window
+        airplay
+        bind-key
+        bookmark+
+        cider
+        clojure-mode
+        color-theme-sanityinc-tomorrow
+        dired+
+        edit-server
+        expand-region
+        guide-key
+        htmlize
+        highline
+        ido-ubiquitous
+        keywiz
+        magit
+        org-plus-contrib
+        paredit
+        powerline
+        projectile
+        rainbow-mode
+        smart-tabs-mode
+        sublime-themes
+        sunrise-commander
+        undo-tree
+        wc-goal-mode
+        writegood-mode))
 
-  (defun bnb/packages-installed-p ()
-    (loop for p in bnb/packages
-          when (not (package-installed-p p)) do (return nil)
-          finally (return t)))
+    (defun bnb/packages-installed-p ()
+      (loop for p in bnb/packages
+            when (not (package-installed-p p)) do (return nil)
+            finally (return t)))
 
-  (unless (bnb/packages-installed-p)
-    ;; Need to update package contents
-    (message "%s" "Emacs refreshing package contents...")
-    (package-refresh-contents)
-    (message "done.")
+    (unless (bnb/packages-installed-p)
+      ;; Need to update package contents
+      (message "%s" "Emacs refreshing package contents...")
+      (package-refresh-contents)
+      (message "done.")
 
-    ;; install the missing packages
-    (dolist (p bnb/packages)
-      (when (not (package-installed-p p))
-        (package-install p))))
-#+END_SRC
+      ;; install the missing packages
+      (dolist (p bnb/packages)
+        (when (not (package-installed-p p))
+          (package-install p))))
+  #+END_SRC
 
 ** Binding Keys
 
@@ -157,7 +157,7 @@ choices.
    easily bind keys, but it does so with some nice features.
 
    #+BEGIN_SRC emacs-lisp
-  (require 'bind-key)
+     (require 'bind-key)
    #+END_SRC
 
 
@@ -174,6 +174,7 @@ choices.
    let you see a summary of your customizations with
 
 : M-x describe-personal-keybindings
+
 ** Personal Keymaps
 
    These are inspired from
@@ -231,10 +232,10 @@ choices.
    sessions.
 
    #+BEGIN_SRC emacs-lisp
-  (setq savehist-additional-variables
-        '(search-ring regexp-search-ring)
-        savehist-file "~/.emacs.d/savehist")
-  (savehist-mode t)
+     (setq savehist-additional-variables
+           '(search-ring regexp-search-ring)
+           savehist-file "~/.emacs.d/savehist")
+     (savehist-mode t)
    #+END_SRC
 
 ** Display times
@@ -244,13 +245,13 @@ choices.
    information quickly.
 
    #+BEGIN_SRC emacs-lisp
-  (setq display-time-world-list
-        '(("EST5EDT" "Hudson")
-          ("CST6CST" "Iowa")
-          ("MST7MST" "Fort Collins")
-          ("PST8PDT" "DuPont")))
+     (setq display-time-world-list
+           '(("EST5EDT" "Hudson")
+             ("CST6CST" "Iowa")
+             ("MST7MST" "Fort Collins")
+             ("PST8PDT" "DuPont")))
 
-  (bind-key "C-c C-z" 'display-time-world)
+     (bind-key "C-c C-z" 'display-time-world)
    #+END_SRC
 
 ** Abbrev
@@ -258,25 +259,25 @@ choices.
    The following block is courtesy of [[http://endlessparentheses.com/ispell-and-abbrev-the-perfect-auto-correct.html][Endless Parentheses]].
 
    #+BEGIN_SRC emacs-lisp
-  (bind-key "C-x C-i" 'bnb/ispell-word-then-abbrev)
+     (bind-key "C-x C-i" 'bnb/ispell-word-then-abbrev)
 
-  (defun bnb/ispell-word-then-abbrev (p)
-    "Call `ispell-word'. Then create an abbrev for the correction
-  made. With prefix P, create local abbrev. Otherwise, it will be
-  global."
-    (interactive "P")
-    (let ((bef (downcase (or (thing-at-point 'word) ""))) aft)
-      (call-interactively 'ispell-word)
-      (setq aft (downcase (or (thing-at-point 'word) "")))
-      (unless (string= aft bef)
-        (message "\"%s\" now expands to \"%s\" %sally"
-                 bef aft (if p "loc" "glob"))
-        (define-abbrev
-          (if p global-abbrev-table local-abbrev-table)
-          bef aft))))
+     (defun bnb/ispell-word-then-abbrev (p)
+       "Call `ispell-word'. Then create an abbrev for the correction
+     made. With prefix P, create local abbrev. Otherwise, it will be
+     global."
+       (interactive "P")
+       (let ((bef (downcase (or (thing-at-point 'word) ""))) aft)
+         (call-interactively 'ispell-word)
+         (setq aft (downcase (or (thing-at-point 'word) "")))
+         (unless (string= aft bef)
+           (message "\"%s\" now expands to \"%s\" %sally"
+                    bef aft (if p "loc" "glob"))
+           (define-abbrev
+             (if p global-abbrev-table local-abbrev-table)
+             bef aft))))
 
-  (setq save-abbrevs t)
-  (setq-default abbrev-mode t)
+     (setq save-abbrevs t)
+     (setq-default abbrev-mode t)
    #+END_SRC
 
 ** Hippie Expand
@@ -285,7 +286,7 @@ choices.
    the keypress to cycle through options.
 
    #+BEGIN_SRC emacs-lisp
-  (bind-key "M-/" 'hippie-expand)
+     (bind-key "M-/" 'hippie-expand)
    #+END_SRC
 
 ** Emacs Bookmarks
@@ -302,7 +303,7 @@ choices.
    I will auto-save my bookmarks.
 
    #+BEGIN_SRC emacs-lisp
-  (setq bookmark-save-flag t)
+     (setq bookmark-save-flag t)
    #+END_SRC
 
 ** Writegood Mode
@@ -310,9 +311,9 @@ choices.
    This mode installs through the ELPA system.
 
    #+BEGIN_SRC emacs-lisp
-  (bind-key "C-c g" 'writegood-mode)
-  (bind-key "C-c C-g g" 'writegood-grade-level)
-  (bind-key "C-c C-g e" 'writegood-reading-ease)
+     (bind-key "C-c g" 'writegood-mode)
+     (bind-key "C-c C-g g" 'writegood-grade-level)
+     (bind-key "C-c C-g e" 'writegood-reading-ease)
    #+END_SRC
 
 ** Development
@@ -338,8 +339,8 @@ choices.
    files.
 
    #+BEGIN_SRC emacs-lisp
-  (require 'epa)
-  (epa-file-enable)
+     (require 'epa)
+     (epa-file-enable)
    #+END_SRC
 
    It is possible that you would need to [[elisp:(customize-group%20'epg)][customize the location of
@@ -351,12 +352,12 @@ choices.
    vi-style navigation.
 
    #+BEGIN_SRC emacs-lisp
-  (require 'view)
-  (setq view-read-only t)     ; enter view-mode for read-only files
-  (bind-key "n" 'next-line     view-mode-map)
-  (bind-key "p" 'previous-line view-mode-map)
-  (bind-key "j" 'next-line     view-mode-map)
-  (bind-key "k" 'previous-line view-mode-map)
+     (require 'view)
+     (setq view-read-only t)     ; enter view-mode for read-only files
+     (bind-key "n" 'next-line     view-mode-map)
+     (bind-key "p" 'previous-line view-mode-map)
+     (bind-key "j" 'next-line     view-mode-map)
+     (bind-key "k" 'previous-line view-mode-map)
    #+END_SRC
 
 ** Default File encoding
@@ -368,16 +369,16 @@ choices.
    windows.  That one gets =utf-16le= to be compatible.
 
    #+BEGIN_SRC emacs-lisp
-  (prefer-coding-system       'utf-8)
-  (set-default-coding-systems 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (set-language-environment 'utf-8)
-  (setq default-buffer-file-coding-system 'utf-8)
-  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
-  ;; MS Windows clipboard is UTF-16LE
-  (when (eq system-type 'windows-nt)
-    (set-clipboard-coding-system 'utf-16le-dos))
+     (prefer-coding-system       'utf-8)
+     (set-default-coding-systems 'utf-8)
+     (set-terminal-coding-system 'utf-8)
+     (set-keyboard-coding-system 'utf-8)
+     (set-language-environment 'utf-8)
+     (setq default-buffer-file-coding-system 'utf-8)
+     (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+     ;; MS Windows clipboard is UTF-16LE
+     (when (eq system-type 'windows-nt)
+       (set-clipboard-coding-system 'utf-16le-dos))
    #+END_SRC
 
 ** Vimrc generic mode
@@ -386,19 +387,19 @@ choices.
    a vim-style of configuration.
 
    #+BEGIN_SRC emacs-lisp
-  (define-generic-mode 'vimrc-generic-mode
-    '()
-    '()
-    '(("^[\t ]*:?\\(!\\|ab\\|map\\|unmap\\)[^\r\n\"]*\"[^\r\n\"]*\\(\"[^\r\n\"]*\"[^\r\n\"]*\\)*$"
-       (0 font-lock-warning-face))
-      ("\\(^\\|[\t ]\\)\\(\".*\\)$"
-       (2 font-lock-comment-face))
-      ("\"\\([^\n\r\"\\]\\|\\.\\)*\""
-       (0 font-lock-string-face)))
-    '("/vimrc\\'" "\\.vim\\(rc\\)?\\'")
-    '((lambda ()
-        (modify-syntax-entry ?\" ".")))
-    "Generic mode for Vim configuration files.")
+     (define-generic-mode 'vimrc-generic-mode
+       '()
+       '()
+       '(("^[\t ]*:?\\(!\\|ab\\|map\\|unmap\\)[^\r\n\"]*\"[^\r\n\"]*\\(\"[^\r\n\"]*\"[^\r\n\"]*\\)*$"
+          (0 font-lock-warning-face))
+         ("\\(^\\|[\t ]\\)\\(\".*\\)$"
+          (2 font-lock-comment-face))
+         ("\"\\([^\n\r\"\\]\\|\\.\\)*\""
+          (0 font-lock-string-face)))
+       '("/vimrc\\'" "\\.vim\\(rc\\)?\\'")
+       '((lambda ()
+           (modify-syntax-entry ?\" ".")))
+       "Generic mode for Vim configuration files.")
    #+END_SRC
 
 ** Ediff single frame
@@ -409,7 +410,7 @@ choices.
    frame.
 
    #+BEGIN_SRC emacs-lisp
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+     (setq ediff-window-setup-function 'ediff-setup-windows-plain)
    #+END_SRC
 
    Now the control window will be a small window instead of a
@@ -423,7 +424,7 @@ choices.
    like 6.
 
    #+BEGIN_SRC emacs-lisp
-  (bind-key "<f6>" 'magit-status)
+     (bind-key "<f6>" 'magit-status)
    #+END_SRC
 
 ** Open/Edit This file
@@ -433,10 +434,10 @@ choices.
    is just a button-push away.
 
    #+BEGIN_SRC emacs-lisp
-  (bind-key "<f5>"
-            (lambda ()
-              (interactive)
-              (find-file "~/.emacs.d/bnb-emacs/Readme.org")))
+     (bind-key "<f5>"
+               (lambda ()
+                 (interactive)
+                 (find-file "~/.emacs.d/bnb-emacs/Readme.org")))
    #+END_SRC
 
 ** Sounds
@@ -445,8 +446,8 @@ choices.
    just set the =ring-bell-function= to =nil=.
 
    #+BEGIN_SRC emacs-lisp
-  (setq visual-bell nil)
-  (setq ring-bell-function `(lambda () nil))
+     (setq visual-bell nil)
+     (setq ring-bell-function `(lambda () nil))
    #+END_SRC
 
 ** Midnight Mode
@@ -455,7 +456,7 @@ choices.
    default, /inactive/ means is any buffer untouched for three days.
 
    #+BEGIN_SRC emacs-lisp
-  (require 'midnight)
+     (require 'midnight)
    #+END_SRC
 
 ** Sunrise Commander
@@ -487,16 +488,16 @@ choices.
     Storing links from Sunrise-commander
 
     #+BEGIN_SRC emacs-lisp
-  (add-hook 'org-store-link-functions 'org-diredish-store-link)
+      (add-hook 'org-store-link-functions 'org-diredish-store-link)
 
-  (defun org-diredish-store-link ()
-    "Store link to files/directories from dired."
-    (when (derived-mode-p 'dired-mode)
-      (let ((f (dired-filename-at-point)))
-        (setq link (concat "file+system" ":" f)
-              desc (concat f " (dired)"))
-        (org-add-link-props :link link :description desc)
-        link)))
+      (defun org-diredish-store-link ()
+        "Store link to files/directories from dired."
+        (when (derived-mode-p 'dired-mode)
+          (let ((f (dired-filename-at-point)))
+            (setq link (concat "file+system" ":" f)
+                  desc (concat f " (dired)"))
+            (org-add-link-props :link link :description desc)
+            link)))
 
     #+END_SRC
 
@@ -546,8 +547,11 @@ choices.
    textareas.  I start this server here.
 
    #+BEGIN_SRC emacs-lisp
-  (edit-server-start)
+     (edit-server-start)
    #+END_SRC
+
+   Chrome needs to have the proper extension installed there too for
+   the installation to be complete.
 
 ** Regexp-Builder
 
@@ -561,7 +565,7 @@ choices.
    will make that my default.
 
    #+BEGIN_SRC emacs-lisp
-  (setq reb-re-syntax 'string)
+     (setq reb-re-syntax 'string)
    #+END_SRC
 
    | Key Binding | Meaning                                    |
@@ -625,9 +629,9 @@ choices.
    Nice way to expand selections to semantic regions. Read more on
    [[https://github.com/magnars/expand-region.el]].
 
-#+BEGIN_SRC emacs-lisp
-  (bind-key (kbd "C-=") 'er/expand-region)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (bind-key (kbd "C-=") 'er/expand-region)
+   #+END_SRC
 
 ** Hooks
 
@@ -646,8 +650,8 @@ choices.
     ~auto-revert~ in case of changes.
 
     #+BEGIN_SRC emacs-lisp
-  (add-hook 'doc-view-mode-hook 'auto-revert-mode)
-  (add-hook 'image-mode 'auto-revert-mode)
+      (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+      (add-hook 'image-mode 'auto-revert-mode)
     #+END_SRC
 
 ** Recentf
@@ -655,7 +659,7 @@ choices.
    First, I need to enable this mode to gain the functionality.
 
    #+BEGIN_SRC emacs-lisp
-  (recentf-mode t)
+     (recentf-mode t)
    #+END_SRC
 
 *** Opening Recent files with IDO
@@ -664,13 +668,13 @@ choices.
     quickly.
 
     #+BEGIN_SRC emacs-lisp
-  (defun recentf-ido-find-file ()
-    "Find a recent file using Ido."
-    (interactive)
-    (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
-      (when file
-        (find-file file))))
-  (bind-key "C-x C-r" 'recentf-ido-find-file)
+      (defun recentf-ido-find-file ()
+        "Find a recent file using Ido."
+        (interactive)
+        (let ((file (ido-completing-read "Choose recent file: " recentf-list nil t)))
+          (when file
+            (find-file file))))
+      (bind-key "C-x C-r" 'recentf-ido-find-file)
     #+END_SRC
 
 * Style
@@ -682,17 +686,17 @@ choices.
    starters.  Then, I setup the fringe area with some items
 
    #+BEGIN_SRC emacs-lisp
-  (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-  (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-  (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+     (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+     (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+     (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
    #+END_SRC
 
 ** Window Changes
 
    #+BEGIN_SRC emacs-lisp
-  (setq-default indicate-buffer-boundaries 'right)
-  (setq-default indicate-empty-lines t)
-  (setq-default frame-title-format '("%b - %F"))
+     (setq-default indicate-buffer-boundaries 'right)
+     (setq-default indicate-empty-lines t)
+     (setq-default frame-title-format '("%b - %F"))
    #+END_SRC
 
 ** Perspective Fonts
@@ -700,8 +704,8 @@ choices.
    I set this face through customize.
 
    #+BEGIN_SRC elisp :export none
-  (eval-after-load 'perspective
-    (set-face-attribute 'persp-selected-face nil :foreground "SystemActiveTitle" :weight 'bold))
+     (eval-after-load 'perspective
+       (set-face-attribute 'persp-selected-face nil :foreground "SystemActiveTitle" :weight 'bold))
    #+END_SRC
 
 ** Faces
@@ -711,29 +715,29 @@ choices.
     there.
 
     #+BEGIN_SRC emacs-lisp
-  (when (eq system-type 'windows-nt)
-    (set-face-attribute 'default nil :font "Source Code Pro-10"))
+      (when (eq system-type 'windows-nt)
+        (set-face-attribute 'default nil :font "Source Code Pro-10"))
     #+END_SRC
 
     Setup a strike-through font for agenda items. The /done/ items
     are now easily overlooked within an agenda or task list.
 
     #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'org-agenda-done nil :strike-through t)
+      (set-face-attribute 'org-agenda-done nil :strike-through t)
 
-  (defadvice enable-theme (after org-strike-done activate)
-    "Setup org-agenda-done faces to have strike-through on"
-    (and (message "Running advice")
-         (set-face-attribute 'org-agenda-done nil :strike-through t)))
+      (defadvice enable-theme (after org-strike-done activate)
+        "Setup org-agenda-done faces to have strike-through on"
+        (and (message "Running advice")
+             (set-face-attribute 'org-agenda-done nil :strike-through t)))
     #+END_SRC
 
 
 **** Trying out fonts on Windows
 
      #+BEGIN_SRC emacs-lisp
-  (defun bnb/set-font ()
-    (interactive)
-    (set-face-attribute 'default nil :font (w32-select-font)))
+       (defun bnb/set-font ()
+         (interactive)
+         (set-face-attribute 'default nil :font (w32-select-font)))
      #+END_SRC
 
 *** Dynamic Font sizes
@@ -743,8 +747,8 @@ choices.
     argument function, but that one is also accessible by =M--=.
 
     #+BEGIN_SRC emacs-lisp
-  (bind-key "C-+" 'text-scale-increase)
-  (bind-key "C--" 'text-scale-decrease)
+      (bind-key "C-+" 'text-scale-increase)
+      (bind-key "C--" 'text-scale-decrease)
     #+END_SRC
 
 *** Mode Line Style
@@ -755,9 +759,9 @@ choices.
     have this attribute.
 
     #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'mode-line nil :box nil)
-  (set-face-attribute 'mode-line-inactive nil :box nil)
-  (set-face-attribute 'mode-line-highlight nil :box nil)
+      (set-face-attribute 'mode-line nil :box nil)
+      (set-face-attribute 'mode-line-inactive nil :box nil)
+      (set-face-attribute 'mode-line-highlight nil :box nil)
     #+END_SRC
 
 *** Missing Glyphs
@@ -768,8 +772,8 @@ choices.
     [[http://users.teilar.gr/~g1951d/][Download Symbola]] if you do not have it.
 
     #+BEGIN_SRC emacs-lisp
-  (set-fontset-font "fontset-default" nil
-                    (font-spec :size 20 :name "Symbola"))
+      (set-fontset-font "fontset-default" nil
+                        (font-spec :size 20 :name "Symbola"))
     #+END_SRC
 
 ** Powerline
@@ -794,18 +798,18 @@ choices.
    following advice for that case.
 
    #+BEGIN_SRC emacs-lisp
-  (defadvice load-theme
-    (before disable-theme-before-load (theme &optional no-confirm no-enable) activate)
-    (mapc 'disable-theme custom-enabled-themes))
+     (defadvice load-theme
+       (before disable-theme-before-load (theme &optional no-confirm no-enable) activate)
+       (mapc 'disable-theme custom-enabled-themes))
    #+END_SRC
 
    It also seems that I have to reset =powerline= when running a new
    theme. The next piece of advice does that for me.
 
    #+BEGIN_SRC emacs-lisp
-  (defadvice load-theme
-    (after theme-reset-powerline (theme &optional no-confirm no-enable) activate)
-    (powerline-reset))
+     (defadvice load-theme
+       (after theme-reset-powerline (theme &optional no-confirm no-enable) activate)
+       (powerline-reset))
    #+END_SRC
 
 * BNB Helpers
@@ -829,9 +833,9 @@ choices.
    need to run before emacs is /killed/.
 
    #+BEGIN_SRC emacs-lisp
-  (defvar bnb/kill-emacs-hooks)
-  (add-hook 'bnb/kill-emacs-hooks
-            (lambda () (if (functionp 'server-edit)(server-edit))))
+     (defvar bnb/kill-emacs-hooks)
+     (add-hook 'bnb/kill-emacs-hooks
+               (lambda () (if (functionp 'server-edit)(server-edit))))
    #+END_SRC
 
    In the hook above, I call the =server-edit= function to act as if
@@ -843,24 +847,24 @@ choices.
    to really exit. We always need an escape hatch.
 
    #+BEGIN_SRC emacs-lisp
-  (defvar bnb/really-kill-emacs nil)
-  (defun bnb/kill-emacs ()
-    (interactive)
-    (setq bnb/really-kill-emacs t)
-    (kill-emacs))
+     (defvar bnb/really-kill-emacs nil)
+     (defun bnb/kill-emacs ()
+       (interactive)
+       (setq bnb/really-kill-emacs t)
+       (kill-emacs))
    #+END_SRC
 
    Now that mechanism is in place, it is time to augment
    =kill-emacs= with some advice around the function.
 
    #+BEGIN_SRC emacs-lisp
-  (defadvice kill-emacs (around bnb/pardon-emacs activate)
-    "Only kill emacs if a prefix is set"
-    (run-hooks 'bnb/kill-emacs-hooks)
-    (if bnb/really-kill-emacs
-        ad-do-it
-      (when (eq system-type 'windows-nt)
-        (iconify-frame))))
+     (defadvice kill-emacs (around bnb/pardon-emacs activate)
+       "Only kill emacs if a prefix is set"
+       (run-hooks 'bnb/kill-emacs-hooks)
+       (if bnb/really-kill-emacs
+           ad-do-it
+         (when (eq system-type 'windows-nt)
+           (iconify-frame))))
    #+END_SRC
 
    Now, when any event triggers a call to =kill-emacs=, a small set
@@ -872,42 +876,42 @@ choices.
 ** Workweeks
 
    #+BEGIN_SRC emacs-lisp
-    (defun bnb/workweek ()
-      (interactive)
-      (let* ((now (current-time))
-             (weeks (string-to-number
-                     (format-time-string "%W" now)))
-             (days (time-to-day-in-year now))
-             (daynum (string-to-number
-                      (format-time-string "%w" now)))
-             (left (% days 7)))
-        (if (and (= 0 daynum) (= left 0))
-            weeks
-          (+ 1 weeks))))
+       (defun bnb/workweek ()
+         (interactive)
+         (let* ((now (current-time))
+                (weeks (string-to-number
+                        (format-time-string "%W" now)))
+                (days (time-to-day-in-year now))
+                (daynum (string-to-number
+                         (format-time-string "%w" now)))
+                (left (% days 7)))
+           (if (and (= 0 daynum) (= left 0))
+               weeks
+             (+ 1 weeks))))
 
-    (defun bnb/workweek-string ()
-      (interactive)
-      (concat "WW"
-              (number-to-string
-               (bnb/workweek))))
+       (defun bnb/workweek-string ()
+         (interactive)
+         (concat "WW"
+                 (number-to-string
+                  (bnb/workweek))))
 
-  (require 'calendar)
-  (defun bnb/workweek-from-gregorian (&optional date)
-    (let* ((date (or date (calendar-current-date)))
-           (year (calendar-extract-year date))
-           (fst (calendar-day-of-week (list 1 1 year)))
-           (x   (if (>= fst 4)1 0)))
-      (+ x
-         (car
-          (calendar-iso-from-absolute
-           (calendar-absolute-from-gregorian date))))))
+     (require 'calendar)
+     (defun bnb/workweek-from-gregorian (&optional date)
+       (let* ((date (or date (calendar-current-date)))
+              (year (calendar-extract-year date))
+              (fst (calendar-day-of-week (list 1 1 year)))
+              (x   (if (>= fst 4)1 0)))
+         (+ x
+            (car
+             (calendar-iso-from-absolute
+              (calendar-absolute-from-gregorian date))))))
 
-  (setq calendar-week-start-day 1
-        calendar-intermonth-text
-          '(propertize
-            (format "%2d"
-                    (bnb/workweek-from-gregorian (list month day year)))
-            'font-lock-face 'font-lock-function-name-face))
+     (setq calendar-week-start-day 1
+           calendar-intermonth-text
+             '(propertize
+               (format "%2d"
+                       (bnb/workweek-from-gregorian (list month day year)))
+               'font-lock-face 'font-lock-function-name-face))
 
    #+END_SRC
 
@@ -917,11 +921,11 @@ choices.
   need to load the mode and bind some keys.
 
   #+BEGIN_SRC emacs-lisp
-  (add-hook 'after-init-hook 'global-company-mode)
-  (bind-key (kbd "<C-tab>") 'company-complete)
-  (bind-key (kbd "<C-tab>") 'company-complete org-mode-map)
-  ;; Turn off the auto downcasing of things
-  (setq company-dabbrev-downcase nil)
+    (add-hook 'after-init-hook 'global-company-mode)
+    (bind-key (kbd "<C-tab>") 'company-complete)
+    (bind-key (kbd "<C-tab>") 'company-complete org-mode-map)
+    ;; Turn off the auto downcasing of things
+    (setq company-dabbrev-downcase nil)
   #+END_SRC
 
 * Dired
@@ -937,9 +941,9 @@ choices.
   accumulating dired buffers.
 
   #+BEGIN_SRC emacs-lisp
-  (unless (package-installed-p 'dired+)
-    (package-install 'dired+))
-  (put 'dired-find-alternate-file 'disabled nil)
+    (unless (package-installed-p 'dired+)
+      (package-install 'dired+))
+    (put 'dired-find-alternate-file 'disabled nil)
   #+END_SRC
 
 * Smart Tabs
@@ -955,9 +959,9 @@ choices.
   change in the default width will result in code that still aligns.
 
   #+BEGIN_SRC emacs-lisp
-  (setq-default indent-tabs-mode nil)
-  (smart-tabs-insinuate 'c 'javascript 'python 'cperl 'c++)
-  (setq-default tab-width 4)
+    (setq-default indent-tabs-mode nil)
+    (smart-tabs-insinuate 'c 'javascript 'python 'cperl 'c++)
+    (setq-default tab-width 4)
   #+END_SRC
 
 ** Notes
@@ -973,8 +977,8 @@ choices.
   bindings and prefer the emacs defaults.
 
   #+BEGIN_SRC emacs-lisp
-  (cua-mode t)
-  (setq cua-enable-cua-keys nil)
+    (cua-mode t)
+    (setq cua-enable-cua-keys nil)
   #+END_SRC
 
 ** Bindings
@@ -1050,7 +1054,7 @@ choices.
   it automatically load each time.
 
   #+BEGIN_SRC emacs-lisp
-  (add-hook 'clojure-mode-hook 'paredit-mode)
+    (add-hook 'clojure-mode-hook 'paredit-mode)
   #+END_SRC
 
 ** Cider
@@ -1060,17 +1064,17 @@ choices.
    page on github]].
 
    #+BEGIN_SRC emacs-lisp
-  ;; Enable eldoc
-  (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+     ;; Enable eldoc
+     (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 
-  ;; Hide special buffers
-  (setq nrepl-hide-special-buffers t)
+     ;; Hide special buffers
+     (setq nrepl-hide-special-buffers t)
 
-  ;; Stop the error from popping up while working in buffers other than the REPL
-  (setq cider-popup-stacktraces nil)
+     ;; Stop the error from popping up while working in buffers other than the REPL
+     (setq cider-popup-stacktraces nil)
 
-  ;; Stop prompting to save file when killing repl buffer
-  (setq cider-prompt-save-file-on-load nil)
+     ;; Stop prompting to save file when killing repl buffer
+     (setq cider-prompt-save-file-on-load nil)
    #+END_SRC
 
 * Elisp
@@ -1118,52 +1122,52 @@ choices.
    #+END_SRC
 
 ** Helm Colors
-helm-action
-helm-bookmark-addressbook
-helm-bookmark-directory
-helm-bookmark-file
-helm-bookmark-gnus
-helm-bookmark-info
-helm-bookmark-man
-helm-bookmark-w3m
-helm-buffer-directory
-helm-buffer-file
-helm-buffer-not-saved
-helm-buffer-process
-helm-buffer-saved-out
-helm-buffer-size
-helm-candidate-number
-helm-ff-directory
-helm-ff-executable
-helm-ff-file
-helm-ff-invalid-symlink
-helm-ff-prefix
-helm-ff-symlink
-helm-grep-cmd-line
-helm-grep-file
-helm-grep-finish
-helm-grep-lineno
-helm-grep-match
-helm-grep-running
-helm-header
-helm-helper
-helm-history-deleted
-helm-history-remote
-helm-lisp-completion-info
-helm-lisp-show-completion
-helm-locate-finish
-helm-match
-helm-moccur-buffer
-helm-prefarg
-helm-resume-need-update
-helm-selection
-helm-selection-line
-helm-separator
-helm-source-header
-helm-swoop-target-line-block-face
-helm-swoop-target-line-face
-helm-swoop-target-word-face
-helm-visible-mark
+   - helm-action
+   - helm-bookmark-addressbook
+   - helm-bookmark-directory
+   - helm-bookmark-file
+   - helm-bookmark-gnus
+   - helm-bookmark-info
+   - helm-bookmark-man
+   - helm-bookmark-w3m
+   - helm-buffer-directory
+   - helm-buffer-file
+   - helm-buffer-not-saved
+   - helm-buffer-process
+   - helm-buffer-saved-out
+   - helm-buffer-size
+   - helm-candidate-number
+   - helm-ff-directory
+   - helm-ff-executable
+   - helm-ff-file
+   - helm-ff-invalid-symlink
+   - helm-ff-prefix
+   - helm-ff-symlink
+   - helm-grep-cmd-line
+   - helm-grep-file
+   - helm-grep-finish
+   - helm-grep-lineno
+   - helm-grep-match
+   - helm-grep-running
+   - helm-header
+   - helm-helper
+   - helm-history-deleted
+   - helm-history-remote
+   - helm-lisp-completion-info
+   - helm-lisp-show-completion
+   - helm-locate-finish
+   - helm-match
+   - helm-moccur-buffer
+   - helm-prefarg
+   - helm-resume-need-update
+   - helm-selection
+   - helm-selection-line
+   - helm-separator
+   - helm-source-header
+   - helm-swoop-target-line-block-face
+   - helm-swoop-target-line-face
+   - helm-swoop-target-word-face
+   - helm-visible-mark
 
 ** Helm Spaces
 
@@ -1184,6 +1188,8 @@ helm-visible-mark
    #+END_SRC
 
 * IDO (Interactively Do Things)
+
+  EDIT: This is being replace by helm in my workflow.
 
   I do not believe I could live without this on emacs. Even for just
   finding files, it is awesome.
@@ -1290,17 +1296,17 @@ helm-visible-mark
    directly integrate with emacs.
 
    #+BEGIN_SRC emacs-lisp
-  (defun eshell/emacs (&rest args)
-    "Open a file in emacs the natural way"
-    (if (null args)
-        ;; If emacs is called by itself, then just go to emacs directly
-        (bury-buffer)
-      ;; If opening multiple files with a directory name, e.g.
-      ;; > emacs bar/bar.txt foo.txt
-      ;; then the names must be expanded to complete file paths.
-      ;; Otherwise, find-file will look in the current directory which
-      ;; would fail for 'foo.txt' in the example above.
-      (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
+     (defun eshell/emacs (&rest args)
+       "Open a file in emacs the natural way"
+       (if (null args)
+           ;; If emacs is called by itself, then just go to emacs directly
+           (bury-buffer)
+         ;; If opening multiple files with a directory name, e.g.
+         ;; > emacs bar/bar.txt foo.txt
+         ;; then the names must be expanded to complete file paths.
+         ;; Otherwise, find-file will look in the current directory which
+         ;; would fail for 'foo.txt' in the example above.
+         (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
    #+END_SRC
 
 *** Plan 9 Smart Shells
@@ -1332,7 +1338,7 @@ helm-visible-mark
    integrates well into AUCTeX.
 
    #+BEGIN_SRC emacs-lisp
-  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+     (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
    #+END_SRC
 
    | Keystroke | Function                           |
@@ -1347,10 +1353,10 @@ helm-visible-mark
 
 ** Hooks
    #+BEGIN_SRC emacs-lisp
-  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-  (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
-  (add-hook 'LaTeX-mode-hook 'orgtbl-mode)
+     (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+     (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+     (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
+     (add-hook 'LaTeX-mode-hook 'orgtbl-mode)
    #+END_SRC
 
 ** TeX Settings
@@ -1364,10 +1370,10 @@ helm-visible-mark
    bad results for LaTeX files generated on the fly.
 
    #+BEGIN_SRC emacs-lisp
-  (setq TeX-auto-untabify t)
-  (setq TeX-auto-save t)
-  (setq TeX-parse-self t)
-  (setq-default TeX-master nil)
+     (setq TeX-auto-untabify t)
+     (setq TeX-auto-save t)
+     (setq TeX-parse-self t)
+     (setq-default TeX-master nil)
    #+END_SRC
 
    For viewing the output, I can specify the command to use on the
@@ -1375,14 +1381,14 @@ helm-visible-mark
    GNU/Linux and Windows, so I have differing settings below.
 
    #+BEGIN_SRC emacs-lisp
-  (setq TeX-output-view-style
-        (if (eq system-type 'windows-nt)
-            (quote
-             (("^pdf$" "." "SumatraPDF.exe -reuse-instance %o")
-              ("^html?$" "." "start %o")))
-        (quote
-         (("^pdf$" "." "evince -f %o")
-          ("^html?$" "." "start %o")))))
+     (setq TeX-output-view-style
+           (if (eq system-type 'windows-nt)
+               (quote
+                (("^pdf$" "." "SumatraPDF.exe -reuse-instance %o")
+                 ("^html?$" "." "start %o")))
+           (quote
+            (("^pdf$" "." "evince -f %o")
+             ("^html?$" "." "start %o")))))
    #+END_SRC
 
 ** XeTeX settings
@@ -1391,8 +1397,8 @@ helm-visible-mark
    use this in PDF mode.
 
    #+BEGIN_SRC emacs-lisp
-  (setq TeX-PDF-mode 1)
-  (setq TeX-engine 'xetex)
+     (setq TeX-PDF-mode 1)
+     (setq TeX-engine 'xetex)
    #+END_SRC
 
 ** Preview Settings
@@ -1400,15 +1406,15 @@ helm-visible-mark
    In order for preview to work with ~tikzpicture~ environments, it
    has to be added to the default preamble list.
 
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'org-latex-packages-alist
-               '("" "tikz" t))
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'org-latex-packages-alist
+                  '("" "tikz" t))
 
-  (setq org-latex-create-formula-image-program 'imagemagick)
+     (setq org-latex-create-formula-image-program 'imagemagick)
 
-  (eval-after-load "preview"
-    '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
-#+END_SRC
+     (eval-after-load "preview"
+       '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
+   #+END_SRC
 ** DocView
 
    Have =docview= automatically revert the buffer.
@@ -1428,8 +1434,8 @@ helm-visible-mark
    (=.org.gpg=) or for archives (=.org_archive=).
 
    #+BEGIN_SRC emacs-lisp
-  (add-to-list 'auto-mode-alist
-               '("\\.org\\(.gpg|_archive\\)?$" . org-mode))
+     (add-to-list 'auto-mode-alist
+                  '("\\.org\\(.gpg|_archive\\)?$" . org-mode))
    #+END_SRC
 
 ** Hooks
@@ -1437,16 +1443,16 @@ helm-visible-mark
    First, I add in a keystroke to toggle the inline images.
 
    #+BEGIN_SRC emacs-lisp
-  (add-hook 'org-mode-hook
-             (lambda ()
-               (local-set-key (kbd "M-i") 'org-toggle-inline-images)))
+     (add-hook 'org-mode-hook
+                (lambda ()
+                  (local-set-key (kbd "M-i") 'org-toggle-inline-images)))
    #+END_SRC
 
    The next hook just saves the org files opened before exiting
    emacs -- just in case.
 
    #+BEGIN_SRC emacs-lisp
-  (add-hook 'bnb/kill-emacs-hooks 'org-save-all-org-buffers 'append)
+     (add-hook 'bnb/kill-emacs-hooks 'org-save-all-org-buffers 'append)
    #+END_SRC
 
 
@@ -1455,8 +1461,8 @@ helm-visible-mark
    from Rick Frankel to save the day.
 
    #+BEGIN_SRC emacs-lisp
-  (add-hook 'org-babel-after-execute-hook
-            (lambda () (org-display-inline-images nil t)))
+     (add-hook 'org-babel-after-execute-hook
+               (lambda () (org-display-inline-images nil t)))
    #+END_SRC
 
 ** Keys
@@ -1504,16 +1510,16 @@ helm-visible-mark
     =?=. I enable this feature and add some of my own commands.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-use-speed-commands t)
-  (setq org-speed-commands-user (quote (("0" . delete-window)
-                        ("1" . delete-other-windows)
-                        ("2" . split-window-vertically)
-                        ("3" . split-window-horizontally)
-                        ("h" . hide-other)
-                        ("s" . org-save-all-org-buffers)
-                        ("z" . org-add-note)
-                        ("N" . org-narrow-to-subtree)
-                        ("W" . widen))))
+      (setq org-use-speed-commands t)
+      (setq org-speed-commands-user (quote (("0" . delete-window)
+                            ("1" . delete-other-windows)
+                            ("2" . split-window-vertically)
+                            ("3" . split-window-horizontally)
+                            ("h" . hide-other)
+                            ("s" . org-save-all-org-buffers)
+                            ("z" . org-add-note)
+                            ("N" . org-narrow-to-subtree)
+                            ("W" . widen))))
     #+END_SRC
 
 ** Org TODO Configuration
@@ -1529,24 +1535,24 @@ helm-visible-mark
     fast access to these states described [[info:org#Fast%20access%20to%20TODO%20states][here]].
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-todo-keywords
-        (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
-            (sequence "WAITING(w@/!)" "SOMEDAY(s!)" "|" "CANCELED(c@/!)")
-            (sequence "OPEN(O)" "|" "CLOSED(C)"))))
+      (setq org-todo-keywords
+            (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
+                (sequence "WAITING(w@/!)" "SOMEDAY(s!)" "|" "CANCELED(c@/!)")
+                (sequence "OPEN(O)" "|" "CLOSED(C)"))))
     #+END_SRC
 
     Also, the keywords can be specifically colored to help the eye
     infer meaning quickly.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-todo-keyword-faces (quote (("TODO" :foreground "red" :weight bold)
-   ("NEXT" :foreground "blue" :weight bold)
-   ("DONE" :foreground "forest green" :weight bold)
-   ("WAITING" :foreground "yellow" :weight bold)
-   ("SOMEDAY" :foreground "goldenrod" :weight bold)
-   ("CANCELED" :foreground "orangered" :weight bold)
-   ("OPEN" :foreground "magenta" :weight bold)
-   ("CLOSED" :foreground "forest green" :weight bold))))
+      (setq org-todo-keyword-faces (quote (("TODO" :foreground "red" :weight bold)
+       ("NEXT" :foreground "blue" :weight bold)
+       ("DONE" :foreground "forest green" :weight bold)
+       ("WAITING" :foreground "yellow" :weight bold)
+       ("SOMEDAY" :foreground "goldenrod" :weight bold)
+       ("CANCELED" :foreground "orangered" :weight bold)
+       ("OPEN" :foreground "magenta" :weight bold)
+       ("CLOSED" :foreground "forest green" :weight bold))))
     #+END_SRC
 
 *** Tags
@@ -1560,7 +1566,7 @@ helm-visible-mark
     differentiate simple tasks from more complex ones.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-tag-alist '(("PROJECT" . ?p)))
+      (setq org-tag-alist '(("PROJECT" . ?p)))
     #+END_SRC
 
 *** Mechanics
@@ -1585,30 +1591,30 @@ helm-visible-mark
     indicates to set the flag, empty means to remove it.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-todo-state-tags-triggers
-        (quote (("CANCELED"
-                 ("CANCELED" . t))
-                ("WAITING"
-                 ("WAITING" . t))
-                ("SOMEDAY"
-                 ("SOMEDAY" . t))
-                (done
-                 ("WAITING"))
-                ("TODO"
-                 ("WAITING")
-                 ("CANCELED"))
-                ("NEXT"
-                 ("WAITING"))
-                ("DONE"
-                 ("WAITING")
-                 ("CANCELED")))))
+      (setq org-todo-state-tags-triggers
+            (quote (("CANCELED"
+                     ("CANCELED" . t))
+                    ("WAITING"
+                     ("WAITING" . t))
+                    ("SOMEDAY"
+                     ("SOMEDAY" . t))
+                    (done
+                     ("WAITING"))
+                    ("TODO"
+                     ("WAITING")
+                     ("CANCELED"))
+                    ("NEXT"
+                     ("WAITING"))
+                    ("DONE"
+                     ("WAITING")
+                     ("CANCELED")))))
     #+END_SRC
 
     Along with tags and states are priorities. I do not use task
     priorities myself so I turn them off.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-enable-priority-commands nil)
+      (setq org-enable-priority-commands nil)
     #+END_SRC
 
 **** Logging
@@ -1618,9 +1624,9 @@ helm-visible-mark
      setting to set a different drawer for clocking and logs.
 
      #+BEGIN_SRC emacs-lisp
-  (setq org-log-done (quote note))
-  (setq org-log-into-drawer t)
-  (setq org-drawers '("PROPERTIES" "LOGBOOK" "CLOCK"))
+       (setq org-log-done (quote note))
+       (setq org-log-into-drawer t)
+       (setq org-drawers '("PROPERTIES" "LOGBOOK" "CLOCK"))
      #+END_SRC
 
 **** Sub-tasks
@@ -1632,8 +1638,8 @@ helm-visible-mark
      without the completion of the sub-tasks.
 
      #+BEGIN_SRC emacs-lisp
-  (setq org-enforce-todo-checkbox-dependencies t)
-  (setq org-enforce-todo-dependencies t)
+       (setq org-enforce-todo-checkbox-dependencies t)
+       (setq org-enforce-todo-dependencies t)
      #+END_SRC
 
      Because of the previous enforcement of state, I can also
@@ -1642,11 +1648,11 @@ helm-visible-mark
      are all done.
 
      #+BEGIN_SRC emacs-lisp
-  (defun org-summary-todo (n-done n-not-done)
-    "Switch entry to DONE when all sub-entries are done, to TODO otherwise."
-    (let (org-log-done org-log-states)
-      (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-  (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+       (defun org-summary-todo (n-done n-not-done)
+         "Switch entry to DONE when all sub-entries are done, to TODO otherwise."
+         (let (org-log-done org-log-states)
+           (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+       (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
      #+END_SRC
 
 ** Capture
@@ -1656,34 +1662,34 @@ helm-visible-mark
    goes, and what the user needs to type.
 
    #+BEGIN_SRC emacs-lisp
-  (setq org-capture-templates
-        '(("t" "Todo" entry
-       (file "~/Documents/Org/Refile.org")
-       "* TODO %?\n  %U\n" :clock-in t :clock-resume t)
-      ("r" "todo (Remember location)" entry
-       (file "~/Documents/Org/Refile.org")
-       "* TODO %?\n  %U\n  %a" :clock-in t :clock-resume t)
-      ("n" "Note" entry
-       (file "~/Documents/Org/Refile.org")
-       "* %?                                                                            :NOTE:\n  %U\n  %a\n  :CLOCK:\n  :END:")
-      ("i" "Isabelle Journal" entry (file+datetree "~/Documents/Personal/Org/Isabelle.org")
-       "* %?\n\tEntered on %U")
-      ("j" "Johannes Journal" entry (file+datetree "~/Documents/Personal/Org/Johannes.org")
-       "* %?\n\tEntered on %U")
-      ("a" "Andrea Journal" entry (file+datetree "~/Documents/Personal/Org/Andrea.org")
-       "* %?\n\tEntered on %U")
-      ("e" "Journal" entry (file+datetree "~/Documents/Personal/Org/Journal.org")
-       "* %?\n\tEntered on %U")
-      ("c" "Capture current TODO mix in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Burndown")
-       "%(bnb/org-count-tasks-by-status)")
-      ("s" "Capture Weekly Score in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Scores")
-       "%(bnb/add-weekly-score-table-entry)")
-      ("o" "org-outlook" entry
-       (file "~/Documents/Org/Refile.org")
-       "* TODO EMAIL: %:title (%:sender)
-    %c
+     (setq org-capture-templates
+           '(("t" "Todo" entry
+          (file "~/Documents/Org/Refile.org")
+          "* TODO %?\n  %U\n" :clock-in t :clock-resume t)
+         ("r" "todo (Remember location)" entry
+          (file "~/Documents/Org/Refile.org")
+          "* TODO %?\n  %U\n  %a" :clock-in t :clock-resume t)
+         ("n" "Note" entry
+          (file "~/Documents/Org/Refile.org")
+          "* %?                                                                            :NOTE:\n  %U\n  %a\n  :CLOCK:\n  :END:")
+         ("i" "Isabelle Journal" entry (file+datetree "~/Documents/Personal/Org/Isabelle.org")
+          "* %?\n\tEntered on %U")
+         ("j" "Johannes Journal" entry (file+datetree "~/Documents/Personal/Org/Johannes.org")
+          "* %?\n\tEntered on %U")
+         ("a" "Andrea Journal" entry (file+datetree "~/Documents/Personal/Org/Andrea.org")
+          "* %?\n\tEntered on %U")
+         ("e" "Journal" entry (file+datetree "~/Documents/Personal/Org/Journal.org")
+          "* %?\n\tEntered on %U")
+         ("c" "Capture current TODO mix in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Burndown")
+          "%(bnb/org-count-tasks-by-status)")
+         ("s" "Capture Weekly Score in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Scores")
+          "%(bnb/add-weekly-score-table-entry)")
+         ("o" "org-outlook" entry
+          (file "~/Documents/Org/Refile.org")
+          "* TODO EMAIL: %:title (%:sender)
+       %c
 
-    %?" :clock-in t :clock-resume t)))
+       %?" :clock-in t :clock-resume t)))
    #+END_SRC
 
    There are five main capture templates here. The first two store a
@@ -1710,33 +1716,33 @@ helm-visible-mark
     task amount and mix at a glance.
 
     #+BEGIN_SRC emacs-lisp
-  (defun bnb/org-count-tasks-by-status ()
-    (interactive)
-    (let ((counts (make-hash-table :test 'equal))
-          (today (format-time-string "%Y-%m-%d" (current-time)))
-          values output)
-      (org-map-entries
-       (lambda ()
-         (let ((status (elt (org-heading-components) 2)))
-           (when status
-             (puthash status (1+ (or (gethash status counts) 0)) counts))))
-       "-HOME"
-       'agenda)
-      (setq values (mapcar (lambda (x)
-                             (or (gethash x counts) 0))
-                           '("DONE" "STARTED" "TODO" "WAITING" "CANCELLED" "SOMEDAY")))
-      (setq output
-            (concat "| " today " | "
-                    (mapconcat 'number-to-string values " | ")
-                    " | "
-                    (number-to-string (apply '+ values))
-                    " | "
-                    (number-to-string
-                     (round (/ (* 100.0 (car values)) (apply '+ values))))
-                    "% |"))
-      (if (called-interactively-p 'any)
-          (insert output)
-        output)))
+      (defun bnb/org-count-tasks-by-status ()
+        (interactive)
+        (let ((counts (make-hash-table :test 'equal))
+              (today (format-time-string "%Y-%m-%d" (current-time)))
+              values output)
+          (org-map-entries
+           (lambda ()
+             (let ((status (elt (org-heading-components) 2)))
+               (when status
+                 (puthash status (1+ (or (gethash status counts) 0)) counts))))
+           "-HOME"
+           'agenda)
+          (setq values (mapcar (lambda (x)
+                                 (or (gethash x counts) 0))
+                               '("DONE" "STARTED" "TODO" "WAITING" "CANCELLED" "SOMEDAY")))
+          (setq output
+                (concat "| " today " | "
+                        (mapconcat 'number-to-string values " | ")
+                        " | "
+                        (number-to-string (apply '+ values))
+                        " | "
+                        (number-to-string
+                         (round (/ (* 100.0 (car values)) (apply '+ values))))
+                        "% |"))
+          (if (called-interactively-p 'any)
+              (insert output)
+            output)))
     #+END_SRC
 
     I also have a helper function to get the score of done tasks
@@ -1774,10 +1780,10 @@ helm-visible-mark
    Finally, I set the filenames to be first for refiling.
 
    #+BEGIN_SRC emacs-lisp
-  (setq org-refile-use-cache t)
-  (setq org-refile-targets '((org-agenda-files :maxlevel . 2)
-                             (nil :maxlevel . 5)))
-  (setq org-refile-use-outline-path 'file)
+     (setq org-refile-use-cache t)
+     (setq org-refile-targets '((org-agenda-files :maxlevel . 2)
+                                (nil :maxlevel . 5)))
+     (setq org-refile-use-outline-path 'file)
    #+END_SRC
 
 ** Agenda
@@ -1791,16 +1797,16 @@ helm-visible-mark
    and only show a time grid if a scheduled tasks exists.
 
    #+BEGIN_SRC emacs-lisp
-  (setq org-agenda-show-inherited-tags t)
+     (setq org-agenda-show-inherited-tags t)
 
-  (setq org-agenda-log-mode-items '(clock))
+     (setq org-agenda-log-mode-items '(clock))
 
-  (setq org-agenda-clockreport-parameter-plist (quote (:link nil :maxlevel 2 :fileskip0 t)))
+     (setq org-agenda-clockreport-parameter-plist (quote (:link nil :maxlevel 2 :fileskip0 t)))
 
-  (setq org-agenda-time-grid
-        (quote ((daily today require-timed)
-            "----------------"
-            (800 1000 1200 1400 1600 1800 2000))))
+     (setq org-agenda-time-grid
+           (quote ((daily today require-timed)
+               "----------------"
+               (800 1000 1200 1400 1600 1800 2000))))
    #+END_SRC
 
 *** Views
@@ -1814,82 +1820,82 @@ helm-visible-mark
     display a note with agenda.
 
     #+BEGIN_SRC emacs-lisp
-  (defun bnb/org-agenda-with-tip (arg)
-    (org-agenda-list arg)
-    (let ((inhibit-read-only t)
-          (pos (point)))
-      (goto-char (point-max))
-      (insert "\n" (bnb/random-keybinding))
-      (goto-char pos)))
+      (defun bnb/org-agenda-with-tip (arg)
+        (org-agenda-list arg)
+        (let ((inhibit-read-only t)
+              (pos (point)))
+          (goto-char (point-max))
+          (insert "\n" (bnb/random-keybinding))
+          (goto-char pos)))
     #+END_SRC
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-agenda-custom-commands
-        (quote (("a" "Agenda" bnb/org-agenda-with-tip)
-                ("w" "Tasks waiting on something" tags "WAITING/!"
-                 ((org-use-tag-inheritance nil)
-                  (org-agenda-todo-ignore-scheduled nil)
-                  (org-agenda-todo-ignore-deadlines nil)
-                  (org-agenda-todo-ignore-with-date nil)
-                  (org-agenda-overriding-header "Waiting Tasks")))
-                ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
-                 ((org-agenda-todo-ignore-with-date nil)
-                  (org-agenda-todo-ignore-deadlines nil)
-                  (org-agenda-todo-ignore-scheduled nil)
-                  (org-agenda-overriding-header "Tasks to Refile")))
-                ("n" "Next" tags-todo "-WAITING-CANCELED/!NEXT"
-                 ((org-agenda-overriding-header "Next Tasks")))
-                ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELED"
-                 ((org-agenda-overriding-header "Tasks to Archive")))
-                ("u" "Upcoming tasks" tags "+SCHEDULED<=\"<+1w>\"-TODO=\"DONE\"|+DEADLINE<=\"<+1w>\"-TODO=\"DONE\""
-                 ((org-agenda-overriding-header "Upcoming tasks")))
-                ("U" "Unscheduled tasks" todo "TODO"
-                 ((org-agenda-overriding-header "Unscheduled Tasks")
-                   (org-agenda-skip-function
-                   (lambda nil
-                     (org-agenda-skip-entry-if (quote scheduled) (quote deadline))))))
-                ("P" "Printable Agenda" ;tags-todo "-DONE-CANCELED-SOMEDAY"
-                 ((tags-todo "+IGNORE"
-                             ((org-agenda-overriding-header "\n== Upcoming Items ==\n")))
-                  (agenda "" ((org-agenda-span 14)
-                              (org-agenda-start-on-weekday nil)
-                              (org-agenda-prefix-format "[ ] %T:\t")
-                              (org-agenda-repeating-timestamp-show-all t)
-                              (org-deadline-warning-days 7)))
-                  (tags-todo "-DRB-SOMEDAY-REFERENCE-BNBECKWITH"
-                             ((org-agenda-prefix-format "[ ] %T:\t")
-                              (org-agenda-sorting-strategy '(tag-up priority-down))
-                              (org-agenda-todo-keyword-format "")
-                              (org-agenda-todo-ignore-with-date nil)
-                              (org-agenda-todo-ignore-scheduled nil)
-                              (org-agenda-todo-ignore-deadlines nil)
-                              (org-agenda-overriding-header "\nTasks by Context\n------------------\n"))))
-                 ((ps-number-of-columns 2)
-                  (ps-landscape-mode t)
-                  (org-agenda-with-colors nil)
-                  (org-agenda-compact-blocks t)
-                  (org-agenda-remove-tags t)
-                  (ps-paper-type 'a4))
-                 ("~/TODO.pdf" "~/TODO.ps"))
-                ("l" "Scoreless" tags-todo "+Score<1"
-                 ((org-agenda-todo-ignore-with-date nil)
-                  (org-agenda-todo-ignore-scheduled nil)
-                  (org-agenda-todo-ignore-deadlines nil)
-                  (org-agenda-overriding-header "Scoreless Tasks")))
-                ("h" "Habits" tags "STYLE=\"habit\""
-                 ((org-agenda-todo-ignore-with-date nil)
-                  (org-agenda-todo-ignore-scheduled nil)
-                  (org-agenda-todo-ignore-deadlines nil)
-                  (org-agenda-overriding-header "Habits")))
-                ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE+PROJECT|LEVEL=1+REFILE/!-DONE-CANCELED"
-                 ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
-                  (org-agenda-overriding-header "Stuck Projects")))
-                ("z" "Agenda (including Personal Files)" agenda ""
-                 ((org-agenda-files (list "~/Documents/Personal/Org/"))))
-                ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
-                 ((org-agenda-skip-function
-                   '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
-                  (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
+      (setq org-agenda-custom-commands
+            (quote (("a" "Agenda" bnb/org-agenda-with-tip)
+                    ("w" "Tasks waiting on something" tags "WAITING/!"
+                     ((org-use-tag-inheritance nil)
+                      (org-agenda-todo-ignore-scheduled nil)
+                      (org-agenda-todo-ignore-deadlines nil)
+                      (org-agenda-todo-ignore-with-date nil)
+                      (org-agenda-overriding-header "Waiting Tasks")))
+                    ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
+                     ((org-agenda-todo-ignore-with-date nil)
+                      (org-agenda-todo-ignore-deadlines nil)
+                      (org-agenda-todo-ignore-scheduled nil)
+                      (org-agenda-overriding-header "Tasks to Refile")))
+                    ("n" "Next" tags-todo "-WAITING-CANCELED/!NEXT"
+                     ((org-agenda-overriding-header "Next Tasks")))
+                    ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELED"
+                     ((org-agenda-overriding-header "Tasks to Archive")))
+                    ("u" "Upcoming tasks" tags "+SCHEDULED<=\"<+1w>\"-TODO=\"DONE\"|+DEADLINE<=\"<+1w>\"-TODO=\"DONE\""
+                     ((org-agenda-overriding-header "Upcoming tasks")))
+                    ("U" "Unscheduled tasks" todo "TODO"
+                     ((org-agenda-overriding-header "Unscheduled Tasks")
+                       (org-agenda-skip-function
+                       (lambda nil
+                         (org-agenda-skip-entry-if (quote scheduled) (quote deadline))))))
+                    ("P" "Printable Agenda" ;tags-todo "-DONE-CANCELED-SOMEDAY"
+                     ((tags-todo "+IGNORE"
+                                 ((org-agenda-overriding-header "\n== Upcoming Items ==\n")))
+                      (agenda "" ((org-agenda-span 14)
+                                  (org-agenda-start-on-weekday nil)
+                                  (org-agenda-prefix-format "[ ] %T:\t")
+                                  (org-agenda-repeating-timestamp-show-all t)
+                                  (org-deadline-warning-days 7)))
+                      (tags-todo "-DRB-SOMEDAY-REFERENCE-BNBECKWITH"
+                                 ((org-agenda-prefix-format "[ ] %T:\t")
+                                  (org-agenda-sorting-strategy '(tag-up priority-down))
+                                  (org-agenda-todo-keyword-format "")
+                                  (org-agenda-todo-ignore-with-date nil)
+                                  (org-agenda-todo-ignore-scheduled nil)
+                                  (org-agenda-todo-ignore-deadlines nil)
+                                  (org-agenda-overriding-header "\nTasks by Context\n------------------\n"))))
+                     ((ps-number-of-columns 2)
+                      (ps-landscape-mode t)
+                      (org-agenda-with-colors nil)
+                      (org-agenda-compact-blocks t)
+                      (org-agenda-remove-tags t)
+                      (ps-paper-type 'a4))
+                     ("~/TODO.pdf" "~/TODO.ps"))
+                    ("l" "Scoreless" tags-todo "+Score<1"
+                     ((org-agenda-todo-ignore-with-date nil)
+                      (org-agenda-todo-ignore-scheduled nil)
+                      (org-agenda-todo-ignore-deadlines nil)
+                      (org-agenda-overriding-header "Scoreless Tasks")))
+                    ("h" "Habits" tags "STYLE=\"habit\""
+                     ((org-agenda-todo-ignore-with-date nil)
+                      (org-agenda-todo-ignore-scheduled nil)
+                      (org-agenda-todo-ignore-deadlines nil)
+                      (org-agenda-overriding-header "Habits")))
+                    ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE+PROJECT|LEVEL=1+REFILE/!-DONE-CANCELED"
+                     ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
+                      (org-agenda-overriding-header "Stuck Projects")))
+                    ("z" "Agenda (including Personal Files)" agenda ""
+                     ((org-agenda-files (list "~/Documents/Personal/Org/"))))
+                    ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
+                     ((org-agenda-skip-function
+                       '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
+                      (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
     #+END_SRC
 
     Phew! That is a lot of lisp! It is easiest to describe each view
@@ -1981,9 +1987,9 @@ helm-visible-mark
    twice (interrupted task).
 
    #+BEGIN_SRC emacs-lisp
-  (org-clock-persistence-insinuate)
-  (setq org-clock-history-length 28)
-  (setq org-clock-in-resume t)
+     (org-clock-persistence-insinuate)
+     (setq org-clock-history-length 28)
+     (setq org-clock-in-resume t)
    #+END_SRC
 
    Behavior of the clock can change to accommodate other needs. I
@@ -1992,9 +1998,9 @@ helm-visible-mark
    item completes.
 
    #+BEGIN_SRC emacs-lisp
-  (setq org-clock-into-drawer "CLOCK")
-  (setq org-clock-out-remove-zero-time-clocks t)
-  (setq org-clock-out-when-done t)
+     (setq org-clock-into-drawer "CLOCK")
+     (setq org-clock-out-remove-zero-time-clocks t)
+     (setq org-clock-out-when-done t)
    #+END_SRC
 
    Two settings help resolve most clock issues that I have
@@ -2003,8 +2009,8 @@ helm-visible-mark
    to handle the situation where a dangling clock exists.
 
    #+BEGIN_SRC emacs-lisp
-  (setq org-clock-persist 'history)
-  (setq org-clock-auto-clock-resolution 'when-no-clock-is-running)
+     (setq org-clock-persist 'history)
+     (setq org-clock-auto-clock-resolution 'when-no-clock-is-running)
    #+END_SRC
 
    Two final settings regarding clocking setup how I change and view
@@ -2013,8 +2019,8 @@ helm-visible-mark
    minute increments.
 
    #+BEGIN_SRC emacs-lisp
-  (setq org-clock-report-include-clocking-task t)
-  (setq org-time-stamp-rounding-minutes '(1 15))
+     (setq org-clock-report-include-clocking-task t)
+     (setq org-time-stamp-rounding-minutes '(1 15))
    #+END_SRC
 
 ** Modules
@@ -2022,22 +2028,22 @@ helm-visible-mark
    Org-modules allow for specific functionality within org-mode.
 
    #+BEGIN_SRC emacs-lisp
-  (setq org-modules
-        (quote
-         (org-bbdb
-          org-bibtex
-          org-crypt
-          org-gnus
-          org-id
-          org-info
-          org-jsinfo
-          org-habit
-          org-inlinetask
-          org-irc
-          org-plot
-          org-protocol
-          org-bookmark
-          org-calc)))
+     (setq org-modules
+           (quote
+            (org-bbdb
+             org-bibtex
+             org-crypt
+             org-gnus
+             org-id
+             org-info
+             org-jsinfo
+             org-habit
+             org-inlinetask
+             org-irc
+             org-plot
+             org-protocol
+             org-bookmark
+             org-calc)))
    #+END_SRC
 *** Org-protocol
 
@@ -2045,7 +2051,7 @@ helm-visible-mark
     order to work.
 
     #+BEGIN_SRC emacs-lisp
-  (require 'org-protocol)
+      (require 'org-protocol)
     #+END_SRC
 
 *** Crypt
@@ -2054,9 +2060,9 @@ helm-visible-mark
     with the "crypt" tag.
 
     #+BEGIN_SRC emacs-lisp
-  (require 'org-crypt)
-  (org-crypt-use-before-save-magic)
-  (setq org-tags-exclude-from-inheritance (quote ("crypt")))
+      (require 'org-crypt)
+      (org-crypt-use-before-save-magic)
+      (setq org-tags-exclude-from-inheritance (quote ("crypt")))
     #+END_SRC
 
     The =org-crypt-key= variable will let this use an address from
@@ -2071,14 +2077,8 @@ helm-visible-mark
     My one setting blow sets a width for the graph in Agenda View.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-habit-graph-column 50)
+      (setq org-habit-graph-column 50)
     #+END_SRC
-
-*** Drill
-
-#+BEGIN_SRC emacs-lisp
-  (require 'org-drill)
-#+END_SRC
 
 ** Babel
 
@@ -2108,8 +2108,8 @@ helm-visible-mark
     The default columns are as follows.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-columns-default-format
-        "%80ITEM(Task) %5Score{+} %10Effort(Effort){:} %10CLOCKSUM")
+      (setq org-columns-default-format
+            "%80ITEM(Task) %5Score{+} %10Effort(Effort){:} %10CLOCKSUM")
     #+END_SRC
 
 *** Automatically save org files
@@ -2119,7 +2119,7 @@ helm-visible-mark
     save at the top of every hour to be sure.
 
     #+BEGIN_SRC emacs-lisp
-  (run-at-time "00:59" 3600 'org-save-all-org-buffers)
+      (run-at-time "00:59" 3600 'org-save-all-org-buffers)
     #+END_SRC
 
 *** File Applications
@@ -2129,11 +2129,11 @@ helm-visible-mark
     set to default rely on the OS to supply a program.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-file-apps
-        (quote ((auto-mode . emacs)
-            ("\\.x?html?\\'" . default)
-            ("\\.pdf\\'" . default)
-            ("\\.mm\\'" . default))))
+      (setq org-file-apps
+            (quote ((auto-mode . emacs)
+                ("\\.x?html?\\'" . default)
+                ("\\.pdf\\'" . default)
+                ("\\.mm\\'" . default))))
     #+END_SRC
 
 *** Goto Interface
@@ -2146,7 +2146,7 @@ helm-visible-mark
     and forth with the default and =outline-path-completion= setting.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-goto-interface 'outline-path)
+      (setq org-goto-interface 'outline-path)
     #+END_SRC
 
 *** Special Control Keys
@@ -2165,8 +2165,8 @@ helm-visible-mark
     headline text, it kills the tags.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-special-ctrl-a/e t)
-  (setq org-special-ctrl-k t)
+      (setq org-special-ctrl-a/e t)
+      (setq org-special-ctrl-k t)
     #+END_SRC
 
 *** Auto-revert mode
@@ -2178,7 +2178,7 @@ helm-visible-mark
     exists elsewhere.
 
     #+BEGIN_SRC emacs-lisp
-  (setq global-auto-revert-mode t)
+      (setq global-auto-revert-mode t)
     #+END_SRC
 
 *** IDO Integration
@@ -2204,8 +2204,8 @@ helm-visible-mark
     hide the leading stars.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-odd-levels-only nil)
-  (setq org-hide-leading-stars nil)
+      (setq org-odd-levels-only nil)
+      (setq org-hide-leading-stars nil)
     #+END_SRC
 
     Cycling the headline states can produce different views of the
@@ -2216,15 +2216,15 @@ helm-visible-mark
     =C-c C-j=.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-cycle-separator-lines 0)
-  (setq org-startup-folded 'content)
+      (setq org-cycle-separator-lines 0)
+      (setq org-startup-folded 'content)
     #+END_SRC
 
     When using SRC-blocks, org can provide highlighting native to
     the SRC type. Note that this may slow down some files.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-src-fontify-natively t)
+      (setq org-src-fontify-natively t)
     #+END_SRC
 
 *** Insertion
@@ -2232,86 +2232,88 @@ helm-visible-mark
      I define when org should leave a blank line before an
      item. In my case, it is headings and plain list items.
 
-#+BEGIN_SRC emacs-lisp
-  (setq org-blank-before-new-entry '((heading)
-                                     (plain-list-item)))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (setq org-blank-before-new-entry '((heading)
+                                         (plain-list-item)))
+    #+END_SRC
 
      Also, when inserting a new heading, do so after the current
      subtree.
 
-#+BEGIN_SRC emacs-lisp
-  (setq org-insert-heading-respect-content t)
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (setq org-insert-heading-respect-content t)
+    #+END_SRC
 
 *** Properties
 
-#+BEGIN_SRC emacs-lisp
-  (setq org-global-properties (quote (("STYLE_ALL" . "habit")
-                      ("Effort_ALL" . "0:10 0:30 1:00 2:00 3:00 4:00")
-                      ("Score_ALL" . "10 5 2 1"))))
-#+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (setq org-global-properties (quote (("STYLE_ALL" . "habit")
+                          ("Effort_ALL" . "0:10 0:30 1:00 2:00 3:00 4:00")
+                          ("Score_ALL" . "10 5 2 1"))))
+    #+END_SRC
 
 ** Org-drill
 
+   #+BEGIN_SRC emacs-lisp
+     (require 'org-drill)
+   #+END_SRC
 
 
 * Elisp Extras
 
 ** Google
 
-#+BEGIN_SRC emacs-lisp
-(defun google ()
-  "Google the selected region if any, display a query prompt otherwise."
-  (interactive)
-  (browse-url
-   (concat
-    "http://www.google.com/search?ie=utf-8&oe=utf-8&q="
-    (url-hexify-string (if mark-active
-         (buffer-substring (region-beginning) (region-end))
-       (read-string "Google: "))))))
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (defun google ()
+       "Google the selected region if any, display a query prompt otherwise."
+       (interactive)
+       (browse-url
+        (concat
+         "http://www.google.com/search?ie=utf-8&oe=utf-8&q="
+         (url-hexify-string (if mark-active
+              (buffer-substring (region-beginning) (region-end))
+            (read-string "Google: "))))))
+   #+END_SRC
 
 ** Keywiz from Sacha Chua
 
-    Taken from
-    [[http://sachachua.com/blog/2013/02/rediscovering-emacs-features-or-what-to-do-after-you-get-carried-away-installing-packages/]]
+   Taken from
+   [[http://sachachua.com/blog/2013/02/rediscovering-emacs-features-or-what-to-do-after-you-get-carried-away-installing-packages/]]
+   This gets used in the default agenda view to provide help on
+   built-in keybindings.
 
-    This gets used in the default agenda view to provide help on
-    built-in keybindings.
-
-#+BEGIN_SRC emacs-lisp
-  (unless (package-installed-p 'keywiz)
-    (package-install 'keywiz))
-  (require 'keywiz)
-  (defun bnb/load-keybindings ()
-    "Since we don't want to have to pass through a keywiz game each time..."
-    (setq keywiz-cached-commands nil)
-    (do-all-symbols (sym)
-      (when (and (commandp sym)
-                 (not (memq sym '(self-insert-command
-                                  digit-argument undefined))))
-        (let ((keys (apply 'nconc (mapcar
-                                   (lambda (key)
-                                     (when (keywiz-key-press-event-p key)
-                                       (list key)))
-                                   (where-is-internal sym)))))
-          (and keys
-               (push (list sym keys) keywiz-cached-commands))))))
-  (bnb/load-keybindings)
-  ;; Might be good to use this in org-agenda...
-  (defun bnb/random-keybinding ()
-    "Describe a random keybinding."
-    (let* ((command (keywiz-random keywiz-cached-commands))
-           (doc (and command (documentation (car command)))))
-      (if command
-          (concat (symbol-name (car command)) " "
-                  "(" (mapconcat 'key-description (cadr command) ", ") ")"
-                  (if doc
-                      (concat ": " (substring doc 0 (string-match "\n" doc)))
-                    ""))
-        "")))
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (unless (package-installed-p 'keywiz)
+       (package-install 'keywiz))
+     (require 'keywiz)
+     (defun bnb/load-keybindings ()
+       "Since we don't want to have to pass through a keywiz game each time..."
+       (setq keywiz-cached-commands nil)
+       (do-all-symbols (sym)
+         (when (and (commandp sym)
+                    (not (memq sym '(self-insert-command
+                                     digit-argument undefined))))
+           (let ((keys (apply 'nconc (mapcar
+                                      (lambda (key)
+                                        (when (keywiz-key-press-event-p key)
+                                          (list key)))
+                                      (where-is-internal sym)))))
+             (and keys
+                  (push (list sym keys) keywiz-cached-commands))))))
+     (bnb/load-keybindings)
+     ;; Might be good to use this in org-agenda...
+     (defun bnb/random-keybinding ()
+       "Describe a random keybinding."
+       (let* ((command (keywiz-random keywiz-cached-commands))
+              (doc (and command (documentation (car command)))))
+         (if command
+             (concat (symbol-name (car command)) " "
+                     "(" (mapconcat 'key-description (cadr command) ", ") ")"
+                     (if doc
+                         (concat ": " (substring doc 0 (string-match "\n" doc)))
+                       ""))
+           "")))
+   #+END_SRC
 
 ** Auto-display agenda
 
@@ -2320,32 +2322,32 @@ helm-visible-mark
     John Weigley shows a way to display the agenda after some period
     of inactivity.
 
-#+BEGIN_SRC emacs-lisp
-  (defun bnb/jump-to-org-agenda ()
-    (interactive)
-    (let ((buf (get-buffer "*Org Agenda*"))
-          wind)
-      (if buf
-          (if (setq wind (get-buffer-window buf))
-              (select-window wind)
-            (if (called-interactively-p)
-                (progn
-                  (select-window (display-buffer buf t t))
-                  (org-fit-window-to-buffer))
-              (with-selected-window (display-buffer buf)
-                (org-fit-window-to-buffer))))
-         (bnb/org-agenda-with-tip nil))))
+   #+BEGIN_SRC emacs-lisp
+     (defun bnb/jump-to-org-agenda ()
+       (interactive)
+       (let ((buf (get-buffer "*Org Agenda*"))
+             wind)
+         (if buf
+             (if (setq wind (get-buffer-window buf))
+                 (select-window wind)
+               (if (called-interactively-p)
+                   (progn
+                     (select-window (display-buffer buf t t))
+                     (org-fit-window-to-buffer))
+                 (with-selected-window (display-buffer buf)
+                   (org-fit-window-to-buffer))))
+            (bnb/org-agenda-with-tip nil))))
 
-  (defun bnb/idle-agenda (&optional arg)
-    (interactive "P")
-    (setq bnb/iagenda
-          (if arg
-              (cancel-timer bnb/iagenda)
-            (run-with-idle-timer 3600 t 'bnb/jump-to-org-agenda))))
+     (defun bnb/idle-agenda (&optional arg)
+       (interactive "P")
+       (setq bnb/iagenda
+             (if arg
+                 (cancel-timer bnb/iagenda)
+               (run-with-idle-timer 3600 t 'bnb/jump-to-org-agenda))))
 
-  (when (eq system-type 'windows-nt)
-    (bnb/idle-agenda))
-#+END_SRC
+     (when (eq system-type 'windows-nt)
+       (bnb/idle-agenda))
+   #+END_SRC
 
     The when clause at the end is because I primarily keep my agenda
     information on Windows. No need to have my agenda open on the
@@ -2356,9 +2358,9 @@ helm-visible-mark
    [[info:emacs#Emacs%20Server][Using Emacs as a server]] is a great way to keep the power
    responsive.
 
-#+BEGIN_SRC emacs-lisp
-  (server-start)
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (server-start)
+  #+END_SRC
 
    I need to look into the TCP connections to see how
    that work across machines. Perhaps it can be useful in a
@@ -2370,10 +2372,10 @@ helm-visible-mark
    settings such as proxies, paths, fonts, etc. that may vary from
    machine to machine.
 
-#+BEGIN_SRC emacs-lisp
-  (setq custom-file "~/.emacs.d/custom.el")
-  (load-file custom-file)
-#+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (setq custom-file "~/.emacs.d/custom.el")
+    (load-file custom-file)
+  #+END_SRC
 
 * Local customizations (user-login-name)
 
