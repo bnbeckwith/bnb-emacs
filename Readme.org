@@ -124,12 +124,10 @@ choices.
       magit
       org-plus-contrib
       paredit
-      perspective
       powerline
       projectile
       rainbow-mode
       smart-tabs-mode
-      smex
       sublime-themes
       sunrise-commander
       undo-tree
@@ -517,40 +515,6 @@ choices.
      (guide-key-mode 1)
      (setq guide-key/recursive-key-sequence-flag t)
      (setq guide-key/popup-window-position 'bottom)
-   #+END_SRC
-
-** Perspective mode
-
-   #+BEGIN_SRC emacs-lisp
-  (persp-mode t)
-  (defmacro custom-persp (name &rest body)
-    `(let ((initialize (not (gethash ,name perspectives-hash)))
-           (current-perspective persp-curr))
-       (persp-switch ,name)
-       (when initialize ,@body)
-       (setq persp-last current-perspective)))
-
-  (defun custom-persp-last ()
-    (interactive)
-    (persp-switch (persp-name persp-last)))
-
-  (define-key persp-mode-map (kbd "C-x x -") 'custom-persp-last)
-   #+END_SRC
-
-   Now, add some custom perspectives for emacs or orgmode
-
-   #+BEGIN_SRC emacs-lisp
-  (defun bnb/persp/emacs ()
-    (interactive)
-    (custom-persp "emacs"
-                  (find-file "~/.emacs.d/bnb-emacs/Readme.org")))
-  (define-key persp-mode-map (kbd "C-x x e") 'bnb/persp/emacs)
-
-  (defun bnb/persp/org ()
-    (interactive)
-    (custom-persp "@org"
-                  (mapcar 'find-file org-agenda-files)))
-  (define-key persp-mode-map (kbd "C-x x o") 'bnb/persp/org)
    #+END_SRC
 
 ** Ace Utilities
