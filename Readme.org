@@ -176,7 +176,7 @@ choices.
 : M-x describe-personal-keybindings
 ** Personal Keymaps
 
-   These are ideas from
+   These are inspired from
    [[http://endlessparentheses.com/the-toggle-map-and-wizardry.html]]
 
 *** Toggle Map
@@ -202,12 +202,12 @@ choices.
       (bind-key "C-x g e" 'ielm)
       (bind-key "C-x g t" 'proced)
       (bind-key "C-x g k" 'describe-personal-keybindings)
-	#+END_SRC 
+	#+END_SRC
 
-*** Elisp Maps  
+*** Elisp Maps
 
     #+BEGIN_SRC emacs-lisp
-      (bind-key "C-c e b" 'do-eval-buffer) 
+      (bind-key "C-c e b" 'do-eval-buffer)
       (bind-key "C-c e e" 'toggle-debug-on-error)
       (bind-key "C-c e f" 'emacs-lisp-byte-compile-and-load)
       (bind-key "C-c e r" 'eval-region)
@@ -222,6 +222,7 @@ choices.
       (bind-key "C-h e l" 'find-library)
       (bind-key "C-h e v" 'find-variable)
       (bind-key "C-h e V" 'apropos-value)
+      (bind-key "C-h C-i" 'info-display-manual)
     #+END_SRC
 
 ** Minibuffer History Save
@@ -509,9 +510,9 @@ choices.
 
    #+BEGIN_SRC emacs-lisp
      (require 'guide-key)
-     (setq guide-key/guide-key-sequence  
+     (setq guide-key/guide-key-sequence
            '("C-x r" "C-x 4" "C-x v" "C-x 8" "C-x x" "C-x t" "C-x g"
-             "C-c e" "C-h e"))
+             "C-c e" "C-h e" "C-c h"))
      (guide-key-mode 1)
      (setq guide-key/recursive-key-sequence-flag t)
      (setq guide-key/popup-window-position 'bottom)
@@ -1035,6 +1036,14 @@ choices.
     | TAB           | Indents the current line or rectangle to the column of the global mark.                                             |
 
 
+* Paredit
+
+  I added =paredit-mode= to several of the lisp modes that follow.
+
+  [[http://www.emacswiki.org/emacs/PareditCheatsheet][Paredit Cheatsheet]]
+
+  [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][Animated Paredit]]
+
 * Clojure
 
   The easiest way to edit clojure code is with =paredit= so let's have
@@ -1124,9 +1133,9 @@ choices.
    This provides better =M-x= functionality.
 
    #+BEGIN_SRC emacs-lisp
-     (bind-key "M-x" 'smex)
-     (bind-key "M-X" 'smex-major-mode-commands)
-     (bind-key "C-c C-c M-x" 'execute-extended-command)
+     ;(bind-key "M-x" 'smex)
+     ;(bind-key "M-X" 'smex-major-mode-commands)
+     ;(bind-key "C-c C-c M-x" 'execute-extended-command)
    #+END_SRC
 
    One of the nice things about the default command selection (read
@@ -1367,6 +1376,7 @@ choices.
        (bind-key "<f12>" 'org-agenda)
        (bind-key "<apps>" 'org-agenda)
        (bind-key "<f9> v" 'visible-mode)
+       (bind-key "<f9> g" 'org-clock-goto)
        (bind-key "<f9> i" 'org-clock-in)
        (bind-key "<f9> o" 'org-clock-out)
      #+END_SRC
