@@ -1832,14 +1832,14 @@ choices.
    backend.
 
    #+BEGIN_SRC emacs-lisp
-  (setq org-export-latex-listings 'minted)
-  (setq org-export-latex-custom-lang-environments
-        '((emacs-lisp "common-lispcode")))
-  (setq org-export-latex-minted-options '())
-  (setq org-latex-to-pdf-process
-        '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+     (setq org-export-latex-listings 'minted)
+     (setq org-export-latex-custom-lang-environments
+           '((emacs-lisp "common-lispcode")))
+     (setq org-export-latex-minted-options '())
+     (setq org-latex-to-pdf-process
+           '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+             "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+             "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
    #+END_SRC
 
 
