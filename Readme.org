@@ -635,7 +635,7 @@ choices.
    if they are just pieces on their own, they belong here.
 
 *** Ensure proper lisping
- 
+
     #+BEGIN_SRC emacs-lisp
       (add-hook 'after-save-hook  'check-parens nil t)
     #+END_SRC
@@ -1083,6 +1083,106 @@ choices.
     (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
   #+END_SRC
 
+* Helm
+
+  #+BEGIN_SRC emacs-lisp
+    (require 'helm-config)
+
+    (bind-key "C-c h" 'helm-command-prefix)
+
+    (setq helm-quick-update                      t
+          helm-split-window-in-side-p            t
+          helm-buffers-fuzzy-matching            t
+          helm-move-to-line-cycle-in-source      t
+          helm-ff-search-library-in-sexp         t
+          helm-mode-reverse-history              nil
+          helm-scroll-amount                     8
+          helm-ff-file-name-history-use-recentf  t)
+
+    (helm-mode t)
+  #+END_SRC
+** Helm for R
+
+   Switch around some keybindings to put =helm-for-R= on the right
+   shortut and move around the regexp interface.
+
+   #+BEGIN_SRC emacs-lisp
+     (bind-key "C-c h r" 'helm-for-R)
+     (bind-key "C-c h x" 'helm-regexp)
+   #+END_SRC
+
+** Helm Kill Ring
+
+   #+BEGIN_SRC emacs-lisp
+     (bind-key "M-y" 'helm-show-kill-ring)
+   #+END_SRC
+
+** Helm Colors
+helm-action
+helm-bookmark-addressbook
+helm-bookmark-directory
+helm-bookmark-file
+helm-bookmark-gnus
+helm-bookmark-info
+helm-bookmark-man
+helm-bookmark-w3m
+helm-buffer-directory
+helm-buffer-file
+helm-buffer-not-saved
+helm-buffer-process
+helm-buffer-saved-out
+helm-buffer-size
+helm-candidate-number
+helm-ff-directory
+helm-ff-executable
+helm-ff-file
+helm-ff-invalid-symlink
+helm-ff-prefix
+helm-ff-symlink
+helm-grep-cmd-line
+helm-grep-file
+helm-grep-finish
+helm-grep-lineno
+helm-grep-match
+helm-grep-running
+helm-header
+helm-helper
+helm-history-deleted
+helm-history-remote
+helm-lisp-completion-info
+helm-lisp-show-completion
+helm-locate-finish
+helm-match
+helm-moccur-buffer
+helm-prefarg
+helm-resume-need-update
+helm-selection
+helm-selection-line
+helm-separator
+helm-source-header
+helm-swoop-target-line-block-face
+helm-swoop-target-line-face
+helm-swoop-target-word-face
+helm-visible-mark
+
+** Helm Spaces
+
+   #+BEGIN_SRC emacs-lisp
+     (bind-key "C-c h s" 'helm-spaces)
+   #+END_SRC
+** Helm Mini
+
+   #+BEGIN_SRC emacs-lisp
+     (bind-key "C-x b" 'helm-mini)
+   #+END_SRC
+** Helm Descbinds
+
+   Describe keybindings in the current modes.
+
+   #+BEGIN_SRC emacs-lisp
+     (bind-key "C-h b" 'helm-descbinds)
+   #+END_SRC
+
 * IDO (Interactively Do Things)
 
   I do not believe I could live without this on emacs. Even for just
@@ -1094,7 +1194,7 @@ choices.
   extensions to my liking and enable the mode.
 
   #+BEGIN_SRC emacs-lisp
-    (setq ido-everywhere t)
+    ;(setq ido-everywhere t)
     (setq ido-enable-flex-matching t)
     ; Do not ask to create a new buffer -- just do it.
     (setq ido-create-new-buffer 'always)
@@ -1103,7 +1203,7 @@ choices.
     ; Set extension ordering
     (setq ido-file-extensions-order '(".org" ".tex" ".el" ".txt" ".c" ".cpp" ".h" ".clj"))
     ; Enable mode
-    (ido-mode t)
+    ; (ido-mode t)
   #+END_SRC
 
   Additionally, I use the [[https://github.com/technomancy/ido-ubiquitous][ido-ubiquitous]] package to /really/ get =ido=
@@ -1111,7 +1211,7 @@ choices.
   on startup.
 
   #+BEGIN_SRC emacs-lisp
-    (ido-ubiquitous t)
+    ;(ido-ubiquitous t)
   #+END_SRC
 
 ** IDO Ubiquitous Settings
