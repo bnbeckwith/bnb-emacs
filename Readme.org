@@ -1791,14 +1791,31 @@ choices.
 
    Some global export settings make sense for HTML and \LaTeX
 
+
+*** HTML
+
    For HTML, I just want to inline the links to images.
 
    #+BEGIN_SRC emacs-lisp
-  (setq org-export-html-inline-images t)
+     (setq org-export-html-inline-images t)
    #+END_SRC
 
    I also used to suppress the postamble with
    =org-export-html-postamble=.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-html-postamble nil)
+   #+END_SRC
+
+
+   I'll use the /fancy/ HTML5 export by default.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-html-doctype "html5")
+     (setq org-html-html5-fancy t)
+   #+END_SRC
+
+*** LaTeX
 
    For \LaTeX, I want to convert fragments to images, and use minted
    for any source blocks. I also want to have =xelatex= as the
