@@ -465,8 +465,14 @@ choices.
    Commander. I have a global key below to launch the default
    interface.
 
+   I also turn off help for jumping directories.  For Sunrise, I find
+   the ido interface better.
+
    #+BEGIN_SRC emacs-lisp
      (bind-key "s-/" 'sunrise)
+
+     (add-to-list 'helm-completing-read-handlers-alist
+                  '(sr-goto-dir . ido))
    #+END_SRC
 
 *** Interesting Keys
@@ -945,6 +951,18 @@ choices.
       (package-install 'dired+))
     (put 'dired-find-alternate-file 'disabled nil)
   #+END_SRC
+
+** IDO for switching directories
+
+   I prefer IDO over Helm for switching directories.  It is just
+   faster for my fingers.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'helm-completing-read-handlers-alist
+                  '(dired-goto-file . ido))
+     (add-to-list 'helm-completing-read-handlers-alist
+                  '(dired . ido))
+   #+END_SRC
 
 * Smart Tabs
 
