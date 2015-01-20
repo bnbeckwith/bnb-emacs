@@ -548,6 +548,22 @@ choices.
 
     #+END_SRC
 
+*** Visual display
+
+    To improve the listings view of =dired=, I use the following (from
+    [[http://oremacs.com/2015/01/13/dired-options/]])
+
+    #+BEGIN_SRC emacs-lisp
+      (setq sr-listing-switches "-alhG1vu")
+    #+END_SRC
+
+    This makes the following settings
+
+    - l :: mandatory
+    - a :: list invisible files
+    - G :: omit group information
+    - h :: human readable sizes
+    - 1v :: Sort digits correctly
 
 ** Guide Key
 
