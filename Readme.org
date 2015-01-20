@@ -1442,6 +1442,7 @@ choices.
    #+BEGIN_SRC emacs-lisp
      (setq TeX-auto-untabify t)
      (setq TeX-auto-save t)
+     (setq TeX-save-query nil)
      (setq TeX-parse-self t)
      (setq-default TeX-master nil)
    #+END_SRC
