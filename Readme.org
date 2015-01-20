@@ -112,11 +112,34 @@ choices.
         bookmark+
         cider
         clojure-mode
+        clojure-mode-extra-font-locking
         color-theme-sanityinc-tomorrow
+        company
+        company-c-headers
+        company-cider
+        company-go
+        company-inf-python
         dired+
         edit-server
         expand-region
         guide-key
+        helm
+        helm-R
+        helm-bibtex
+        helm-css-scss
+        helm-descbinds
+        helm-git
+        helm-git-files
+        helm-helm-commands
+        helm-ls-git
+        helm-package
+        helm-proc
+        helm-projectile
+        helm-projectile-all
+        helm-spaces
+        helm-swoop
+        helm-themes
+        helm-w32-launcher
         htmlize
         highline
         ido-ubiquitous
@@ -174,6 +197,24 @@ choices.
    let you see a summary of your customizations with
 
 : M-x describe-personal-keybindings
+
+** Helm Initialization
+    #+BEGIN_SRC emacs-lisp
+      (require 'helm-config)
+
+      (bind-key "C-c h" 'helm-command-prefix)
+
+      (setq helm-quick-update                      t
+            helm-split-window-in-side-p            t
+            helm-buffers-fuzzy-matching            t
+            helm-move-to-line-cycle-in-source      t
+            helm-ff-search-library-in-sexp         t
+            helm-mode-reverse-history              nil
+            helm-scroll-amount                     8
+            helm-ff-file-name-history-use-recentf  t)
+
+      (helm-mode t)
+    #+END_SRC
 
 ** Personal Keymaps
 
@@ -1107,22 +1148,14 @@ choices.
 
 * Helm
 
-  #+BEGIN_SRC emacs-lisp
-    (require 'helm-config)
+  Helm Initialization is done above.
 
-    (bind-key "C-c h" 'helm-command-prefix)
+** Helm for regexp
 
-    (setq helm-quick-update                      t
-          helm-split-window-in-side-p            t
-          helm-buffers-fuzzy-matching            t
-          helm-move-to-line-cycle-in-source      t
-          helm-ff-search-library-in-sexp         t
-          helm-mode-reverse-history              nil
-          helm-scroll-amount                     8
-          helm-ff-file-name-history-use-recentf  t)
+   #+BEGIN_SRC emacs-lisp
+     (bind-key "C-c h x" 'helm-regexp)
+   #+END_SRC
 
-    (helm-mode t)
-  #+END_SRC
 ** Helm for R
 
    Switch around some keybindings to put =helm-for-R= on the right
@@ -1130,7 +1163,6 @@ choices.
 
    #+BEGIN_SRC emacs-lisp
      (bind-key "C-c h r" 'helm-for-R)
-     (bind-key "C-c h x" 'helm-regexp)
    #+END_SRC
 
 ** Helm Kill Ring
@@ -1204,7 +1236,11 @@ choices.
    #+BEGIN_SRC emacs-lisp
      (bind-key "C-h b" 'helm-descbinds)
    #+END_SRC
+** Helm W32 Launcher
 
+   #+BEGIN_SRC emacs-lisp
+     (bind-key "C-c h g" 'helm-w32-launcher)
+   #+END_SRC
 * IDO (Interactively Do Things)
 
   EDIT: This is being replace by helm in my workflow.
