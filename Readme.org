@@ -116,9 +116,7 @@ choices.
         color-theme-sanityinc-tomorrow
         company
         company-c-headers
-        company-cider
         company-go
-        company-inf-python
         dired+
         edit-server
         expand-region
