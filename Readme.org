@@ -88,7 +88,6 @@ choices.
 
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-     (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
      (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
      (add-to-list 'package-archives '("sr" . "http://joseito.republika.pl/sunrise-commander/") t)
    #+END_SRC
@@ -141,7 +140,6 @@ choices.
         htmlize
         highline
         ido-ubiquitous
-        keywiz
         magit
         org-plus-contrib
         paredit
@@ -1903,7 +1901,6 @@ choices.
         (let ((inhibit-read-only t)
               (pos (point)))
           (goto-char (point-max))
-          (insert "\n" (bnb/random-keybinding))
           (goto-char pos)))
     #+END_SRC
 
@@ -2351,46 +2348,6 @@ choices.
          (url-hexify-string (if mark-active
               (buffer-substring (region-beginning) (region-end))
             (read-string "Google: "))))))
-   #+END_SRC
-
-** Keywiz from Sacha Chua
-
-   Taken from
-   [[http://sachachua.com/blog/2013/02/rediscovering-emacs-features-or-what-to-do-after-you-get-carried-away-installing-packages/]]
-   This gets used in the default agenda view to provide help on
-   built-in keybindings.
-
-   #+BEGIN_SRC emacs-lisp
-     (unless (package-installed-p 'keywiz)
-       (package-install 'keywiz))
-     (require 'keywiz)
-     (defun bnb/load-keybindings ()
-       "Since we don't want to have to pass through a keywiz game each time..."
-       (setq keywiz-cached-commands nil)
-       (do-all-symbols (sym)
-         (when (and (commandp sym)
-                    (not (memq sym '(self-insert-command
-                                     digit-argument undefined))))
-           (let ((keys (apply 'nconc (mapcar
-                                      (lambda (key)
-                                        (when (keywiz-key-press-event-p key)
-                                          (list key)))
-                                      (where-is-internal sym)))))
-             (and keys
-                  (push (list sym keys) keywiz-cached-commands))))))
-     (bnb/load-keybindings)
-     ;; Might be good to use this in org-agenda...
-     (defun bnb/random-keybinding ()
-       "Describe a random keybinding."
-       (let* ((command (keywiz-random keywiz-cached-commands))
-              (doc (and command (documentation (car command)))))
-         (if command
-             (concat (symbol-name (car command)) " "
-                     "(" (mapconcat 'key-description (cadr command) ", ") ")"
-                     (if doc
-                         (concat ": " (substring doc 0 (string-match "\n" doc)))
-                       ""))
-           "")))
    #+END_SRC
 
 ** Auto-display agenda
