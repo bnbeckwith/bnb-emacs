@@ -1127,6 +1127,18 @@ choices.
 
   [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][Animated Paredit]]
 
+* Projectile
+
+  Handling project buffers and files may be easier with projectile.
+  Currently under evaluation.
+
+  #+BEGIN_SRC emacs-lisp
+    (when (eq system-type 'windows-nt)
+      (setq projectile-indexing-method 'native))
+    (setq projectile-enable-caching t)
+    (setq projectile-require-project-root t)
+  #+END_SRC
+
 * Clojure
 
   The easiest way to edit clojure code is with =paredit= so let's have
