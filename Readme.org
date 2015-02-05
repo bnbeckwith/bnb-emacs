@@ -137,9 +137,12 @@ choices.
         helm-swoop
         helm-themes
         helm-w32-launcher
+        hydra
         htmlize
         ido-ubiquitous
         magit
+        mc-extras
+        multiple-cursors
         org-plus-contrib
         paredit
         powerline
@@ -681,6 +684,27 @@ choices.
 **** VC Grouping
 
      =M-x ibuffer-vc-set-filter-groups-by-vc-root=
+
+** Multiple Cursors
+
+   #+BEGIN_SRC emacs-lisp
+     (bind-key "C-x M" 'compose-mail)
+     (unbind-key "C-x m" ) ;; remove mail binding
+
+     (bind-key
+      "C-x m"
+      (defhydra hydra-mc ()
+        "mc"
+        ("a" mc/mark-all-like-this "all")
+        ("n" mc/mark-next-like-this "next")
+        ("s" mc/mark-next-symbol-like-this "next symbol")
+        ("S" mc/mark-all-symbols-like-this "all symbols")
+        ("w" mc/mark-next-word-like-this "next word")
+        ("W" mc/mark-all-words-like-this "all words")
+        ("r" mc/mark-all-in-region-regexp "regexp")
+        ("j" mc/mark-next-lines "next lines")
+        ("k" mc/mark-previous-lines "prev lines")))
+   #+END_SRC
 
 ** Expand Region
 
