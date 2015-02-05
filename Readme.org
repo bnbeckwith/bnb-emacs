@@ -1030,6 +1030,64 @@ choices.
      (bind-key "C-x 2" 'bnb/vplit-last-buffer)
      (bind-key "C-x 3" 'bnb/hsplit-last-buffer)
    #+END_SRC
+** Weekly Time Reporting
+
+   This is a function to create an entry like a datetree, but using
+   years and workweeks instead.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun bnb/find-year-create (year)
+       (let ((re "^\\**[ \t]+\\([12][0-9]\\{3\\}\\)")
+             match)
+         (org-narrow-to-subtree)
+         (goto-char (point-min))
+         (while (and (setq match (re-search-forward re nil t))
+                     (goto-char (match-beginning 1))
+                     (< (string-to-number (match-string 1)) year)))
+         (cond
+          ((not match)
+           (goto-char (point-max))
+           (or (bolp) (newline))
+           (insert (format  "** %s\n" year)))
+          ((= (string-to-number (match-string 1)) year)
+           (goto-char (point-at-bol)))
+          (t
+           (beginning-of-line 1)
+           (insert (format  "** %s\n" year))))))
+
+     (defun bnb/find-ww-create (ww)
+       (let ((re "^\\**[ \t]+\\WW\\([0-9]\\{2\\}\\)")
+             match)
+         (org-narrow-to-subtree)
+         (goto-char (point-min))
+         (while (and (setq match (re-search-forward re nil t))
+                     (goto-char (match-beginning 1))
+                     (< (string-to-number (match-string 1)) ww)))
+         (cond
+          ((not match)
+           (goto-char (point-max))
+           (or (bolp) (newline))
+           (insert (format "*** WW%02d\n" ww)))
+          ((= (string-to-number (match-string 1)) ww)
+           (goto-char (point-at-bol)))
+          (t
+           (beginning-of-line 1)
+           (insert (format "*** WW%02d\n" ww))))))
+
+     (defun bnb/insert-weekly-time-sheet ()
+       (concat  "#+BEGIN: clocktable :maxlevel 3 :scope agenda-with-archives :block lastweek :fileskip0 t :properties (\"Score\") :indent nil \n"
+                "#+TBLFM: $6='(org-clock-time% @2$4 $3..$5);%.1f::@2$2=vsum(@3$2..@>$2)\n"
+                "#+END:\n"))
+
+     (defun bnb/insert-weekly-clocking ()
+         (let ((year (number-to-string (nth 2 (calendar-gregorian-from-absolute (org-today)))))
+               (ww (bnb/workweek)))
+           (goto-char (point-min))
+           (goto-char (cdr (org-id-find "clocking")))
+           (bnb/find-year-create (string-to-number year))
+           (bnb/find-ww-create ww)))
+   #+END_SRC
+
 * Company
 
   [[http://company-mode.github.io][Company Mode]] is an in-buffer completion system. To get started, I
@@ -1799,29 +1857,32 @@ choices.
    #+BEGIN_SRC emacs-lisp
      (setq org-capture-templates
            '(("t" "Todo" entry
-          (file "~/Documents/Org/Refile.org")
-          "* TODO %?\n  %U\n" :clock-in t :clock-resume t)
-         ("r" "todo (Remember location)" entry
-          (file "~/Documents/Org/Refile.org")
-          "* TODO %?\n  %U\n  %a" :clock-in t :clock-resume t)
-         ("n" "Note" entry
-          (file "~/Documents/Org/Refile.org")
-          "* %?                                                                            :NOTE:\n  %U\n  %a\n  :CLOCK:\n  :END:")
-         ("i" "Isabelle Journal" entry (file+datetree "~/Documents/Personal/Org/Isabelle.org")
-          "* %?\n\tEntered on %U")
-         ("j" "Johannes Journal" entry (file+datetree "~/Documents/Personal/Org/Johannes.org")
-          "* %?\n\tEntered on %U")
-         ("a" "Andrea Journal" entry (file+datetree "~/Documents/Personal/Org/Andrea.org")
-          "* %?\n\tEntered on %U")
-         ("e" "Journal" entry (file+datetree "~/Documents/Personal/Org/Journal.org")
-          "* %?\n\tEntered on %U")
-         ("c" "Capture current TODO mix in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Burndown")
-          "%(bnb/org-count-tasks-by-status)")
-         ("s" "Capture Weekly Score in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Scores")
-          "%(bnb/add-weekly-score-table-entry)")
-         ("o" "org-outlook" entry
-          (file "~/Documents/Org/Refile.org")
-          "* TODO EMAIL: %:title (%:sender)
+              (file "~/Documents/Org/Refile.org")
+              "* TODO %?\n  %U\n" :clock-in t :clock-resume t)
+             ("r" "todo (Remember location)" entry
+              (file "~/Documents/Org/Refile.org")
+              "* TODO %?\n  %U\n  %a" :clock-in t :clock-resume t)
+             ("n" "Note" entry
+              (file "~/Documents/Org/Refile.org")
+              "* %?                                                                            :NOTE:\n  %U\n  %a\n  :CLOCK:\n  :END:")
+             ("i" "Isabelle Journal" entry (file+datetree "~/Documents/Personal/Org/Isabelle.org")
+              "* %?\n\tEntered on %U")
+             ("j" "Johannes Journal" entry (file+datetree "~/Documents/Personal/Org/Johannes.org")
+              "* %?\n\tEntered on %U")
+             ("a" "Andrea Journal" entry (file+datetree "~/Documents/Personal/Org/Andrea.org")
+              "* %?\n\tEntered on %U")
+             ("e" "Journal" entry (file+datetree "~/Documents/Personal/Org/Journal.org")
+              "* %?\n\tEntered on %U")
+             ("c" "Capture current TODO mix in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Burndown")
+              "%(bnb/org-count-tasks-by-status)")
+             ("s" "Capture Weekly Score in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Scores")
+              "%(bnb/add-weekly-score-table-entry)")
+             ("w" "Weekly Time Table" plain
+              (file+function "~/Documents/Org/WeeklyReports.org" bnb/insert-weekly-clocking)
+              "%(bnb/insert-weekly-time-sheet)" :unnarrowed t)
+             ("o" "org-outlook" entry
+              (file "~/Documents/Org/Refile.org")
+              "* TODO EMAIL: %:title (%:sender)
        %c
 
        %?" :clock-in t :clock-resume t)))
