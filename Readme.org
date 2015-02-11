@@ -882,9 +882,8 @@ choices.
 
 ** Themes
 
-   My favorite dark themes are =sanityinc-tomorrow-eighties= or
-   =fogus=.  I have yet to find a pleasing light font, though
-   =mccarthy= is close.
+   My favorite dark themes are =smyx= or =fogus=.  I have yet to find
+   a pleasing light theme, though =mccarthy= is close.
 
    You can layer themes by enabling them in turn, but this is not the
    default usage for most of us. Github user =larstvei= has the
@@ -2481,7 +2480,6 @@ choices.
    #+BEGIN_SRC emacs-lisp
      (require 'org-drill)
    #+END_SRC
-
 
 * Elisp Extras
 
