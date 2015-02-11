@@ -705,16 +705,17 @@ choices.
      (bind-key
       "C-x m"
       (defhydra hydra-mc ()
-        "mc"
-        ("a" mc/mark-all-like-this "all")
+        "mc bind-key"
+        ("a" mc/mark-all-like-this-dwim "all")
         ("n" mc/mark-next-like-this "next")
-        ("s" mc/mark-next-symbol-like-this "next symbol")
-        ("S" mc/mark-all-symbols-like-this "all symbols")
+        ("e" mc/edit-lines "all lines")
         ("w" mc/mark-next-word-like-this "next word")
         ("W" mc/mark-all-words-like-this "all words")
         ("r" mc/mark-all-in-region-regexp "regexp")
         ("j" mc/mark-next-lines "next lines")
-        ("k" mc/mark-previous-lines "prev lines")))
+        ("k" mc/mark-previous-lines "prev lines")
+        ("p" mc/mark-sgml-tag-pair "tag pairs")
+        ("x" mc/mark-more-like-this-extended "arrows")))
    #+END_SRC
 
 ** Expand Region
