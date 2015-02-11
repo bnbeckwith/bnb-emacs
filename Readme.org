@@ -222,47 +222,59 @@ choices.
 *** Toggle Map
 
     #+BEGIN_SRC emacs-lisp
-      (bind-key "C-x t c" 'column-number-mode)
-      (bind-key "C-x t e" 'toggle-debug-on-error)
-      (bind-key "C-x t f" 'auto-fill-mode)
-      (bind-key "C-x t l" 'toggle-truncate-lines)
-      (bind-key "C-x t q" 'toggle-debug-on-quit)
-      (bind-key "C-x t r" 'dired-toggle-read-only)
-      (bind-key "C-x t w" 'whitespace-mode)
+
+      (bind-key
+       "C-x t"
+       (defhydra hydra-toggle (:color amaranth)
+         ("c" column-number-mode "column-number")
+         ("e" toggle-debug-on-error "toggle-debug-on-error")
+         ("f" auto-fill-mode "auto-fill")
+         ("l" toggle-truncate-lines "toggle-truncate-lines")
+         ("q" toggle-debug-on-quit "toggle-debug-on-quit")
+         ("r" dired-toggle-read-only "dired-toggle-read-only")
+         ("w" whitespace-mode "whitespace")
+         ("q" nil :color blue)))
     #+END_SRC
 
 *** Launcher Map
 
 	#+BEGIN_SRC emacs-lisp
-      (bind-key "C-x g c" 'calc)
-      (bind-key "C-x g d" 'ediff-buffers)
-      (bind-key "C-x g f" 'find-dired)
-      (bind-key "C-x g g" 'lgrep)
-      (bind-key "C-x g G" 'rgrep)
-      (bind-key "C-x g e" 'ielm)
-      (bind-key "C-x g t" 'proced)
-      (bind-key "C-x g k" 'describe-personal-keybindings)
+      (bind-key
+       "C-x g"
+       (defhydra hydra-launch (:color blue)
+         ("c" calc "calc")
+         ("d" ediff-buffers "ediff-buffers")
+         ("f" find-dired "find-dired")
+         ("g" lgrep "lgrep")
+         ("G" rgrep "rgrep")
+         ("e" ielm "ielm")
+         ("t" proced "proced")
+         ("k" describe-personal-keybindings "keybindings")))
 	#+END_SRC
 
 *** Elisp Maps
 
     #+BEGIN_SRC emacs-lisp
-      (bind-key "C-c e b" 'do-eval-buffer)
-      (bind-key "C-c e e" 'toggle-debug-on-error)
-      (bind-key "C-c e f" 'emacs-lisp-byte-compile-and-load)
-      (bind-key "C-c e r" 'eval-region)
+      (bind-key
+       "C-c e"
+       (defhydra hydra-elisp-cmds (:color blue)
+         ("b" do-eval-buffer "eval buffer")
+         ("e" toggle-debug-on-error "debug-on-error")
+         ("f" emacs-lisp-byte-compile-and-load "byte-compile-and-load")
+         ("r" eval-region "eval-region")))
     #+END_SRC
 
     #+BEGIN_SRC emacs-lisp
-      (define-prefix-command 'bnb/lisp-help-map)
-      (bind-key "C-h e" 'bnb/lisp-help-map)
-      (bind-key "C-h e e" 'view-echo-area-messages)
-      (bind-key "C-h e f" 'find-function)
-      (bind-key "C-h e k" 'find-function-on-key)
-      (bind-key "C-h e l" 'find-library)
-      (bind-key "C-h e v" 'find-variable)
-      (bind-key "C-h e V" 'apropos-value)
-      (bind-key "C-h C-i" 'info-display-manual)
+      (bind-key
+       "C-h e" 
+       (defhydra hydra-elisp-help (:color blue)
+         ("e" view-echo-area-messages "view-echod-area-messages")
+         ("f" find-function "find-function")
+         ("k" find-function-on-key "find-function-on-key")
+         ("l" find-library "find-library")
+         ("v" find-variable "find-variable")
+         ("V" apropos-value "apropos-value")
+         ("i" info-display-manual "info-display-manual")))
     #+END_SRC
 
 ** Minibuffer History Save
@@ -573,8 +585,7 @@ choices.
    #+BEGIN_SRC emacs-lisp
      (require 'guide-key)
      (setq guide-key/guide-key-sequence
-           '("C-x r" "C-x 4" "C-x v" "C-x 8" "C-x x" "C-x t" "C-x g"
-             "C-c e" "C-h e" "C-c h"))
+           '("C-x r" "C-x 4" "C-x v" "C-x 8" "C-x x" "C-c h"))
      (guide-key-mode 1)
      (setq guide-key/recursive-key-sequence-flag t)
      (setq guide-key/popup-window-position 'bottom)
@@ -788,15 +799,6 @@ choices.
      (setq-default indicate-buffer-boundaries 'right)
      (setq-default indicate-empty-lines t)
      (setq-default frame-title-format '("%b - %F"))
-   #+END_SRC
-
-** Perspective Fonts
-
-   I set this face through customize.
-
-   #+BEGIN_SRC elisp :export none
-     (eval-after-load 'perspective
-       (set-face-attribute 'persp-selected-face nil :foreground "SystemActiveTitle" :weight 'bold))
    #+END_SRC
 
 ** Faces
@@ -1287,6 +1289,33 @@ choices.
 * Helm
 
   Helm Initialization is done above.
+
+** Helm Hydra interface
+
+   From
+   http://angelic-sedition.github.io/blog/2015/02/03/a-more-evil-helm/,
+
+   #+BEGIN_SRC emacs-lisp
+     (bind-key "<escape>"
+               (defhydra helm-like-unite ()
+                 "vim movement"
+                 ("?" helm-help "help")
+                 ("<escape>" keyboard-escape-quit "exit")
+                 ("<SPC>" helm-toggle-visible-mark "mark")
+                 ("a" helm-toggle-all-marks "(un)mark all")
+                 ("/" (lambda ()
+                        (interactive)
+                        (execute-kbd-macro [?\C-s]))
+                  "search")
+                 ("v" helm-execute-persistent-action)
+                 ("g" helm-beginning-of-buffer "top")
+                 ("G" helm-end-of-buffer "bottom")
+                 ("j" helm-next-line "down")
+                 ("k" helm-previous-line "up")
+                 ("l" helm-next-source "next source")
+                 ("i" nil "cancel"))
+               helm-map)
+   #+END_SRC
 
 ** Helm for regexp
 
