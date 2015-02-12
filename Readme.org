@@ -121,7 +121,6 @@ choices.
         expand-region
         guide-key
         helm
-        helm-R
         helm-bibtex
         helm-css-scss
         helm-descbinds
@@ -1321,15 +1320,6 @@ choices.
 
    #+BEGIN_SRC emacs-lisp
      (bind-key "C-c h x" 'helm-regexp)
-   #+END_SRC
-
-** Helm for R
-
-   Switch around some keybindings to put =helm-for-R= on the right
-   shortut and move around the regexp interface.
-
-   #+BEGIN_SRC emacs-lisp
-     (bind-key "C-c h r" 'helm-for-R)
    #+END_SRC
 
 ** Helm Kill Ring
