@@ -232,7 +232,7 @@ choices.
          ("q" toggle-debug-on-quit "toggle-debug-on-quit")
          ("r" dired-toggle-read-only "dired-toggle-read-only")
          ("w" whitespace-mode "whitespace")
-         ("q" nil :color blue)))
+         ("q" nil)))
     #+END_SRC
 
 *** Launcher Map
