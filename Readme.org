@@ -222,7 +222,6 @@ choices.
 *** Toggle Map
 
     #+BEGIN_SRC emacs-lisp
-
       (bind-key
        "C-x t"
        (defhydra hydra-toggle (:color amaranth)
