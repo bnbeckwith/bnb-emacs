@@ -148,7 +148,7 @@ choices.
         projectile
         rainbow-mode
         smart-tabs-mode
-        smyx
+        smyx-theme
         sublime-themes
         sunrise-commander
         undo-tree
