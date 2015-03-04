@@ -217,7 +217,35 @@ choices.
 ** Personal Keymaps
 
    These are inspired from
-   [[http://endlessparentheses.com/the-toggle-map-and-wizardry.html]]
+   [[http://endlessparentheses.com/the-toggle-map-and-wizardry.html]].
+
+*** Common Launcher
+
+    This method (=helm=) inspired from http://kitchingroup.cheme.cmu.edu/blog/2015/02/04/Helm-at-the-Emacs/.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun bnb/helm-map-launcher ()
+          "Use help to launch various mappings"
+        (interactive)
+        (helm :sources
+              `(((name . "Applications")
+                         (candidates . (("Calc" . calc)
+                                        ("EDiff Buffers" . ediff-buffers)
+                                        ("Find Dired" . find-dired)
+                                        ("lgrep" . lgrep)
+                                        ("rgrep" . rgrep)
+                                        ("ielm" . ielm)
+                                        ("proced" . proced)
+                                        ("keybindings" . describe-personal-keybindings)
+                                        ("Forcast" . sunshine-forecast)))
+                         (action . (("Open" . (lambda (x) (funcall x))))))
+                helm-source-recentf
+                helm-source-bookmarks
+                helm-source-bookmark-set)))
+
+      (bind-key "C-x g" 'bnb/helm-map-launcher)
+
+    #+END_SRC
 
 *** Toggle Map
 
@@ -234,22 +262,6 @@ choices.
          ("w" whitespace-mode "whitespace")
          ("q" nil)))
     #+END_SRC
-
-*** Launcher Map
-
-	#+BEGIN_SRC emacs-lisp
-      (bind-key
-       "C-x g"
-       (defhydra hydra-launch (:color blue)
-         ("c" calc "calc")
-         ("d" ediff-buffers "ediff-buffers")
-         ("f" find-dired "find-dired")
-         ("g" lgrep "lgrep")
-         ("G" rgrep "rgrep")
-         ("e" ielm "ielm")
-         ("t" proced "proced")
-         ("k" describe-personal-keybindings "keybindings")))
-	#+END_SRC
 
 *** Elisp Maps
 
