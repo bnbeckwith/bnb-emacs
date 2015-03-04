@@ -620,8 +620,16 @@ choices.
     Instead of =C-x o= traversal, =ace-window= mode provides numbers
     for quick window access
 
+    Set the keys to something other than the default numbers. Note
+    that this also limits the number of windows that can be used, but
+    given my usage, I doubt it goes up to 'j' often.
+
+    Also, I modify the face attribute to make the window numbers large.
+
     #+BEGIN_SRC emacs-lisp
       (bind-key "s-a" 'ace-window)
+      (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l))
+      (set-face-attribute 'aw-leading-char-face nil :height 2.0)
     #+END_SRC
 
 ** Edit Server
