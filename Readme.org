@@ -1180,7 +1180,7 @@ choices.
 
   #+BEGIN_SRC emacs-lisp
     (setq-default indent-tabs-mode nil)
-    (smart-tabs-insinuate 'c 'javascript 'python 'cperl 'c++)
+    (smart-tabs-insinuate 'c 'javascript 'cperl 'c++)
     (setq-default tab-width 4)
   #+END_SRC
 
