@@ -2194,6 +2194,22 @@ choices.
      (setq org-html-html5-fancy t)
    #+END_SRC
 
+   I like to have striped tables in email, but this is terribly
+   difficult due to cruddy CSS support.  Luckily,
+   =org-html-table-row-tags= saves the day and assigns the right
+   classes to the table rows.  Now styling can be done in CSS-reduced
+   instances.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq org-html-table-row-tags
+           (cons '(cond (top-row-p "<tr class=\"tr-top\">")
+                        (bottom-row-p "<tr class=\"tr-bottom\">")
+                        (t (if (= (mod row-number 2) 1)
+                               "<tr class=\"tr-odd\">"
+                             "<tr class=\"tr-even\">")))
+                 "</tr>"))
+   #+END_SRC
+
 *** LaTeX
 
    For \LaTeX, I want to convert fragments to images, and use minted
