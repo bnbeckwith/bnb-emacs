@@ -627,7 +627,9 @@ choices.
     Also, I modify the face attribute to make the window numbers large.
 
     #+BEGIN_SRC emacs-lisp
+      (require 'ace-window)
       (bind-key "s-a" 'ace-window)
+      (bind-key "C-s-a" 'aw-flip-window)
       (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l))
       (set-face-attribute 'aw-leading-char-face nil :height 2.0)
     #+END_SRC
