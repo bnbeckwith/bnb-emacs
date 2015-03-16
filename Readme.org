@@ -1123,6 +1123,46 @@ choices.
            (bnb/find-ww-create ww)))
    #+END_SRC
 
+** Weekly Score Goal in Org-Agenda
+
+   I use a scoring system to keep track of my overall progress.  This
+   involves scoring my tasks and attributing my idea of impact of a
+   particular done item.
+
+   To use these numbers, I do a weekly review on Monday and compare
+   the numbers to past years/weeks/etc. To keep pushing foward, this
+   little bit of code will insert a running status at the top of my
+   agenda.
+
+   If I am on track for the given day (at or above the scaled goal),
+   all is green.  Otherwise, I get a warning type formatting above 80%
+   and error type formatting under.
+
+#+BEGIN_SRC emacs-lisp
+  ;; Define my goal to hit
+  (defvar bnb/weekly-score-goal 42)
+
+  ;; Add up all the scores from DONE items in the agenda files
+  (defun bnb/agenda-score-goal ()
+    (let* ((score ;; Add up all scores from DONE items
+            (apply '+
+                   (org-map-entries
+                    (lambda () (string-to-number (or (org-entry-get (point) "Score") "0")))
+                    "/DONE" 'agenda)))
+           (scaled-goal (* bnb/weekly-score-goal (/ (string-to-number (format-time-string "%w")) 5.0)))
+           (face (cond ((>= score scaled-goal) 'success)
+                       ((>= score (* .8 scaled-goal)) 'warning)
+                       (t 'error))))
+      (insert
+       (concat
+        (propertize
+         (format "Score Goal (%d): " scaled-goal) 'face 'org-agenda-structure)
+        (propertize
+         (format "%d/%d\n" score bnb/weekly-score-goal) 'face face)))))
+
+  ;; This hook runs first in the agenda (and before it is set to read-only)
+  (add-hook 'org-agenda-mode-hook 'bnb/agenda-score-goal)
+#+END_SRC
 * Company
 
   [[http://company-mode.github.io][Company Mode]] is an in-buffer completion system. To get started, I
