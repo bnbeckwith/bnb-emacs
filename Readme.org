@@ -225,21 +225,38 @@ choices.
     This method (=helm=) inspired from http://kitchingroup.cheme.cmu.edu/blog/2015/02/04/Helm-at-the-Emacs/.
 
     #+BEGIN_SRC emacs-lisp
+      ;; Helper function from http://oremacs.com/2015/03/17/more-info/
+      (defun bnb/open-info (topic bname)
+        "Open info on TOPIC in BNAME."
+        (if (get-buffer bname)
+            (progn
+              (switch-to-buffer bname)
+              (unless (string-match topic Info-current-file)
+                (Info-goto-node (format "(%s)" topic))))
+          (info topic bname)))
+
       (defun bnb/helm-map-launcher ()
           "Use help to launch various mappings"
         (interactive)
         (helm :sources
               `(((name . "Applications")
-                         (candidates . (("Calc" . calc)
-                                        ("EDiff Buffers" . ediff-buffers)
-                                        ("Find Dired" . find-dired)
-                                        ("lgrep" . lgrep)
-                                        ("rgrep" . rgrep)
-                                        ("ielm" . ielm)
-                                        ("proced" . proced)
-                                        ("keybindings" . describe-personal-keybindings)
-                                        ("Forcast" . sunshine-forecast)))
+                 (candidates . (("Calc"          . calc)
+                                ("EDiff Buffers" . ediff-buffers)
+                                ("Find Dired"    . find-dired)
+                                ("lgrep"         . lgrep)
+                                ("rgrep"         . rgrep)
+                                ("ielm"          . ielm)
+                                ("proced"        . proced)
+                                ("keybindings"   . describe-personal-keybindings)
+                                ("Calendar"      . bnb/calfw-calendars)
+                                ("Forcast"       . sunshine-forecast)))
                          (action . (("Open" . (lambda (x) (funcall x))))))
+                ((name . "Info")
+                 (candidates . (("Org"   . "org")
+                                ("Calc"  . "calc")
+                                ("Elisp" . "elisp")
+                                ("Emacs" . "emacs")))
+                 (action . (("Open" . (lambda (x) (bnb/open-info x (format "*%s info*" x)))))))
                 helm-source-recentf
                 helm-source-bookmarks
                 helm-source-bookmark-set)))
