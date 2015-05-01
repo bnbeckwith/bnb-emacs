@@ -1094,6 +1094,7 @@ choices.
      (bind-key "C-x 2" 'bnb/vplit-last-buffer)
      (bind-key "C-x 3" 'bnb/hsplit-last-buffer)
    #+END_SRC
+
 ** Weekly Time Reporting
 
    This is a function to create an entry like a datetree, but using
@@ -1877,7 +1878,7 @@ choices.
        (global-set-key "\C-cl" 'org-store-link)
        (global-set-key "\C-cr" 'org-capture)
        (global-set-key "\C-cb" 'org-iswitchb)
-       (bind-key "<f12>" 'org-agenda)
+       (bind-key "<f12>"  'org-agenda)
        (bind-key "<apps>" 'org-agenda)
        (bind-key "<f9> v" 'visible-mode)
        (bind-key "<f9> g" 'org-clock-goto)
@@ -1928,14 +1929,15 @@ choices.
     infer meaning quickly.
 
     #+BEGIN_SRC emacs-lisp
-      (setq org-todo-keyword-faces (quote (("TODO" :foreground "red" :weight bold)
-       ("NEXT" :foreground "blue" :weight bold)
-       ("DONE" :foreground "forest green" :weight bold)
-       ("WAITING" :foreground "yellow" :weight bold)
-       ("SOMEDAY" :foreground "goldenrod" :weight bold)
-       ("CANCELED" :foreground "orangered" :weight bold)
-       ("OPEN" :foreground "magenta" :weight bold)
-       ("CLOSED" :foreground "forest green" :weight bold))))
+      (setq org-todo-keyword-faces
+            '(("TODO"     :foreground "red"          :weight bold)
+              ("NEXT"     :foreground "blue"         :weight bold)
+              ("DONE"     :foreground "forest green" :weight bold)
+              ("WAITING"  :foreground "yellow"       :weight bold)
+              ("SOMEDAY"  :foreground "goldenrod"    :weight bold)
+              ("CANCELED" :foreground "orangered"    :weight bold)
+              ("OPEN"     :foreground "magenta"      :weight bold)
+              ("CLOSED"   :foreground "forest green" :weight bold)))
     #+END_SRC
 
 *** Tags
