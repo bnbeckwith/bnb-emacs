@@ -938,9 +938,9 @@ choices.
    vim-customizations.
 
    #+BEGIN_SRC emacs-lisp
-     (require 'powerline)
-     (setq powerline-default-separator 'slant)
-     (powerline-default-theme)
+     (when (fboundp 'powerline-default-theme)
+       (setq powerline-default-separator 'slant)
+       (powerline-default-theme))
    #+END_SRC
 
 ** Themes
