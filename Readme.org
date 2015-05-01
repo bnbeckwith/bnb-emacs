@@ -131,7 +131,6 @@ choices.
         helm-package
         helm-proc
         helm-projectile
-        helm-projectile-all
         helm-spaces
         helm-swoop
         helm-themes
