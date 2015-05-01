@@ -2372,6 +2372,14 @@ choices.
      (require 'ox-beamer)
    #+END_SRC
 
+*** Office Documents
+
+    To begin this process, we enable the ODT exporter.
+
+#+BEGIN_SRC emacs-lisp
+  (require 'ox-odt)
+#+END_SRC
+
 ** Clocking
 
    I have found clocking to be useful in understanding where my time
