@@ -1031,24 +1031,24 @@ choices.
 ** Workweeks
 
    #+BEGIN_SRC emacs-lisp
-       (defun bnb/workweek ()
-         (interactive)
-         (let* ((now (current-time))
-                (weeks (string-to-number
-                        (format-time-string "%W" now)))
-                (days (time-to-day-in-year now))
-                (daynum (string-to-number
-                         (format-time-string "%w" now)))
-                (left (% days 7)))
-           (if (and (= 0 daynum) (= left 0))
-               weeks
-             (+ 1 weeks))))
+     (defun bnb/workweek ()
+       (interactive)
+       (let* ((now (current-time))
+              (weeks (string-to-number
+                      (format-time-string "%W" now)))
+              (days (time-to-day-in-year now))
+              (daynum (string-to-number
+                       (format-time-string "%w" now)))
+              (left (% days 7)))
+         (if (and (= 0 daynum) (= left 0))
+             weeks
+           (+ 1 weeks))))
 
-       (defun bnb/workweek-string ()
-         (interactive)
-         (concat "WW"
-                 (number-to-string
-                  (bnb/workweek))))
+     (defun bnb/workweek-string ()
+       (interactive)
+       (concat "WW"
+               (number-to-string
+                (bnb/workweek))))
 
      (require 'calendar)
      (defun bnb/workweek-from-gregorian (&optional date)
@@ -1139,17 +1139,22 @@ choices.
            (insert (format "*** WW%02d\n" ww))))))
 
      (defun bnb/insert-weekly-time-sheet ()
-       (concat  "#+BEGIN: clocktable :maxlevel 3 :scope agenda-with-archives :block lastweek :fileskip0 t :properties (\"Score\") :indent nil \n"
-                "#+TBLFM: $6='(org-clock-time% @2$4 $3..$5);%.1f::@2$2=vsum(@3$2..@>$2)\n"
-                "#+END:\n"))
+       (with-temp-buffer
+         (insert
+               (concat  "#+BEGIN: clocktable :maxlevel 3 :scope agenda-with-archives :block lastweek :fileskip0 t :properties (\"Score\") :indent nil \n"
+                        "#+TBLFM: $6='(org-clock-time% @2$4 $3..$5);%.1f::@2$2=vsum(@3$2..@>$2)\n"
+                        "#+END:\n\n"))
+              (goto-char (point-min))
+              (org-update-dblock)
+              (buffer-substring (point-min) (point-max))))
 
-     (defun bnb/insert-weekly-clocking ()
-         (let ((year (number-to-string (nth 2 (calendar-gregorian-from-absolute (org-today)))))
-               (ww (bnb/workweek)))
-           (goto-char (point-min))
-           (goto-char (cdr (org-id-find "clocking")))
-           (bnb/find-year-create (string-to-number year))
-           (bnb/find-ww-create ww)))
+          (defun bnb/insert-weekly-clocking ()
+              (let ((year (number-to-string (nth 2 (calendar-gregorian-from-absolute (org-today)))))
+                    (ww (bnb/workweek)))
+                (goto-char (point-min))
+                (goto-char (cdr (org-id-find "clocking")))
+                (bnb/find-year-create (string-to-number year))
+                (bnb/find-ww-create ww)))
    #+END_SRC
 
 ** Weekly Score Goal in Org-Agenda
