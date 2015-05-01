@@ -143,6 +143,7 @@ choices.
         multiple-cursors
         org-plus-contrib
         paredit
+        paxedit
         powerline
         projectile
         rainbow-mode
@@ -1343,6 +1344,33 @@ choices.
   [[http://www.emacswiki.org/emacs/PareditCheatsheet][Paredit Cheatsheet]]
 
   [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][Animated Paredit]]
+
+* Paxedit
+
+  Maybe even /more/ power for lisp coding?
+  [[https://github.com/promethial/paxedit][Paxedit repo]]
+
+  #+BEGIN_SRC emacs-lisp
+    (add-hook 'emacs-lisp-mode-hook 'paxedit-mode)
+    (add-hook 'clojure-mode-hook 'paxedit-mode)
+
+    (eval-after-load "paxedit"
+      '(bind-keys :map paxedit-mode-map
+                  ("M-<right>" . paxedit-transpose-forward)
+                  ("M-<left>"  . paxedit-transpose-backward)
+                  ("M-<up>"    . paxedit-backward-up)
+                  ("M-<down>"  . paxedit-backward-end)
+                  ("M-b"       . paxedit-previous-symbol)
+                  ("M-f"       . paxedit-next-symbol)
+                  ("C-%"       . paxedit-copy)
+                  ("C-&"       . paxedit-kill)
+                  ("C-*"       . paxedit-delete)
+                  ("C-^"       . paxedit-sexp-raise)
+                  ("M-u"       . paxedit-symbol-change-case)
+                  ("C-@"       . paxedit-symbol-copy)
+                  ("C-#"       . paxedit-symbol-kill)))
+  #+END_SRC
+
 
 * Projectile
 
