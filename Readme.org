@@ -1461,6 +1461,18 @@ choices.
 
   Helm Initialization is done above.
 
+** Global Keybindings
+
+   #+BEGIN_SRC emacs-lisp
+     (bind-keys ("C-x C-f" . helm-find-files)
+                ("C-c h x" . helm-regexp)
+                ("M-y"     . helm-show-kill-ring)
+                ("C-c h s" . helm-spaces)
+                ("C-x b"   . helm-mini)
+                ("C-h b"   . helm-descbinds)
+                ("C-c h g" . helm-w32-launcher))
+   #+END_SRC
+
 ** Helm Hydra interface
 
    From
@@ -1488,17 +1500,6 @@ choices.
                helm-map)
    #+END_SRC
 
-** Helm for regexp
-
-   #+BEGIN_SRC emacs-lisp
-     (bind-key "C-c h x" 'helm-regexp)
-   #+END_SRC
-
-** Helm Kill Ring
-
-   #+BEGIN_SRC emacs-lisp
-     (bind-key "M-y" 'helm-show-kill-ring)
-   #+END_SRC
 
 ** Helm Colors
    - helm-action
@@ -1548,28 +1549,7 @@ choices.
    - helm-swoop-target-word-face
    - helm-visible-mark
 
-** Helm Spaces
 
-   #+BEGIN_SRC emacs-lisp
-     (bind-key "C-c h s" 'helm-spaces)
-   #+END_SRC
-** Helm Mini
-
-   #+BEGIN_SRC emacs-lisp
-     (bind-key "C-x b" 'helm-mini)
-   #+END_SRC
-** Helm Descbinds
-
-   Describe keybindings in the current modes.
-
-   #+BEGIN_SRC emacs-lisp
-     (bind-key "C-h b" 'helm-descbinds)
-   #+END_SRC
-** Helm W32 Launcher
-
-   #+BEGIN_SRC emacs-lisp
-     (bind-key "C-c h g" 'helm-w32-launcher)
-   #+END_SRC
 * IDO (Interactively Do Things)
 
   EDIT: This is being replace by helm in my workflow.
