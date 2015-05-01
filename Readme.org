@@ -831,6 +831,17 @@ choices.
                'executable-make-buffer-file-executable-if-script-p)
    #+END_SRC
 
+** Grep
+
+   The grep executable on windows needs to be set because it keeps
+   finding the wrong one.
+   
+   #+BEGIN_SRC emacs-lisp
+     (when (eq system-type 'windows-nt)
+       (setq helm-grep-default-command "C:/cygwin/bin/grep.exe --color=always -a -d skip %e -n%cH -e %p %f"
+             grep-command "C:/cygwin/bin/grep.exe -nH -e"))
+   #+END_SRC
+
 * Style
 
 ** Frame Changes
