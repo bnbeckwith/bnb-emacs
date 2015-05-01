@@ -2043,7 +2043,7 @@ choices.
      (setq org-capture-templates
            '(("t" "Todo" entry
               (file "~/Documents/Org/Refile.org")
-              "* TODO %?\n  %U\n" :clock-in t :clock-resume t)
+              "* TODO %?\n  %U\n%^{Score}p" :clock-in t :clock-resume t)
              ("r" "todo (Remember location)" entry
               (file "~/Documents/Org/Refile.org")
               "* TODO %?\n  %U\n  %a" :clock-in t :clock-resume t)
@@ -2137,7 +2137,7 @@ choices.
                        (org-map-entries
                         (lambda ()
                           (string-to-number (or (org-entry-get (point) "Score") "0")))
-                        "TODO=\"DONE\"+LEVEL<=2+CLOSED>=\"<-1w>\""
+                        "/DONE"
                         'agenda)))
                (year (format-time-string "%Y" (current-time)))
                (ww (number-to-string (bnb/workweek))))
@@ -2653,7 +2653,7 @@ choices.
     #+BEGIN_SRC emacs-lisp
       (setq org-global-properties (quote (("STYLE_ALL" . "habit")
                           ("Effort_ALL" . "0:10 0:30 1:00 2:00 3:00 4:00")
-                          ("Score_ALL" . "10 5 2 1"))))
+                          ("Score_ALL" . "1 2 3 4 5 10"))))
     #+END_SRC
 
 ** Org-drill
