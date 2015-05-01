@@ -150,6 +150,7 @@ choices.
         smyx-theme
         sublime-themes
         sunrise-commander
+        sunshine
         undo-tree
         wc-goal-mode
         writegood-mode))
@@ -1162,6 +1163,42 @@ choices.
   ;; This hook runs first in the agenda (and before it is set to read-only)
   (add-hook 'org-agenda-mode-hook 'bnb/agenda-score-goal)
 #+END_SRC
+** Calendars
+
+   #+BEGIN_SRC emacs-lisp
+     (require 'calfw-cal)
+     (require 'calfw-ical)
+     (require 'calfw-org)
+     ;; For weather into the calendar
+     (require 'sunshine)
+
+     (defun bnb/get-forecast-data (b e)
+       (let* ((url (sunshine-make-url sunshine-location sunshine-units))
+              (forecast (if (sunshine-forecast-cache-expired url)
+                            (with-current-buffer (url-retrieve-synchronously url)
+                              (goto-char (point-min))
+                              (sunshine-extract-response))
+                          (with-temp-buffer
+                            (mm-disable-multibyte)
+                            (url-cache-extract (url-cache-create-filename url))
+                            (sunshine-extract-response)))))
+         (cl-loop for day across (cdr (assoc 'list forecast)) collect
+                             (make-cfw:event
+                              :title (format "%s/%s°, %s"
+                                             (round (cdr (assoc 'min (cdr (assoc 'temp day)))))
+                                             (round (cdr (assoc 'max (cdr (assoc 'temp day)))))
+                                             (cdr (assoc 'main (elt (cdr (assoc 'weather day)) 0))))
+                              :start-date (cfw:emacs-to-calendar (seconds-to-time (cdr (assoc 'dt day))))))))
+
+     (defvar bnb/calfw-calendars-list
+       (list (cfw:org-create-source "Green")
+             (make-cfw:source :name "Weather" :data 'bnb/get-forecast-data :color "IndianRed")))
+
+     (defun bnb/calfw-calendars ()
+       (interactive)
+       (cfw:open-calendar-buffer
+        :contents-sources bnb/calfw-calendars-list))
+   #+END_SRC
 * Company
 
   [[http://company-mode.github.io][Company Mode]] is an in-buffer completion system. To get started, I
