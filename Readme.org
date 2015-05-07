@@ -410,6 +410,20 @@ choices.
      (bind-key "C-c C-g e" 'writegood-reading-ease)
    #+END_SRC
 
+** Spell Checking
+
+   [[http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html][This site]] has an interesting suggestion on how to use =aspell= for
+   CamelCase spell checking.
+
+   #+BEGIN_SRC emacs-lisp
+     (cond
+      ((executable-find "aspell")
+       (setq ispell-program-name (executable-find "aspell")
+             ispell-extra-args '("--sug-mode=ultra" "--lang=en_US")))
+      (t (setq ispell-program-name nil)
+         (message "No aspell found!")))
+   #+END_SRC
+
 ** Development
 
    For any lisp development, the following is nice to have.
