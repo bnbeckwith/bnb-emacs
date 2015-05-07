@@ -109,6 +109,7 @@ choices.
         airplay
         bind-key
         bookmark+
+        calfw
         cider
         clojure-mode
         clojure-mode-extra-font-locking
