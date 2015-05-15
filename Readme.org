@@ -128,7 +128,6 @@ choices.
         helm-git
         helm-git-files
         helm-helm-commands
-        helm-ls-git
         helm-package
         helm-proc
         helm-projectile
@@ -853,7 +852,7 @@ choices.
 
    The grep executable on windows needs to be set because it keeps
    finding the wrong one.
-   
+
    #+BEGIN_SRC emacs-lisp
      (when (eq system-type 'windows-nt)
        (setq helm-grep-default-command "C:/cygwin/bin/grep.exe --color=always -a -d skip %e -n%cH -e %p %f"
