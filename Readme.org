@@ -859,6 +859,19 @@ choices.
              grep-command "C:/cygwin/bin/grep.exe -nH -e"))
    #+END_SRC
 
+** Scroll Screen Position
+
+   This is one of those cool finds for a problem I mostly knew that I
+   had. I often hit =C-v= by accident and lose my place.  With the
+   following setting, =M-v= completely undoes the scroll leaving the
+   cursor back in the original position.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq scroll-preserve-screen-position 'always)
+   #+END_SRC
+
+   Thanks to http://irreal.org/blog/?p=3963 for the tip.
+
 * Style
 
 ** Frame Changes
