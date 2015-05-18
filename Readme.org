@@ -534,6 +534,16 @@ choices.
      (bind-key "<f6>" 'magit-status)
    #+END_SRC
 
+*** Release 1.4.0
+
+    This magit release warns about auto-revert of buffers.  This is
+    turned on by default and I will keep that setting.  To turn off
+    the magit warning, I use the following code.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq magit-last-seen-setup-instructions "1.4.0")
+    #+END_SRC
+
 ** Open/Edit This file
 
    When I hit ~<F5>~, open this file for editing.  That way, any
