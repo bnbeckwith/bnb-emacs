@@ -586,7 +586,9 @@ choices.
    the ido interface better.
 
    #+BEGIN_SRC emacs-lisp
-     (bind-key "s-/" 'sunrise)
+     (bind-keys
+      ("s-/"    . sunrise)
+      ("<f9> /" . sunrise))
 
      (add-to-list 'helm-completing-read-handlers-alist
                   '(sr-goto-dir . ido))
@@ -681,7 +683,8 @@ choices.
     #+BEGIN_SRC emacs-lisp
       (require 'ace-window)
       (bind-keys
-       ("s-a"   . ace-window))
+       ("s-a"    . ace-window)
+       ("<f9> a" . ace-window))
       (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)
             aw-leading-char-style 'path
             aw-dispatch-always t
