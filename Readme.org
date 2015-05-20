@@ -793,24 +793,38 @@ choices.
 
 ** Multiple Cursors
 
+   This interface is a mix of an example on the [[https://github.com/abo-abo/hydra/wiki/multiple-cursors][hydra wiki]] and my own
+   additions.
+
+   I think that the key thing is remembering to not have this affect
+   *all* cursors when prompted. Otherwise, it seems, the cursors are
+   duplicated in strange ways.
+
    #+BEGIN_SRC emacs-lisp
      (bind-key "C-x M" 'compose-mail)
      (unbind-key "C-x m" ) ;; remove mail binding
 
      (bind-key
       "C-x m"
-      (defhydra hydra-mc ()
-        "mc bind-key"
-        ("a" mc/mark-all-like-this-dwim "all")
-        ("n" mc/mark-next-like-this "next")
-        ("e" mc/edit-lines "all lines")
-        ("w" mc/mark-next-word-like-this "next word")
-        ("W" mc/mark-all-words-like-this "all words")
-        ("r" mc/mark-all-in-region-regexp "regexp")
-        ("j" mc/mark-next-lines "next lines")
-        ("k" mc/mark-previous-lines "prev lines")
-        ("p" mc/mark-sgml-tag-pair "tag pairs")
-        ("x" mc/mark-more-like-this-extended "arrows")))
+      (defhydra hydra-mc (:hint nil)
+        "
+          ^Up^            ^Down^        ^Miscellaneous^
+     -----------------------------------------------------------
+     [_p_]   Next    [_n_]   Next    [_l_] Edit lines  [_x_] Arrows
+     [_P_]   Skip    [_N_]   Skip    [_a_] Mark all    [_g_] Regexp
+     [_M-p_] Unmark  [_M-n_] Unmark  [_q_] Quit"
+       ("l"   mc/edit-lines :exit t)
+       ("a"   mc/mark-all-like-this-dwim :exit t)
+       ("n"   mc/mark-next-like-this)
+       ("N"   mc/skip-to-next-like-this)
+       ("M-n" mc/unmark-next-like-this)
+       ("p"   mc/mark-previous-like-this)
+       ("P"   mc/skip-to-previous-like-this)
+       ("M-p" mc/unmark-previous-like-this)
+       ("g"   mc/mark-all-in-region-regexp :exit t)
+       ("r"   mc/mark-sgml-tag-pair :exit t)
+       ("x"   mc/mark-more-like-this-extended)
+       ("q"   nil)))
    #+END_SRC
 
 ** Expand Region
