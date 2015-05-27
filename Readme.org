@@ -1351,8 +1351,10 @@ choices.
     (bind-key (kbd "<C-tab>") 'company-complete)
     (bind-key (kbd "<C-tab>") 'company-complete org-mode-map)
     ;; Turn off the auto downcasing of things
-    (setq company-dabbrev-downcase nil)
+    (setq company-dabbrev-downcase nil
+          company-show-numbers t)
   #+END_SRC
+
 
 * Dired
 
