@@ -149,6 +149,7 @@ choices.
         rainbow-mode
         smart-tabs-mode
         smyx-theme
+        symon
         sublime-themes
         sunrise-commander
         sunshine
@@ -1072,6 +1073,15 @@ choices.
      (defadvice load-theme
        (after theme-reset-powerline (theme &optional no-confirm no-enable) activate)
        (powerline-reset))
+   #+END_SRC
+
+** Symon
+
+   This is a nice little graphical interface in an inactive mode line
+   showing system resources.
+   
+   #+BEGIN_SRC emacs-lisp
+     (symon-mode)
    #+END_SRC
 
 * BNB Helpers
