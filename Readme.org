@@ -269,17 +269,21 @@ choices.
 
 *** Toggle Map
 
+    This toggle map shows the current /toggleable/ settings with
+    shortcut keys for enabling. The amaranth color makes this buffer
+    stay around until I press =q=.
+
     #+BEGIN_SRC emacs-lisp
-      (defun toggle-setting-string (setting)
-        (if (and (boundp setting) setting) '[on] '[off]))
+      (defmacro toggle-setting-string (setting)
+        `(if (and (boundp ',setting) ,setting) '[x] '[_]))
 
       (bind-key
        "C-x t"
        (defhydra hydra-toggle (:color amaranth)
          "
-      _c_ column-number : %(toggle-setting-string column-number-mode)
-      _e_ debug-on-error: %(toggle-setting-string debug-on-error)
-      _u_ debug-on-quit : %(toggle-setting-string debug-on-quit)
+      _c_ column-number : %(toggle-setting-string column-number-mode)  _b_ orgtbl-mode    : %(toggle-setting-string orgtbl-mode)
+      _e_ debug-on-error: %(toggle-setting-string debug-on-error)  _s_ orgstruct-mode : %(toggle-setting-string orgstruct-mode)
+      _u_ debug-on-quit : %(toggle-setting-string debug-on-quit) 
       _f_ auto-fill     : %(toggle-setting-string auto-fill-function)
       _t_ truncate-lines: %(toggle-setting-string truncate-lines)
       _r_ read-only     : %(toggle-setting-string buffer-read-only)
@@ -292,6 +296,8 @@ choices.
          ("t" toggle-truncate-lines nil)
          ("r" dired-toggle-read-only nil)
          ("w" whitespace-mode nil)
+         ("b" orgtbl-mode nil)
+         ("s" orgstruct-mode nil)
          ("q" nil)))
     #+END_SRC
 
