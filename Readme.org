@@ -1357,6 +1357,37 @@ choices.
        (cfw:open-calendar-buffer
         :contents-sources bnb/calfw-calendars-list))
    #+END_SRC
+** Transparency
+
+   #+BEGIN_SRC emacs-lisp
+     (require 'ring)
+
+     (setq bnb/transparency-ring 
+           (ring-convert-sequence-to-ring (list '(100 100) '(100 50) '(100 10) '(95 50) '(90 50) '(85 50)))
+           bnb/transparency
+           (ring-ref bnb/transparency-ring 0))
+
+     (defun bnb/transparency-apply (trans)
+       (set-frame-parameter (selected-frame) 'alpha (setq bnb/transparency trans)))
+
+     (defun bnb/transparency-next ()
+       (interactive)
+       (bnb/transparency-apply (ring-next bnb/transparency-ring bnb/transparency)))
+
+     (defun bnb/transparency-previous ()
+       (interactive)
+       (bnb/transparency-apply (ring-previous bnb/transparency-ring bnb/transparency)))
+
+     (defun bnb/transparency-cycle ()
+       (interactive)
+       (bnb/transparency-next))
+
+     (defun bnb/transparency-add (active inactive)
+       (interactive "nActive Transparency:\nnInactive Transparency:")
+       (ring-insert+extend bnb/transparency-ring (list active inactive) t)
+       (bnb/transparency-apply (list active inactive)))
+   #+END_SRC
+
 * Company
 
   [[http://company-mode.github.io][Company Mode]] is an in-buffer completion system. To get started, I
