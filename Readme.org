@@ -117,6 +117,7 @@ choices.
         company
         company-c-headers
         company-go
+        diff-hl
         dired+
         edit-server
         expand-region
@@ -283,7 +284,7 @@ choices.
          "
       _c_ column-number : %(toggle-setting-string column-number-mode)  _b_ orgtbl-mode    : %(toggle-setting-string orgtbl-mode)  _x_/_X_ trans : %(identity bnb/transparency)
       _e_ debug-on-error: %(toggle-setting-string debug-on-error)  _s_ orgstruct-mode : %(toggle-setting-string orgstruct-mode)
-      _u_ debug-on-quit : %(toggle-setting-string debug-on-quit) 
+      _u_ debug-on-quit : %(toggle-setting-string debug-on-quit)  _h_ diff-hl-mode   : %(toggle-setting-string diff-hl-mode)
       _f_ auto-fill     : %(toggle-setting-string auto-fill-function)
       _t_ truncate-lines: %(toggle-setting-string truncate-lines)
       _r_ read-only     : %(toggle-setting-string buffer-read-only)
@@ -300,6 +301,7 @@ choices.
          ("s" orgstruct-mode nil)
          ("x" bnb/transparency-next nil)
          ("X" bnb/transparency-previous nil)
+         ("h" diff-hl-mode nil)
          ("q" nil)))
     #+END_SRC
 
