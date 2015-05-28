@@ -3,6 +3,7 @@
 #+OPTIONS: html-preamble:t html-scripts:t html-style:t
 #+OPTIONS: html5-fancy:nil tex:t
 #+CREATOR: <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.7a)
+#+SETUPFILE: theme-readtheorg.setup
 #+HTML_CONTAINER: div
 #+HTML_DOCTYPE: xhtml-strict
 #+HTML_HEAD:
@@ -1390,6 +1391,16 @@ choices.
        (interactive "nActive Transparency:\nnInactive Transparency:")
        (ring-insert+extend bnb/transparency-ring (list active inactive) t)
        (bnb/transparency-apply (list active inactive)))
+   #+END_SRC
+
+** Styled HTML Export
+
+   #+BEGIN_SRC emacs-lisp
+     (defun bnb/org-html-export-to-html ()
+       (interactive)
+       (load-theme 'sanityinc-tomorrow-day)
+       (org-html-export-to-html)
+       (disable-theme 'sanityinc-tomorrow-day))
    #+END_SRC
 
 * Company
