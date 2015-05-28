@@ -281,7 +281,7 @@ choices.
        "C-x t"
        (defhydra hydra-toggle (:color amaranth)
          "
-      _c_ column-number : %(toggle-setting-string column-number-mode)  _b_ orgtbl-mode    : %(toggle-setting-string orgtbl-mode)
+      _c_ column-number : %(toggle-setting-string column-number-mode)  _b_ orgtbl-mode    : %(toggle-setting-string orgtbl-mode)  _x_/_X_ trans : %(identity bnb/transparency)
       _e_ debug-on-error: %(toggle-setting-string debug-on-error)  _s_ orgstruct-mode : %(toggle-setting-string orgstruct-mode)
       _u_ debug-on-quit : %(toggle-setting-string debug-on-quit) 
       _f_ auto-fill     : %(toggle-setting-string auto-fill-function)
@@ -298,6 +298,8 @@ choices.
          ("w" whitespace-mode nil)
          ("b" orgtbl-mode nil)
          ("s" orgstruct-mode nil)
+         ("x" bnb/transparency-next nil)
+         ("X" bnb/transparency-previous nil)
          ("q" nil)))
     #+END_SRC
 
