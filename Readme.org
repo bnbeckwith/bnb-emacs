@@ -963,6 +963,9 @@ choices.
 
 * Style
 
+  The following sections describe items that affect the visual
+  elements of Emacs.
+
 ** Frame Changes
 
    These following items make Emacs really beautiful on every
@@ -1645,7 +1648,15 @@ choices.
 
 * Helm
 
-  Helm Initialization is done above.
+  [[https://github.com/emacs-helm/helm/wiki][Helm]] is an "incremental completion and selection narrowing
+  framework".  It is like =ido= in that it makes selection of items
+  easier. It is hard to describe how useful it is, but check out the
+  [[http://tuhdo.github.io/helm-intro.html][helm intro]] for some examples.
+
+  You *will* have to break the habit of tab for completion.  But, the
+  upside is that I am now using more =C-n/C-p= for navigation everywhere.
+
+  My helm Initialization is done above.
 
 ** Global Keybindings
 
