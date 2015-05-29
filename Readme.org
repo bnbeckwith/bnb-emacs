@@ -1680,8 +1680,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   You *will* have to break the habit of tab for completion.  But, the
   upside is that I am now using more =C-n/C-p= for navigation everywhere.
 
-  My helm Initialization is done above.
-
 ** Initialization
 
    Initialize =helm= with some default settings. 
