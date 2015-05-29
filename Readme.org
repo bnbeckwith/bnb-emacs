@@ -1396,11 +1396,15 @@ choices.
 ** Styled HTML Export
 
    #+BEGIN_SRC emacs-lisp
-     (defun bnb/org-html-export-to-html ()
+     (defun bnb/export-readme ()
        (interactive)
-       (load-theme 'sanityinc-tomorrow-day)
-       (org-html-export-to-html)
-       (disable-theme 'sanityinc-tomorrow-day))
+       (let ((themes custom-enabled-themes))
+         (mapcar 'disable-theme themes)
+         (load-theme 'sanityinc-tomorrow-day)
+         (org-html-export-to-html)
+         (rename-file "Readme.html" "index.html" t)
+         (disable-theme 'sanityinc-tomorrow-day)
+         (mapcar 'load-theme (reverse themes))))
    #+END_SRC
 
 * Company
