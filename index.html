@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>BNBECKWITH Tangled Emacs Initialization</title>
-<!-- 2015-05-28 Thu 16:57 -->
+<!-- 2015-05-28 Thu 22:30 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Benjamin Beckwith" />
@@ -2509,11 +2509,15 @@ and error type formatting under.
 <div class="outline-text-3" id="text-6-8">
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(<span style="color: #718c00;">defun</span> <span style="color: #f5871f;">bnb/org-html-export-to-html</span> ()
+<pre class="src src-emacs-lisp">(<span style="color: #718c00;">defun</span> <span style="color: #f5871f;">bnb/export-readme</span> ()
   (interactive)
-  (load-theme 'sanityinc-tomorrow-day)
-  (org-html-export-to-html)
-  (disable-theme 'sanityinc-tomorrow-day))
+  (<span style="color: #718c00;">let</span> ((themes custom-enabled-themes))
+    (mapcar 'disable-theme themes)
+    (load-theme 'sanityinc-tomorrow-day)
+    (org-html-export-to-html)
+    (rename-file <span style="color: #3e999f;">"Readme.html"</span> <span style="color: #3e999f;">"index.html"</span> t)
+    (disable-theme 'sanityinc-tomorrow-day)
+    (mapcar 'load-theme (reverse themes))))
 </pre>
 </div>
 </div>
@@ -3202,13 +3206,11 @@ From
 <h2 id="sec-17"><span class="section-number-2">17</span> IDO (Interactively Do Things)</h2>
 <div class="outline-text-2" id="text-17">
 <p>
-EDIT: This is being replace by helm in my workflow.
+I have largely replaced <code>ido</code> with <code>helm</code>, but I still highly recommend
+the <code>ido</code> library.  I still use <code>ido</code> for some directory navigation
+(it's easier than <code>helm</code> that way).
 </p>
 
-<p>
-I do not believe I could live without this on emacs. Even for just
-finding files, it is awesome.
-</p>
 
 <p>
 First, I start with some basic IDO settings. I enabled it
@@ -3233,9 +3235,9 @@ extensions to my liking and enable the mode.
 </div>
 
 <p>
-Additionally, I use the <a href="https://github.com/technomancy/ido-ubiquitous">ido-ubiquitous</a> package to <i>really</i> get <code>ido</code>
-everywhere. Install it via the package system and then enable it
-on startup.
+Additionally, the <a href="https://github.com/technomancy/ido-ubiquitous">ido-ubiquitous</a> package to <i>really</i> get <code>ido</code>
+everywhere. Install it via the package system and then enable it on
+startup.
 </p>
 
 <div class="org-src-container">
@@ -5053,7 +5055,7 @@ non-existant gets ignored.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Benjamin Beckwith</p>
-<p class="date">Created: 2015-05-28 Thu 16:57</p>
+<p class="date">Created: 2015-05-28 Thu 22:30</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.7a)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
