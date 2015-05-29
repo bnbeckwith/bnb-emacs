@@ -1734,10 +1734,10 @@ choices.
 
 * IDO (Interactively Do Things)
 
-  EDIT: This is being replace by helm in my workflow.
+  I have largely replaced =ido= with =helm=, but I still highly recommend
+  the =ido= library.  I still use =ido= for some directory navigation
+  (it's easier than =helm= that way).
 
-  I do not believe I could live without this on emacs. Even for just
-  finding files, it is awesome.
 
   First, I start with some basic IDO settings. I enabled it
   everywhere so that it will work in all contexts. I like flex
@@ -1757,9 +1757,9 @@ choices.
     ; (ido-mode t)
   #+END_SRC
 
-  Additionally, I use the [[https://github.com/technomancy/ido-ubiquitous][ido-ubiquitous]] package to /really/ get =ido=
-  everywhere. Install it via the package system and then enable it
-  on startup.
+  Additionally, the [[https://github.com/technomancy/ido-ubiquitous][ido-ubiquitous]] package to /really/ get =ido=
+  everywhere. Install it via the package system and then enable it on
+  startup.
 
   #+BEGIN_SRC emacs-lisp
     ;(ido-ubiquitous t)
