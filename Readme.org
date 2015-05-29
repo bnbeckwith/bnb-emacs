@@ -996,13 +996,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+END_SRC
 
 
-**** Trying out fonts on Windows
+*** Trying out fonts on Windows
 
-     #+BEGIN_SRC emacs-lisp
-       (defun bnb/set-font ()
-         (interactive)
-         (set-face-attribute 'default nil :font (w32-select-font)))
-     #+END_SRC
+    #+BEGIN_SRC emacs-lisp
+      (defun bnb/set-font ()
+        (interactive)
+        (set-face-attribute 'default nil :font (w32-select-font)))
+    #+END_SRC
 
 *** Dynamic Font sizes
 
