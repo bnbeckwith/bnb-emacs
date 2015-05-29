@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>BNBECKWITH Tangled Emacs Initialization</title>
-<!-- 2015-05-28 Thu 22:30 -->
+<!-- 2015-05-28 Thu 23:33 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Benjamin Beckwith" />
@@ -296,8 +296,9 @@ for the JavaScript code in this tag.
 <li><a href="#sec-6-4">6.4. Weekly Time Reporting</a></li>
 <li><a href="#sec-6-5">6.5. Weekly Score Goal in Org-Agenda</a></li>
 <li><a href="#sec-6-6">6.6. Calendars</a></li>
-<li><a href="#sec-6-7">6.7. Transparency</a></li>
-<li><a href="#sec-6-8">6.8. Styled HTML Export</a></li>
+<li><a href="#sec-6-7">6.7. Auto-display agenda</a></li>
+<li><a href="#sec-6-8">6.8. Transparency</a></li>
+<li><a href="#sec-6-9">6.9. Styled HTML Export</a></li>
 </ul>
 </li>
 <li><a href="#sec-7">7. Company</a></li>
@@ -334,7 +335,6 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#sec-16-1">16.1. Global Keybindings</a></li>
 <li><a href="#sec-16-2">16.2. Helm Hydra interface</a></li>
-<li><a href="#sec-16-3">16.3. Helm Colors</a></li>
 </ul>
 </li>
 <li><a href="#sec-17">17. IDO (Interactively Do Things)</a>
@@ -423,15 +423,9 @@ for the JavaScript code in this tag.
 <li><a href="#sec-20-13">20.13. Org-drill</a></li>
 </ul>
 </li>
-<li><a href="#sec-21">21. Elisp Extras</a>
-<ul>
-<li><a href="#sec-21-1">21.1. Google</a></li>
-<li><a href="#sec-21-2">21.2. Auto-display agenda</a></li>
-</ul>
-</li>
-<li><a href="#sec-22">22. Server</a></li>
-<li><a href="#sec-23">23. Local customizations (custom.el)</a></li>
-<li><a href="#sec-24">24. Local customizations (user-login-name)</a></li>
+<li><a href="#sec-21">21. Server</a></li>
+<li><a href="#sec-22">22. Local customizations (custom.el)</a></li>
+<li><a href="#sec-23">23. Local customizations (user-login-name)</a></li>
 </ul>
 </div>
 </div>
@@ -1926,7 +1920,13 @@ Thanks to <a href="http://irreal.org/blog/?p=3963">http://irreal.org/blog/?p=396
 <div id="outline-container-sec-5" class="outline-2">
 <h2 id="sec-5"><span class="section-number-2">5</span> Style</h2>
 <div class="outline-text-2" id="text-5">
-</div><div id="outline-container-sec-5-1" class="outline-3">
+<p>
+The following sections describe items that affect the visual
+elements of Emacs.
+</p>
+</div>
+
+<div id="outline-container-sec-5-1" class="outline-3">
 <h3 id="sec-5-1"><span class="section-number-3">5.1</span> Frame Changes</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
@@ -2469,8 +2469,55 @@ and error type formatting under.
 </div>
 </div>
 <div id="outline-container-sec-6-7" class="outline-3">
-<h3 id="sec-6-7"><span class="section-number-3">6.7</span> Transparency</h3>
+<h3 id="sec-6-7"><span class="section-number-3">6.7</span> Auto-display agenda</h3>
 <div class="outline-text-3" id="text-6-7">
+<p>
+From
+<a href="http://lists.gnu.org/archive/html/emacs-orgmode/2010-03/msg00367.html">http://lists.gnu.org/archive/html/emacs-orgmode/2010-03/msg00367.html</a>,
+John Weigley shows a way to display the agenda after some period
+of inactivity.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #718c00;">defun</span> <span style="color: #f5871f;">bnb/jump-to-org-agenda</span> ()
+  (interactive)
+  (<span style="color: #718c00;">let</span> ((buf (get-buffer <span style="color: #3e999f;">"*Org Agenda*"</span>))
+        wind)
+    (<span style="color: #718c00;">if</span> buf
+        (<span style="color: #718c00;">if</span> (setq wind (get-buffer-window buf))
+            (select-window wind)
+          (<span style="color: #718c00;">if</span> (called-interactively-p)
+              (<span style="color: #718c00;">progn</span>
+                (select-window (display-buffer buf t t))
+                (org-fit-window-to-buffer))
+            (<span style="color: #718c00;">with-selected-window</span> (display-buffer buf)
+              (org-fit-window-to-buffer))))
+       (bnb/org-agenda-with-tip nil))))
+
+(<span style="color: #718c00;">defun</span> <span style="color: #f5871f;">bnb/idle-agenda</span> (<span style="color: #4271ae;">&amp;optional</span> arg)
+  (interactive <span style="color: #3e999f;">"P"</span>)
+  (setq bnb/iagenda
+        (<span style="color: #718c00;">if</span> arg
+            (cancel-timer bnb/iagenda)
+          (run-with-idle-timer 3600 t 'bnb/jump-to-org-agenda))))
+
+(<span style="color: #718c00;">when</span> (eq system-type 'windows-nt)
+  (bnb/idle-agenda))
+</pre>
+</div>
+
+<p>
+The when clause at the end is because I primarily keep my agenda
+information on Windows. No need to have my agenda open on the
+different GNU/Linux boxes all the time.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6-8" class="outline-3">
+<h3 id="sec-6-8"><span class="section-number-3">6.8</span> Transparency</h3>
+<div class="outline-text-3" id="text-6-8">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(<span style="color: #718c00;">require</span> '<span style="color: #4271ae;">ring</span>)
@@ -2504,9 +2551,9 @@ and error type formatting under.
 </div>
 </div>
 
-<div id="outline-container-sec-6-8" class="outline-3">
-<h3 id="sec-6-8"><span class="section-number-3">6.8</span> Styled HTML Export</h3>
-<div class="outline-text-3" id="text-6-8">
+<div id="outline-container-sec-6-9" class="outline-3">
+<h3 id="sec-6-9"><span class="section-number-3">6.9</span> Styled HTML Export</h3>
+<div class="outline-text-3" id="text-6-9">
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(<span style="color: #718c00;">defun</span> <span style="color: #f5871f;">bnb/export-readme</span> ()
@@ -3044,7 +3091,19 @@ When modified <code>emasc-lisp</code>, it is most helpful to use <code>paredit</
 <h2 id="sec-16"><span class="section-number-2">16</span> Helm</h2>
 <div class="outline-text-2" id="text-16">
 <p>
-Helm Initialization is done above.
+<a href="https://github.com/emacs-helm/helm/wiki">Helm</a> is an "incremental completion and selection narrowing
+framework".  It is like <code>ido</code> in that it makes selection of items
+easier. It is hard to describe how useful it is, but check out the
+<a href="http://tuhdo.github.io/helm-intro.html">helm intro</a> for some examples.
+</p>
+
+<p>
+You <b>will</b> have to break the habit of tab for completion.  But, the
+upside is that I am now using more <code>C-n/C-p</code> for navigation everywhere.
+</p>
+
+<p>
+My helm Initialization is done above.
 </p>
 </div>
 
@@ -3096,107 +3155,6 @@ From
           helm-map)
 </pre>
 </div>
-</div>
-</div>
-
-
-<div id="outline-container-sec-16-3" class="outline-3">
-<h3 id="sec-16-3"><span class="section-number-3">16.3</span> Helm Colors</h3>
-<div class="outline-text-3" id="text-16-3">
-<ul class="org-ul">
-<li>helm-action
-</li>
-<li>helm-bookmark-addressbook
-</li>
-<li>helm-bookmark-directory
-</li>
-<li>helm-bookmark-file
-</li>
-<li>helm-bookmark-gnus
-</li>
-<li>helm-bookmark-info
-</li>
-<li>helm-bookmark-man
-</li>
-<li>helm-bookmark-w3m
-</li>
-<li>helm-buffer-directory
-</li>
-<li>helm-buffer-file
-</li>
-<li>helm-buffer-not-saved
-</li>
-<li>helm-buffer-process
-</li>
-<li>helm-buffer-saved-out
-</li>
-<li>helm-buffer-size
-</li>
-<li>helm-candidate-number
-</li>
-<li>helm-ff-directory
-</li>
-<li>helm-ff-executable
-</li>
-<li>helm-ff-file
-</li>
-<li>helm-ff-invalid-symlink
-</li>
-<li>helm-ff-prefix
-</li>
-<li>helm-ff-symlink
-</li>
-<li>helm-grep-cmd-line
-</li>
-<li>helm-grep-file
-</li>
-<li>helm-grep-finish
-</li>
-<li>helm-grep-lineno
-</li>
-<li>helm-grep-match
-</li>
-<li>helm-grep-running
-</li>
-<li>helm-header
-</li>
-<li>helm-helper
-</li>
-<li>helm-history-deleted
-</li>
-<li>helm-history-remote
-</li>
-<li>helm-lisp-completion-info
-</li>
-<li>helm-lisp-show-completion
-</li>
-<li>helm-locate-finish
-</li>
-<li>helm-match
-</li>
-<li>helm-moccur-buffer
-</li>
-<li>helm-prefarg
-</li>
-<li>helm-resume-need-update
-</li>
-<li>helm-selection
-</li>
-<li>helm-selection-line
-</li>
-<li>helm-separator
-</li>
-<li>helm-source-header
-</li>
-<li>helm-swoop-target-line-block-face
-</li>
-<li>helm-swoop-target-line-face
-</li>
-<li>helm-swoop-target-word-face
-</li>
-<li>helm-visible-mark
-</li>
-</ul>
 </div>
 </div>
 </div>
@@ -4913,78 +4871,8 @@ subtree.
 </div>
 
 <div id="outline-container-sec-21" class="outline-2">
-<h2 id="sec-21"><span class="section-number-2">21</span> Elisp Extras</h2>
+<h2 id="sec-21"><span class="section-number-2">21</span> Server</h2>
 <div class="outline-text-2" id="text-21">
-</div><div id="outline-container-sec-21-1" class="outline-3">
-<h3 id="sec-21-1"><span class="section-number-3">21.1</span> Google</h3>
-<div class="outline-text-3" id="text-21-1">
-<div class="org-src-container">
-
-<pre class="src src-emacs-lisp">(<span style="color: #718c00;">defun</span> <span style="color: #f5871f;">google</span> ()
-  <span style="color: #8959a8;">"Google the selected region if any, display a query prompt otherwise."</span>
-  (interactive)
-  (browse-url
-   (concat
-    <span style="color: #3e999f;">"http://www.google.com/search?ie=utf-8&amp;oe=utf-8&amp;q="</span>
-    (url-hexify-string (<span style="color: #718c00;">if</span> mark-active
-         (buffer-substring (region-beginning) (region-end))
-       (read-string <span style="color: #3e999f;">"Google: "</span>))))))
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-21-2" class="outline-3">
-<h3 id="sec-21-2"><span class="section-number-3">21.2</span> Auto-display agenda</h3>
-<div class="outline-text-3" id="text-21-2">
-<p>
-From
-<a href="http://lists.gnu.org/archive/html/emacs-orgmode/2010-03/msg00367.html">http://lists.gnu.org/archive/html/emacs-orgmode/2010-03/msg00367.html</a>,
-John Weigley shows a way to display the agenda after some period
-of inactivity.
-</p>
-
-<div class="org-src-container">
-
-<pre class="src src-emacs-lisp">(<span style="color: #718c00;">defun</span> <span style="color: #f5871f;">bnb/jump-to-org-agenda</span> ()
-  (interactive)
-  (<span style="color: #718c00;">let</span> ((buf (get-buffer <span style="color: #3e999f;">"*Org Agenda*"</span>))
-        wind)
-    (<span style="color: #718c00;">if</span> buf
-        (<span style="color: #718c00;">if</span> (setq wind (get-buffer-window buf))
-            (select-window wind)
-          (<span style="color: #718c00;">if</span> (called-interactively-p)
-              (<span style="color: #718c00;">progn</span>
-                (select-window (display-buffer buf t t))
-                (org-fit-window-to-buffer))
-            (<span style="color: #718c00;">with-selected-window</span> (display-buffer buf)
-              (org-fit-window-to-buffer))))
-       (bnb/org-agenda-with-tip nil))))
-
-(<span style="color: #718c00;">defun</span> <span style="color: #f5871f;">bnb/idle-agenda</span> (<span style="color: #4271ae;">&amp;optional</span> arg)
-  (interactive <span style="color: #3e999f;">"P"</span>)
-  (setq bnb/iagenda
-        (<span style="color: #718c00;">if</span> arg
-            (cancel-timer bnb/iagenda)
-          (run-with-idle-timer 3600 t 'bnb/jump-to-org-agenda))))
-
-(<span style="color: #718c00;">when</span> (eq system-type 'windows-nt)
-  (bnb/idle-agenda))
-</pre>
-</div>
-
-<p>
-The when clause at the end is because I primarily keep my agenda
-information on Windows. No need to have my agenda open on the
-different GNU/Linux boxes all the time.
-</p>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-22" class="outline-2">
-<h2 id="sec-22"><span class="section-number-2">22</span> Server</h2>
-<div class="outline-text-2" id="text-22">
 <p>
 <a href="emacs#Emacs%20Server">Using Emacs as a server</a> is a great way to keep the power
 responsive.
@@ -5004,9 +4892,9 @@ multi-machine work environment.
 </div>
 </div>
 
-<div id="outline-container-sec-23" class="outline-2">
-<h2 id="sec-23"><span class="section-number-2">23</span> Local customizations (custom.el)</h2>
-<div class="outline-text-2" id="text-23">
+<div id="outline-container-sec-22" class="outline-2">
+<h2 id="sec-22"><span class="section-number-2">22</span> Local customizations (custom.el)</h2>
+<div class="outline-text-2" id="text-22">
 <p>
 I typically use the customize interface to generate any local
 settings such as proxies, paths, fonts, etc. that may vary from
@@ -5022,9 +4910,9 @@ machine to machine.
 </div>
 </div>
 
-<div id="outline-container-sec-24" class="outline-2">
-<h2 id="sec-24"><span class="section-number-2">24</span> Local customizations (user-login-name)</h2>
-<div class="outline-text-2" id="text-24">
+<div id="outline-container-sec-23" class="outline-2">
+<h2 id="sec-23"><span class="section-number-2">23</span> Local customizations (user-login-name)</h2>
+<div class="outline-text-2" id="text-23">
 <p>
 I also intend to have a generic call to an installed local file
 that may need to behave differently from <code>custom.el</code>. This loads
@@ -5055,7 +4943,7 @@ non-existant gets ignored.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Benjamin Beckwith</p>
-<p class="date">Created: 2015-05-28 Thu 22:30</p>
+<p class="date">Created: 2015-05-28 Thu 23:33</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.7a)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
