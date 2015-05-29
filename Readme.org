@@ -1687,55 +1687,6 @@ choices.
    #+END_SRC
 
 
-** Helm Colors
-   - helm-action
-   - helm-bookmark-addressbook
-   - helm-bookmark-directory
-   - helm-bookmark-file
-   - helm-bookmark-gnus
-   - helm-bookmark-info
-   - helm-bookmark-man
-   - helm-bookmark-w3m
-   - helm-buffer-directory
-   - helm-buffer-file
-   - helm-buffer-not-saved
-   - helm-buffer-process
-   - helm-buffer-saved-out
-   - helm-buffer-size
-   - helm-candidate-number
-   - helm-ff-directory
-   - helm-ff-executable
-   - helm-ff-file
-   - helm-ff-invalid-symlink
-   - helm-ff-prefix
-   - helm-ff-symlink
-   - helm-grep-cmd-line
-   - helm-grep-file
-   - helm-grep-finish
-   - helm-grep-lineno
-   - helm-grep-match
-   - helm-grep-running
-   - helm-header
-   - helm-helper
-   - helm-history-deleted
-   - helm-history-remote
-   - helm-lisp-completion-info
-   - helm-lisp-show-completion
-   - helm-locate-finish
-   - helm-match
-   - helm-moccur-buffer
-   - helm-prefarg
-   - helm-resume-need-update
-   - helm-selection
-   - helm-selection-line
-   - helm-separator
-   - helm-source-header
-   - helm-swoop-target-line-block-face
-   - helm-swoop-target-line-face
-   - helm-swoop-target-word-face
-   - helm-visible-mark
-
-
 * IDO (Interactively Do Things)
 
   I have largely replaced =ido= with =helm=, but I still highly recommend
