@@ -203,25 +203,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 : M-x describe-personal-keybindings
 
-** Helm Initialization
-    #+BEGIN_SRC emacs-lisp
-      (require 'helm-config)
-
-      (bind-key "C-c h" 'helm-command-prefix)
-
-      (setq helm-quick-update                      t
-            helm-split-window-in-side-p            t
-            helm-full-frame                        t
-            helm-buffers-fuzzy-matching            t
-            helm-move-to-line-cycle-in-source      t
-            helm-ff-search-library-in-sexp         t
-            helm-mode-reverse-history              nil
-            helm-scroll-amount                     8
-            helm-ff-file-name-history-use-recentf  t)
-
-      (helm-mode t)
-    #+END_SRC
-
 ** Personal Keymaps
 
    These are inspired from
@@ -605,8 +586,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       ("s-/"    . sunrise)
       ("<f9> /" . sunrise))
 
-     (add-to-list 'helm-completing-read-handlers-alist
-                  '(sr-goto-dir . ido))
+     (with-eval-after-load "helm-mode"
+       (add-to-list 'helm-completing-read-handlers-alist
+                    '(sr-goto-dir . ido)))
    #+END_SRC
 
 *** Interesting Keys
@@ -1501,10 +1483,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    faster for my fingers.
 
    #+BEGIN_SRC emacs-lisp
-     (add-to-list 'helm-completing-read-handlers-alist
-                  '(dired-goto-file . ido))
-     (add-to-list 'helm-completing-read-handlers-alist
-                  '(dired . ido))
+     (with-eval-after-load "helm-mode"
+       (add-to-list 'helm-completing-read-handlers-alist
+                    '(dired-goto-file . ido))
+       (add-to-list 'helm-completing-read-handlers-alist
+                    '(dired . ido)))
    #+END_SRC
 
 * Smart Tabs
@@ -1698,6 +1681,49 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   upside is that I am now using more =C-n/C-p= for navigation everywhere.
 
   My helm Initialization is done above.
+
+** Initialization
+
+   Initialize =helm= with some default settings. 
+
+    #+BEGIN_SRC emacs-lisp
+      (require 'helm-config)
+
+      (bind-key "C-c h" 'helm-command-prefix)
+
+      (setq helm-quick-update                      t
+            helm-full-frame                        t
+            helm-buffers-fuzzy-matching            t
+            helm-move-to-line-cycle-in-source      t
+            helm-mode-reverse-history              nil
+            helm-scroll-amount                     8
+            helm-ff-search-library-in-sexp         t
+            helm-ff-file-name-history-use-recentf  t)
+
+      (helm-mode t)
+    #+END_SRC
+
+   The =helm-quick-update= setting shows just enough candidates to
+   fill the screen and delays the rest. This improves initial display
+   time.
+
+   The =helm-full-frame= setting makes the selection interface take up
+   the whole frame. I find this to be useful in most cases.
+   Occasionally, I like to see the text I am working with to know what
+   to type next.  But that is a rare case where =ffap= would not work.
+
+   Fuzzy matching for buffer names is also enabled.
+
+   Using =help-move-to-line-cycle-in-source= lets me move up/down
+   between sources without switching explicitly.
+
+   I did not like the /reverse/ history, but wanted my history first,
+   so the =helm-mode-reverse-history= is set to =nil=.
+
+   The scolling amount is 8 lines.
+
+   The last two settings make it so I can quickly find a required
+   files in a sexp and to use the =recentf-list=.
 
 ** Global Keybindings
 
