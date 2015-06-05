@@ -1858,6 +1858,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
    #+END_SRC
 
+
+   #+BEGIN_SRC emacs-lisp
+     (when (eq system-type 'windows-nt)
+       (with-eval-after-load "eshell"
+         (defun eshell/grep (&rest args)
+           (eshell-grep "c:/cygwin/bin/grep.exe" args t))))
+   #+END_SRC
+
+
 *** Plan 9 Smart Shells
 
     See [[http://www.masteringemacs.org/article/complete-guide-mastering-eshell][the complete guide to mastering Eshell]] for more on this.
