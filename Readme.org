@@ -316,6 +316,23 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          ("i" info-display-manual "info-display-manual")))
     #+END_SRC
 
+*** Small bindings
+
+    This sections contains smaller bindings (or overrides) that I use
+    to customize functionality.
+
+**** Whitespace deletion
+
+     By default, ~M-\~ performs =delete-horizontal-space= and will
+     consume all of the whitespace present.
+
+     I'd like it to be smart and leave one or no spaces if
+     possible. The =fixup-whitespace= function will do that.
+
+     #+BEGIN_SRC emacs-lisp
+       (bind-key "M-\\" 'fixup-whitespace)
+     #+END_SRC
+
 ** Minibuffer History Save
 
    This saves the minibuffer histories to preserve across emacs
