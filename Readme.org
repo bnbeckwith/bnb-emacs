@@ -2846,6 +2846,23 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (require 'org-drill)
    #+END_SRC
 
+* Calc
+
+  Working in computer land, I add these additional units to =calc=.
+
+  #+BEGIN_SRC emacs-lisp
+    (setq math-additional-units
+          '((GiB "1024 * MiB" "Giga Byte")
+            (MiB "1024 * KiB" "Mega Byte")
+            (KiB "1024 * B"   "Kilo Byte")
+            (B   nil          "Byte")
+            (Gib "1024 * Mib" "Giga bit")
+            (Mib "1024 * Kib" "Mega bit")
+            (Kib "1024 * b"   "Kilo bit")
+            (b   nil          "bit")
+            ))
+  #+END_SRC
+
 * Server
 
    [[info:emacs#Emacs%20Server][Using Emacs as a server]] is a great way to keep the power
