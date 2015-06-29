@@ -2142,8 +2142,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     changes to avoid the logging prompts.
 
     #+BEGIN_SRC emacs-lisp
-  (setq org-use-fast-todo-selection t)
-  (setq org-treat-S-cursor-todo-selection-as-state-change nil)
+      (setq org-use-fast-todo-selection t)
+      (setq org-treat-S-cursor-todo-selection-as-state-change nil)
     #+END_SRC
 
     Upon changing the state of todo items, I can automatically
@@ -2671,23 +2671,24 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 ** Babel
 
    #+BEGIN_SRC emacs-lisp
-       (org-babel-do-load-languages
-        'org-babel-load-languages
-        '((emacs-lisp . t)
-          (gnuplot . t)
-          (clojure . t)
-          (ditaa . t)
-          (dot . t)
-          (latex . t)
-          (python . t)
-          (perl . t)
-          (R . t)
-          (C . t)
-          (sqlite . t)
-          (plantuml . t)))
+     (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((emacs-lisp . t)
+        (gnuplot . t)
+        (calc . t)
+        (clojure . t)
+        (ditaa . t)
+        (dot . t)
+        (latex . t)
+        (python . t)
+        (perl . t)
+        (R . t)
+        (C . t)
+        (sqlite . t)
+        (plantuml . t)))
 
-       (when (eq system-type 'windows-nt)
-         (setq org-babel-R-command "C:/Progra~1/R/R-2.15.1/bin/R --slave --no-save"))
+     (when (eq system-type 'windows-nt)
+       (setq org-babel-R-command "C:/Progra~1/R/R-2.15.1/bin/R --slave --no-save"))
    #+END_SRC
 
 ** Miscellaneous Settings
