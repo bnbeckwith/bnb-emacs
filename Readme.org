@@ -2199,9 +2199,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      #+BEGIN_SRC emacs-lisp
        (bind-key "C-c t" 'orgtbl-mode)
-       (global-set-key "\C-cl" 'org-store-link)
-       (global-set-key "\C-cr" 'org-capture)
-       (global-set-key "\C-cb" 'org-iswitchb)
+       (bind-key "C-c l" 'org-store-link)
+       (bind-key "C-c r" 'org-capture)
+       (bind-key "C-c b" 'org-iswitchb)
        (bind-key "<f12>"  'org-agenda)
        (bind-key "<apps>" 'org-agenda)
        (bind-key "<f9> v" 'visible-mode)
