@@ -1846,27 +1846,82 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    commands to use (like aliases) within the shell and have them
    directly integrate with emacs.
 
-   #+BEGIN_SRC emacs-lisp
-     (defun eshell/emacs (&rest args)
-       "Open a file in emacs the natural way"
-       (if (null args)
-           ;; If emacs is called by itself, then just go to emacs directly
-           (bury-buffer)
-         ;; If opening multiple files with a directory name, e.g.
-         ;; > emacs bar/bar.txt foo.txt
-         ;; then the names must be expanded to complete file paths.
-         ;; Otherwise, find-file will look in the current directory which
-         ;; would fail for 'foo.txt' in the example above.
-         (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
-   #+END_SRC
+*** Eshell Settings
+
+    Turn off any =$PAGER= settings inherited in the
+    environment. Because this is running in Emacs, there is no need
+    for a pager.
+
+    #+BEGIN_SRC emacs-lisp
+      (setenv "PAGER" "cat")
+    #+END_SRC
+
+*** Eshell Commands
+
+    Fast fingers are used to typing =emacs= at a prompt to open a
+    file.  This gives the same behavior in =eshell=.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun eshell/emacs (&rest args)
+        "Open a file in emacs the natural way"
+        (if (null args)
+            ;; If emacs is called by itself, then just go to emacs directly
+            (bury-buffer)
+          ;; If opening multiple files with a directory name, e.g.
+          ;; > emacs bar/bar.txt foo.txt
+          ;; then the names must be expanded to complete file paths.
+          ;; Otherwise, find-file will look in the current directory which
+          ;; would fail for 'foo.txt' in the example above.
+          (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
+
+      (eshell/alias "em" "emacs")
+    #+END_SRC
+
+    One can also keep the shell active and open files in the other
+    window.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun eshell/emo (&rest args)
+        (mapc
+           (lambda (f)
+             (save-selected-window
+               (find-file-other-window f)))
+           (mapcar #'expand-file-name (eshell-flatten-list (reverse args)))))
+    #+END_SRC
+
+    Here is another alias method. Here, I create a long listing, =ll=,
+    alias for =ls=.
+
+    #+BEGIN_SRC emacs-lisp
+      (eshell/alias "ll" "ls -Aloh")
+      (eshell/alias "llc" "*ls -AlohG --color=always")
+    #+END_SRC
+
+    On a windows box, setup grep to be a cygwin version.
+
+    #+BEGIN_SRC emacs-lisp
+      (when (eq system-type 'windows-nt)
+        (with-eval-after-load "eshell"
+          (defun eshell/grep (&rest args)
+            (eshell-grep "c:/cygwin/bin/grep.exe" args t))))
+    #+END_SRC
 
 
-   #+BEGIN_SRC emacs-lisp
-     (when (eq system-type 'windows-nt)
-       (with-eval-after-load "eshell"
-         (defun eshell/grep (&rest args)
-           (eshell-grep "c:/cygwin/bin/grep.exe" args t))))
-   #+END_SRC
+    For Magit, there are some niceties to add.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun eshell/gst (&rest args)
+        (magit-status (pop args) nil)
+        (eshell/echo))
+
+      (defun eshell/gd (&rest args)
+        (magit-diff-unstaged)
+        (eshell/echo))
+
+      (defun eshell/gds (&rest args)
+        (magit-diff-staged)
+        (eshell/echo))
+    #+END_SRC
 
 
 *** Plan 9 Smart Shells
@@ -1882,6 +1937,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (setq eshell-where-to-jump 'begin)
       (setq eshell-review-quick-commands nil)
       (setq eshell-smart-space-goes-to-end t)
+      (add-hook  'eshell-mode-hook 'eshell-smart-initialize)
     #+END_SRC
 
 * AucTeX
