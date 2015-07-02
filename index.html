@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>BNBECKWITH Tangled Emacs Initialization</title>
-<!-- 2015-07-01 Wed 16:34 -->
+<!-- 2015-07-02 Thu 15:51 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Benjamin Beckwith" />
@@ -1575,7 +1575,7 @@ respectively.
 
 <p>
 The char version I use here is the two-element version.  For
-single chararcter jumping, I have the Ace Isearch mode below that
+single character jumping, I have the Ace Isearch mode below that
 will facilitate quick jumping.
 </p>
 </div>
@@ -1587,7 +1587,7 @@ will facilitate quick jumping.
 <div class="outline-text-3" id="text-4-26">
 <p>
 The edit server talks to Chrome and uses emacs to edit any
-textareas.  I start this server here.
+text areas.  I start this server here.
 </p>
 
 <div class="org-src-container">
@@ -2380,7 +2380,7 @@ particular done item.
 
 <p>
 To use these numbers, I do a weekly review on Monday and compare
-the numbers to past years/weeks/etc. To keep pushing foward, this
+the numbers to past years/weeks/etc. To keep pushing forward, this
 little bit of code will insert a running status at the top of my
 agenda.
 </p>
@@ -2420,6 +2420,7 @@ and error type formatting under.
 </div>
 </div>
 </div>
+
 <div id="outline-container-sec-6-6" class="outline-3">
 <h3 id="sec-6-6"><span class="section-number-3">6.6</span> Calendars</h3>
 <div class="outline-text-3" id="text-6-6">
@@ -2461,6 +2462,7 @@ and error type formatting under.
 </div>
 </div>
 </div>
+
 <div id="outline-container-sec-6-7" class="outline-3">
 <h3 id="sec-6-7"><span class="section-number-3">6.7</span> Auto-display agenda</h3>
 <div class="outline-text-3" id="text-6-7">
@@ -2590,7 +2592,7 @@ need to load the mode and bind some keys.
 <h2 id="sec-8"><span class="section-number-2">8</span> Dired</h2>
 <div class="outline-text-2" id="text-8">
 <p>
-So, I used <code>dired+</code> instead of the regular dired. It offers more
+So, I used <code>dired+</code> instead of the regular <code>dired</code>. It offers more
 interesting colors and more flexible ways to mark files.
 </p>
 
@@ -2602,7 +2604,7 @@ extension (with dot).
 <p>
 Here I enable the <code>dired-find-alternate-file</code> command. It lets my
 just type <code>a</code> to replace the current buffer and reduces the
-accumulating dired buffers.
+accumulating <code>dired</code> buffers.
 </p>
 
 <div class="org-src-container">
@@ -2615,7 +2617,7 @@ accumulating dired buffers.
 
 <p>
 Also, there is a nice faculty to run an external command on a given
-file with <code>!</code>.  Dired has some idea of what to run, but I can make
+file with <code>!</code>.  <code>Dired</code> has some idea of what to run, but I can make
 it smarter on windows.
 </p>
 
@@ -2786,7 +2788,7 @@ rectangle use <code>C-RET</code>.
 
 <tr class="tr-odd">
 <td class="left">M-n</td>
-<td class="left">Filles each line with increasing numbers (prompt)</td>
+<td class="left">Fills each line with increasing numbers (prompt)</td>
 </tr>
 
 <tr class="tr-even">
@@ -3097,7 +3099,7 @@ it automatically load each time.
 <div class="outline-text-3" id="text-14-1">
 <p>
 Using Cider will make a nREPL available for Clojure
-programming. The configuaration snippets here are from the <a href="https://github.com/clojure-emacs/cider">project
+programming. The configuration snippets here are from the <a href="https://github.com/clojure-emacs/cider">project
 page on github</a>.
 </p>
 
@@ -3124,7 +3126,7 @@ page on github</a>.
 <h2 id="sec-15"><span class="section-number-2">15</span> Elisp</h2>
 <div class="outline-text-2" id="text-15">
 <p>
-When modified <code>emasc-lisp</code>, it is most helpful to use <code>paredit</code> and
+When modified <code>emacs-lisp</code>, it is most helpful to use <code>paredit</code> and
 <code>eldoc</code>.
 </p>
 
@@ -3211,7 +3213,7 @@ so the <code>helm-mode-reverse-history</code> is set to <code>nil</code>.
 </p>
 
 <p>
-The scolling amount is 8 lines.
+The scrolling amount is 8 lines.
 </p>
 
 <p>
@@ -3577,8 +3579,6 @@ file.  This gives the same behavior in <code>eshell</code>.
     <span style="color: #8e908c; font-style: italic;">;; </span><span style="color: #8e908c; font-style: italic;">Otherwise, find-file will look in the current directory which</span>
     <span style="color: #8e908c; font-style: italic;">;; </span><span style="color: #8e908c; font-style: italic;">would fail for 'foo.txt' in the example above.</span>
     (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
-
-(eshell/alias <span style="color: #3e999f;">"em"</span> <span style="color: #3e999f;">"emacs"</span>)
 </pre>
 </div>
 
@@ -3599,14 +3599,18 @@ window.
 </div>
 
 <p>
-Here is another alias method. Here, I create a long listing, <code>ll</code>,
-alias for <code>ls</code>.
+I also setup some command aliases. Here, I create a long listing,
+<code>ll</code>, alias for <code>ls</code>, a <code>llc</code> varient with colored output, and an
+emacs shortcut.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(eshell/alias <span style="color: #3e999f;">"ll"</span> <span style="color: #3e999f;">"ls -Aloh"</span>)
-(eshell/alias <span style="color: #3e999f;">"llc"</span> <span style="color: #3e999f;">"*ls -AlohG --color=always"</span>)
+<pre class="src src-emacs-lisp">(<span style="color: #718c00;">with-eval-after-load</span> <span style="color: #3e999f;">"em-alias"</span>
+  '(<span style="color: #718c00;">progn</span>
+     (eshell/alias <span style="color: #3e999f;">"em"</span> <span style="color: #3e999f;">"emacs"</span>)
+     (eshell/alias <span style="color: #3e999f;">"ll"</span> <span style="color: #3e999f;">"ls -Aloh"</span>)
+     (eshell/alias <span style="color: #3e999f;">"llc"</span> <span style="color: #3e999f;">"*ls -AlohG --color=always"</span>)))
 </pre>
 </div>
 
@@ -4286,7 +4290,7 @@ above.
 </p>
 
 <p>
-Modifed from <a href="http://sachachua.com/blog/2014/05/getting-r-ggplot2-work-emacs-org-mode-babel-blocks-also-tracking-number-todos/">Sacha Chua</a>, this code get the current mix of tasks
+Modified from <a href="http://sachachua.com/blog/2014/05/getting-r-ggplot2-work-emacs-org-mode-babel-blocks-also-tracking-number-todos/">Sacha Chua</a>, this code get the current mix of tasks
 in the agenda files.  I use this as part of my weekly review for
 task amount and mix at a glance.
 </p>
@@ -4552,6 +4556,7 @@ Use this to get the scoreless tasks and edit in column mode
 </div>
 </div>
 </div>
+
 <div id="outline-container-sec-20-8" class="outline-3">
 <h3 id="sec-20-8"><span class="section-number-3">20.8</span> Export</h3>
 <div class="outline-text-3" id="text-20-8">
@@ -4774,6 +4779,7 @@ Org-modules allow for specific functionality within org-mode.
 </pre>
 </div>
 </div>
+
 <div id="outline-container-sec-20-10-1" class="outline-4">
 <h4 id="sec-20-10-1"><span class="section-number-4">20.10.1</span> Org-protocol</h4>
 <div class="outline-text-4" id="text-20-10-1">
@@ -5199,7 +5205,7 @@ on the specific system in question.
 In the code below, I add <code>~/.emacs.d/</code> to the load path and have a
 protected call to <code>load-library</code>.  If the file exists, it gets
 loaded, otherwise the error normally returned if the file is
-non-existant gets ignored.
+non-existent gets ignored.
 </p>
 
 <div class="org-src-container">
@@ -5218,7 +5224,7 @@ non-existant gets ignored.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Benjamin Beckwith</p>
-<p class="date">Created: 2015-07-01 Wed 16:34</p>
+<p class="date">Created: 2015-07-02 Thu 15:51</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.7a)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
