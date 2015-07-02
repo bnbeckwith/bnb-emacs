@@ -756,13 +756,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     respectively.
 
     The char version I use here is the two-element version.  For
-    single chararcter jumping, I have the Ace Isearch mode below that
+    single character jumping, I have the Ace Isearch mode below that
     will facilitate quick jumping.
 
 ** Edit Server
 
    The edit server talks to Chrome and uses emacs to edit any
-   textareas.  I start this server here.
+   text areas.  I start this server here.
 
    #+BEGIN_SRC emacs-lisp
      (edit-server-start)
@@ -1284,7 +1284,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    particular done item.
 
    To use these numbers, I do a weekly review on Monday and compare
-   the numbers to past years/weeks/etc. To keep pushing foward, this
+   the numbers to past years/weeks/etc. To keep pushing forward, this
    little bit of code will insert a running status at the top of my
    agenda.
 
@@ -1317,6 +1317,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   ;; This hook runs first in the agenda (and before it is set to read-only)
   (add-hook 'org-agenda-mode-hook 'bnb/agenda-score-goal)
 #+END_SRC
+
 ** Calendars
 
    #+BEGIN_SRC emacs-lisp
@@ -1353,6 +1354,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (cfw:open-calendar-buffer
         :contents-sources bnb/calfw-calendars-list))
    #+END_SRC
+
 ** Auto-display agenda
 
     From
@@ -1453,7 +1455,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 * Dired
 
-  So, I used =dired+= instead of the regular dired. It offers more
+  So, I used =dired+= instead of the regular =dired=. It offers more
   interesting colors and more flexible ways to mark files.
 
   For example, to mark by extension, press =*.=, then type the
@@ -1461,7 +1463,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   Here I enable the =dired-find-alternate-file= command. It lets my
   just type =a= to replace the current buffer and reduces the
-  accumulating dired buffers.
+  accumulating =dired= buffers.
 
   #+BEGIN_SRC emacs-lisp
     (unless (package-installed-p 'dired+)
@@ -1470,7 +1472,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   #+END_SRC
 
   Also, there is a nice faculty to run an external command on a given
-  file with =!=.  Dired has some idea of what to run, but I can make
+  file with =!=.  =Dired= has some idea of what to run, but I can make
   it smarter on windows.
 
   #+BEGIN_SRC emacs-lisp
@@ -1548,7 +1550,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     | M-k              | Kills the rectangle as normal multi-line kill                         |
     | M-l              | Downcases the rectangle                                               |
     | M-m              | Copies the rectangle for normal multi-line paste                      |
-    | M-n              | Filles each line with increasing numbers (prompt)                     |
+    | M-n              | Fills each line with increasing numbers (prompt)                     |
     | M-o              | Opens the rect by moving hilighted text right and filling with blanks |
     | M-p              | Toggles virtual straight rectangle edges                              |
     | M-P              | Inserts tabs and spaces to make real straight edges                   |
@@ -1698,7 +1700,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 ** Cider
 
    Using Cider will make a nREPL available for Clojure
-   programming. The configuaration snippets here are from the [[https://github.com/clojure-emacs/cider][project
+   programming. The configuration snippets here are from the [[https://github.com/clojure-emacs/cider][project
    page on github]].
 
    #+BEGIN_SRC emacs-lisp
@@ -1717,7 +1719,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 * Elisp
 
-  When modified =emasc-lisp=, it is most helpful to use =paredit= and
+  When modified =emacs-lisp=, it is most helpful to use =paredit= and
   =eldoc=.
 
   #+BEGIN_SRC emacs-lisp
@@ -1777,7 +1779,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    I did not like the /reverse/ history, but wanted my history first,
    so the =helm-mode-reverse-history= is set to =nil=.
 
-   The scolling amount is 8 lines.
+   The scrolling amount is 8 lines.
 
    The last two settings make it so I can quickly find a required
    files in a sexp and to use the =recentf-list=.
@@ -2425,7 +2427,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     These helpers provide functionality used in the capture templates
     above.
 
-    Modifed from [[http://sachachua.com/blog/2014/05/getting-r-ggplot2-work-emacs-org-mode-babel-blocks-also-tracking-number-todos/][Sacha Chua]], this code get the current mix of tasks
+    Modified from [[http://sachachua.com/blog/2014/05/getting-r-ggplot2-work-emacs-org-mode-babel-blocks-also-tracking-number-todos/][Sacha Chua]], this code get the current mix of tasks
     in the agenda files.  I use this as part of my weekly review for
     task amount and mix at a glance.
 
@@ -2631,6 +2633,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      - =#= Stuck projects
      - =z= Agenda with Personal Files
      - =c= Select default clocking task
+
 ** Export
 
    Some global export settings make sense for HTML and \LaTeX
@@ -2782,6 +2785,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              org-bookmark
              org-calc)))
    #+END_SRC
+
 *** Org-protocol
 
     For some reason, I have to load =org-protocol= explicitly in
@@ -3048,7 +3052,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   In the code below, I add =~/.emacs.d/= to the load path and have a
   protected call to =load-library=.  If the file exists, it gets
   loaded, otherwise the error normally returned if the file is
-  non-existant gets ignored.
+  non-existent gets ignored.
 
   #+BEGIN_SRC emacs-lisp
     (condition-case err
