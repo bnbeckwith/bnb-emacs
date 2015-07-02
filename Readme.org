@@ -1964,8 +1964,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
           ;; Otherwise, find-file will look in the current directory which
           ;; would fail for 'foo.txt' in the example above.
           (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
-
-      (eshell/alias "em" "emacs")
     #+END_SRC
 
     One can also keep the shell active and open files in the other
@@ -1980,12 +1978,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
            (mapcar #'expand-file-name (eshell-flatten-list (reverse args)))))
     #+END_SRC
 
-    Here is another alias method. Here, I create a long listing, =ll=,
-    alias for =ls=.
+    I also setup some command aliases. Here, I create a long listing,
+    =ll=, alias for =ls=, a =llc= varient with colored output, and an
+    emacs shortcut.
 
     #+BEGIN_SRC emacs-lisp
-      (eshell/alias "ll" "ls -Aloh")
-      (eshell/alias "llc" "*ls -AlohG --color=always")
+      (with-eval-after-load "em-alias"
+        '(progn
+           (eshell/alias "em" "emacs")
+           (eshell/alias "ll" "ls -Aloh")
+           (eshell/alias "llc" "*ls -AlohG --color=always")))
     #+END_SRC
 
     On a windows box, setup grep to be a cygwin version.
