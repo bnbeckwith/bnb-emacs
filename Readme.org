@@ -231,6 +231,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                  (candidates . (("Calc"          . calc)
                                 ("EDiff Buffers" . ediff-buffers)
                                 ("Find Dired"    . find-dired)
+                                ("Sunrise"       . sunrise)
                                 ("lgrep"         . lgrep)
                                 ("rgrep"         . rgrep)
                                 ("ielm"          . ielm)
@@ -250,7 +251,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                 helm-source-bookmark-set)))
 
       (bind-key "C-x g" 'bnb/helm-map-launcher)
-
     #+END_SRC
 
 *** Toggle Map
