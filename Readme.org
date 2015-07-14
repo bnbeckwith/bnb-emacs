@@ -1082,10 +1082,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    This is a nice little graphical interface in an inactive mode line
    showing system resources.
 
-   #+BEGIN_SRC emacs-lisp
-     (symon-mode)
-   #+END_SRC
-
 * BNB Helpers
 
   This is a collection of code specific to how I use emacs.  Some
