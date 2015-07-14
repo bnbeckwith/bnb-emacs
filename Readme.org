@@ -333,6 +333,26 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (bind-key "M-\\" 'fixup-whitespace)
      #+END_SRC
 
+**** Scroll window up/down
+
+     In addition to moving the cursor, it is also interesting to
+     scroll the screen (without moving the cursor with respect to the
+     frame).
+
+     #+BEGIN_SRC emacs-lisp
+       (defun bnb/scroll-up-1 ()
+         (interactive)
+         (cua-scroll-up 1))
+
+       (defun bnb/scroll-down-1 ()
+         (interactive)
+         (cua-scroll-down 1))
+
+       (bind-keys
+        ("M-n" . bnb/scroll-up-1)
+        ("M-p" . bnb/scroll-down-1))
+     #+END_SRC
+
 ** Minibuffer History Save
 
    This saves the minibuffer histories to preserve across emacs
