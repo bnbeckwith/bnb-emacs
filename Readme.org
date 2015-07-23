@@ -3048,7 +3048,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    responsive.
 
   #+BEGIN_SRC emacs-lisp
-    (server-start)
+    (when (and (eq system-type 'windows-nt)
+               (not server-clients)
+               (not (daemonp)))
+      (server-start))
   #+END_SRC
 
    I need to look into the TCP connections to see how
