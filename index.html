@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>BNBECKWITH Tangled Emacs Initialization</title>
-<!-- 2015-07-02 Thu 15:51 -->
+<!-- 2015-07-23 Thu 16:40 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Benjamin Beckwith" />
@@ -237,8 +237,7 @@ for the JavaScript code in this tag.
 <li><a href="#sec-4-23">4.23. Guide Key</a></li>
 <li><a href="#sec-4-24">4.24. Ace Utilities</a>
 <ul>
-<li><a href="#sec-4-24-1">4.24.1. Ace Isearch</a></li>
-<li><a href="#sec-4-24-2">4.24.2. Ace Window</a></li>
+<li><a href="#sec-4-24-1">4.24.1. Ace Window</a></li>
 </ul>
 </li>
 <li><a href="#sec-4-25">4.25. Avy Utilities</a>
@@ -325,6 +324,7 @@ for the JavaScript code in this tag.
 <li><a href="#sec-14">14. Clojure</a>
 <ul>
 <li><a href="#sec-14-1">14.1. Cider</a></li>
+<li><a href="#sec-14-2">14.2. clj-refactor</a></li>
 </ul>
 </li>
 <li><a href="#sec-15">15. Elisp</a></li>
@@ -576,10 +576,8 @@ repositories above.
 
 <pre class="src src-emacs-lisp"><span style="color: #8e908c; font-style: italic;">;; </span><span style="color: #8e908c; font-style: italic;">Idea lifted from prelude https://github.com/bbatsov/prelude</span>
 (<span style="color: #718c00;">require</span> '<span style="color: #4271ae;">cl</span>)
-(<span style="color: #718c00;">defvar</span> <span style="color: #eab700;">bnb/packages</span>
-  '(ace-jump-mode
-    ace-isearch
-    ace-window
+(setq bnb/packages
+  '(ace-window
     airplay
     bind-key
     bookmark+
@@ -729,6 +727,7 @@ This method (<code>helm</code>) inspired from <a href="http://kitchingroup.cheme
            (candidates . ((<span style="color: #3e999f;">"Calc"</span>          . calc)
                           (<span style="color: #3e999f;">"EDiff Buffers"</span> . ediff-buffers)
                           (<span style="color: #3e999f;">"Find Dired"</span>    . find-dired)
+                          (<span style="color: #3e999f;">"Sunrise"</span>       . sunrise)
                           (<span style="color: #3e999f;">"lgrep"</span>         . lgrep)
                           (<span style="color: #3e999f;">"rgrep"</span>         . rgrep)
                           (<span style="color: #3e999f;">"ielm"</span>          . ielm)
@@ -853,6 +852,31 @@ possible. The <code>fixup-whitespace</code> function will do that.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(bind-key <span style="color: #3e999f;">"M-\\"</span> 'fixup-whitespace)
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="sec-4-4-4-2" name="sec-4-4-4-2"></a>Scroll window up/down<br  /><div class="outline-text-5" id="text-4-4-4-2">
+<p>
+In addition to moving the cursor, it is also interesting to
+scroll the screen (without moving the cursor with respect to the
+frame).
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #718c00;">defun</span> <span style="color: #f5871f;">bnb/scroll-up-1</span> ()
+  (interactive)
+  (cua-scroll-up 1))
+
+(<span style="color: #718c00;">defun</span> <span style="color: #f5871f;">bnb/scroll-down-1</span> ()
+  (interactive)
+  (cua-scroll-down 1))
+
+(bind-keys
+ (<span style="color: #3e999f;">"M-n"</span> . bnb/scroll-up-1)
+ (<span style="color: #3e999f;">"M-p"</span> . bnb/scroll-down-1))
 </pre>
 </div>
 </div>
@@ -1466,20 +1490,8 @@ small bottom window.
 <h3 id="sec-4-24"><span class="section-number-3">4.24</span> Ace Utilities</h3>
 <div class="outline-text-3" id="text-4-24">
 </div><div id="outline-container-sec-4-24-1" class="outline-4">
-<h4 id="sec-4-24-1"><span class="section-number-4">4.24.1</span> Ace Isearch</h4>
+<h4 id="sec-4-24-1"><span class="section-number-4">4.24.1</span> Ace Window</h4>
 <div class="outline-text-4" id="text-4-24-1">
-<div class="org-src-container">
-
-<pre class="src src-emacs-lisp">(global-ace-isearch-mode t)
-(setq ace-isearch-input-idle-delay 1.4)
-</pre>
-</div>
-</div>
-</div>
-
-<div id="outline-container-sec-4-24-2" class="outline-4">
-<h4 id="sec-4-24-2"><span class="section-number-4">4.24.2</span> Ace Window</h4>
-<div class="outline-text-4" id="text-4-24-2">
 <p>
 Instead of <code>C-x o</code> traversal, <code>ace-window</code> mode provides numbers
 for quick window access
@@ -2121,12 +2133,6 @@ theme. The next piece of advice does that for me.
 This is a nice little graphical interface in an inactive mode line
 showing system resources.
 </p>
-
-<div class="org-src-container">
-
-<pre class="src src-emacs-lisp">(symon-mode)
-</pre>
-</div>
 </div>
 </div>
 </div>
@@ -3118,6 +3124,32 @@ page on github</a>.
 (setq cider-prompt-save-file-on-load nil)
 </pre>
 </div>
+</div>
+</div>
+
+<div id="outline-container-sec-14-2" class="outline-3">
+<h3 id="sec-14-2"><span class="section-number-3">14.2</span> clj-refactor</h3>
+<div class="outline-text-3" id="text-14-2">
+<p>
+Refactoring clojure code is made easier with <a href="https://github.com/clojure-emacs/clj-refactor.el">clj-refactor.el</a>.  I
+turn it on for any clojure mode (through hooks).  The keybinding
+for the set of commands is prefixed with <code>C-c C-r</code> as shown below.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #718c00;">defun</span> <span style="color: #f5871f;">cljr-clojure-mode-hook</span> ()
+  (clj-refactor-mode 1)
+  (yas-minor-mode 1)
+  (cljr-add-keybindings-with-prefix <span style="color: #3e999f;">"C-c C-r"</span>))
+
+(add-hook 'clojure-mode-hook #'cljr-clojure-mode-hook)
+</pre>
+</div>
+
+<p>
+The wiki hosts the <a href="https://github.com/clojure-emacs/clj-refactor.el/wiki">available refactorings</a>.
+</p>
 </div>
 </div>
 </div>
@@ -5161,7 +5193,10 @@ responsive.
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(server-start)
+<pre class="src src-emacs-lisp">(<span style="color: #718c00;">when</span> (and (eq system-type 'windows-nt)
+           (not server-clients)
+           (not (daemonp)))
+  (server-start))
 </pre>
 </div>
 
@@ -5224,7 +5259,7 @@ non-existent gets ignored.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Benjamin Beckwith</p>
-<p class="date">Created: 2015-07-02 Thu 15:51</p>
+<p class="date">Created: 2015-07-23 Thu 16:40</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.7a)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
