@@ -106,10 +106,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   #+BEGIN_SRC emacs-lisp
     ;; Idea lifted from prelude https://github.com/bbatsov/prelude
     (require 'cl)
-    (defvar bnb/packages
-      '(ace-jump-mode
-        ace-isearch
-        ace-window
+    (setq bnb/packages
+      '(ace-window
         airplay
         bind-key
         bookmark+
@@ -695,13 +693,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+END_SRC
 
 ** Ace Utilities
-*** Ace Isearch
-
-    #+BEGIN_SRC emacs-lisp
-      (global-ace-isearch-mode t)
-      (setq ace-isearch-input-idle-delay 1.4)
-    #+END_SRC
-
 *** Ace Window
 
     Instead of =C-x o= traversal, =ace-window= mode provides numbers
