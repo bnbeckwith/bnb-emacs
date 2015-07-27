@@ -3049,7 +3049,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   #+BEGIN_SRC emacs-lisp
     (when (and (eq system-type 'windows-nt)
-               (not server-clients)
+               (not (and (boundp 'server-clients) server-clients))
                (not (daemonp)))
       (server-start))
   #+END_SRC
