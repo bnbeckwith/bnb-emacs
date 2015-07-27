@@ -123,7 +123,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         dired+
         edit-server
         expand-region
-        guide-key
         helm
         helm-bibtex
         helm-css-scss
@@ -158,6 +157,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         sunshine
         undo-tree
         wc-goal-mode
+        which-key
         writegood-mode))
 
     (defun bnb/packages-installed-p ()
@@ -676,22 +676,20 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     - h :: human readable sizes
     - 1v :: Sort digits correctly
 
-** Guide Key
+** Which Key
 
-   Provide a guide for long (and easy to forget) key sequences.  The
-   prefixes below, such as =C-x r=, have numerous options that can
-   follow.  This mode helpfully shows what options are available in a
-   small bottom window.
+   This [[https://github.com/justbur/emacs-which-key][helpful little package]] makes it easy to remember emacs
+   prefixed commands.  Start typing a prefix such as =C-x= after a
+   brief delay, the options for any following commands are shown.
+
+   I am using a setup that tries the right side of emacs first, and
+   punts to a bottom window if there is not enough room.
 
    #+BEGIN_SRC emacs-lisp
-     (require 'guide-key)
-     (setq guide-key/guide-key-sequence
-           '("C-x r" "C-x 4" "C-x v" "C-x 8" "C-x x" "C-c h"))
-     (guide-key-mode 1)
-     (setq guide-key/recursive-key-sequence-flag t)
-     (setq guide-key/popup-window-position 'bottom)
+     (require 'which-key)
+     (which-key-mode)
+     (which-key-setup-side-window-right-bottom)
    #+END_SRC
-
 ** Ace Utilities
 *** Ace Window
 

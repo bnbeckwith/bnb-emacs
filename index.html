@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>BNBECKWITH Tangled Emacs Initialization</title>
-<!-- 2015-07-23 Thu 16:40 -->
+<!-- 2015-07-27 Mon 16:10 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Benjamin Beckwith" />
@@ -234,7 +234,7 @@ for the JavaScript code in this tag.
 <li><a href="#sec-4-22-3">4.22.3. Visual display</a></li>
 </ul>
 </li>
-<li><a href="#sec-4-23">4.23. Guide Key</a></li>
+<li><a href="#sec-4-23">4.23. Which Key</a></li>
 <li><a href="#sec-4-24">4.24. Ace Utilities</a>
 <ul>
 <li><a href="#sec-4-24-1">4.24.1. Ace Window</a></li>
@@ -593,7 +593,6 @@ repositories above.
     dired+
     edit-server
     expand-region
-    guide-key
     helm
     helm-bibtex
     helm-css-scss
@@ -628,6 +627,7 @@ repositories above.
     sunshine
     undo-tree
     wc-goal-mode
+    which-key
     writegood-mode))
 
 (<span style="color: #718c00;">defun</span> <span style="color: #f5871f;">bnb/packages-installed-p</span> ()
@@ -1464,28 +1464,28 @@ This makes the following settings
 </div>
 
 <div id="outline-container-sec-4-23" class="outline-3">
-<h3 id="sec-4-23"><span class="section-number-3">4.23</span> Guide Key</h3>
+<h3 id="sec-4-23"><span class="section-number-3">4.23</span> Which Key</h3>
 <div class="outline-text-3" id="text-4-23">
 <p>
-Provide a guide for long (and easy to forget) key sequences.  The
-prefixes below, such as <code>C-x r</code>, have numerous options that can
-follow.  This mode helpfully shows what options are available in a
-small bottom window.
+This <a href="https://github.com/justbur/emacs-which-key">helpful little package</a> makes it easy to remember emacs
+prefixed commands.  Start typing a prefix such as <code>C-x</code> after a
+brief delay, the options for any following commands are shown.
+</p>
+
+<p>
+I am using a setup that tries the right side of emacs first, and
+punts to a bottom window if there is not enough room.
 </p>
 
 <div class="org-src-container">
 
-<pre class="src src-emacs-lisp">(<span style="color: #718c00;">require</span> '<span style="color: #4271ae;">guide-key</span>)
-(setq guide-key/guide-key-sequence
-      '(<span style="color: #3e999f;">"C-x r"</span> <span style="color: #3e999f;">"C-x 4"</span> <span style="color: #3e999f;">"C-x v"</span> <span style="color: #3e999f;">"C-x 8"</span> <span style="color: #3e999f;">"C-x x"</span> <span style="color: #3e999f;">"C-c h"</span>))
-(guide-key-mode 1)
-(setq guide-key/recursive-key-sequence-flag t)
-(setq guide-key/popup-window-position 'bottom)
+<pre class="src src-emacs-lisp">(<span style="color: #718c00;">require</span> '<span style="color: #4271ae;">which-key</span>)
+(which-key-mode)
+(which-key-setup-side-window-right-bottom)
 </pre>
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-4-24" class="outline-3">
 <h3 id="sec-4-24"><span class="section-number-3">4.24</span> Ace Utilities</h3>
 <div class="outline-text-3" id="text-4-24">
@@ -5194,7 +5194,7 @@ responsive.
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(<span style="color: #718c00;">when</span> (and (eq system-type 'windows-nt)
-           (not server-clients)
+           (not (and (boundp 'server-clients) server-clients))
            (not (daemonp)))
   (server-start))
 </pre>
@@ -5259,7 +5259,7 @@ non-existent gets ignored.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Benjamin Beckwith</p>
-<p class="date">Created: 2015-07-23 Thu 16:40</p>
+<p class="date">Created: 2015-07-27 Mon 16:10</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.7a)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
