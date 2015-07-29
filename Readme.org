@@ -1457,7 +1457,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
           company-show-numbers t)
   #+END_SRC
 
-
 * Dired
 
   So, I used =dired+= instead of the regular =dired=. It offers more
@@ -1806,22 +1805,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    The last two settings make it so I can quickly find a required
    files in a sexp and to use the =recentf-list=.
 
-** Hide minibuffer during input
+** Descbinds
 
-   From:
-   http://www.reddit.com/r/emacs/comments/3asbyn/new_and_very_useful_helm_feature_enter_search/
+   Helm can describe keybindings in an incrementally narrowing way.
 
    #+BEGIN_SRC emacs-lisp
-     (defun bnb/helm-hide-minibuffer-maybe ()
-       (when (with-helm-buffer helm-echo-input-in-header-line)
-         (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
-           (overlay-put ov 'window (selected-window))
-           (overlay-put ov 'face (let ((bg-color (face-background 'default nil)))
-                                   `(:background ,bg-color :foreground ,bg-color)))
-           (setq-local cursor-type nil))))
-
-     (add-hook 'helm-minibuffer-set-up-hook 'bnb/helm-hide-minibuffer-maybe)
+     (require 'helm-descbinds)
+     (helm-descbinds-mode)
    #+END_SRC
+
 ** Global Keybindings
 
    #+BEGIN_SRC emacs-lisp
@@ -3088,5 +3080,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (message "Skipping %s library as it does not exist." user-login-name))
       nil)
   #+END_SRC
+
 
 
