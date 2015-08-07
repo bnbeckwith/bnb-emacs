@@ -1671,6 +1671,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
   #+END_SRC
 
+* Smex
+
+  Counsel uses =smex= under the hood for /recent-item/
+  sorting. Naturally, I enabled it here.
+
+  #+BEGIN_SRC emacs-lisp
+    (smex-initialize)
+  #+END_SRC
+
 * Ivy
 
   #+BEGIN_SRC emacs-lisp
@@ -1679,9 +1688,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 * Counsel
 
+  Adding to (or leveraging) ivy, counsel provides some completion
+  functions that add to or replace traditional methods.
+
   #+BEGIN_SRC emacs-lisp
-    (bind-keys :map emacs-lisp-mode-map
-              ("C-." . counsel-el))
+    (bind-key "M-x" #'counsel-M-x)
   #+END_SRC
 
 
