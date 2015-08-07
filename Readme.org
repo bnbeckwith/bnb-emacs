@@ -29,7 +29,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   (=bnb-emacs=) in the =~/.emacs.d/= directory and run the code block
   (=C-c C-c=) to bootstrap the system.
 
-  #+BEGIN_SRC emacs-lisp :tangle "../init.el" :exports code :results silent
+  #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el" :exports code :results silent
     (require 'package)
     (package-initialize)
 
