@@ -131,7 +131,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         org-plus-contrib
         paredit
         paxedit
-        powerline
         projectile
         rainbow-mode
         smart-tabs-mode
@@ -985,17 +984,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                         (font-spec :size 20 :name "Symbola"))
     #+END_SRC
 
-** Powerline
-
-   [[https://github.com/milkypostman/powerline][Powerline]] is a modification to the mode-line based on some
-   vim-customizations.
-
-   #+BEGIN_SRC emacs-lisp
-     (when (fboundp 'powerline-default-theme)
-       (setq powerline-default-separator 'slant)
-       (powerline-default-theme))
-   #+END_SRC
-
 ** Themes
 
    My favorite dark themes are =smyx= or =fogus=.  I have yet to find
@@ -1011,13 +999,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (mapc 'disable-theme custom-enabled-themes))
    #+END_SRC
 
-   It also seems that I have to reset =powerline= when running a new
-   theme. The next piece of advice does that for me.
+** Smart Mode Line
+
+   This package reduces the noise in the mode-line and allows me to
+   customize just the pieces that I need.
 
    #+BEGIN_SRC emacs-lisp
-     (defadvice load-theme
-       (after theme-reset-powerline (theme &optional no-confirm no-enable) activate)
-       (powerline-reset))
+     (setq sml/theme 'respectful)
+     (sml/setup)
    #+END_SRC
 
 ** Symon
