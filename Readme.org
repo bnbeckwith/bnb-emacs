@@ -123,20 +123,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         dired+
         edit-server
         expand-region
-        helm
-        helm-bibtex
-        helm-css-scss
-        helm-descbinds
-        helm-git
-        helm-git-files
-        helm-helm-commands
-        helm-package
-        helm-proc
-        helm-projectile
-        helm-spaces
-        helm-swoop
-        helm-themes
-        helm-w32-launcher
         hydra
         htmlize
         ido-ubiquitous
@@ -205,51 +191,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    These are inspired from
    [[http://endlessparentheses.com/the-toggle-map-and-wizardry.html]].
-
-*** Common Launcher
-
-    This method (=helm=) inspired from http://kitchingroup.cheme.cmu.edu/blog/2015/02/04/Helm-at-the-Emacs/.
-
-    #+BEGIN_SRC emacs-lisp
-      ;; Helper function from http://oremacs.com/2015/03/17/more-info/
-      (defun bnb/open-info (topic bname)
-        "Open info on TOPIC in BNAME."
-        (if (get-buffer bname)
-            (progn
-              (switch-to-buffer bname)
-              (unless (string-match topic Info-current-file)
-                (Info-goto-node (format "(%s)" topic))))
-          (info topic bname)))
-
-      (defun bnb/helm-map-launcher ()
-          "Use help to launch various mappings"
-        (interactive)
-        (helm :sources
-              `(((name . "Applications")
-                 (candidates . (("Calc"          . calc)
-                                ("EDiff Buffers" . ediff-buffers)
-                                ("Find Dired"    . find-dired)
-                                ("Sunrise"       . sunrise)
-                                ("lgrep"         . lgrep)
-                                ("rgrep"         . rgrep)
-                                ("ielm"          . ielm)
-                                ("proced"        . proced)
-                                ("keybindings"   . describe-personal-keybindings)
-                                ("Calendar"      . bnb/calfw-calendars)
-                                ("Forcast"       . sunshine-forecast)))
-                         (action . (("Open" . (lambda (x) (funcall x))))))
-                ((name . "Info")
-                 (candidates . (("Org"   . "org")
-                                ("Calc"  . "calc")
-                                ("Elisp" . "elisp")
-                                ("Emacs" . "emacs")))
-                 (action . (("Open" . (lambda (x) (bnb/open-info x (format "*%s info*" x)))))))
-                helm-source-recentf
-                helm-source-bookmarks
-                helm-source-bookmark-set)))
-
-      (bind-key "C-x g" 'bnb/helm-map-launcher)
-    #+END_SRC
 
 *** Toggle Map
 
@@ -621,10 +562,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (bind-keys
       ("s-/"    . sunrise)
       ("<f9> /" . sunrise))
-
-     (with-eval-after-load "helm-mode"
-       (add-to-list 'helm-completing-read-handlers-alist
-                    '(sr-goto-dir . ido)))
    #+END_SRC
 
 *** Interesting Keys
@@ -941,8 +878,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (when (eq system-type 'windows-nt)
-       (setq helm-grep-default-command "C:/cygwin/bin/grep.exe --color=always -a -d skip %e -n%cH -e %p %f"
-             grep-command "C:/cygwin/bin/grep.exe -nH -e"))
+       (setq grep-command "C:/cygwin/bin/grep.exe -nH -e"))
    #+END_SRC
 
 ** Scroll Screen Position
@@ -1486,19 +1422,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   #+END_SRC
 
 
-** IDO for switching directories
-
-   I prefer IDO over Helm for switching directories.  It is just
-   faster for my fingers.
-
-   #+BEGIN_SRC emacs-lisp
-     (with-eval-after-load "helm-mode"
-       (add-to-list 'helm-completing-read-handlers-alist
-                    '(dired-goto-file . ido))
-       (add-to-list 'helm-completing-read-handlers-alist
-                    '(dired . ido)))
-   #+END_SRC
-
 * Smart Tabs
 
   [[http://www.emacswiki.org/emacs-en/SmartTabs][SmartTabs]] try to do the right thing regarding tabs/spaces in
@@ -1748,137 +1671,21 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
   #+END_SRC
 
-* Helm
+* Ivy
 
-  [[https://github.com/emacs-helm/helm/wiki][Helm]] is an "incremental completion and selection narrowing
-  framework".  It is like =ido= in that it makes selection of items
-  easier. It is hard to describe how useful it is, but check out the
-  [[http://tuhdo.github.io/helm-intro.html][helm intro]] for some examples.
+  #+BEGIN_SRC emacs-lisp
+    (ivy-mode)
+  #+END_SRC
 
-  You *will* have to break the habit of tab for completion.  But, the
-  upside is that I am now using more =C-n/C-p= for navigation everywhere.
+* Counsel
 
-** Initialization
-
-   Initialize =helm= with some default settings.
-
-    #+BEGIN_SRC emacs-lisp
-      (require 'helm-config)
-
-      (bind-key "C-c h" 'helm-command-prefix)
-
-      (setq helm-quick-update                      t
-            helm-autoresize-mode                   t
-            helm-autoresize-max-height             30
-            helm-autoresize-min-height             30
-            helm-split-window-in-side-p            t
-            helm-buffers-fuzzy-matching            t
-            helm-move-to-line-cycle-in-source      t
-            helm-mode-reverse-history              nil
-            helm-scroll-amount                     8
-            helm-ff-search-library-in-sexp         t
-            helm-ff-file-name-history-use-recentf  t
-            helm-echo-input-in-header-line         t)
-
-      (helm-mode t)
-    #+END_SRC
-
-   The =helm-quick-update= setting shows just enough candidates to
-   fill the screen and delays the rest. This improves initial display
-   time.
-
-   The =helm-full-frame= setting makes the selection interface take up
-   the whole frame. I find this to be useful in most cases.
-   Occasionally, I like to see the text I am working with to know what
-   to type next.  But that is a rare case where =ffap= would not work.
-
-   Fuzzy matching for buffer names is also enabled.
-
-   Using =help-move-to-line-cycle-in-source= lets me move up/down
-   between sources without switching explicitly.
-
-   I did not like the /reverse/ history, but wanted my history first,
-   so the =helm-mode-reverse-history= is set to =nil=.
-
-   The scrolling amount is 8 lines.
-
-   The last two settings make it so I can quickly find a required
-   files in a sexp and to use the =recentf-list=.
-
-** Descbinds
-
-   Helm can describe keybindings in an incrementally narrowing way.
-
-   #+BEGIN_SRC emacs-lisp
-     (require 'helm-descbinds)
-     (helm-descbinds-mode)
-   #+END_SRC
-
-** Global Keybindings
-
-   #+BEGIN_SRC emacs-lisp
-     (bind-keys ("C-x C-f" . helm-find-files)
-                ("C-c h x" . helm-regexp)
-                ("M-y"     . helm-show-kill-ring)
-                ("C-c h s" . helm-spaces)
-                ("C-x b"   . helm-mini)
-                ("C-h b"   . helm-descbinds)
-                ("C-c h g" . helm-w32-launcher))
-   #+END_SRC
-
-** Helm Hydra interface
-
-   From
-   http://angelic-sedition.github.io/blog/2015/02/03/a-more-evil-helm/,
-
-   #+BEGIN_SRC emacs-lisp
-     (bind-key "<escape>"
-               (defhydra helm-like-unite (:hint nil :color pink)
-                      "
-     Nav ^^^^^^^^^        Mark ^^          Other ^^       Quit
-     ^^^^^^^^^^------------^^----------------^^----------------------
-     _K_ ^ ^ _k_ ^ ^     _m_ark           _v_iew         _i_: cancel
-     ^↕^ _h_ ^✜^ _l_     _t_oggle mark    _H_elp         _o_: quit
-     _J_ ^ ^ _j_ ^ ^     _U_nmark all     _d_elete
-     ^^^^^^^^^^                           _f_ollow: %(helm-attr 'follow)
-     "
-                      ;; arrows
-                      ("h" helm-beginning-of-buffer)
-                      ("j" helm-next-line)
-                      ("k" helm-previous-line)
-                      ("l" helm-end-of-buffer)
-                      ;; beginning/end
-                      ("g" helm-beginning-of-buffer)
-                      ("G" helm-end-of-buffer)
-                      ;; scroll
-                      ("K" helm-scroll-other-window-down)
-                      ("J" helm-scroll-other-window)
-                      ;; mark
-                      ("m" helm-toggle-visible-mark)
-                      ("t" helm-toggle-all-marks)
-                      ("U" helm-unmark-all)
-                      ;; exit
-                      ("<escape>" keyboard-escape-quit "" :exit t)
-                      ("o" keyboard-escape-quit :exit t)
-                      ("i" nil)
-                      ;; sources
-                      ("]" helm-next-source)
-                      ("[" helm-previous-source)
-                      ;; rest
-                      ("H" helm-help)
-                      ("v" helm-execute-persistent-action)
-                      ("d" helm-persistent-delete-marked)
-                      ("f" helm-follow-mode))
-               helm-map)
-   #+END_SRC
+  #+BEGIN_SRC emacs-lisp
+    (bind-keys :map emacs-lisp-mode-map
+              ("C-." . counsel-el))
+  #+END_SRC
 
 
 * IDO (Interactively Do Things)
-
-  I have largely replaced =ido= with =helm=, but I still highly recommend
-  the =ido= library.  I still use =ido= for some directory navigation
-  (it's easier than =helm= that way).
-
 
   First, I start with some basic IDO settings. I enabled it
   everywhere so that it will work in all contexts. I like flex
