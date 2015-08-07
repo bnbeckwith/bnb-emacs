@@ -29,7 +29,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   (=bnb-emacs=) in the =~/.emacs.d/= directory and run the code block
   (=C-c C-c=) to bootstrap the system.
 
-  #+BEGIN_SRC emacs-lisp :tangle "../init.el" :exports code :results silent
+  #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el" :exports code :results silent
     (require 'package)
     (package-initialize)
 
@@ -115,7 +115,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         cider
         clojure-mode
         clojure-mode-extra-font-locking
-        color-theme-sanityinc-tomorrow
         company
         company-c-headers
         company-go
@@ -132,11 +131,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         org-plus-contrib
         paredit
         paxedit
-        powerline
         projectile
         rainbow-mode
         smart-tabs-mode
-        smyx-theme
         symon
         sublime-themes
         sunrise-commander
@@ -987,17 +984,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                         (font-spec :size 20 :name "Symbola"))
     #+END_SRC
 
-** Powerline
-
-   [[https://github.com/milkypostman/powerline][Powerline]] is a modification to the mode-line based on some
-   vim-customizations.
-
-   #+BEGIN_SRC emacs-lisp
-     (when (fboundp 'powerline-default-theme)
-       (setq powerline-default-separator 'slant)
-       (powerline-default-theme))
-   #+END_SRC
-
 ** Themes
 
    My favorite dark themes are =smyx= or =fogus=.  I have yet to find
@@ -1013,13 +999,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (mapc 'disable-theme custom-enabled-themes))
    #+END_SRC
 
-   It also seems that I have to reset =powerline= when running a new
-   theme. The next piece of advice does that for me.
+** Smart Mode Line
+
+   This package reduces the noise in the mode-line and allows me to
+   customize just the pieces that I need.
 
    #+BEGIN_SRC emacs-lisp
-     (defadvice load-theme
-       (after theme-reset-powerline (theme &optional no-confirm no-enable) activate)
-       (powerline-reset))
+     (setq sml/theme 'respectful)
+     (sml/setup)
    #+END_SRC
 
 ** Symon
@@ -2085,20 +2072,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                 (sequence "OPEN(O)" "|" "CLOSED(C)"))))
     #+END_SRC
 
-    Also, the keywords can be specifically colored to help the eye
-    infer meaning quickly.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq org-todo-keyword-faces
-            '(("TODO"     :foreground "red"          :weight bold)
-              ("NEXT"     :foreground "blue"         :weight bold)
-              ("DONE"     :foreground "forest green" :weight bold)
-              ("WAITING"  :foreground "yellow"       :weight bold)
-              ("SOMEDAY"  :foreground "goldenrod"    :weight bold)
-              ("CANCELED" :foreground "orangered"    :weight bold)
-              ("OPEN"     :foreground "magenta"      :weight bold)
-              ("CLOSED"   :foreground "forest green" :weight bold)))
-    #+END_SRC
+    I used to set [[elisp:(describe-variable 'org-todo-keyword-faces)][org-todo-keyword-faces]], but now I rely on theme
+    settings.
 
 *** Tags
 
