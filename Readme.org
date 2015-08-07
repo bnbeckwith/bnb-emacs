@@ -115,7 +115,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         cider
         clojure-mode
         clojure-mode-extra-font-locking
-        color-theme-sanityinc-tomorrow
         company
         company-c-headers
         company-go
@@ -136,7 +135,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         projectile
         rainbow-mode
         smart-tabs-mode
-        smyx-theme
         symon
         sublime-themes
         sunrise-commander
@@ -2074,20 +2072,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                 (sequence "OPEN(O)" "|" "CLOSED(C)"))))
     #+END_SRC
 
-    Also, the keywords can be specifically colored to help the eye
-    infer meaning quickly.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq org-todo-keyword-faces
-            '(("TODO"     :foreground "red"          :weight bold)
-              ("NEXT"     :foreground "blue"         :weight bold)
-              ("DONE"     :foreground "forest green" :weight bold)
-              ("WAITING"  :foreground "yellow"       :weight bold)
-              ("SOMEDAY"  :foreground "goldenrod"    :weight bold)
-              ("CANCELED" :foreground "orangered"    :weight bold)
-              ("OPEN"     :foreground "magenta"      :weight bold)
-              ("CLOSED"   :foreground "forest green" :weight bold)))
-    #+END_SRC
+    I used to set [[elisp:(describe-variable 'org-todo-keyword-faces)][org-todo-keyword-faces]], but now I rely on theme
+    settings.
 
 *** Tags
 
