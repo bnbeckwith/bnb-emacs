@@ -1446,6 +1446,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   #+BEGIN_SRC emacs-lisp
     (use-package dired+
+      :defer 10
       :ensure t
       :config
       (put 'dired-find-alternate-file 'disabled nil)
