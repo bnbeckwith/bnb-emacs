@@ -176,9 +176,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    easily bind keys, but it does so with some nice features.
 
    #+BEGIN_SRC emacs-lisp
-     (require 'bind-key)
+     (use-package bind-key
+       :ensure t
+       :bind ("C-h B" . describe-personal-keybindings))
    #+END_SRC
-
 
    By using =bind-key=, you can specify the keystrokes that invoke a
    command. This is regular behavior that you can already achieve in
