@@ -1716,6 +1716,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   #+BEGIN_SRC emacs-lisp
     (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+    (add-hook 'emacs-lisp-mode-hook 'paxedit-mode)
     (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
   #+END_SRC
 
