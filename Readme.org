@@ -854,7 +854,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    [[https://github.com/magnars/expand-region.el]].
 
    #+BEGIN_SRC emacs-lisp
-     (bind-key (kbd "C-=") 'er/expand-region)
+     (use-package expand-region
+       :ensure t
+       :bind ("C-=" . er/expand-region))
    #+END_SRC
 
 ** Hooks
