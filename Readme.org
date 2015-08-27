@@ -1917,6 +1917,37 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   Superb handling of TeX documents.
 
+  #+BEGIN_SRC emacs-lisp
+    (use-package tex-site
+      :ensure auctex
+      :config
+      (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+      (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+      (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
+      (add-hook 'LaTeX-mode-hook 'orgtbl-mode)
+      (setq TeX-auto-untabify t
+            TeX-auto-save t
+            TeX-save-query nil
+            TeX-parse-self t
+            TeX-output-view-style
+            (if (eq system-type 'windows-nt)
+                (quote
+                 (("^pdf$" "." "SumatraPDF.exe -reuse-instance %o")
+                  ("^html?$" "." "start %o")))
+              (quote
+               (("^pdf$" "." "evince -f %o")
+                ("^html?$" "." "start %o"))))
+            TeX-PDF-mode 1
+            TeX-engine 'xetex)
+      (setq-default TeX-master nil)
+      (add-to-list 'org-latex-packages-alist
+                   '("" "tikz" t))
+      (setq org-latex-create-formula-image-program 'imagemagick)
+      (eval-after-load "preview"
+        '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
+      (add-hook 'doc-view-mode-hook 'auto-revert-mode))
+  #+END_SRC
+
 ** RefTeX
 
    [[info:RefTeX][RefTeX Manual]]
