@@ -1767,7 +1767,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    for completion.
 
    #+BEGIN_SRC emacs-lisp
-     (setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command))
+     (use-package ido-ubiquitous
+       :ensure t
+       :config
+       (setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command)))
    #+END_SRC
 
 ** Keystrokes
