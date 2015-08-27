@@ -1034,8 +1034,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    customize just the pieces that I need.
 
    #+BEGIN_SRC emacs-lisp
-     (setq sml/theme 'respectful)
-     (sml/setup)
+     (use-package smart-mode-line
+       :ensure t
+       :init
+       (setq sml/theme 'respectful)
+       (sml/setup))
    #+END_SRC
 
 ** Symon
