@@ -710,10 +710,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     these highlight text an all shown buffers.
 
     #+BEGIN_SRC emacs-lisp
-      (bind-keys
-       ("M-g l" . avy-goto-line)
-       ("M-g c" . avy-goto-char-2)
-       ("M-g w" . avy-goto-word-0))
+      (use-package avy
+        :ensure t
+        :bind
+         ("M-g l" . avy-goto-line)
+         ("M-g c" . avy-goto-char-2)
+         ("M-g w" . avy-goto-word-0))
     #+END_SRC
 
     The commands begin with the normal prefix of =M-g= for the goto
