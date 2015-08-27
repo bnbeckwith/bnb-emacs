@@ -1972,10 +1972,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Hooks
    #+BEGIN_SRC emacs-lisp
-     (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-     (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-     (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
-     (add-hook 'LaTeX-mode-hook 'orgtbl-mode)
    #+END_SRC
 
 ** TeX Settings
@@ -1989,11 +1985,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    bad results for LaTeX files generated on the fly.
 
    #+BEGIN_SRC emacs-lisp
-     (setq TeX-auto-untabify t)
-     (setq TeX-auto-save t)
-     (setq TeX-save-query nil)
-     (setq TeX-parse-self t)
-     (setq-default TeX-master nil)
    #+END_SRC
 
    For viewing the output, I can specify the command to use on the
@@ -2001,14 +1992,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    GNU/Linux and Windows, so I have differing settings below.
 
    #+BEGIN_SRC emacs-lisp
-     (setq TeX-output-view-style
-           (if (eq system-type 'windows-nt)
-               (quote
-                (("^pdf$" "." "SumatraPDF.exe -reuse-instance %o")
-                 ("^html?$" "." "start %o")))
-           (quote
-            (("^pdf$" "." "evince -f %o")
-             ("^html?$" "." "start %o")))))
    #+END_SRC
 
 ** XeTeX settings
@@ -2017,8 +2000,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    use this in PDF mode.
 
    #+BEGIN_SRC emacs-lisp
-     (setq TeX-PDF-mode 1)
-     (setq TeX-engine 'xetex)
    #+END_SRC
 
 ** Preview Settings
@@ -2027,21 +2008,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    has to be added to the default preamble list.
 
    #+BEGIN_SRC emacs-lisp
-     (add-to-list 'org-latex-packages-alist
-                  '("" "tikz" t))
-
-     (setq org-latex-create-formula-image-program 'imagemagick)
-
-     (eval-after-load "preview"
-       '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
    #+END_SRC
 ** DocView
 
    Have =docview= automatically revert the buffer.
-
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'doc-view-mode-hook 'auto-revert-mode)
-   #+END_SRC
 
 * Orgmode
 
