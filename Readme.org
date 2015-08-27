@@ -1458,9 +1458,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   change in the default width will result in code that still aligns.
 
   #+BEGIN_SRC emacs-lisp
-    (setq-default indent-tabs-mode nil)
-    (smart-tabs-insinuate 'c 'javascript 'cperl 'c++)
-    (setq-default tab-width 4)
+    (use-package smart-tabs-mode
+      :config
+      (setq-default indent-tabs-mode nil)
+      (smart-tabs-insinuate 'c 'javascript 'cperl 'c++)
+      (setq-default tab-width 4))
   #+END_SRC
 
 ** Notes
