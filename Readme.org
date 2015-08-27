@@ -427,8 +427,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    files.
 
    #+BEGIN_SRC emacs-lisp
-     (require 'epa)
-     (epa-file-enable)
+     (use-package epa
+       :config (epa-file-enable))
+
    #+END_SRC
 
    It is possible that you would need to [[elisp:(customize-group%20'epg)][customize the location of
