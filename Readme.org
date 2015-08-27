@@ -517,18 +517,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    like 6.
 
    #+BEGIN_SRC emacs-lisp
-     (bind-key "<f6>" 'magit-status)
+     (use-package magit
+       :ensure t
+       :bind ("<f6>" . magit-status)
+       :config
+       (setq magit-last-seen-setup-instructions "1.4.0"))
    #+END_SRC
 
 *** Release 1.4.0
 
     This magit release warns about auto-revert of buffers.  This is
     turned on by default and I will keep that setting.  To turn off
-    the magit warning, I use the following code.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq magit-last-seen-setup-instructions "1.4.0")
-    #+END_SRC
+    the magit warning, I set =magit-last-seen-setup-instructions= to
+    1.4.0 as shown above.
 
 ** Open/Edit This file
 
