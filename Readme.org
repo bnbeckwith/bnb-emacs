@@ -1431,21 +1431,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   accumulating =dired= buffers.
 
   #+BEGIN_SRC emacs-lisp
-    (unless (package-installed-p 'dired+)
-      (package-install 'dired+))
-    (put 'dired-find-alternate-file 'disabled nil)
+    (use-package dired+
+      :ensure t
+      :config
+      (put 'dired-find-alternate-file 'disabled nil)
+      (when (eq system-type 'windows-nt)
+        (setq dired-guess-shell-alist-user
+              '(("\\.pdf" "SumatraPDF.exe")))))
   #+END_SRC
 
   Also, there is a nice faculty to run an external command on a given
   file with =!=.  =Dired= has some idea of what to run, but I can make
   it smarter on windows.
-
-  #+BEGIN_SRC emacs-lisp
-    (when (eq system-type 'windows-nt)
-      (setq dired-guess-shell-alist-user
-            '(("\\.pdf" "SumatraPDF.exe"))))
-  #+END_SRC
-
 
 * Smart Tabs
 
