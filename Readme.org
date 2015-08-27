@@ -732,7 +732,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    text areas.  I start this server here.
 
    #+BEGIN_SRC emacs-lisp
-     (edit-server-start)
+     (use-package edit-server
+       :init
+       (edit-server-start))
    #+END_SRC
 
    Chrome needs to have the proper extension installed there too for
