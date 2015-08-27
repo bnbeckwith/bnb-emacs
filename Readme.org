@@ -31,6 +31,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el" :exports code :results silent
     (require 'package)
+    (setq package-enable-at-startup nil)
     (package-initialize)
 
     (require 'ob-tangle)
@@ -104,6 +105,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    keep me on the bleeding edge. They is why they have their own
    repositories above.
 
+
+   #+BEGIN_SRC emacs-lisp
+     (unless (package-installed-p 'use-package)
+       (package-refresh-contents)
+       (package-install 'use-package))
+     (setq use-package-verbose t)
+     (require 'use-package)
+   #+END_SRC
+
   #+BEGIN_SRC emacs-lisp
     ;; Idea lifted from prelude https://github.com/bbatsov/prelude
     (require 'cl)
@@ -167,9 +177,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    easily bind keys, but it does so with some nice features.
 
    #+BEGIN_SRC emacs-lisp
-     (require 'bind-key)
+     (use-package bind-key
+       :ensure t
+       :bind ("C-h B" . describe-personal-keybindings))
    #+END_SRC
-
 
    By using =bind-key=, you can specify the keystrokes that invoke a
    command. This is regular behavior that you can already achieve in
@@ -378,9 +389,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    This mode installs through the ELPA system.
 
    #+BEGIN_SRC emacs-lisp
-     (bind-key "C-c g" 'writegood-mode)
-     (bind-key "C-c C-g g" 'writegood-grade-level)
-     (bind-key "C-c C-g e" 'writegood-reading-ease)
+     (use-package writegood-mode
+       :ensure t
+       :bind
+       ("C-c g"     . writegood-mode)
+       ("C-c C-g g" . writegood-grade-level)
+       ("C-c C-g e" . writegood-reading-ease))
    #+END_SRC
 
 ** Spell Checking
@@ -420,8 +434,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    files.
 
    #+BEGIN_SRC emacs-lisp
-     (require 'epa)
-     (epa-file-enable)
+     (use-package epa
+       :disabled t
+       :config (epa-file-enable))
    #+END_SRC
 
    It is possible that you would need to [[elisp:(customize-group%20'epg)][customize the location of
@@ -433,12 +448,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    vi-style navigation.
 
    #+BEGIN_SRC emacs-lisp
-     (require 'view)
-     (setq view-read-only t)     ; enter view-mode for read-only files
-     (bind-key "n" 'next-line     view-mode-map)
-     (bind-key "p" 'previous-line view-mode-map)
-     (bind-key "j" 'next-line     view-mode-map)
-     (bind-key "k" 'previous-line view-mode-map)
+     (use-package view
+       :init (setq view-read-only t)
+       :config (bind-keys :map view-mode-map
+                          ("n" . next-line    )
+                          ("p" . previous-line)
+                          ("j" . next-line    )
+                          ("k" . previous-line)
+                          ("l" . forward-char)
+                          ("h" . (lambda () (interactive) (forward-char -1)))
+                          ("q" . (lambda () (interactive) (view-mode -1)))))
    #+END_SRC
 
 ** Default File encoding
@@ -505,18 +524,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    like 6.
 
    #+BEGIN_SRC emacs-lisp
-     (bind-key "<f6>" 'magit-status)
+     (use-package magit
+       :ensure t
+       :bind ("<f6>" . magit-status)
+       :config
+       (setq magit-last-seen-setup-instructions "1.4.0"))
    #+END_SRC
 
 *** Release 1.4.0
 
     This magit release warns about auto-revert of buffers.  This is
     turned on by default and I will keep that setting.  To turn off
-    the magit warning, I use the following code.
-
-    #+BEGIN_SRC emacs-lisp
-      (setq magit-last-seen-setup-instructions "1.4.0")
-    #+END_SRC
+    the magit warning, I set =magit-last-seen-setup-instructions= to
+    1.4.0 as shown above.
 
 ** Open/Edit This file
 
@@ -547,7 +567,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    default, /inactive/ means is any buffer untouched for three days.
 
    #+BEGIN_SRC emacs-lisp
-     (require 'midnight)
+     (use-package midnight)
    #+END_SRC
 
 ** Sunrise Commander
@@ -560,9 +580,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    the ido interface better.
 
    #+BEGIN_SRC emacs-lisp
-     (bind-keys
-      ("s-/"    . sunrise)
-      ("<f9> /" . sunrise))
+     (use-package sunrise-commander
+              :ensure t
+              :bind
+              ("s-/"    . sunrise)
+              ("<f9> /" . sunrise)
+              :config
+              (setq sr-listing-switches "-alhG1vu"))
    #+END_SRC
 
 *** Interesting Keys
@@ -594,17 +618,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                   desc (concat f " (dired)"))
             (org-add-link-props :link link :description desc)
             link)))
-
     #+END_SRC
 
 *** Visual display
 
-    To improve the listings view of =dired=, I use the following (from
+    To improve the listings view of =dired=, I use the =sr-listing-switches= (from
     [[http://oremacs.com/2015/01/13/dired-options/]])
-
-    #+BEGIN_SRC emacs-lisp
-      (setq sr-listing-switches "-alhG1vu")
-    #+END_SRC
 
     This makes the following settings
 
@@ -624,9 +643,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    punts to a bottom window if there is not enough room.
 
    #+BEGIN_SRC emacs-lisp
-     (require 'which-key)
-     (which-key-mode)
-     (which-key-setup-side-window-right-bottom)
+     (use-package which-key
+       :init
+       (which-key-mode)
+       (which-key-setup-side-window-right-bottom))
    #+END_SRC
 ** Ace Utilities
 *** Ace Window
@@ -643,45 +663,47 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     After reading [[https://github.com/abo-abo/ace-window/wiki][the wiki]], I supercharged the interface for =ace-window=.
 
     #+BEGIN_SRC emacs-lisp
-      (require 'ace-window)
-      (bind-keys
-       ("s-a"    . ace-window)
-       ("<f9> a" . ace-window))
-      (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)
-            aw-leading-char-style 'path
-            aw-dispatch-always t
-            aw-dispatch-alist
-            '((?x aw-delete-window "Ace - Delete Window")
-              (?c aw-swap-window   "Ace - Swap window")
-              (?n aw-flip-window   "Ace - Flip window")
-              (?v aw-split-window-vert "Ace - Split Vert Window")
-              (?h aw-split-window-horz "Ace - Split Horz Window")
-              (?m delete-other-windows "Ace - Maximize Window")
-              (?b balance-windows)
-              (?u winner-undo)
-              (?r winner-redo)))
-
-      (defhydra hydra-window-size (:color red)
-        "Window size"
-        ("h" shrink-window-horizontally "shrink horizontal")
-        ("j" shrink-window "shrink vertical")
-        ("k" enlarge-window "enlarge vertical")
-        ("l" enlarge-window-horizontally "enlarge horizontal"))
-      (add-to-list 'aw-dispatch-alist '(?w hydra-window-size/body) t)
-
-      (defhydra hydra-window-frame (:color red)
-        "Frame"
-        ("f" make-frame "new frame")
-        ("x" delete-frame "delete frame"))
-      (add-to-list 'aw-dispatch-alist '(?\; hydra-window-frame/body) t)
-
-      (defhydra hydra-window-scroll (:color red)
-        "Scroll other window"
-        ("n" scroll-other-window "scroll")
-        ("p" scroll-other-window-down "scroll down"))
-      (add-to-list 'aw-dispatch-alist '(?o hydra-window-scroll/body) t)
-
-      (set-face-attribute 'aw-leading-char-face nil :height 2.0)
+      (use-package ace-window
+        :ensure t
+        :bind
+        ("s-a"    . ace-window)
+        ("<f9> a" . ace-window)
+        :config
+        (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)
+              aw-leading-char-style 'path
+              aw-dispatch-always t
+              aw-dispatch-alist
+              '((?x aw-delete-window "Ace - Delete Window")
+                (?c aw-swap-window   "Ace - Swap window")
+                (?n aw-flip-window   "Ace - Flip window")
+                (?v aw-split-window-vert "Ace - Split Vert Window")
+                (?h aw-split-window-horz "Ace - Split Horz Window")
+                (?m delete-other-windows "Ace - Maximize Window")
+                (?b balance-windows)
+                (?u winner-undo)
+                (?r winner-redo)))
+  
+        (defhydra hydra-window-size (:color red)
+          "Window size"
+          ("h" shrink-window-horizontally "shrink horizontal")
+          ("j" shrink-window "shrink vertical")
+          ("k" enlarge-window "enlarge vertical")
+          ("l" enlarge-window-horizontally "enlarge horizontal"))
+        (add-to-list 'aw-dispatch-alist '(?w hydra-window-size/body) t)
+  
+        (defhydra hydra-window-frame (:color red)
+          "Frame"
+          ("f" make-frame "new frame")
+          ("x" delete-frame "delete frame"))
+        (add-to-list 'aw-dispatch-alist '(?\; hydra-window-frame/body) t)
+  
+        (defhydra hydra-window-scroll (:color red)
+          "Scroll other window"
+          ("n" scroll-other-window "scroll")
+          ("p" scroll-other-window-down "scroll down"))
+        (add-to-list 'aw-dispatch-alist '(?o hydra-window-scroll/body) t)
+  
+        (set-face-attribute 'aw-leading-char-face nil :height 2.0))
     #+END_SRC
 
 ** Avy Utilities
@@ -692,10 +714,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     these highlight text an all shown buffers.
 
     #+BEGIN_SRC emacs-lisp
-      (bind-keys
-       ("M-g l" . avy-goto-line)
-       ("M-g c" . avy-goto-char-2)
-       ("M-g w" . avy-goto-word-0))
+      (use-package avy
+        :ensure t
+        :bind
+         ("M-g l" . avy-goto-line)
+         ("M-g c" . avy-goto-char-2)
+         ("M-g w" . avy-goto-word-0))
     #+END_SRC
 
     The commands begin with the normal prefix of =M-g= for the goto
@@ -712,7 +736,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    text areas.  I start this server here.
 
    #+BEGIN_SRC emacs-lisp
-     (edit-server-start)
+     (use-package edit-server
+       :init
+       (edit-server-start))
    #+END_SRC
 
    Chrome needs to have the proper extension installed there too for
@@ -799,12 +825,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    duplicated in strange ways.
 
    #+BEGIN_SRC emacs-lisp
-     (bind-key "C-x M" 'compose-mail)
-     (unbind-key "C-x m" ) ;; remove mail binding
-
-     (bind-key
-      "C-x m"
-      (defhydra hydra-mc (:hint nil)
+     (use-package multiple-cursors
+       :ensure t
+       :bind
+       ("C-x m" . hydra-mc/body)
+       ("C-x M" . compose-mail)
+       :config
+       (defhydra hydra-mc (:hint nil)
         "
           ^Up^            ^Down^        ^Miscellaneous^
      -----------------------------------------------------------
@@ -831,7 +858,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    [[https://github.com/magnars/expand-region.el]].
 
    #+BEGIN_SRC emacs-lisp
-     (bind-key (kbd "C-=") 'er/expand-region)
+     (use-package expand-region
+       :ensure t
+       :bind ("C-=" . er/expand-region))
    #+END_SRC
 
 ** Hooks
@@ -1010,14 +1039,23 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    customize just the pieces that I need.
 
    #+BEGIN_SRC emacs-lisp
-     (setq sml/theme 'respectful)
-     (sml/setup)
+     (use-package smart-mode-line
+       :ensure t
+       :init
+       (setq sml/theme 'respectful)
+       (sml/setup))
    #+END_SRC
 
 ** Symon
 
    This is a nice little graphical interface in an inactive mode line
    showing system resources.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package symon
+       :ensure t
+       :commands (symon-mode))
+   #+END_SRC
 
 * BNB Helpers
 
@@ -1255,38 +1293,44 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 ** Calendars
 
    #+BEGIN_SRC emacs-lisp
-     (require 'calfw-cal)
-     (require 'calfw-ical)
-     (require 'calfw-org)
+     (use-package calfw
+       :commands (bnb/calfw-calendars)
+       :ensure t
+       :config
+       (use-package calfw-cal)
+       (use-package calfw-ical)
+       (use-package calfw-org)
+       (use-package sunshine
+         :ensure t
+         :commands bnb/get-forecast-data
+         :defines bnb/calfw-calendars-list
+         :config
+         (defun bnb/get-forecast-data (b e)
+           (let* ((url (sunshine-make-url sunshine-location sunshine-units))
+                  (forecast (if (sunshine-forecast-cache-expired url)
+                                (with-current-buffer (url-retrieve-synchronously url)
+                                  (goto-char (point-min))
+                                  (sunshine-extract-response))
+                              (with-temp-buffer
+                                (mm-disable-multibyte)
+                                (url-cache-extract (url-cache-create-filename url))
+                                (sunshine-extract-response)))))
+             (cl-loop for day across (cdr (assoc 'list forecast)) collect
+                      (make-cfw:event
+                       :title (format "%s/%s°, %s"
+                                      (round (cdr (assoc 'min (cdr (assoc 'temp day)))))
+                                      (round (cdr (assoc 'max (cdr (assoc 'temp day)))))
+                                      (cdr (assoc 'main (elt (cdr (assoc 'weather day)) 0))))
+                       :start-date (cfw:emacs-to-calendar (seconds-to-time (cdr (assoc 'dt day)))))))))
+       (defvar bnb/calfw-calendars-list
+           (list (cfw:org-create-source "Green")
+                 (make-cfw:source :name "Weather" :data 'bnb/get-forecast-data :color "IndianRed")))
+       (defun bnb/calfw-calendars ()
+         (interactive)
+         (cfw:open-calendar-buffer
+          :contents-sources bnb/calfw-calendars-list)))
      ;; For weather into the calendar
-     (require 'sunshine)
 
-     (defun bnb/get-forecast-data (b e)
-       (let* ((url (sunshine-make-url sunshine-location sunshine-units))
-              (forecast (if (sunshine-forecast-cache-expired url)
-                            (with-current-buffer (url-retrieve-synchronously url)
-                              (goto-char (point-min))
-                              (sunshine-extract-response))
-                          (with-temp-buffer
-                            (mm-disable-multibyte)
-                            (url-cache-extract (url-cache-create-filename url))
-                            (sunshine-extract-response)))))
-         (cl-loop for day across (cdr (assoc 'list forecast)) collect
-                             (make-cfw:event
-                              :title (format "%s/%s°, %s"
-                                             (round (cdr (assoc 'min (cdr (assoc 'temp day)))))
-                                             (round (cdr (assoc 'max (cdr (assoc 'temp day)))))
-                                             (cdr (assoc 'main (elt (cdr (assoc 'weather day)) 0))))
-                              :start-date (cfw:emacs-to-calendar (seconds-to-time (cdr (assoc 'dt day))))))))
-
-     (defvar bnb/calfw-calendars-list
-       (list (cfw:org-create-source "Green")
-             (make-cfw:source :name "Weather" :data 'bnb/get-forecast-data :color "IndianRed")))
-
-     (defun bnb/calfw-calendars ()
-       (interactive)
-       (cfw:open-calendar-buffer
-        :contents-sources bnb/calfw-calendars-list))
    #+END_SRC
 
 ** Auto-display agenda
@@ -1330,32 +1374,34 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 ** Transparency
 
    #+BEGIN_SRC emacs-lisp
-     (require 'ring)
+     (use-package ring
+       :commands (bnb/transparency-apply bnb/transparency-next bnb/transparency-previous
+                                         bnb/transparency-cycle bnb/transparency-add)
+       :config
+       (setq bnb/transparency-ring
+             (ring-convert-sequence-to-ring (list '(100 100) '(100 50) '(100 10) '(95 50) '(90 50) '(85 50)))
+             bnb/transparency
+             (ring-ref bnb/transparency-ring 0))
 
-     (setq bnb/transparency-ring
-           (ring-convert-sequence-to-ring (list '(100 100) '(100 50) '(100 10) '(95 50) '(90 50) '(85 50)))
-           bnb/transparency
-           (ring-ref bnb/transparency-ring 0))
+       (defun bnb/transparency-apply (trans)
+         (set-frame-parameter (selected-frame) 'alpha (setq bnb/transparency trans)))
 
-     (defun bnb/transparency-apply (trans)
-       (set-frame-parameter (selected-frame) 'alpha (setq bnb/transparency trans)))
+       (defun bnb/transparency-next ()
+         (interactive)
+         (bnb/transparency-apply (ring-next bnb/transparency-ring bnb/transparency)))
 
-     (defun bnb/transparency-next ()
-       (interactive)
-       (bnb/transparency-apply (ring-next bnb/transparency-ring bnb/transparency)))
+       (defun bnb/transparency-previous ()
+         (interactive)
+         (bnb/transparency-apply (ring-previous bnb/transparency-ring bnb/transparency)))
 
-     (defun bnb/transparency-previous ()
-       (interactive)
-       (bnb/transparency-apply (ring-previous bnb/transparency-ring bnb/transparency)))
+       (defun bnb/transparency-cycle ()
+         (interactive)
+         (bnb/transparency-next))
 
-     (defun bnb/transparency-cycle ()
-       (interactive)
-       (bnb/transparency-next))
-
-     (defun bnb/transparency-add (active inactive)
-       (interactive "nActive Transparency:\nnInactive Transparency:")
-       (ring-insert+extend bnb/transparency-ring (list active inactive) t)
-       (bnb/transparency-apply (list active inactive)))
+       (defun bnb/transparency-add (active inactive)
+         (interactive "nActive Transparency:\nnInactive Transparency:")
+         (ring-insert+extend bnb/transparency-ring (list active inactive) t)
+         (bnb/transparency-apply (list active inactive))))
    #+END_SRC
 
 ** Styled HTML Export
@@ -1378,12 +1424,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   need to load the mode and bind some keys.
 
   #+BEGIN_SRC emacs-lisp
-    (add-hook 'after-init-hook 'global-company-mode)
-    (bind-key (kbd "<C-tab>") 'company-complete)
-    (bind-key (kbd "<C-tab>") 'company-complete org-mode-map)
-    ;; Turn off the auto downcasing of things
-    (setq company-dabbrev-downcase nil
-          company-show-numbers t)
+    (use-package company
+      :ensure t
+      :defer 2
+      :init
+      (add-hook 'after-init-hook 'global-company-mode)
+      :bind
+      ("<C-tab>" . company-complete)      
+      :config
+      (bind-key "C-<tab>" 'company-complete org-mode-map)
+      ;; Turn off the auto downcasing of things
+      (setq company-dabbrev-downcase nil
+            company-show-numbers t))
   #+END_SRC
 
 * Dired
@@ -1399,21 +1451,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   accumulating =dired= buffers.
 
   #+BEGIN_SRC emacs-lisp
-    (unless (package-installed-p 'dired+)
-      (package-install 'dired+))
-    (put 'dired-find-alternate-file 'disabled nil)
+    (use-package dired+
+      :defer 10
+      :ensure t
+      :config
+      (put 'dired-find-alternate-file 'disabled nil)
+      (when (eq system-type 'windows-nt)
+        (setq dired-guess-shell-alist-user
+              '(("\\.pdf" "SumatraPDF.exe")))))
   #+END_SRC
 
   Also, there is a nice faculty to run an external command on a given
   file with =!=.  =Dired= has some idea of what to run, but I can make
   it smarter on windows.
-
-  #+BEGIN_SRC emacs-lisp
-    (when (eq system-type 'windows-nt)
-      (setq dired-guess-shell-alist-user
-            '(("\\.pdf" "SumatraPDF.exe"))))
-  #+END_SRC
-
 
 * Smart Tabs
 
@@ -1428,9 +1478,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   change in the default width will result in code that still aligns.
 
   #+BEGIN_SRC emacs-lisp
-    (setq-default indent-tabs-mode nil)
-    (smart-tabs-insinuate 'c 'javascript 'cperl 'c++)
-    (setq-default tab-width 4)
+    (use-package smart-tabs-mode
+      :init
+      (setq-default indent-tabs-mode nil)
+      (smart-tabs-insinuate 'c 'javascript 'cperl 'c++)
+      (setq-default tab-width 4))
   #+END_SRC
 
 ** Notes
@@ -1517,61 +1569,64 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][Animated Paredit]]
 
+  #+BEGIN_SRC emacs-lisp
+    (use-package paredit
+      :commands (paredit-mode)
+      :ensure t)
+  #+END_SRC
+
 * Paxedit
 
   Maybe even /more/ power for lisp coding?
   [[https://github.com/promethial/paxedit][Paxedit repo]]
 
   #+BEGIN_SRC emacs-lisp
-    (add-hook 'emacs-lisp-mode-hook 'paxedit-mode)
-    (add-hook 'clojure-mode-hook 'paxedit-mode)
-
-    (eval-after-load "paxedit"
-      '(bind-keys :map paxedit-mode-map
-                  ("M-<right>" . paxedit-transpose-forward)
-                  ("M-<left>"  . paxedit-transpose-backward)
-                  ("M-<up>"    . paxedit-backward-up)
-                  ("M-<down>"  . paxedit-backward-end)
-                  ("M-b"       . paxedit-previous-symbol)
-                  ("M-f"       . paxedit-next-symbol)
-                  ("C-%"       . paxedit-copy)
-                  ("C-&"       . paxedit-kill)
-                  ("C-*"       . paxedit-delete)
-                  ("C-^"       . paxedit-sexp-raise)
-                  ("M-u"       . paxedit-symbol-change-case)
-                  ("C-@"       . paxedit-symbol-copy)
-                  ("C-#"       . paxedit-symbol-kill)))
+    (use-package pax-edit
+      :commands (paxedit-mode)
+      :bind
+      ("M-<right>" . paxedit-transpose-forward)
+      ("M-<left>"  . paxedit-transpose-backward)
+      ("M-<up>"    . paxedit-backward-up)
+      ("M-<down>"  . paxedit-backward-end)
+      ("M-b"       . paxedit-previous-symbol)
+      ("M-f"       . paxedit-next-symbol)
+      ("C-%"       . paxedit-copy)
+      ("C-&"       . paxedit-kill)
+      ("C-*"       . paxedit-delete)
+      ("C-^"       . paxedit-sexp-raise)
+      ("M-u"       . paxedit-symbol-change-case)
+      ("C-@"       . paxedit-symbol-copy)
+      ("C-#"       . paxedit-symbol-kill))      
   #+END_SRC
-
 
 * Projectile
 
   Handling project buffers and files may be easier with projectile.
   Currently under evaluation.
 
-  #+BEGIN_SRC emacs-lisp
-    (when (eq system-type 'windows-nt)
-      (setq projectile-indexing-method 'native))
-    (setq projectile-enable-caching t)
-    (setq projectile-require-project-root t)
-  #+END_SRC
-
-  From the [[https://github.com/abo-abo/hydra/wiki/Projectile][Hydra Wiki]], this hydra launches the projectile functions.
+  From the [[https://github.com/abo-abo/hydra/wiki/Projectile][Hydra Wiki]], the additional hydras launch the projectile
+  functions.
 
   #+BEGIN_SRC emacs-lisp
-    (bind-key "C-x w"
-              (defhydra hydra-projectile-other-window (:color teal)
-                "projectile-other-window"
-                ("f"  projectile-find-file-other-window        "file")
-                ("g"  projectile-find-file-dwim-other-window   "file dwim")
-                ("d"  projectile-find-dir-other-window         "dir")
-                ("b"  projectile-switch-to-buffer-other-window "buffer")
-                ("q"  nil                                      "cancel" :color blue)))
-
-    (bind-key "C-x p"
-              (defhydra hydra-projectile (:color teal
-                                                 :hint nil)
-                "
+    (use-package projectile
+      :ensure t
+      :bind
+      ("C-x w" . hydra-projectile-other-window/body)
+      ("C-x p" . hydra-projectile/body)
+      :config
+      (when (eq system-type 'windows-nt)
+        (setq projectile-indexing-method 'native))
+      (setq projectile-enable-caching t
+            projectile-require-project-root t)
+      (defhydra hydra-projectile-other-window (:color teal)
+                  "projectile-other-window"
+                  ("f"  projectile-find-file-other-window        "file")
+                  ("g"  projectile-find-file-dwim-other-window   "file dwim")
+                  ("d"  projectile-find-dir-other-window         "dir")
+                  ("b"  projectile-switch-to-buffer-other-window "buffer")
+                  ("q"  nil                                      "cancel" :color blue))
+      (defhydra hydra-projectile (:color teal :hint nil)
+                  "
          PROJECTILE: %(projectile-project-root)
 
          Find File            Search/Tags          Buffers                Cache
@@ -1583,29 +1638,29 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       _d_: dir
 
     "
-                ("a"   projectile-ag)
-                ("b"   projectile-switch-to-buffer)
-                ("c"   projectile-invalidate-cache)
-                ("d"   projectile-find-dir)
-                ("C-f" projectile-find-file)
-                ("ff"  projectile-find-file-dwim)
-                ("fd"  projectile-find-file-in-directory)
-                ("g"   ggtags-update-tags)
-                ("C-g" ggtags-update-tags)
-                ("i"   projectile-ibuffer)
-                ("K"   projectile-kill-buffers)
-                ("C-k" projectile-kill-buffers)
-                ("m"   projectile-multi-occur)
-                ("o"   projectile-multi-occur)
-                ("C-p" projectile-switch-project "switch project")
-                ("p"   projectile-switch-project)
-                ("s"   projectile-switch-project)
-                ("r"   projectile-recentf)
-                ("x"   projectile-remove-known-project)
-                ("X"   projectile-cleanup-known-projects)
-                ("z"   projectile-cache-current-file)
-                ("`"   hydra-projectile-other-window/body "other window")
-                ("q"   nil "cancel" :color blue)))
+                  ("a"   projectile-ag)
+                  ("b"   projectile-switch-to-buffer)
+                  ("c"   projectile-invalidate-cache)
+                  ("d"   projectile-find-dir)
+                  ("C-f" projectile-find-file)
+                  ("ff"  projectile-find-file-dwim)
+                  ("fd"  projectile-find-file-in-directory)
+                  ("g"   ggtags-update-tags)
+                  ("C-g" ggtags-update-tags)
+                  ("i"   projectile-ibuffer)
+                  ("K"   projectile-kill-buffers)
+                  ("C-k" projectile-kill-buffers)
+                  ("m"   projectile-multi-occur)
+                  ("o"   projectile-multi-occur)
+                  ("C-p" projectile-switch-project "switch project")
+                  ("p"   projectile-switch-project)
+                  ("s"   projectile-switch-project)
+                  ("r"   projectile-recentf)
+                  ("x"   projectile-remove-known-project)
+                  ("X"   projectile-cleanup-known-projects)
+                  ("z"   projectile-cache-current-file)
+                  ("`"   hydra-projectile-other-window/body "other window")
+                  ("q"   nil "cancel" :color blue)))
   #+END_SRC
 
 * Clojure
@@ -1614,7 +1669,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   it automatically load each time.
 
   #+BEGIN_SRC emacs-lisp
-    (add-hook 'clojure-mode-hook 'paredit-mode)
+        (use-package clojure-mode
+          :ensure t
+          :config
+          (add-hook 'clojure-mode-hook 'paredit-mode)
+          (add-hook 'clojure-mode-hook 'cljr-clojure-mode-hook)
+          (add-hook 'clojure-mode-hook 'paxedit-mode))
   #+END_SRC
 
 ** Cider
@@ -1624,17 +1684,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    page on github]].
 
    #+BEGIN_SRC emacs-lisp
-     ;; Enable eldoc
-     (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-
-     ;; Hide special buffers
-     (setq nrepl-hide-special-buffers t)
-
-     ;; Stop the error from popping up while working in buffers other than the REPL
-     (setq cider-popup-stacktraces nil)
-
-     ;; Stop prompting to save file when killing repl buffer
-     (setq cider-prompt-save-file-on-load nil)
+     (use-package cider
+       :ensure t
+       :commands (cider-jack-in)
+       :config
+       ;; Enable eldoc
+       (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+       ;; Hide special buffers
+       (setq nrepl-hide-special-buffers t
+       ;; Stop the error from popping up while working in buffers other than the REPL
+             cider-popup-stacktraces nil
+       ;; Stop prompting to save file when killing repl buffer
+             cider-prompt-save-file-on-load nil))
    #+END_SRC
 
 ** clj-refactor
@@ -1644,12 +1705,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    for the set of commands is prefixed with =C-c C-r= as shown below.
 
    #+BEGIN_SRC emacs-lisp
-     (defun cljr-clojure-mode-hook ()
-       (clj-refactor-mode 1)
-       (yas-minor-mode 1)
-       (cljr-add-keybindings-with-prefix "C-c C-r"))
-
-     (add-hook 'clojure-mode-hook #'cljr-clojure-mode-hook)
+     (use-package clj-refactor
+       :commands (cljr-clojure-mode-hook)
+       :config
+       (defun cljr-clojure-mode-hook ()
+         (clj-refactor-mode 1)
+         (yas-minor-mode 1)
+         (cljr-add-keybindings-with-prefix "C-c C-r")))
    #+END_SRC
 
    The wiki hosts the [[https://github.com/clojure-emacs/clj-refactor.el/wiki][available refactorings]].
@@ -1661,33 +1723,28 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   #+BEGIN_SRC emacs-lisp
     (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+    (add-hook 'emacs-lisp-mode-hook 'paxedit-mode)
     (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
   #+END_SRC
 
-* Smex
-
-  Counsel uses =smex= under the hood for /recent-item/
-  sorting. Naturally, I enabled it here.
+* Ivy, Counsel and Swiper
 
   #+BEGIN_SRC emacs-lisp
-    (smex-initialize)
+    (use-package swiper
+      :ensure t
+      :bind ("M-x" . counsel-M-x)
+      :config
+      (use-package smex
+       :ensure t
+       :config (smex-initialize))
+      (ivy-mode))
   #+END_SRC
 
-* Ivy
+** Smex
 
-  #+BEGIN_SRC emacs-lisp
-    (ivy-mode)
-  #+END_SRC
-
-* Counsel
-
-  Adding to (or leveraging) ivy, counsel provides some completion
-  functions that add to or replace traditional methods.
-
-  #+BEGIN_SRC emacs-lisp
-    (bind-key "M-x" #'counsel-M-x)
-  #+END_SRC
-
+   Counsel can use =smex= under the hood for /recent-item/
+   sorting. This give a better LRU functionality to command
+   selection. Naturally, I enabled it above.
 
 * IDO (Interactively Do Things)
 
@@ -1725,7 +1782,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    for completion.
 
    #+BEGIN_SRC emacs-lisp
-     (setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command))
+     (use-package ido-ubiquitous
+       :ensure t
+       :config
+       (setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command)))
    #+END_SRC
 
 ** Keystrokes
@@ -1866,6 +1926,37 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   Superb handling of TeX documents.
 
+  #+BEGIN_SRC emacs-lisp
+    (use-package tex-site
+      :ensure auctex
+      :config
+      (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+      (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+      (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
+      (add-hook 'LaTeX-mode-hook 'orgtbl-mode)
+      (setq TeX-auto-untabify t
+            TeX-auto-save t
+            TeX-save-query nil
+            TeX-parse-self t
+            TeX-output-view-style
+            (if (eq system-type 'windows-nt)
+                (quote
+                 (("^pdf$" "." "SumatraPDF.exe -reuse-instance %o")
+                  ("^html?$" "." "start %o")))
+              (quote
+               (("^pdf$" "." "evince -f %o")
+                ("^html?$" "." "start %o"))))
+            TeX-PDF-mode 1
+            TeX-engine 'xetex)
+      (setq-default TeX-master nil)
+      (add-to-list 'org-latex-packages-alist
+                   '("" "tikz" t))
+      (setq org-latex-create-formula-image-program 'imagemagick)
+      (eval-after-load "preview"
+        '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
+      (add-hook 'doc-view-mode-hook 'auto-revert-mode))
+  #+END_SRC
+
 ** RefTeX
 
    [[info:RefTeX][RefTeX Manual]]
@@ -1889,10 +1980,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Hooks
    #+BEGIN_SRC emacs-lisp
-     (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-     (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-     (add-hook 'LaTeX-mode-hook 'auto-fill-mode)
-     (add-hook 'LaTeX-mode-hook 'orgtbl-mode)
    #+END_SRC
 
 ** TeX Settings
@@ -1906,11 +1993,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    bad results for LaTeX files generated on the fly.
 
    #+BEGIN_SRC emacs-lisp
-     (setq TeX-auto-untabify t)
-     (setq TeX-auto-save t)
-     (setq TeX-save-query nil)
-     (setq TeX-parse-self t)
-     (setq-default TeX-master nil)
    #+END_SRC
 
    For viewing the output, I can specify the command to use on the
@@ -1918,14 +2000,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    GNU/Linux and Windows, so I have differing settings below.
 
    #+BEGIN_SRC emacs-lisp
-     (setq TeX-output-view-style
-           (if (eq system-type 'windows-nt)
-               (quote
-                (("^pdf$" "." "SumatraPDF.exe -reuse-instance %o")
-                 ("^html?$" "." "start %o")))
-           (quote
-            (("^pdf$" "." "evince -f %o")
-             ("^html?$" "." "start %o")))))
    #+END_SRC
 
 ** XeTeX settings
@@ -1934,8 +2008,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    use this in PDF mode.
 
    #+BEGIN_SRC emacs-lisp
-     (setq TeX-PDF-mode 1)
-     (setq TeX-engine 'xetex)
    #+END_SRC
 
 ** Preview Settings
@@ -1944,25 +2016,41 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    has to be added to the default preamble list.
 
    #+BEGIN_SRC emacs-lisp
-     (add-to-list 'org-latex-packages-alist
-                  '("" "tikz" t))
-
-     (setq org-latex-create-formula-image-program 'imagemagick)
-
-     (eval-after-load "preview"
-       '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
    #+END_SRC
 ** DocView
 
    Have =docview= automatically revert the buffer.
 
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'doc-view-mode-hook 'auto-revert-mode)
-   #+END_SRC
-
 * Orgmode
 
-  The one feature I cannot do without. Let's set up some features.
+  The one feature I cannot do without. Let's set up some basics.
+
+
+** Orgmode Initialization 
+
+   Here are the initial settings that will invoke org-mode or need to
+   be set when it is loaded.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-mode
+       :ensure org-plus-contrib
+       :mode "\\.org\\(.gpg|_archive\\)?$"
+       :bind
+       ("C-c t"  . orgtbl-mode)
+       ("C-c l"  . org-store-link)
+       ("C-c r"  . org-capture)
+       ("C-c b"  . org-iswitchb)
+       ("<f12>"  . org-agenda)
+       ("<apps>" . org-agenda)
+       ("<f9> v" . visible-mode)
+       ("<f9> g" . org-clock-goto)
+       ("<f9> i" . org-clock-in)
+       ("<f9> o" . org-clock-out)
+       :config
+       (bind-key "M-i" 'org-toggle-inline-images org-mode-map)
+       (add-hook 'org-babel-after-execute-hook
+                 (lambda () (org-display-inline-images nil t))))
+   #+END_SRC
 
 ** Auto mode
 
@@ -1970,20 +2058,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    alternative extensions are for either encrypted org files
    (=.org.gpg=) or for archives (=.org_archive=).
 
-   #+BEGIN_SRC emacs-lisp
-     (add-to-list 'auto-mode-alist
-                  '("\\.org\\(.gpg|_archive\\)?$" . org-mode))
-   #+END_SRC
+   This mode is set above with =use-package=. 
 
 ** Hooks
 
-   First, I add in a keystroke to toggle the inline images.
-
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'org-mode-hook
-                (lambda ()
-                  (local-set-key (kbd "M-i") 'org-toggle-inline-images)))
-   #+END_SRC
+   There are three hooks to consider. These are initialized in [[Orgmode
+   Initialization]]. First, I add in a keystroke to toggle the inline
+   images.
 
    The next hook just saves the org files opened before exiting
    emacs -- just in case.
@@ -1992,15 +2073,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (add-hook 'bnb/kill-emacs-hooks 'org-save-all-org-buffers 'append)
    #+END_SRC
 
-
-   When I execute =babel= to get graphs from my work logs, I hate
-   having to toggle the inline images on/off again.  Here is a hook
-   from Rick Frankel to save the day.
-
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'org-babel-after-execute-hook
-               (lambda () (org-display-inline-images nil t)))
-   #+END_SRC
+   The final hook shows images automatically. When I execute =babel=
+   to get graphs from my work logs, I hate having to toggle the inline
+   images on/off again.  Here is a hook from Rick Frankel to save the
+   day.
 
 ** Keys
 
@@ -2026,18 +2102,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      - org-clock-goto
        Go to current/previous clocked task
 
-     #+BEGIN_SRC emacs-lisp
-       (bind-key "C-c t" 'orgtbl-mode)
-       (bind-key "C-c l" 'org-store-link)
-       (bind-key "C-c r" 'org-capture)
-       (bind-key "C-c b" 'org-iswitchb)
-       (bind-key "<f12>"  'org-agenda)
-       (bind-key "<apps>" 'org-agenda)
-       (bind-key "<f9> v" 'visible-mode)
-       (bind-key "<f9> g" 'org-clock-goto)
-       (bind-key "<f9> i" 'org-clock-in)
-       (bind-key "<f9> o" 'org-clock-out)
-     #+END_SRC
+       
+     These are defined in [[Orgmode Initialization]]
 
 *** Speed
 
@@ -2047,16 +2113,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     =?=. I enable this feature and add some of my own commands.
 
     #+BEGIN_SRC emacs-lisp
-      (setq org-use-speed-commands t)
-      (setq org-speed-commands-user (quote (("0" . delete-window)
-                            ("1" . delete-other-windows)
-                            ("2" . split-window-vertically)
-                            ("3" . split-window-horizontally)
-                            ("h" . hide-other)
-                            ("s" . org-save-all-org-buffers)
-                            ("z" . org-add-note)
-                            ("N" . org-narrow-to-subtree)
-                            ("W" . widen))))
+      (setq org-use-speed-commands t
+            org-speed-commands-user
+            (quote (("0" . delete-window)
+                    ("1" . delete-other-windows)
+                    ("2" . split-window-vertically)
+                    ("3" . split-window-horizontally)
+                    ("h" . hide-other)
+                    ("s" . org-save-all-org-buffers)
+                    ("z" . org-add-note)
+                    ("N" . org-narrow-to-subtree)
+                    ("W" . widen))))
     #+END_SRC
 
 ** Org TODO Configuration
@@ -2150,9 +2217,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      setting to set a different drawer for clocking and logs.
 
      #+BEGIN_SRC emacs-lisp
-       (setq org-log-done (quote note))
-       (setq org-log-into-drawer t)
-       (setq org-drawers '("PROPERTIES" "LOGBOOK" "CLOCK"))
+       (setq org-log-done (quote note)
+             org-log-into-drawer t
+             org-drawers '("PROPERTIES" "LOGBOOK" "CLOCK"))
      #+END_SRC
 
 **** Sub-tasks
@@ -2164,8 +2231,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      without the completion of the sub-tasks.
 
      #+BEGIN_SRC emacs-lisp
-       (setq org-enforce-todo-checkbox-dependencies t)
-       (setq org-enforce-todo-dependencies t)
+       (setq org-enforce-todo-checkbox-dependencies t
+             org-enforce-todo-dependencies t)
      #+END_SRC
 
      Because of the previous enforcement of state, I can also
@@ -2309,10 +2376,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    Finally, I set the filenames to be first for refiling.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-refile-use-cache t)
-     (setq org-refile-targets '((org-agenda-files :maxlevel . 2)
-                                (nil :maxlevel . 5)))
-     (setq org-refile-use-outline-path 'file)
+     (setq org-refile-use-cache t
+           org-refile-targets '((org-agenda-files :maxlevel . 2)
+                                (nil :maxlevel . 5))
+           org-refile-use-outline-path 'file)
    #+END_SRC
 
 ** Agenda
@@ -2326,16 +2393,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    and only show a time grid if a scheduled tasks exists.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-agenda-show-inherited-tags t)
-
-     (setq org-agenda-log-mode-items '(clock))
-
-     (setq org-agenda-clockreport-parameter-plist (quote (:link nil :maxlevel 2 :fileskip0 t)))
-
-     (setq org-agenda-time-grid
-           (quote ((daily today require-timed)
-               "----------------"
-               (800 1000 1200 1400 1600 1800 2000))))
+     (setq org-agenda-show-inherited-tags t
+           org-agenda-log-mode-items '(clock)
+           org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2 :fileskip0 t)
+           org-agenda-time-grid '((daily today require-timed)
+                                  "----------------"
+                                  (800 1000 1200 1400 1600 1800 2000)))
    #+END_SRC
 
 *** Views
@@ -2359,71 +2422,71 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (setq org-agenda-custom-commands
-            (quote (("a" "Agenda" bnb/org-agenda-with-tip)
-                    ("w" "Tasks waiting on something" tags "WAITING/!"
-                     ((org-use-tag-inheritance nil)
-                      (org-agenda-todo-ignore-scheduled nil)
-                      (org-agenda-todo-ignore-deadlines nil)
-                      (org-agenda-todo-ignore-with-date nil)
-                      (org-agenda-overriding-header "Waiting Tasks")))
-                    ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
-                     ((org-agenda-todo-ignore-with-date nil)
-                      (org-agenda-todo-ignore-deadlines nil)
-                      (org-agenda-todo-ignore-scheduled nil)
-                      (org-agenda-overriding-header "Tasks to Refile")))
-                    ("n" "Next" tags-todo "-WAITING-CANCELED/!NEXT"
-                     ((org-agenda-overriding-header "Next Tasks")))
-                    ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELED"
-                     ((org-agenda-overriding-header "Tasks to Archive")))
-                    ("u" "Upcoming tasks" tags "+SCHEDULED<=\"<+1w>\"-TODO=\"DONE\"|+DEADLINE<=\"<+1w>\"-TODO=\"DONE\""
-                     ((org-agenda-overriding-header "Upcoming tasks")))
-                    ("U" "Unscheduled tasks" todo "TODO"
-                     ((org-agenda-overriding-header "Unscheduled Tasks")
-                       (org-agenda-skip-function
-                       (lambda nil
-                         (org-agenda-skip-entry-if (quote scheduled) (quote deadline))))))
-                    ("P" "Printable Agenda" ;tags-todo "-DONE-CANCELED-SOMEDAY"
-                     ((tags-todo "+IGNORE"
-                                 ((org-agenda-overriding-header "\n== Upcoming Items ==\n")))
-                      (agenda "" ((org-agenda-span 14)
-                                  (org-agenda-start-on-weekday nil)
-                                  (org-agenda-prefix-format "[ ] %T:\t")
-                                  (org-agenda-repeating-timestamp-show-all t)
-                                  (org-deadline-warning-days 7)))
-                      (tags-todo "-DRB-SOMEDAY-REFERENCE-BNBECKWITH"
-                                 ((org-agenda-prefix-format "[ ] %T:\t")
-                                  (org-agenda-sorting-strategy '(tag-up priority-down))
-                                  (org-agenda-todo-keyword-format "")
-                                  (org-agenda-todo-ignore-with-date nil)
-                                  (org-agenda-todo-ignore-scheduled nil)
-                                  (org-agenda-todo-ignore-deadlines nil)
-                                  (org-agenda-overriding-header "\nTasks by Context\n------------------\n"))))
-                     ((ps-number-of-columns 2)
-                      (ps-landscape-mode t)
-                      (org-agenda-with-colors nil)
-                      (org-agenda-compact-blocks t)
-                      (org-agenda-remove-tags t)
-                      (ps-paper-type 'a4))
-                     ("~/TODO.pdf" "~/TODO.ps"))
-                    ("l" "Scoreless" tags-todo "+Score<1"
-                     ((org-agenda-todo-ignore-with-date nil)
-                      (org-agenda-todo-ignore-scheduled nil)
-                      (org-agenda-todo-ignore-deadlines nil)
-                      (org-agenda-overriding-header "Scoreless Tasks")))
-                    ("h" "Habits" tags "STYLE=\"habit\""
-                     ((org-agenda-todo-ignore-with-date nil)
-                      (org-agenda-todo-ignore-scheduled nil)
-                      (org-agenda-todo-ignore-deadlines nil)
-                      (org-agenda-overriding-header "Habits")))
-                    ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE+PROJECT|LEVEL=1+REFILE/!-DONE-CANCELED"
-                     ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
-                      (org-agenda-overriding-header "Stuck Projects")))
-                    ("z" "Agenda (including Personal Files)" agenda ""
-                     ((org-agenda-files (list "~/Documents/Personal/Org/"))))
-                    ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
-                     ((org-agenda-skip-function
-                       '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
-                      (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
+            '(("a" "Agenda" bnb/org-agenda-with-tip)
+              ("w" "Tasks waiting on something" tags "WAITING/!"
+               ((org-use-tag-inheritance nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-todo-ignore-with-date nil)
+                (org-agenda-overriding-header "Waiting Tasks")))
+              ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
+               ((org-agenda-todo-ignore-with-date nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-overriding-header "Tasks to Refile")))
+              ("n" "Next" tags-todo "-WAITING-CANCELED/!NEXT"
+               ((org-agenda-overriding-header "Next Tasks")))
+              ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELED"
+               ((org-agenda-overriding-header "Tasks to Archive")))
+              ("u" "Upcoming tasks" tags "+SCHEDULED<=\"<+1w>\"-TODO=\"DONE\"|+DEADLINE<=\"<+1w>\"-TODO=\"DONE\""
+               ((org-agenda-overriding-header "Upcoming tasks")))
+              ("U" "Unscheduled tasks" todo "TODO"
+               ((org-agenda-overriding-header "Unscheduled Tasks")
+                (org-agenda-skip-function
+                 (lambda nil
+                   (org-agenda-skip-entry-if (quote scheduled) (quote deadline))))))
+              ("P" "Printable Agenda" ;tags-todo "-DONE-CANCELED-SOMEDAY"
+               ((tags-todo "+IGNORE"
+                           ((org-agenda-overriding-header "\n== Upcoming Items ==\n")))
+                (agenda "" ((org-agenda-span 14)
+                            (org-agenda-start-on-weekday nil)
+                            (org-agenda-prefix-format "[ ] %T:\t")
+                            (org-agenda-repeating-timestamp-show-all t)
+                            (org-deadline-warning-days 7)))
+                (tags-todo "-DRB-SOMEDAY-REFERENCE-BNBECKWITH"
+                           ((org-agenda-prefix-format "[ ] %T:\t")
+                            (org-agenda-sorting-strategy '(tag-up priority-down))
+                            (org-agenda-todo-keyword-format "")
+                            (org-agenda-todo-ignore-with-date nil)
+                            (org-agenda-todo-ignore-scheduled nil)
+                            (org-agenda-todo-ignore-deadlines nil)
+                            (org-agenda-overriding-header "\nTasks by Context\n------------------\n"))))
+               ((ps-number-of-columns 2)
+                (ps-landscape-mode t)
+                (org-agenda-with-colors nil)
+                (org-agenda-compact-blocks t)
+                (org-agenda-remove-tags t)
+                (ps-paper-type 'a4))
+               ("~/TODO.pdf" "~/TODO.ps"))
+              ("l" "Scoreless" tags-todo "+Score<1"
+               ((org-agenda-todo-ignore-with-date nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-overriding-header "Scoreless Tasks")))
+              ("h" "Habits" tags "STYLE=\"habit\""
+               ((org-agenda-todo-ignore-with-date nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-overriding-header "Habits")))
+              ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE+PROJECT|LEVEL=1+REFILE/!-DONE-CANCELED"
+               ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
+                (org-agenda-overriding-header "Stuck Projects")))
+              ("z" "Agenda (including Personal Files)" agenda ""
+               ((org-agenda-files (list "~/Documents/Personal/Org/"))))
+              ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
+               ((org-agenda-skip-function
+                 '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
+                (org-agenda-overriding-header "Set default clocking task with C-u C-u I")))))
     #+END_SRC
 
     Phew! That is a lot of lisp! It is easiest to describe each view
@@ -2449,8 +2512,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Export
 
-   Some global export settings make sense for HTML and \LaTeX
-
+   Here are some global export settings make sense for HTML and \LaTeX.
 
 *** HTML
 
@@ -2467,12 +2529,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (setq org-html-postamble nil)
    #+END_SRC
 
-
    I'll use the /fancy/ HTML5 export by default.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-html-doctype "html5")
-     (setq org-html-html5-fancy t)
+     (setq org-html-doctype "html5"
+           org-html-html5-fancy t)
    #+END_SRC
 
    I like to have striped tables in email, but this is terribly
@@ -2498,11 +2559,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    backend.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-export-latex-listings 'minted)
-     (setq org-export-latex-custom-lang-environments
-           '((emacs-lisp "common-lispcode")))
-     (setq org-export-latex-minted-options '())
-     (setq org-latex-to-pdf-process
+     (setq org-export-latex-listings 'minted
+           org-export-latex-custom-lang-environments
+           '((emacs-lisp "common-lispcode"))
+           org-export-latex-minted-options '()
+           org-latex-to-pdf-process
            '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
              "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
              "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
@@ -2517,18 +2578,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    (=ox-beamer.el=).
 
    #+BEGIN_SRC emacs-lisp
-     (require 'ox-md)
-     (require 'ox-beamer)
+     (use-package ox-md     :defer t)
+     (use-package ox-beamer :defer t)
    #+END_SRC
 
 *** Office Documents
 
     To begin this process, we enable the ODT exporter.
-
-#+BEGIN_SRC emacs-lisp
-  (require 'ox-odt)
-#+END_SRC
-
+    
+    #+BEGIN_SRC emacs-lisp
+      (use-package ox-odt :defer t)
+    #+END_SRC
+    
 ** Clocking
 
    I have found clocking to be useful in understanding where my time
@@ -2541,8 +2602,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (org-clock-persistence-insinuate)
-     (setq org-clock-history-length 28)
-     (setq org-clock-in-resume t)
+     (setq org-clock-history-length 28
+           org-clock-in-resume t)
    #+END_SRC
 
    Behavior of the clock can change to accommodate other needs. I
@@ -2551,9 +2612,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    item completes.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-clock-into-drawer "CLOCK")
-     (setq org-clock-out-remove-zero-time-clocks t)
-     (setq org-clock-out-when-done t)
+     (setq org-clock-into-drawer "CLOCK"
+           org-clock-out-remove-zero-time-clocks t
+           org-clock-out-when-done t)
    #+END_SRC
 
    Two settings help resolve most clock issues that I have
@@ -2562,8 +2623,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    to handle the situation where a dangling clock exists.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-clock-persist 'history)
-     (setq org-clock-auto-clock-resolution 'when-no-clock-is-running)
+     (setq org-clock-persist 'history
+           org-clock-auto-clock-resolution 'when-no-clock-is-running)
    #+END_SRC
 
    Two final settings regarding clocking setup how I change and view
@@ -2572,8 +2633,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    minute increments.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-clock-report-include-clocking-task t)
-     (setq org-time-stamp-rounding-minutes '(1 15))
+     (setq org-clock-report-include-clocking-task t
+           org-time-stamp-rounding-minutes '(1 15))
    #+END_SRC
 
 ** Modules
@@ -2582,8 +2643,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (setq org-modules
-           (quote
-            (org-bbdb
+           '(org-bbdb
              org-bibtex
              org-crypt
              org-gnus
@@ -2596,7 +2656,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              org-plot
              org-protocol
              org-bookmark
-             org-calc)))
+             org-calc))
    #+END_SRC
 
 *** Org-protocol
@@ -2605,7 +2665,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     order to work.
 
     #+BEGIN_SRC emacs-lisp
-      (require 'org-protocol)
+      (use-package org-protocol :defer t)
     #+END_SRC
 
 *** Crypt
@@ -2614,9 +2674,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     with the "crypt" tag.
 
     #+BEGIN_SRC emacs-lisp
-      (require 'org-crypt)
-      (org-crypt-use-before-save-magic)
-      (setq org-tags-exclude-from-inheritance (quote ("crypt")))
+      (use-package org-crypt
+        :defer t
+        :config
+        (org-crypt-use-before-save-magic)
+        (setq org-tags-exclude-from-inheritance '("crypt")))
     #+END_SRC
 
     The =org-crypt-key= variable will let this use an address from
@@ -2640,18 +2702,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (org-babel-do-load-languages
       'org-babel-load-languages
       '((emacs-lisp . t)
-        (gnuplot . t)
-        (calc . t)
-        (clojure . t)
-        (ditaa . t)
-        (dot . t)
-        (latex . t)
-        (python . t)
-        (perl . t)
-        (R . t)
-        (C . t)
-        (sqlite . t)
-        (plantuml . t)))
+        (gnuplot    . t)
+        (calc       . t)
+        (clojure    . t)
+        (ditaa      . t)
+        (dot        . t)
+        (latex      . t)
+        (python     . t)
+        (perl       . t)
+        (R          . t)
+        (C          . t)
+        (sqlite     . t)
+        (plantuml   . t)))
 
      (when (eq system-type 'windows-nt)
        (setq org-babel-R-command "C:/Progra~1/R/R-2.15.1/bin/R --slave --no-save"))
@@ -2685,10 +2747,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (setq org-file-apps
-            (quote ((auto-mode . emacs)
+            '((auto-mode . emacs)
                 ("\\.x?html?\\'" . default)
                 ("\\.pdf\\'" . default)
-                ("\\.mm\\'" . default))))
+                ("\\.mm\\'" . default)))
     #+END_SRC
 
 *** Goto Interface
@@ -2720,8 +2782,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     headline text, it kills the tags.
 
     #+BEGIN_SRC emacs-lisp
-      (setq org-special-ctrl-a/e t)
-      (setq org-special-ctrl-k t)
+      (setq org-special-ctrl-a/e t
+            org-special-ctrl-k t)
     #+END_SRC
 
 *** Auto-revert mode
@@ -2745,8 +2807,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     is best to have it not use IDO in this case.
 
     #+BEGIN_SRC emacs-lisp
-      (setq org-completion-use-ido t)
-      (setq org-outline-path-complete-in-steps nil)
+      (setq org-completion-use-ido t
+            org-outline-path-complete-in-steps nil)
     #+END_SRC
 
 *** Display settings
@@ -2759,8 +2821,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     hide the leading stars.
 
     #+BEGIN_SRC emacs-lisp
-      (setq org-odd-levels-only nil)
-      (setq org-hide-leading-stars nil)
+      (setq org-odd-levels-only nil
+            org-hide-leading-stars nil)
     #+END_SRC
 
     Cycling the headline states can produce different views of the
@@ -2771,8 +2833,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     =C-c C-j=.
 
     #+BEGIN_SRC emacs-lisp
-      (setq org-cycle-separator-lines 0)
-      (setq org-startup-folded 'content)
+      (setq org-cycle-separator-lines 0
+            org-startup-folded 'content)
     #+END_SRC
 
     When using SRC-blocks, org can provide highlighting native to
@@ -2811,7 +2873,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 ** Org-drill
 
    #+BEGIN_SRC emacs-lisp
-     (require 'org-drill)
+     (use-package org-drill :defer t)
    #+END_SRC
 
 * Calc
@@ -2819,7 +2881,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   Working in computer land, I add these additional units to =calc=.
 
   #+BEGIN_SRC emacs-lisp
-    (setq math-additional-units
+    (use-package calc
+      :init
+      (setq math-additional-units
           '((GiB "1024 * MiB" "Giga Byte")
             (MiB "1024 * KiB" "Mega Byte")
             (KiB "1024 * B"   "Kilo Byte")
@@ -2828,7 +2892,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             (Mib "1024 * Kib" "Mega bit")
             (Kib "1024 * b"   "Kilo bit")
             (b   nil          "bit")
-            ))
+            )))
   #+END_SRC
 
 * Server
