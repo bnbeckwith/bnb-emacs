@@ -1473,7 +1473,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   #+BEGIN_SRC emacs-lisp
     (use-package smart-tabs-mode
-      :config
+      :init
       (setq-default indent-tabs-mode nil)
       (smart-tabs-insinuate 'c 'javascript 'cperl 'c++)
       (setq-default tab-width 4))
