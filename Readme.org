@@ -1362,32 +1362,33 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 ** Transparency
 
    #+BEGIN_SRC emacs-lisp
-     (require 'ring)
+     (use-package ring
+       :ensure t
+       :config
+       (setq bnb/transparency-ring
+             (ring-convert-sequence-to-ring (list '(100 100) '(100 50) '(100 10) '(95 50) '(90 50) '(85 50)))
+             bnb/transparency
+             (ring-ref bnb/transparency-ring 0))
 
-     (setq bnb/transparency-ring
-           (ring-convert-sequence-to-ring (list '(100 100) '(100 50) '(100 10) '(95 50) '(90 50) '(85 50)))
-           bnb/transparency
-           (ring-ref bnb/transparency-ring 0))
+       (defun bnb/transparency-apply (trans)
+         (set-frame-parameter (selected-frame) 'alpha (setq bnb/transparency trans)))
 
-     (defun bnb/transparency-apply (trans)
-       (set-frame-parameter (selected-frame) 'alpha (setq bnb/transparency trans)))
+       (defun bnb/transparency-next ()
+         (interactive)
+         (bnb/transparency-apply (ring-next bnb/transparency-ring bnb/transparency)))
 
-     (defun bnb/transparency-next ()
-       (interactive)
-       (bnb/transparency-apply (ring-next bnb/transparency-ring bnb/transparency)))
+       (defun bnb/transparency-previous ()
+         (interactive)
+         (bnb/transparency-apply (ring-previous bnb/transparency-ring bnb/transparency)))
 
-     (defun bnb/transparency-previous ()
-       (interactive)
-       (bnb/transparency-apply (ring-previous bnb/transparency-ring bnb/transparency)))
+       (defun bnb/transparency-cycle ()
+         (interactive)
+         (bnb/transparency-next))
 
-     (defun bnb/transparency-cycle ()
-       (interactive)
-       (bnb/transparency-next))
-
-     (defun bnb/transparency-add (active inactive)
-       (interactive "nActive Transparency:\nnInactive Transparency:")
-       (ring-insert+extend bnb/transparency-ring (list active inactive) t)
-       (bnb/transparency-apply (list active inactive)))
+       (defun bnb/transparency-add (active inactive)
+         (interactive "nActive Transparency:\nnInactive Transparency:")
+         (ring-insert+extend bnb/transparency-ring (list active inactive) t)
+         (bnb/transparency-apply (list active inactive))))
    #+END_SRC
 
 ** Styled HTML Export
