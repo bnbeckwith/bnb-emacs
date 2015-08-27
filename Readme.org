@@ -2017,7 +2017,34 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 * Orgmode
 
-  The one feature I cannot do without. Let's set up some features.
+  The one feature I cannot do without. Let's set up some basics.
+
+
+** Orgmode Initialization 
+
+   Here are the initial settings that will invoke org-mode or need to
+   be set when it is loaded.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-mode
+       :ensure org-plus-contrib
+       :mode "\\.org\\(.gpg|_archive\\)?$"
+       :bind
+       ("C-c t"  . orgtbl-mode)
+       ("C-c l"  . org-store-link)
+       ("C-c r"  . org-capture)
+       ("C-c b"  . org-iswitchb)
+       ("<f12>"  . org-agenda)
+       ("<apps>" . org-agenda)
+       ("<f9> v" . visible-mode)
+       ("<f9> g" . org-clock-goto)
+       ("<f9> i" . org-clock-in)
+       ("<f9> o" . org-clock-out)
+       :config
+       (bind-key "M-i" 'org-toggle-inline-images org-mode-map)
+       (add-hook 'org-babel-after-execute-hook
+                 (lambda () (org-display-inline-images nil t))))
+   #+END_SRC
 
 ** Auto mode
 
@@ -2025,20 +2052,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    alternative extensions are for either encrypted org files
    (=.org.gpg=) or for archives (=.org_archive=).
 
-   #+BEGIN_SRC emacs-lisp
-     (add-to-list 'auto-mode-alist
-                  '("\\.org\\(.gpg|_archive\\)?$" . org-mode))
-   #+END_SRC
+   This mode is set above with =use-package=. 
 
 ** Hooks
 
-   First, I add in a keystroke to toggle the inline images.
-
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'org-mode-hook
-                (lambda ()
-                  (local-set-key (kbd "M-i") 'org-toggle-inline-images)))
-   #+END_SRC
+   There are three hooks to consider. These are initialized in [[Orgmode
+   Initialization]]. First, I add in a keystroke to toggle the inline
+   images.
 
    The next hook just saves the org files opened before exiting
    emacs -- just in case.
@@ -2047,15 +2067,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (add-hook 'bnb/kill-emacs-hooks 'org-save-all-org-buffers 'append)
    #+END_SRC
 
-
-   When I execute =babel= to get graphs from my work logs, I hate
-   having to toggle the inline images on/off again.  Here is a hook
-   from Rick Frankel to save the day.
-
-   #+BEGIN_SRC emacs-lisp
-     (add-hook 'org-babel-after-execute-hook
-               (lambda () (org-display-inline-images nil t)))
-   #+END_SRC
+   The final hook shows images automatically. When I execute =babel=
+   to get graphs from my work logs, I hate having to toggle the inline
+   images on/off again.  Here is a hook from Rick Frankel to save the
+   day.
 
 ** Keys
 
@@ -2081,18 +2096,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      - org-clock-goto
        Go to current/previous clocked task
 
-     #+BEGIN_SRC emacs-lisp
-       (bind-key "C-c t" 'orgtbl-mode)
-       (bind-key "C-c l" 'org-store-link)
-       (bind-key "C-c r" 'org-capture)
-       (bind-key "C-c b" 'org-iswitchb)
-       (bind-key "<f12>"  'org-agenda)
-       (bind-key "<apps>" 'org-agenda)
-       (bind-key "<f9> v" 'visible-mode)
-       (bind-key "<f9> g" 'org-clock-goto)
-       (bind-key "<f9> i" 'org-clock-in)
-       (bind-key "<f9> o" 'org-clock-out)
-     #+END_SRC
+       
+     These are defined in [[Orgmode Initialization]]
 
 *** Speed
 
@@ -2102,16 +2107,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     =?=. I enable this feature and add some of my own commands.
 
     #+BEGIN_SRC emacs-lisp
-      (setq org-use-speed-commands t)
-      (setq org-speed-commands-user (quote (("0" . delete-window)
-                            ("1" . delete-other-windows)
-                            ("2" . split-window-vertically)
-                            ("3" . split-window-horizontally)
-                            ("h" . hide-other)
-                            ("s" . org-save-all-org-buffers)
-                            ("z" . org-add-note)
-                            ("N" . org-narrow-to-subtree)
-                            ("W" . widen))))
+      (setq org-use-speed-commands t
+            org-speed-commands-user
+            (quote (("0" . delete-window)
+                    ("1" . delete-other-windows)
+                    ("2" . split-window-vertically)
+                    ("3" . split-window-horizontally)
+                    ("h" . hide-other)
+                    ("s" . org-save-all-org-buffers)
+                    ("z" . org-add-note)
+                    ("N" . org-narrow-to-subtree)
+                    ("W" . widen))))
     #+END_SRC
 
 ** Org TODO Configuration
@@ -2205,9 +2211,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      setting to set a different drawer for clocking and logs.
 
      #+BEGIN_SRC emacs-lisp
-       (setq org-log-done (quote note))
-       (setq org-log-into-drawer t)
-       (setq org-drawers '("PROPERTIES" "LOGBOOK" "CLOCK"))
+       (setq org-log-done (quote note)
+             org-log-into-drawer t
+             org-drawers '("PROPERTIES" "LOGBOOK" "CLOCK"))
      #+END_SRC
 
 **** Sub-tasks
@@ -2219,8 +2225,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      without the completion of the sub-tasks.
 
      #+BEGIN_SRC emacs-lisp
-       (setq org-enforce-todo-checkbox-dependencies t)
-       (setq org-enforce-todo-dependencies t)
+       (setq org-enforce-todo-checkbox-dependencies t
+             org-enforce-todo-dependencies t)
      #+END_SRC
 
      Because of the previous enforcement of state, I can also
@@ -2364,10 +2370,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    Finally, I set the filenames to be first for refiling.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-refile-use-cache t)
-     (setq org-refile-targets '((org-agenda-files :maxlevel . 2)
-                                (nil :maxlevel . 5)))
-     (setq org-refile-use-outline-path 'file)
+     (setq org-refile-use-cache t
+           org-refile-targets '((org-agenda-files :maxlevel . 2)
+                                (nil :maxlevel . 5))
+           org-refile-use-outline-path 'file)
    #+END_SRC
 
 ** Agenda
@@ -2381,16 +2387,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    and only show a time grid if a scheduled tasks exists.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-agenda-show-inherited-tags t)
-
-     (setq org-agenda-log-mode-items '(clock))
-
-     (setq org-agenda-clockreport-parameter-plist (quote (:link nil :maxlevel 2 :fileskip0 t)))
-
-     (setq org-agenda-time-grid
-           (quote ((daily today require-timed)
-               "----------------"
-               (800 1000 1200 1400 1600 1800 2000))))
+     (setq org-agenda-show-inherited-tags t
+           org-agenda-log-mode-items '(clock)
+           org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2 :fileskip0 t)
+           org-agenda-time-grid '((daily today require-timed)
+                                  "----------------"
+                                  (800 1000 1200 1400 1600 1800 2000)))
    #+END_SRC
 
 *** Views
@@ -2414,71 +2416,71 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (setq org-agenda-custom-commands
-            (quote (("a" "Agenda" bnb/org-agenda-with-tip)
-                    ("w" "Tasks waiting on something" tags "WAITING/!"
-                     ((org-use-tag-inheritance nil)
-                      (org-agenda-todo-ignore-scheduled nil)
-                      (org-agenda-todo-ignore-deadlines nil)
-                      (org-agenda-todo-ignore-with-date nil)
-                      (org-agenda-overriding-header "Waiting Tasks")))
-                    ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
-                     ((org-agenda-todo-ignore-with-date nil)
-                      (org-agenda-todo-ignore-deadlines nil)
-                      (org-agenda-todo-ignore-scheduled nil)
-                      (org-agenda-overriding-header "Tasks to Refile")))
-                    ("n" "Next" tags-todo "-WAITING-CANCELED/!NEXT"
-                     ((org-agenda-overriding-header "Next Tasks")))
-                    ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELED"
-                     ((org-agenda-overriding-header "Tasks to Archive")))
-                    ("u" "Upcoming tasks" tags "+SCHEDULED<=\"<+1w>\"-TODO=\"DONE\"|+DEADLINE<=\"<+1w>\"-TODO=\"DONE\""
-                     ((org-agenda-overriding-header "Upcoming tasks")))
-                    ("U" "Unscheduled tasks" todo "TODO"
-                     ((org-agenda-overriding-header "Unscheduled Tasks")
-                       (org-agenda-skip-function
-                       (lambda nil
-                         (org-agenda-skip-entry-if (quote scheduled) (quote deadline))))))
-                    ("P" "Printable Agenda" ;tags-todo "-DONE-CANCELED-SOMEDAY"
-                     ((tags-todo "+IGNORE"
-                                 ((org-agenda-overriding-header "\n== Upcoming Items ==\n")))
-                      (agenda "" ((org-agenda-span 14)
-                                  (org-agenda-start-on-weekday nil)
-                                  (org-agenda-prefix-format "[ ] %T:\t")
-                                  (org-agenda-repeating-timestamp-show-all t)
-                                  (org-deadline-warning-days 7)))
-                      (tags-todo "-DRB-SOMEDAY-REFERENCE-BNBECKWITH"
-                                 ((org-agenda-prefix-format "[ ] %T:\t")
-                                  (org-agenda-sorting-strategy '(tag-up priority-down))
-                                  (org-agenda-todo-keyword-format "")
-                                  (org-agenda-todo-ignore-with-date nil)
-                                  (org-agenda-todo-ignore-scheduled nil)
-                                  (org-agenda-todo-ignore-deadlines nil)
-                                  (org-agenda-overriding-header "\nTasks by Context\n------------------\n"))))
-                     ((ps-number-of-columns 2)
-                      (ps-landscape-mode t)
-                      (org-agenda-with-colors nil)
-                      (org-agenda-compact-blocks t)
-                      (org-agenda-remove-tags t)
-                      (ps-paper-type 'a4))
-                     ("~/TODO.pdf" "~/TODO.ps"))
-                    ("l" "Scoreless" tags-todo "+Score<1"
-                     ((org-agenda-todo-ignore-with-date nil)
-                      (org-agenda-todo-ignore-scheduled nil)
-                      (org-agenda-todo-ignore-deadlines nil)
-                      (org-agenda-overriding-header "Scoreless Tasks")))
-                    ("h" "Habits" tags "STYLE=\"habit\""
-                     ((org-agenda-todo-ignore-with-date nil)
-                      (org-agenda-todo-ignore-scheduled nil)
-                      (org-agenda-todo-ignore-deadlines nil)
-                      (org-agenda-overriding-header "Habits")))
-                    ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE+PROJECT|LEVEL=1+REFILE/!-DONE-CANCELED"
-                     ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
-                      (org-agenda-overriding-header "Stuck Projects")))
-                    ("z" "Agenda (including Personal Files)" agenda ""
-                     ((org-agenda-files (list "~/Documents/Personal/Org/"))))
-                    ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
-                     ((org-agenda-skip-function
-                       '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
-                      (org-agenda-overriding-header "Set default clocking task with C-u C-u I"))))))
+            '(("a" "Agenda" bnb/org-agenda-with-tip)
+              ("w" "Tasks waiting on something" tags "WAITING/!"
+               ((org-use-tag-inheritance nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-todo-ignore-with-date nil)
+                (org-agenda-overriding-header "Waiting Tasks")))
+              ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
+               ((org-agenda-todo-ignore-with-date nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-overriding-header "Tasks to Refile")))
+              ("n" "Next" tags-todo "-WAITING-CANCELED/!NEXT"
+               ((org-agenda-overriding-header "Next Tasks")))
+              ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELED"
+               ((org-agenda-overriding-header "Tasks to Archive")))
+              ("u" "Upcoming tasks" tags "+SCHEDULED<=\"<+1w>\"-TODO=\"DONE\"|+DEADLINE<=\"<+1w>\"-TODO=\"DONE\""
+               ((org-agenda-overriding-header "Upcoming tasks")))
+              ("U" "Unscheduled tasks" todo "TODO"
+               ((org-agenda-overriding-header "Unscheduled Tasks")
+                (org-agenda-skip-function
+                 (lambda nil
+                   (org-agenda-skip-entry-if (quote scheduled) (quote deadline))))))
+              ("P" "Printable Agenda" ;tags-todo "-DONE-CANCELED-SOMEDAY"
+               ((tags-todo "+IGNORE"
+                           ((org-agenda-overriding-header "\n== Upcoming Items ==\n")))
+                (agenda "" ((org-agenda-span 14)
+                            (org-agenda-start-on-weekday nil)
+                            (org-agenda-prefix-format "[ ] %T:\t")
+                            (org-agenda-repeating-timestamp-show-all t)
+                            (org-deadline-warning-days 7)))
+                (tags-todo "-DRB-SOMEDAY-REFERENCE-BNBECKWITH"
+                           ((org-agenda-prefix-format "[ ] %T:\t")
+                            (org-agenda-sorting-strategy '(tag-up priority-down))
+                            (org-agenda-todo-keyword-format "")
+                            (org-agenda-todo-ignore-with-date nil)
+                            (org-agenda-todo-ignore-scheduled nil)
+                            (org-agenda-todo-ignore-deadlines nil)
+                            (org-agenda-overriding-header "\nTasks by Context\n------------------\n"))))
+               ((ps-number-of-columns 2)
+                (ps-landscape-mode t)
+                (org-agenda-with-colors nil)
+                (org-agenda-compact-blocks t)
+                (org-agenda-remove-tags t)
+                (ps-paper-type 'a4))
+               ("~/TODO.pdf" "~/TODO.ps"))
+              ("l" "Scoreless" tags-todo "+Score<1"
+               ((org-agenda-todo-ignore-with-date nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-overriding-header "Scoreless Tasks")))
+              ("h" "Habits" tags "STYLE=\"habit\""
+               ((org-agenda-todo-ignore-with-date nil)
+                (org-agenda-todo-ignore-scheduled nil)
+                (org-agenda-todo-ignore-deadlines nil)
+                (org-agenda-overriding-header "Habits")))
+              ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE+PROJECT|LEVEL=1+REFILE/!-DONE-CANCELED"
+               ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
+                (org-agenda-overriding-header "Stuck Projects")))
+              ("z" "Agenda (including Personal Files)" agenda ""
+               ((org-agenda-files (list "~/Documents/Personal/Org/"))))
+              ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
+               ((org-agenda-skip-function
+                 '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
+                (org-agenda-overriding-header "Set default clocking task with C-u C-u I")))))
     #+END_SRC
 
     Phew! That is a lot of lisp! It is easiest to describe each view
@@ -2504,8 +2506,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Export
 
-   Some global export settings make sense for HTML and \LaTeX
-
+   Here are some global export settings make sense for HTML and \LaTeX.
 
 *** HTML
 
@@ -2522,12 +2523,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (setq org-html-postamble nil)
    #+END_SRC
 
-
    I'll use the /fancy/ HTML5 export by default.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-html-doctype "html5")
-     (setq org-html-html5-fancy t)
+     (setq org-html-doctype "html5"
+           org-html-html5-fancy t)
    #+END_SRC
 
    I like to have striped tables in email, but this is terribly
@@ -2553,11 +2553,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    backend.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-export-latex-listings 'minted)
-     (setq org-export-latex-custom-lang-environments
-           '((emacs-lisp "common-lispcode")))
-     (setq org-export-latex-minted-options '())
-     (setq org-latex-to-pdf-process
+     (setq org-export-latex-listings 'minted
+           org-export-latex-custom-lang-environments
+           '((emacs-lisp "common-lispcode"))
+           org-export-latex-minted-options '()
+           org-latex-to-pdf-process
            '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
              "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
              "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
@@ -2572,18 +2572,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    (=ox-beamer.el=).
 
    #+BEGIN_SRC emacs-lisp
-     (require 'ox-md)
-     (require 'ox-beamer)
+     (use-package ox-md     :defer t)
+     (use-package ox-beamer :defer t)
    #+END_SRC
 
 *** Office Documents
 
     To begin this process, we enable the ODT exporter.
-
-#+BEGIN_SRC emacs-lisp
-  (require 'ox-odt)
-#+END_SRC
-
+    
+    #+BEGIN_SRC emacs-lisp
+      (use-package ox-odt :defer t)
+    #+END_SRC
+    
 ** Clocking
 
    I have found clocking to be useful in understanding where my time
@@ -2596,8 +2596,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (org-clock-persistence-insinuate)
-     (setq org-clock-history-length 28)
-     (setq org-clock-in-resume t)
+     (setq org-clock-history-length 28
+           org-clock-in-resume t)
    #+END_SRC
 
    Behavior of the clock can change to accommodate other needs. I
@@ -2606,9 +2606,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    item completes.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-clock-into-drawer "CLOCK")
-     (setq org-clock-out-remove-zero-time-clocks t)
-     (setq org-clock-out-when-done t)
+     (setq org-clock-into-drawer "CLOCK"
+           org-clock-out-remove-zero-time-clocks t
+           org-clock-out-when-done t)
    #+END_SRC
 
    Two settings help resolve most clock issues that I have
@@ -2617,8 +2617,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    to handle the situation where a dangling clock exists.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-clock-persist 'history)
-     (setq org-clock-auto-clock-resolution 'when-no-clock-is-running)
+     (setq org-clock-persist 'history
+           org-clock-auto-clock-resolution 'when-no-clock-is-running)
    #+END_SRC
 
    Two final settings regarding clocking setup how I change and view
@@ -2627,8 +2627,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    minute increments.
 
    #+BEGIN_SRC emacs-lisp
-     (setq org-clock-report-include-clocking-task t)
-     (setq org-time-stamp-rounding-minutes '(1 15))
+     (setq org-clock-report-include-clocking-task t
+           org-time-stamp-rounding-minutes '(1 15))
    #+END_SRC
 
 ** Modules
@@ -2637,8 +2637,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (setq org-modules
-           (quote
-            (org-bbdb
+           '(org-bbdb
              org-bibtex
              org-crypt
              org-gnus
@@ -2651,7 +2650,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              org-plot
              org-protocol
              org-bookmark
-             org-calc)))
+             org-calc))
    #+END_SRC
 
 *** Org-protocol
@@ -2660,7 +2659,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     order to work.
 
     #+BEGIN_SRC emacs-lisp
-      (require 'org-protocol)
+      (use-package org-protocol :defer t)
     #+END_SRC
 
 *** Crypt
@@ -2669,9 +2668,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     with the "crypt" tag.
 
     #+BEGIN_SRC emacs-lisp
-      (require 'org-crypt)
-      (org-crypt-use-before-save-magic)
-      (setq org-tags-exclude-from-inheritance (quote ("crypt")))
+      (use-package org-crypt
+        :defer t
+        :config
+        (org-crypt-use-before-save-magic)
+        (setq org-tags-exclude-from-inheritance '("crypt")))
     #+END_SRC
 
     The =org-crypt-key= variable will let this use an address from
@@ -2695,18 +2696,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (org-babel-do-load-languages
       'org-babel-load-languages
       '((emacs-lisp . t)
-        (gnuplot . t)
-        (calc . t)
-        (clojure . t)
-        (ditaa . t)
-        (dot . t)
-        (latex . t)
-        (python . t)
-        (perl . t)
-        (R . t)
-        (C . t)
-        (sqlite . t)
-        (plantuml . t)))
+        (gnuplot    . t)
+        (calc       . t)
+        (clojure    . t)
+        (ditaa      . t)
+        (dot        . t)
+        (latex      . t)
+        (python     . t)
+        (perl       . t)
+        (R          . t)
+        (C          . t)
+        (sqlite     . t)
+        (plantuml   . t)))
 
      (when (eq system-type 'windows-nt)
        (setq org-babel-R-command "C:/Progra~1/R/R-2.15.1/bin/R --slave --no-save"))
@@ -2740,10 +2741,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (setq org-file-apps
-            (quote ((auto-mode . emacs)
+            '((auto-mode . emacs)
                 ("\\.x?html?\\'" . default)
                 ("\\.pdf\\'" . default)
-                ("\\.mm\\'" . default))))
+                ("\\.mm\\'" . default)))
     #+END_SRC
 
 *** Goto Interface
@@ -2775,8 +2776,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     headline text, it kills the tags.
 
     #+BEGIN_SRC emacs-lisp
-      (setq org-special-ctrl-a/e t)
-      (setq org-special-ctrl-k t)
+      (setq org-special-ctrl-a/e t
+            org-special-ctrl-k t)
     #+END_SRC
 
 *** Auto-revert mode
@@ -2800,8 +2801,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     is best to have it not use IDO in this case.
 
     #+BEGIN_SRC emacs-lisp
-      (setq org-completion-use-ido t)
-      (setq org-outline-path-complete-in-steps nil)
+      (setq org-completion-use-ido t
+            org-outline-path-complete-in-steps nil)
     #+END_SRC
 
 *** Display settings
@@ -2814,8 +2815,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     hide the leading stars.
 
     #+BEGIN_SRC emacs-lisp
-      (setq org-odd-levels-only nil)
-      (setq org-hide-leading-stars nil)
+      (setq org-odd-levels-only nil
+            org-hide-leading-stars nil)
     #+END_SRC
 
     Cycling the headline states can produce different views of the
@@ -2826,8 +2827,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     =C-c C-j=.
 
     #+BEGIN_SRC emacs-lisp
-      (setq org-cycle-separator-lines 0)
-      (setq org-startup-folded 'content)
+      (setq org-cycle-separator-lines 0
+            org-startup-folded 'content)
     #+END_SRC
 
     When using SRC-blocks, org can provide highlighting native to
@@ -2866,7 +2867,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 ** Org-drill
 
    #+BEGIN_SRC emacs-lisp
-     (require 'org-drill)
+     (use-package org-drill :defer t)
    #+END_SRC
 
 * Calc
