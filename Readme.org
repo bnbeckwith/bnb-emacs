@@ -2901,7 +2901,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   Working in computer land, I add these additional units to =calc=.
 
   #+BEGIN_SRC emacs-lisp
-    (setq math-additional-units
+    (use-package calc
+      :init
+      (setq math-additional-units
           '((GiB "1024 * MiB" "Giga Byte")
             (MiB "1024 * KiB" "Mega Byte")
             (KiB "1024 * B"   "Kilo Byte")
@@ -2910,7 +2912,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             (Mib "1024 * Kib" "Mega bit")
             (Kib "1024 * b"   "Kilo bit")
             (b   nil          "bit")
-            ))
+            )))
   #+END_SRC
 
 * Server
