@@ -1670,17 +1670,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    page on github]].
 
    #+BEGIN_SRC emacs-lisp
-     ;; Enable eldoc
-     (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-
-     ;; Hide special buffers
-     (setq nrepl-hide-special-buffers t)
-
-     ;; Stop the error from popping up while working in buffers other than the REPL
-     (setq cider-popup-stacktraces nil)
-
-     ;; Stop prompting to save file when killing repl buffer
-     (setq cider-prompt-save-file-on-load nil)
+     (use-package cider
+       :ensure t
+       :commands (cider-jack-in)
+       :config
+       ;; Enable eldoc
+       (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+       ;; Hide special buffers
+       (setq nrepl-hide-special-buffers t
+       ;; Stop the error from popping up while working in buffers other than the REPL
+             cider-popup-stacktraces nil
+       ;; Stop prompting to save file when killing repl buffer
+             cider-prompt-save-file-on-load nil))
    #+END_SRC
 
 ** clj-refactor
