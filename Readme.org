@@ -1287,38 +1287,44 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 ** Calendars
 
    #+BEGIN_SRC emacs-lisp
-     (require 'calfw-cal)
-     (require 'calfw-ical)
-     (require 'calfw-org)
+     (use-package calfw
+       :commands (bnb/calfw-calendars)
+       :ensure t
+       :config
+       (use-package calfw-cal)
+       (use-package calfw-ical)
+       (use-package calfw-org)
+       (use-package sunshine
+         :ensure t
+         :commands bnb/get-forecast-data
+         :defines bnb/calfw-calendars-list
+         :config
+         (defun bnb/get-forecast-data (b e)
+           (let* ((url (sunshine-make-url sunshine-location sunshine-units))
+                  (forecast (if (sunshine-forecast-cache-expired url)
+                                (with-current-buffer (url-retrieve-synchronously url)
+                                  (goto-char (point-min))
+                                  (sunshine-extract-response))
+                              (with-temp-buffer
+                                (mm-disable-multibyte)
+                                (url-cache-extract (url-cache-create-filename url))
+                                (sunshine-extract-response)))))
+             (cl-loop for day across (cdr (assoc 'list forecast)) collect
+                      (make-cfw:event
+                       :title (format "%s/%s°, %s"
+                                      (round (cdr (assoc 'min (cdr (assoc 'temp day)))))
+                                      (round (cdr (assoc 'max (cdr (assoc 'temp day)))))
+                                      (cdr (assoc 'main (elt (cdr (assoc 'weather day)) 0))))
+                       :start-date (cfw:emacs-to-calendar (seconds-to-time (cdr (assoc 'dt day)))))))))
+       (defvar bnb/calfw-calendars-list
+           (list (cfw:org-create-source "Green")
+                 (make-cfw:source :name "Weather" :data 'bnb/get-forecast-data :color "IndianRed")))
+       (defun bnb/calfw-calendars ()
+         (interactive)
+         (cfw:open-calendar-buffer
+          :contents-sources bnb/calfw-calendars-list)))
      ;; For weather into the calendar
-     (require 'sunshine)
 
-     (defun bnb/get-forecast-data (b e)
-       (let* ((url (sunshine-make-url sunshine-location sunshine-units))
-              (forecast (if (sunshine-forecast-cache-expired url)
-                            (with-current-buffer (url-retrieve-synchronously url)
-                              (goto-char (point-min))
-                              (sunshine-extract-response))
-                          (with-temp-buffer
-                            (mm-disable-multibyte)
-                            (url-cache-extract (url-cache-create-filename url))
-                            (sunshine-extract-response)))))
-         (cl-loop for day across (cdr (assoc 'list forecast)) collect
-                             (make-cfw:event
-                              :title (format "%s/%s°, %s"
-                                             (round (cdr (assoc 'min (cdr (assoc 'temp day)))))
-                                             (round (cdr (assoc 'max (cdr (assoc 'temp day)))))
-                                             (cdr (assoc 'main (elt (cdr (assoc 'weather day)) 0))))
-                              :start-date (cfw:emacs-to-calendar (seconds-to-time (cdr (assoc 'dt day))))))))
-
-     (defvar bnb/calfw-calendars-list
-       (list (cfw:org-create-source "Green")
-             (make-cfw:source :name "Weather" :data 'bnb/get-forecast-data :color "IndianRed")))
-
-     (defun bnb/calfw-calendars ()
-       (interactive)
-       (cfw:open-calendar-buffer
-        :contents-sources bnb/calfw-calendars-list))
    #+END_SRC
 
 ** Auto-display agenda
