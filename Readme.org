@@ -1369,7 +1369,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package ring
-       :ensure t
+       :commands (bnb/transparency-apply bnb/transparency-next bnb/transparency-previous
+                                         bnb/transparency-cycle bnb/transparency-add)
        :config
        (setq bnb/transparency-ring
              (ring-convert-sequence-to-ring (list '(100 100) '(100 50) '(100 10) '(95 50) '(90 50) '(85 50)))
