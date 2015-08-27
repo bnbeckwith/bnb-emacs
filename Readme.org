@@ -1590,29 +1590,29 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   Handling project buffers and files may be easier with projectile.
   Currently under evaluation.
 
-  #+BEGIN_SRC emacs-lisp
-    (when (eq system-type 'windows-nt)
-      (setq projectile-indexing-method 'native))
-    (setq projectile-enable-caching t)
-    (setq projectile-require-project-root t)
-  #+END_SRC
-
-  From the [[https://github.com/abo-abo/hydra/wiki/Projectile][Hydra Wiki]], this hydra launches the projectile functions.
+  From the [[https://github.com/abo-abo/hydra/wiki/Projectile][Hydra Wiki]], the additional hydras launch the projectile
+  functions.
 
   #+BEGIN_SRC emacs-lisp
-    (bind-key "C-x w"
-              (defhydra hydra-projectile-other-window (:color teal)
-                "projectile-other-window"
-                ("f"  projectile-find-file-other-window        "file")
-                ("g"  projectile-find-file-dwim-other-window   "file dwim")
-                ("d"  projectile-find-dir-other-window         "dir")
-                ("b"  projectile-switch-to-buffer-other-window "buffer")
-                ("q"  nil                                      "cancel" :color blue)))
-
-    (bind-key "C-x p"
-              (defhydra hydra-projectile (:color teal
-                                                 :hint nil)
-                "
+    (use-package projectile
+      :ensure t
+      :bind
+      ("C-x w" . hydra-projectile-other-window/body)
+      ("C-x p" . hydra-projectile/body)
+      :config
+      (when (eq system-type 'windows-nt)
+        (setq projectile-indexing-method 'native))
+      (setq projectile-enable-caching t
+            projectile-require-project-root t)
+      (defhydra hydra-projectile-other-window (:color teal)
+                  "projectile-other-window"
+                  ("f"  projectile-find-file-other-window        "file")
+                  ("g"  projectile-find-file-dwim-other-window   "file dwim")
+                  ("d"  projectile-find-dir-other-window         "dir")
+                  ("b"  projectile-switch-to-buffer-other-window "buffer")
+                  ("q"  nil                                      "cancel" :color blue))
+      (defhydra hydra-projectile (:color teal :hint nil)
+                  "
          PROJECTILE: %(projectile-project-root)
 
          Find File            Search/Tags          Buffers                Cache
@@ -1624,29 +1624,29 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       _d_: dir
 
     "
-                ("a"   projectile-ag)
-                ("b"   projectile-switch-to-buffer)
-                ("c"   projectile-invalidate-cache)
-                ("d"   projectile-find-dir)
-                ("C-f" projectile-find-file)
-                ("ff"  projectile-find-file-dwim)
-                ("fd"  projectile-find-file-in-directory)
-                ("g"   ggtags-update-tags)
-                ("C-g" ggtags-update-tags)
-                ("i"   projectile-ibuffer)
-                ("K"   projectile-kill-buffers)
-                ("C-k" projectile-kill-buffers)
-                ("m"   projectile-multi-occur)
-                ("o"   projectile-multi-occur)
-                ("C-p" projectile-switch-project "switch project")
-                ("p"   projectile-switch-project)
-                ("s"   projectile-switch-project)
-                ("r"   projectile-recentf)
-                ("x"   projectile-remove-known-project)
-                ("X"   projectile-cleanup-known-projects)
-                ("z"   projectile-cache-current-file)
-                ("`"   hydra-projectile-other-window/body "other window")
-                ("q"   nil "cancel" :color blue)))
+                  ("a"   projectile-ag)
+                  ("b"   projectile-switch-to-buffer)
+                  ("c"   projectile-invalidate-cache)
+                  ("d"   projectile-find-dir)
+                  ("C-f" projectile-find-file)
+                  ("ff"  projectile-find-file-dwim)
+                  ("fd"  projectile-find-file-in-directory)
+                  ("g"   ggtags-update-tags)
+                  ("C-g" ggtags-update-tags)
+                  ("i"   projectile-ibuffer)
+                  ("K"   projectile-kill-buffers)
+                  ("C-k" projectile-kill-buffers)
+                  ("m"   projectile-multi-occur)
+                  ("o"   projectile-multi-occur)
+                  ("C-p" projectile-switch-project "switch project")
+                  ("p"   projectile-switch-project)
+                  ("s"   projectile-switch-project)
+                  ("r"   projectile-recentf)
+                  ("x"   projectile-remove-known-project)
+                  ("X"   projectile-cleanup-known-projects)
+                  ("z"   projectile-cache-current-file)
+                  ("`"   hydra-projectile-other-window/body "other window")
+                  ("q"   nil "cancel" :color blue)))
   #+END_SRC
 
 * Clojure
