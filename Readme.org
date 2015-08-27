@@ -441,12 +441,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    vi-style navigation.
 
    #+BEGIN_SRC emacs-lisp
-     (require 'view)
-     (setq view-read-only t)     ; enter view-mode for read-only files
-     (bind-key "n" 'next-line     view-mode-map)
-     (bind-key "p" 'previous-line view-mode-map)
-     (bind-key "j" 'next-line     view-mode-map)
-     (bind-key "k" 'previous-line view-mode-map)
+     (use-package view
+       :init (setq view-read-only t)
+       :config (bind-keys :map view-mode-map
+                          ("n" . next-line    )
+                          ("p" . previous-line)
+                          ("j" . next-line    )
+                          ("k" . previous-line)
+                          ("l" . forward-char)
+                          ("h" . (lambda () (interactive) (forward-char -1)))
+                          ("q" . (lambda () (interactive) (view-mode -1)))))
    #+END_SRC
 
 ** Default File encoding
