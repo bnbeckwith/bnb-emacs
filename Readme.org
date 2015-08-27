@@ -1655,7 +1655,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   it automatically load each time.
 
   #+BEGIN_SRC emacs-lisp
-    (add-hook 'clojure-mode-hook 'paredit-mode)
+        (use-package clojure-mode
+          :ensure t
+          :config
+          (add-hook 'clojure-mode-hook 'paredit-mode)
+          (add-hook 'clojure-mode-hook 'cljr-clojure-mode-hook)
+          (add-hook 'clojure-mode-hook 'paxedit-mode))
   #+END_SRC
 
 ** Cider
