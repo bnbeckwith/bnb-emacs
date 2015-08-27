@@ -563,7 +563,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    default, /inactive/ means is any buffer untouched for three days.
 
    #+BEGIN_SRC emacs-lisp
-     (require 'midnight)
+     (use-package midnight)
    #+END_SRC
 
 ** Sunrise Commander
