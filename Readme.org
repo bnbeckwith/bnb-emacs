@@ -821,12 +821,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    duplicated in strange ways.
 
    #+BEGIN_SRC emacs-lisp
-     (bind-key "C-x M" 'compose-mail)
-     (unbind-key "C-x m" ) ;; remove mail binding
-
-     (bind-key
-      "C-x m"
-      (defhydra hydra-mc (:hint nil)
+     (use-package multiple-cursors
+       :ensure t
+       :bind
+       ("C-x m" . hydra-mc/body)
+       ("C-x M" . compose-mail)
+       :config
+       (defhydra hydra-mc (:hint nil)
         "
           ^Up^            ^Down^        ^Miscellaneous^
      -----------------------------------------------------------
