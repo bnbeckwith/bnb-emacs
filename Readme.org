@@ -576,9 +576,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    the ido interface better.
 
    #+BEGIN_SRC emacs-lisp
-     (bind-keys
-      ("s-/"    . sunrise)
-      ("<f9> /" . sunrise))
+     (use-package sunrise-commander
+              :ensure t
+              :bind
+              ("s-/"    . sunrise)
+              ("<f9> /" . sunrise)
+              :config
+              (setq sr-listing-switches "-alhG1vu"))
    #+END_SRC
 
 *** Interesting Keys
@@ -610,17 +614,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                   desc (concat f " (dired)"))
             (org-add-link-props :link link :description desc)
             link)))
-
     #+END_SRC
 
 *** Visual display
 
-    To improve the listings view of =dired=, I use the following (from
+    To improve the listings view of =dired=, I use the =sr-listing-switches= (from
     [[http://oremacs.com/2015/01/13/dired-options/]])
-
-    #+BEGIN_SRC emacs-lisp
-      (setq sr-listing-switches "-alhG1vu")
-    #+END_SRC
 
     This makes the following settings
 
