@@ -82,9 +82,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    built-in shortcuts or my bindings will not work.
 
    #+BEGIN_SRC emacs-lisp
-     (setq w32-pass-lwindow-to-system t)
-     (setq w32-lwindow-modifier 'super)
+     (setq w32-pass-lwindow-to-system t
+           w32-lwindow-modifier 'super)
    #+END_SRC
+
 
 ** Package archives
 
@@ -181,8 +182,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    The real kicker is that it will keep track of these bindings and
    let you see a summary of your customizations with
+   
+   : M-x describe-personal-keybindings
+   
+   This is bound to =C-h B= above.
 
-: M-x describe-personal-keybindings
 
 ** Personal Keymaps
 
@@ -533,8 +537,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    just set the =ring-bell-function= to =nil=.
 
    #+BEGIN_SRC emacs-lisp
-     (setq visual-bell nil)
-     (setq ring-bell-function `(lambda () nil))
+     (setq visual-bell nil
+           ring-bell-function `(lambda () nil))
    #+END_SRC
 
 ** Midnight Mode
@@ -955,8 +959,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     argument function, but that one is also accessible by =M--=.
 
     #+BEGIN_SRC emacs-lisp
-      (bind-key "C-+" 'text-scale-increase)
-      (bind-key "C--" 'text-scale-decrease)
+      (bind-keys
+       ("C-+" . text-scale-increase)
+       ("C--" . text-scale-decrease))
     #+END_SRC
 
 *** Mode Line Style
@@ -986,8 +991,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Themes
 
-   My favorite dark themes are =smyx= or =fogus=.  I have yet to find
-   a pleasing light theme, though =mccarthy= is close.
+   I typically use a dark theme. I have yet to find a pleasing light
+   theme, though =mccarthy= is close.
 
    You can layer themes by enabling them in turn, but this is not the
    default usage for most of us. Github user =larstvei= has the
@@ -1138,8 +1143,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (other-window 1 nil)
        (switch-to-next-buffer))
 
-     (bind-key "C-x 2" 'bnb/vplit-last-buffer)
-     (bind-key "C-x 3" 'bnb/hsplit-last-buffer)
+     (bind-keys
+      ("C-x 2" . bnb/vplit-last-buffer)
+      ("C-x 3" . bnb/hsplit-last-buffer))
    #+END_SRC
 
 ** Weekly Time Reporting
