@@ -385,9 +385,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    This mode installs through the ELPA system.
 
    #+BEGIN_SRC emacs-lisp
-     (bind-key "C-c g" 'writegood-mode)
-     (bind-key "C-c C-g g" 'writegood-grade-level)
-     (bind-key "C-c C-g e" 'writegood-reading-ease)
+     (use-package writegood-mode
+       :ensure t
+       :bind
+       ("C-c g"     . writegood-mode)
+       ("C-c C-g g" . writegood-grade-level)
+       ("C-c C-g e" . writegood-reading-ease))
    #+END_SRC
 
 ** Spell Checking
