@@ -109,7 +109,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (unless (package-installed-p 'use-package)
        (package-refresh-contents)
        (package-install 'use-package))
-
+     (setq use-package-verbose t)
      (require 'use-package)
    #+END_SRC
 
