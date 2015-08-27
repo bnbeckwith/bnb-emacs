@@ -639,9 +639,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    punts to a bottom window if there is not enough room.
 
    #+BEGIN_SRC emacs-lisp
-     (require 'which-key)
-     (which-key-mode)
-     (which-key-setup-side-window-right-bottom)
+     (use-package which-key
+       :init
+       (which-key-mode)
+       (which-key-setup-side-window-right-bottom))
    #+END_SRC
 ** Ace Utilities
 *** Ace Window
