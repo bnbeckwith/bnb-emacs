@@ -104,6 +104,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    keep me on the bleeding edge. They is why they have their own
    repositories above.
 
+
+   #+BEGIN_SRC emacs-lisp
+     (unless (package-installed-p 'use-package)
+       (package-refresh-contents)
+       (package-install 'use-package))
+
+     (require 'use-package)
+   #+END_SRC
+
   #+BEGIN_SRC emacs-lisp
     ;; Idea lifted from prelude https://github.com/bbatsov/prelude
     (require 'cl)
