@@ -1555,6 +1555,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][Animated Paredit]]
 
+  #+BEGIN_SRC emacs-lisp
+    (use-package paredit
+      :commands (paredit-mode)
+      :ensure t)
+  #+END_SRC
+
 * Paxedit
 
   Maybe even /more/ power for lisp coding?
