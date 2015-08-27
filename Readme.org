@@ -1417,12 +1417,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   need to load the mode and bind some keys.
 
   #+BEGIN_SRC emacs-lisp
-    (add-hook 'after-init-hook 'global-company-mode)
-    (bind-key (kbd "<C-tab>") 'company-complete)
-    (bind-key (kbd "<C-tab>") 'company-complete org-mode-map)
-    ;; Turn off the auto downcasing of things
-    (setq company-dabbrev-downcase nil
-          company-show-numbers t)
+    (use-package company
+      :ensure t
+      :defer 2
+      :init
+      (add-hook 'after-init-hook 'global-company-mode)
+      :bind
+      ("<C-tab>" . company-complete)      
+      :config
+      (bind-key "C-<tab>" 'company-complete org-mode-map)
+      ;; Turn off the auto downcasing of things
+      (setq company-dabbrev-downcase nil
+            company-show-numbers t))
   #+END_SRC
 
 * Dired
