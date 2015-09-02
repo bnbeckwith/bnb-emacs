@@ -114,63 +114,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (require 'use-package)
    #+END_SRC
 
-  #+BEGIN_SRC emacs-lisp
-    ;; Idea lifted from prelude https://github.com/bbatsov/prelude
-    (require 'cl)
-    (setq bnb/packages
-      '(ace-window
-        airplay
-        bind-key
-        bookmark+
-        calfw
-        cider
-        clojure-mode
-        clojure-mode-extra-font-locking
-        company
-        company-c-headers
-        company-go
-        diff-hl
-        dired+
-        edit-server
-        expand-region
-        hydra
-        htmlize
-        ido-ubiquitous
-        magit
-        mc-extras
-        multiple-cursors
-        org-plus-contrib
-        paredit
-        paxedit
-        projectile
-        rainbow-mode
-        smart-tabs-mode
-        symon
-        sublime-themes
-        sunrise-commander
-        sunshine
-        undo-tree
-        wc-goal-mode
-        which-key
-        writegood-mode))
-
-    (defun bnb/packages-installed-p ()
-      (loop for p in bnb/packages
-            when (not (package-installed-p p)) do (return nil)
-            finally (return t)))
-
-    (unless (bnb/packages-installed-p)
-      ;; Need to update package contents
-      (message "%s" "Emacs refreshing package contents...")
-      (package-refresh-contents)
-      (message "done.")
-
-      ;; install the missing packages
-      (dolist (p bnb/packages)
-        (when (not (package-installed-p p))
-          (package-install p))))
-  #+END_SRC
-
 ** Binding Keys
 
    For binding keys, I use the =bind-key= package. Not only does it
