@@ -1734,6 +1734,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       :ensure t
       :bind ("M-x" . counsel-M-x)
       :config
+      (setq ivy-re-builders-alist
+            '((t . ivy--regex-fuzzy)))
       (use-package smex
        :ensure t
        :config (smex-initialize))
