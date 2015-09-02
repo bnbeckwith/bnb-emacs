@@ -679,30 +679,31 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                 (?v aw-split-window-vert "Ace - Split Vert Window")
                 (?h aw-split-window-horz "Ace - Split Horz Window")
                 (?m delete-other-windows "Ace - Maximize Window")
-                (?b balance-windows)
-                (?u winner-undo)
-                (?r winner-redo)))
-  
-        (defhydra hydra-window-size (:color red)
+                (?b balance-windows)))
+
+        (defhydra hydra-window-size (:color amaranth)
           "Window size"
           ("h" shrink-window-horizontally "shrink horizontal")
           ("j" shrink-window "shrink vertical")
           ("k" enlarge-window "enlarge vertical")
-          ("l" enlarge-window-horizontally "enlarge horizontal"))
+          ("l" enlarge-window-horizontally "enlarge horizontal")
+          ("q" nil "quit"))
         (add-to-list 'aw-dispatch-alist '(?w hydra-window-size/body) t)
-  
+
         (defhydra hydra-window-frame (:color red)
           "Frame"
           ("f" make-frame "new frame")
-          ("x" delete-frame "delete frame"))
+          ("x" delete-frame "delete frame")
+          ("q" nil "quit"))
         (add-to-list 'aw-dispatch-alist '(?\; hydra-window-frame/body) t)
-  
-        (defhydra hydra-window-scroll (:color red)
+
+        (defhydra hydra-window-scroll (:color amaranth)
           "Scroll other window"
           ("n" scroll-other-window "scroll")
-          ("p" scroll-other-window-down "scroll down"))
+          ("p" scroll-other-window-down "scroll down")
+          ("q" nil "quit"))
         (add-to-list 'aw-dispatch-alist '(?o hydra-window-scroll/body) t)
-  
+
         (set-face-attribute 'aw-leading-char-face nil :height 2.0))
     #+END_SRC
 
