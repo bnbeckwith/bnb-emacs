@@ -1678,6 +1678,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       :ensure t
       :bind ("M-x" . counsel-M-x)
       :config
+      (setq ivy-display-style 'fancy)
       (setq ivy-re-builders-alist
             '((t . ivy--regex-fuzzy)))
       (use-package smex
@@ -2889,6 +2890,5 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (message "Skipping %s library as it does not exist." user-login-name))
       nil)
   #+END_SRC
-
 
 
