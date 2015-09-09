@@ -1378,6 +1378,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       ("<C-tab>" . company-complete)      
       :config
       (bind-key "C-<tab>" 'company-complete org-mode-map)
+      (bind-keys :map company-active-map
+                 ("<tab>" . company-complete-common-or-cycle)
+                 ("C-n"   . company-select-next)
+                 ("C-p"   . company-select-previous))
       ;; Turn off the auto downcasing of things
       (setq company-dabbrev-downcase nil
             company-show-numbers t))
