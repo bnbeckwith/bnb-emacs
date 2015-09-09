@@ -869,6 +869,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    Thanks to http://irreal.org/blog/?p=3963 for the tip.
 
+** Unique Buffer Names
+
+   When editing files with the same name, but different location, a
+   unique identifier (based on path) is preferred over a number.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package uniquify
+       :config
+       (setq uniquify-buffer-name-style 'post-forward
+             uniquify-separator ":"))
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
