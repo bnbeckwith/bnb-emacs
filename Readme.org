@@ -1573,7 +1573,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       :ensure t
       :bind
       ("C-x w" . hydra-projectile-other-window/body)
-      ("C-x p" . hydra-projectile/body)
+      ("C-c p" . hydra-projectile/body)
       :config
       (when (eq system-type 'windows-nt)
         (setq projectile-indexing-method 'native))
