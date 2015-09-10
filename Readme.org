@@ -1707,6 +1707,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     (use-package swiper
       :ensure t
       :bind ("M-x" . counsel-M-x)
+      ("C-x C-r" . ivy-recentf)
       :config
       (setq ivy-display-style 'fancy)
       (setq ivy-re-builders-alist
