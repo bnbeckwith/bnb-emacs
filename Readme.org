@@ -881,6 +881,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              uniquify-separator ":"))
    #+END_SRC
 
+** Focus Mode
+
+   Dim everything except for the thing-at-point. Improves focus when
+   reading code and text.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package focus
+       :ensure t
+       :bind
+       ("C-c f" . focus-mode)
+       ("C-c F" . focus-read-only-mode))
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
