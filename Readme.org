@@ -1771,28 +1771,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     ; (ido-mode t)
   #+END_SRC
 
-  Additionally, the [[https://github.com/technomancy/ido-ubiquitous][ido-ubiquitous]] package to /really/ get =ido=
-  everywhere. Install it via the package system and then enable it on
-  startup.
-
-  #+BEGIN_SRC emacs-lisp
-    ;(ido-ubiquitous t)
-  #+END_SRC
-
-** IDO Ubiquitous Settings
-
-   Here is a setting that disables =ido-ubiquitous= completion from
-   any commands listed.  I have =insert-char= here (called with
-   =C-x 8 <RET>=) because I like to see the buffer of UTF‑8 names
-   for completion.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package ido-ubiquitous
-       :ensure t
-       :config
-       (setq ido-ubiquitous-command-exceptions '(insert-char execute-extended-command)))
-   #+END_SRC
-
 ** Keystrokes
 
    | Keystroke | Operates on        | Description                            |
