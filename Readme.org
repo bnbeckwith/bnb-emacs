@@ -1703,20 +1703,47 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 * Ivy, Counsel and Swiper
 
+  Ivy is a completion framework somewhere between =ido= and =helm=. It
+  and =counsel= are in the =swiper= package.
+
   #+BEGIN_SRC emacs-lisp
     (use-package swiper
       :ensure t
       :bind ("M-x" . counsel-M-x)
+      ("C-s" . swiper)
+      ("C-c C-s" . isearch-forward)
       ("C-x C-r" . ivy-recentf)
       :config
-      (setq ivy-display-style 'fancy)
-      (setq ivy-re-builders-alist
-            '((t . ivy--regex-fuzzy)))
+      (setq counsel-find-file-at-point t
+            ivy-display-style 'fancy
+            ivy-use-virtual-buffers t
+            ivy-re-builders-alist
+            '((t . ivy--regex-fuzzy))
+            colir-compose-method 'colir-compose-soft-light)
       (use-package smex
        :ensure t
        :config (smex-initialize))
       (ivy-mode))
   #+END_SRC
+
+  The bindings introduced are replacements for built-in
+  commands. =counsel-M-x= becomes my default =M-x= binding with =smex=
+  ordering the results smartly.  I also enable it to try to find the
+  file at point if applicable.
+
+  The searching functionality of =C-x= advances with =swiper= showing
+  search with context, navigation and matching portions.
+
+  The remaining settings and binding relate to =ivy= itself.  This
+  library does the actual listing of completion items. I bind the
+  =ivy-recentf= interface to find recently used files. 
+
+  For =ivy='s look and feel, I make a few settings.  First, the
+  display style is set to /fancy/.  This shows the matching portions
+  of the candidates.  I also alter =colir-compose-method= to a better
+  colorizing scheme for my preferred themes. Next, I instruct =ivy= to
+  use virtual buffers (recentf, bookmarks) when switching buffers.
+  Finally, I enable fuzzy matching of the input.
 
 ** Smex
 

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2015-09-09 Wed 23:24 -->
+<!-- 2015-09-15 Tue 11:41 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title>BNBECKWITH Tangled Emacs Initialization</title>
@@ -3093,21 +3093,59 @@ When modified <code>emacs-lisp</code>, it is most helpful to use <code>paredit</
 <div id="outline-container-orgheadline95" class="outline-2">
 <h2 id="orgheadline95"><span class="section-number-2">16</span> Ivy, Counsel and Swiper</h2>
 <div class="outline-text-2" id="text-16">
+<p>
+Ivy is a completion framework somewhere between <code>ido</code> and <code>helm</code>. It
+and <code>counsel</code> are in the <code>swiper</code> package.
+</p>
+
 <div class="org-src-container">
 
 <pre class="src src-emacs-lisp">(<span style="color: #718c00;">use-package</span> <span style="color: #4271ae;">swiper</span>
   <span style="color: #8959a8;">:ensure</span> t
   <span style="color: #8959a8;">:bind</span> (<span style="color: #3e999f;">"M-x"</span> . counsel-M-x)
+  (<span style="color: #3e999f;">"C-s"</span> . swiper)
+  (<span style="color: #3e999f;">"C-c C-s"</span> . isearch-forward)
+  (<span style="color: #3e999f;">"C-x C-r"</span> . ivy-recentf)
   <span style="color: #8959a8;">:config</span>
-  (setq ivy-display-style 'fancy)
-  (setq ivy-re-builders-alist
-        '((t . ivy--regex-fuzzy)))
+  (setq counsel-find-file-at-point t
+        ivy-display-style 'fancy
+        ivy-use-virtual-buffers t
+        ivy-re-builders-alist
+        '((t . ivy--regex-fuzzy))
+        colir-compose-method 'colir-compose-soft-light)
   (<span style="color: #718c00;">use-package</span> <span style="color: #4271ae;">smex</span>
    <span style="color: #8959a8;">:ensure</span> t
    <span style="color: #8959a8;">:config</span> (smex-initialize))
   (ivy-mode))
 </pre>
 </div>
+
+<p>
+The bindings introduced are replacements for built-in
+commands. <code>counsel-M-x</code> becomes my default <code>M-x</code> binding with <code>smex</code>
+ordering the results smartly.  I also enable it to try to find the
+file at point if applicable.
+</p>
+
+<p>
+The searching functionality of <code>C-x</code> advances with <code>swiper</code> showing
+search with context, navigation and matching portions.
+</p>
+
+<p>
+The remaining settings and binding relate to <code>ivy</code> itself.  This
+library does the actual listing of completion items. I bind the
+<code>ivy-recentf</code> interface to find recently used files. 
+</p>
+
+<p>
+For <code>ivy</code>'s look and feel, I make a few settings.  First, the
+display style is set to <i>fancy</i>.  This shows the matching portions
+of the candidates.  I also alter <code>colir-compose-method</code> to a better
+colorizing scheme for my preferred themes. Next, I instruct <code>ivy</code> to
+use virtual buffers (recentf, bookmarks) when switching buffers.
+Finally, I enable fuzzy matching of the input.
+</p>
 </div>
 
 <div id="outline-container-orgheadline94" class="outline-3">
@@ -4996,7 +5034,7 @@ non-existent gets ignored.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Benjamin Beckwith</p>
-<p class="date">Created: 2015-09-09 Wed 23:24</p>
+<p class="date">Created: 2015-09-15 Tue 11:41</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
