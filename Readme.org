@@ -1586,12 +1586,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       :ensure t
       :bind
       ("C-x w" . hydra-projectile-other-window/body)
-      ("C-c p" . hydra-projectile/body)
+      ("C-c C-p" . hydra-projectile/body)
       :config
       (when (eq system-type 'windows-nt)
         (setq projectile-indexing-method 'native))
       (setq projectile-enable-caching t
             projectile-require-project-root t)
+      (projectile-global-mode)
       (defhydra hydra-projectile-other-window (:color teal)
                   "projectile-other-window"
                   ("f"  projectile-find-file-other-window        "file")

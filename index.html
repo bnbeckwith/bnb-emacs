@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2015-09-15 Tue 14:43 -->
+<!-- 2015-09-17 Thu 13:13 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title>BNBECKWITH Tangled Emacs Initialization</title>
@@ -2941,12 +2941,13 @@ functions.
   <span style="color: #8959a8;">:ensure</span> t
   <span style="color: #8959a8;">:bind</span>
   (<span style="color: #3e999f;">"C-x w"</span> . hydra-projectile-other-window/body)
-  (<span style="color: #3e999f;">"C-c p"</span> . hydra-projectile/body)
+  (<span style="color: #3e999f;">"C-c C-p"</span> . hydra-projectile/body)
   <span style="color: #8959a8;">:config</span>
   (<span style="color: #718c00;">when</span> (eq system-type 'windows-nt)
     (setq projectile-indexing-method 'native))
   (setq projectile-enable-caching t
         projectile-require-project-root t)
+  (projectile-global-mode)
   (defhydra hydra-projectile-other-window (<span style="color: #8959a8;">:color</span> teal)
               <span style="color: #3e999f;">"projectile-other-window"</span>
               (<span style="color: #3e999f;">"f"</span>  projectile-find-file-other-window        <span style="color: #3e999f;">"file"</span>)
@@ -5000,7 +5001,7 @@ non-existent gets ignored.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Benjamin Beckwith</p>
-<p class="date">Created: 2015-09-15 Tue 14:43</p>
+<p class="date">Created: 2015-09-17 Thu 13:13</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
