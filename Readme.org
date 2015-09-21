@@ -527,7 +527,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package sunrise-commander
               :ensure t
               :bind
-              ("s-/"    . sunrise)
+              ("H-/"    . sunrise)
               ("<f9> /" . sunrise)
               :config
               (setq sr-listing-switches "-alhG1vu"))
@@ -610,7 +610,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (use-package ace-window
         :ensure t
         :bind
-        ("s-a"    . ace-window)
+        ("H-a"    . ace-window)
         ("<f9> a" . ace-window)
         :config
         (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)
@@ -652,17 +652,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+END_SRC
 
 ** Avy Utilities
+
 *** Avy Goto
 
     It is time to make some shortcuts for jumping to see if they make
     sense for me.  The interesting feature that I can use is that
     these highlight text an all shown buffers.
 
-    #+BEGIN_SRC emacs-lisp
+ #+BEGIN_SRC emacs-lisp
       (use-package avy
         :ensure t
         :bind
         ("H-SPC" . avy-goto-char-timer)
+        ("<f9> SPC" . avy-goto-char-timer)
         ("C-c g" . avy-goto-word-1)
         ("M-g l" . avy-goto-line)
         ("M-g c" . avy-goto-char-2)
@@ -775,6 +777,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package multiple-cursors
        :ensure t
        :bind
+       ("H-m"   . hydra-mc/body)
        ("C-x m" . hydra-mc/body)
        ("C-x M" . compose-mail)
        :config

@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2015-09-17 Thu 16:59 -->
+<!-- 2015-09-21 Mon 10:54 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title>BNBECKWITH Tangled Emacs Initialization</title>
@@ -1207,7 +1207,7 @@ the ido interface better.
 <pre class="src src-emacs-lisp">(<span style="color: #718c00;">use-package</span> <span style="color: #4271ae;">sunrise-commander</span>
          <span style="color: #8959a8;">:ensure</span> t
          <span style="color: #8959a8;">:bind</span>
-         (<span style="color: #3e999f;">"s-/"</span>    . sunrise)
+         (<span style="color: #3e999f;">"H-/"</span>    . sunrise)
          (<span style="color: #3e999f;">"&lt;f9&gt; /"</span> . sunrise)
          <span style="color: #8959a8;">:config</span>
          (setq sr-listing-switches <span style="color: #3e999f;">"-alhG1vu"</span>))
@@ -1383,7 +1383,7 @@ After reading <a href="https://github.com/abo-abo/ace-window/wiki">the wiki</a>,
 <pre class="src src-emacs-lisp">(<span style="color: #718c00;">use-package</span> <span style="color: #4271ae;">ace-window</span>
   <span style="color: #8959a8;">:ensure</span> t
   <span style="color: #8959a8;">:bind</span>
-  (<span style="color: #3e999f;">"s-a"</span>    . ace-window)
+  (<span style="color: #3e999f;">"H-a"</span>    . ace-window)
   (<span style="color: #3e999f;">"&lt;f9&gt; a"</span> . ace-window)
   <span style="color: #8959a8;">:config</span>
   (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)
@@ -1446,6 +1446,7 @@ these highlight text an all shown buffers.
   <span style="color: #8959a8;">:ensure</span> t
   <span style="color: #8959a8;">:bind</span>
   (<span style="color: #3e999f;">"H-SPC"</span> . avy-goto-char-timer)
+  (<span style="color: #3e999f;">"&lt;f9&gt; SPC"</span> . avy-goto-char-timer)
   (<span style="color: #3e999f;">"C-c g"</span> . avy-goto-word-1)
   (<span style="color: #3e999f;">"M-g l"</span> . avy-goto-line)
   (<span style="color: #3e999f;">"M-g c"</span> . avy-goto-char-2)
@@ -1643,6 +1644,7 @@ duplicated in strange ways.
 <pre class="src src-emacs-lisp">(<span style="color: #718c00;">use-package</span> <span style="color: #4271ae;">multiple-cursors</span>
   <span style="color: #8959a8;">:ensure</span> t
   <span style="color: #8959a8;">:bind</span>
+  (<span style="color: #3e999f;">"H-m"</span>   . hydra-mc/body)
   (<span style="color: #3e999f;">"C-x m"</span> . hydra-mc/body)
   (<span style="color: #3e999f;">"C-x M"</span> . compose-mail)
   <span style="color: #8959a8;">:config</span>
@@ -5003,7 +5005,7 @@ non-existent gets ignored.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Benjamin Beckwith</p>
-<p class="date">Created: 2015-09-17 Thu 16:59</p>
+<p class="date">Created: 2015-09-21 Mon 10:54</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
