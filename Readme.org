@@ -1716,13 +1716,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   #+BEGIN_SRC emacs-lisp
     (use-package swiper
       :ensure t
-      :bind ("M-x" . counsel-M-x)
-      ("C-s" . swiper)
+      :bind ("C-s" . swiper)
       ("C-c C-s" . isearch-forward)
       ("C-x C-r" . ivy-recentf)
       :config
-      (setq counsel-find-file-at-point t
-            ivy-display-style 'fancy
+      (setq ivy-display-style 'fancy
             ivy-use-virtual-buffers t
             ivy-re-builders-alist
             '((t . ivy--regex-fuzzy))
@@ -1731,6 +1729,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :ensure t
        :config (smex-initialize))
       (ivy-mode))
+    (use-package counsel
+      :ensure t
+      :bind ("M-x" . counsel-M-x)
+      ("C-x C-f" . counsel-find-file)
+      :config
+      (setq counsel-find-file-at-point t))
   #+END_SRC
 
   The bindings introduced are replacements for built-in
