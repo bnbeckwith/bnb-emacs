@@ -1395,7 +1395,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+END_SRC
 
 * Company
-
+  
   [[http://company-mode.github.io][Company Mode]] is an in-buffer completion system. To get started, I
   need to load the mode and bind some keys.
 
@@ -2410,9 +2410,219 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
           (goto-char pos)))
     #+END_SRC
 
+    WIP from: https://github.com/fniessen/emacs-leuven/blob/master/org-custom-agenda-views.el
+
+    #+BEGIN_SRC emacs-lisp
+      ;; Reset everything to nil
+      (setq org-agenda-custom-commands nil)
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-agenda-custom-commands
+                   '("a" "Agenda" bnb/org-agenda-with-tip))
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-agenda-custom-commands
+                   '("c" . "COLLECT...") t)
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-agenda-custom-commands
+                   '("cb" "CollectBox"
+                     ((alltodo ""))))
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-agenda-custom-commands
+                   '("f" . "FOCUS...") t)
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-agenda-custom-commands
+                   `("f." "Today"
+                     ((agenda ""
+                              ((org-agenda-entry-types '(:timestamp :sexp))
+                               (org-agenda-overriding-header
+                                (concat "CALENDAR Today"
+                                        (format-time-string "%a %d" (current-time))))
+                               (org-agenda-span 'day)))
+                      (tags-todo "LEVEL=1+REFILE"
+                                 ((org-agenda-overriding-header "COLLECTBOX (Unscheduled)")))
+                      (tags-todo "DEADLINE=\"<+0d>\""
+                                 ((org-agenda-overriding-header "DUE TODAY")
+                                  (org-agenda-skip-function
+                                   '(org-agenda-sktip-entry-if 'notedeadline))
+                                  (org-agenda-sorting-strategy '(priority-down))))
+                      (tags-todo "DEADLINE<\"<+0d>\""
+                                 ((org-agenda-overriding-header "OVERDUE")
+                                  (org-agenda-skip-function
+                                   '(org-agenda-skip-entry-if 'notedeadline))
+                                  (org-agenda-sorting-strategy '(priority-down))))
+                      (agenda ""
+                              ((org-agenda-entry-types '(:scheduled))
+                               (org-agenda-overriding-header "SCHEDULED")
+                               (org-agenda-skip-function
+                                '(org-agenda-skip-entry-if 'todo 'done))
+                               (org-agenda-sorting-strategy
+                                '(priority-down time-down))
+                               (org-agenda-span 'day)
+                               (org-agenda-start-on-weekday nil)
+                               (org-agenda-time-grid nil)))
+                      (todo "TODO|DONE"
+                            ((org-agenda-overriding-header "COMPLETED TODAY"))))
+                     ((org-agenda-format-date "")
+                      (org-agenda-start-with-clockreport-mode nil))) t)
+    #+END_SRC
+
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-agenda-custom-commands
+                   '("fh" "Hotlist"
+                     ((tags-todo "DEADLINE<\"<+0d>\""
+                                 ((org-agenda-overriding-header "OVERDUE")))
+                      (tags-todo "DEADLINE>=\"<+0d>\"+DEADLINE<=\"<+1w>\""
+                                 ((org-agenda-overriding-header "DUE IN NEXT 7 DAYS")))
+                      (tags-todo "DEADLINE=\"\"+FLAGGED|DEADLINE>\"<+1w>\"+FLAGGED"
+                                 ((org-agenda-overriding-header "FLAGGED"))))
+                     ((org-agenda-todo-ignore-scheduled 'future)))  t)
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-agenda-custom-commands
+                   '("r" . "REVIEW...") t)
+
+      (add-to-list 'org-agenda-custom-commands
+                   '("ra" . "All Tasks...") t)
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-agenda-custom-commands
+                   '("rad" "All Tasks (grouped by Due Date)"
+                     ((tags-todo "DEADLINE<\"<+0d>\""
+                                 ((org-agenda-overriding-header "OVERDUE")
+                                  (org-agenda-skip-function
+                                   '(org-agenda-skip-entry-if 'notdeadline))))
+                      (tags-todo "DEADLINE=\"<+0d>\""
+                                 ((org-agenda-overriding-header "DUE TODAY")
+                                  (org-agenda-skip-function
+                                   '(org-agenda-skip-entry-if 'notdeadline))))
+                      (tags-todo "DEADLINE=\"<+1d>\""
+                                 ((org-agenda-overriding-header "DUE TOMORROW")
+                                  (org-agenda-skip-function
+                                   '(org-agenda-skip-entry-if 'notdeadline))))
+                      (tags-todo "DEADLINE>\"<+1d>\"+DEADLINE<=\"<+7d>\""
+                                 ((org-agenda-overriding-header "DUE WITHIN A WEEK")
+                                  (org-agenda-skip-function
+                                   '(org-agenda-skip-entry-if 'notdeadline))))
+                      (tags-todo "DEADLINE>\"<+7d>\"+DEADLINE<=\"<+28d>\""
+                                 ((org-agenda-overriding-header "DUE WITHIN A MONTH")
+                                  (org-agenda-skip-function
+                                   '(org-agenda-skip-entry-if 'notdeadline))))
+                      (tags-todo "DEADLINE>\"<+28d>\""
+                                 ((org-agenda-overriding-header "DUE LATER")
+                                  (org-agenda-skip-function
+                                   '(org-agenda-skip-entry-if 'notdeadline)))                           )
+                      (tags-todo "TODO={WAIT}"
+                                 ((org-agenda-overriding-header "NO DUE DATE / WAITING FOR")
+                                  (org-agenda-skip-function
+                                   '(org-agenda-skip-entry-if 'deadline)))))
+                     ((org-agenda-sorting-strategy '(priority-down))
+                      (org-agenda-write-buffer-name "All Tasks (grouped by Due Date)"))
+                       "~/Documents/Org/all-tasks-by-due-date.pdf") t)
+    #+END_SRC
+
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-agenda-custom-commands
+                   '("ra1" "All Tasks with a due date"
+                     ((alltodo ""))
+                     ((org-agenda-overriding-header "All Tasks (sorted by Due Date)")
+                      (org-agenda-skip-function
+                       '(org-agenda-skip-entry-if 'notdeadline))
+                      (org-agenda-sorting-strategy '(deadline-up)))) t)
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-agenda-custom-commands
+                   '("rt" . "Timesheet...") t)
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+       ;; Show what happened today.
+      (add-to-list 'org-agenda-custom-commands
+                   '("rtd" "Daily Timesheet"
+                     ((agenda ""))
+                     ((org-agenda-log-mode-items '(clock closed))
+                      (org-agenda-overriding-header "DAILY TIMESHEET")
+                      (org-agenda-show-log 'clockcheck)
+                      (org-agenda-span 'day)
+                      (org-agenda-start-with-clockreport-mode t)
+                      (org-agenda-time-grid nil))) t)
+
+      ;; Show what happened this week.
+      (add-to-list 'org-agenda-custom-commands
+                   '("rtw" "Weekly Timesheet"
+                     ((agenda ""))
+                     (
+                      ;; (org-agenda-format-date "")
+                      (org-agenda-overriding-header "WEEKLY TIMESHEET")
+                      (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
+                      (org-agenda-span 'week)
+                      (org-agenda-start-on-weekday 1)
+                      (org-agenda-start-with-clockreport-mode t)
+                      (org-agenda-time-grid nil))) t)
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-agenda-custom-commands
+                   '("rc" . "Calendar...") t)
+
+      (add-to-list 'org-agenda-custom-commands
+                   '("rc7" "Events and appointments for 7 days"
+                     ((agenda ""))
+                     ((org-agenda-entry-types '(:timestamp :sexp))
+                      ;; (org-agenda-overriding-header "Calendar for 7 days")
+                      ;; (org-agenda-repeating-timestamp-show-all t)
+                      (org-agenda-span 'week)
+                      (org-agenda-format-date "\n%a %d")
+                      ;; (org-agenda-date-weekend ... new face ...)
+                      (org-agenda-time-grid nil))) t)
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-agenda-custom-commands
+                   '("rw" "Weekly review"
+                     ((tags "CATEGORY={@REFILE}&LEVEL<=2"
+                            ((org-agenda-overriding-header "NEW TASKS")))
+                      (agenda ""
+                              ((org-agenda-clockreport-mode t)
+                               (org-agenda-format-date
+                                (concat "\n"
+                                        "%Y-%m-%d" " %a "
+                                        (make-string (window-width) ?_)))
+                               (org-agenda-overriding-header "PAST WEEK")
+                               (org-agenda-prefix-format " %?-11t %i %-12:c% s")
+                               (org-agenda-show-log 'clockcheck)
+                               (org-agenda-span 7)
+                               (org-agenda-start-day "-1w")
+                               (org-deadline-warning-days 0)))
+                      (agenda ""
+                              ((org-agenda-overriding-header "NEXT MONTH")
+                               (org-agenda-span 'month)
+                               (org-agenda-start-day "+0d")
+                               (org-deadline-warning-days 0)))
+                      (todo "PROJECT"
+                            ((org-agenda-overriding-header "PROJECT LIST")))
+                      (todo "DONE|PROJECTDONE"
+                            ((org-agenda-overriding-header
+                              "Candidates to be archived")))))
+       )
+    #+END_SRC
+
     #+BEGIN_SRC emacs-lisp
       (setq org-agenda-custom-commands
-            '(("a" "Agenda" bnb/org-agenda-with-tip)
+            '(
               ("w" "Tasks waiting on something" tags "WAITING/!"
                ((org-use-tag-inheritance nil)
                 (org-agenda-todo-ignore-scheduled nil)
