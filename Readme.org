@@ -596,10 +596,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package which-key
+       :ensure t
        :init
        (which-key-mode)
        (which-key-setup-side-window-right-bottom))
    #+END_SRC
+
 ** Ace Utilities
 *** Ace Window
 
@@ -694,6 +696,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package edit-server
+       :ensure t
        :init
        (edit-server-start))
    #+END_SRC
@@ -1466,6 +1469,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   #+BEGIN_SRC emacs-lisp
     (use-package smart-tabs-mode
+      :ensure t
       :init
       (setq-default indent-tabs-mode nil)
       (smart-tabs-insinuate 'c 'javascript 'cperl 'c++)
@@ -1568,7 +1572,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   [[https://github.com/promethial/paxedit][Paxedit repo]]
 
   #+BEGIN_SRC emacs-lisp
-    (use-package pax-edit
+    (use-package paxedit
+      :ensure t
       :commands (paxedit-mode)
       :bind
       ("M-<right>" . paxedit-transpose-forward)
