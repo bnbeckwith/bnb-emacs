@@ -143,6 +143,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    This is bound to =C-h B= above.
 
 
+** Hydra
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package hydra
+       :ensure t)
+   #+END_SRC
+
 ** Personal Keymaps
 
    These are inspired from
