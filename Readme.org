@@ -3113,7 +3113,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    responsive.
 
   #+BEGIN_SRC emacs-lisp
-    (when (and (eq system-type 'windows-nt)
+    (when (and (or (eq system-type 'windows-nt) (eq system-type 'darwin)) 
                (not (and (boundp 'server-clients) server-clients))
                (not (daemonp)))
       (server-start))
