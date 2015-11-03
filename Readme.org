@@ -85,7 +85,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (setq w32-pass-lwindow-to-system t
            w32-lwindow-modifier 'super
-           w32-apps-modifier 'hyper)
+           w32-apps-modifier 'hyper
+           ns-function-modifier 'hyper)
    #+END_SRC
 
 
