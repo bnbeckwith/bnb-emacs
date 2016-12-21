@@ -83,12 +83,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    built-in shortcuts or my bindings will not work.
 
    #+BEGIN_SRC emacs-lisp
-     (setq w32-pass-lwindow-to-system t
-           w32-lwindow-modifier 'super
-           w32-apps-modifier 'hyper
-           ns-function-modifier 'hyper)
+     (setq mac-pass-command-to-system t
+           mac-option-modifier 'super
+           mac-right-option-modifier '(function: alt mouse: alt)
+           mac-function-modifier 'hyper)
    #+END_SRC
-
 
 ** Package archives
 
