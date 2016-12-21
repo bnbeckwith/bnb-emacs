@@ -2043,6 +2043,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        ("C-c r"  . org-capture)
        ("C-c b"  . org-iswitchb)
        ("<f12>"  . org-agenda)
+       ("H-z"    . org-agenda)
        ("<apps>" . org-agenda)
        ("<f9> v" . visible-mode)
        ("<f9> g" . org-clock-goto)
@@ -2394,14 +2395,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    on tags in the agenda line, show the logged items for the day,
    and only show a time grid if a scheduled tasks exists.
 
-   #+BEGIN_SRC emacs-lisp
-     (setq org-agenda-show-inherited-tags t
-           org-agenda-log-mode-items '(clock)
-           org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2 :fileskip0 t)
-           org-agenda-time-grid '((daily today require-timed)
-                                  "----------------"
-                                  (800 1000 1200 1400 1600 1800 2000)))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (setq org-agenda-show-inherited-tags t
+        org-agenda-log-mode-items '(clock)
+        org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2 :fileskip0 t)
+        org-agenda-time-grid '((daily today require-timed)
+                               "----------------"
+                               (800 1000 1200 1400 1600 1800 2000)))
+#+END_SRC
 
 *** Views
 
@@ -2481,8 +2482,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                                (org-agenda-span 'day)
                                (org-agenda-start-on-weekday nil)
                                (org-agenda-time-grid nil)))
-                      (todo "TODO|DONE"
-                            ((org-agenda-overriding-header "COMPLETED TODAY"))))
+                      (todo "DONE"
+                            ((org-agenda-overriding-header "COMPLETED"))))
                      ((org-agenda-format-date "")
                       (org-agenda-start-with-clockreport-mode nil))) t)
     #+END_SRC
@@ -2536,7 +2537,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                                   (org-agenda-skip-function
                                    '(org-agenda-skip-entry-if 'notdeadline)))                           )
                       (tags-todo "TODO={WAIT}"
-                                 ((org-agenda-overriding-header "NO DUE DATE / WAITING FOR")
+                                 ((org-agenda-overriding-header "WAITING FOR")
+                                  (org-agenda-skip-function
+                                   '(org-agenda-skip-entry-if 'deadline))))
+                      (todo ""
+                                 ((org-agenda-overriding-header "WAITING FOR")
                                   (org-agenda-skip-function
                                    '(org-agenda-skip-entry-if 'deadline)))))
                      ((org-agenda-sorting-strategy '(priority-down))
@@ -2633,72 +2638,72 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+END_SRC
 
     #+BEGIN_SRC emacs-lisp
-      (setq org-agenda-custom-commands
-            '(
-              ("w" "Tasks waiting on something" tags "WAITING/!"
-               ((org-use-tag-inheritance nil)
-                (org-agenda-todo-ignore-scheduled nil)
-                (org-agenda-todo-ignore-deadlines nil)
-                (org-agenda-todo-ignore-with-date nil)
-                (org-agenda-overriding-header "Waiting Tasks")))
-              ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
-               ((org-agenda-todo-ignore-with-date nil)
-                (org-agenda-todo-ignore-deadlines nil)
-                (org-agenda-todo-ignore-scheduled nil)
-                (org-agenda-overriding-header "Tasks to Refile")))
-              ("n" "Next" tags-todo "-WAITING-CANCELED/!NEXT"
-               ((org-agenda-overriding-header "Next Tasks")))
-              ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELED"
-               ((org-agenda-overriding-header "Tasks to Archive")))
-              ("u" "Upcoming tasks" tags "+SCHEDULED<=\"<+1w>\"-TODO=\"DONE\"|+DEADLINE<=\"<+1w>\"-TODO=\"DONE\""
-               ((org-agenda-overriding-header "Upcoming tasks")))
-              ("U" "Unscheduled tasks" todo "TODO"
-               ((org-agenda-overriding-header "Unscheduled Tasks")
-                (org-agenda-skip-function
-                 (lambda nil
-                   (org-agenda-skip-entry-if (quote scheduled) (quote deadline))))))
-              ("P" "Printable Agenda" ;tags-todo "-DONE-CANCELED-SOMEDAY"
-               ((tags-todo "+IGNORE"
-                           ((org-agenda-overriding-header "\n== Upcoming Items ==\n")))
-                (agenda "" ((org-agenda-span 14)
-                            (org-agenda-start-on-weekday nil)
-                            (org-agenda-prefix-format "[ ] %T:\t")
-                            (org-agenda-repeating-timestamp-show-all t)
-                            (org-deadline-warning-days 7)))
-                (tags-todo "-DRB-SOMEDAY-REFERENCE-BNBECKWITH"
-                           ((org-agenda-prefix-format "[ ] %T:\t")
-                            (org-agenda-sorting-strategy '(tag-up priority-down))
-                            (org-agenda-todo-keyword-format "")
-                            (org-agenda-todo-ignore-with-date nil)
-                            (org-agenda-todo-ignore-scheduled nil)
-                            (org-agenda-todo-ignore-deadlines nil)
-                            (org-agenda-overriding-header "\nTasks by Context\n------------------\n"))))
-               ((ps-number-of-columns 2)
-                (ps-landscape-mode t)
-                (org-agenda-with-colors nil)
-                (org-agenda-compact-blocks t)
-                (org-agenda-remove-tags t)
-                (ps-paper-type 'a4))
-               ("~/TODO.pdf" "~/TODO.ps"))
-              ("l" "Scoreless" tags-todo "+Score<1"
-               ((org-agenda-todo-ignore-with-date nil)
-                (org-agenda-todo-ignore-scheduled nil)
-                (org-agenda-todo-ignore-deadlines nil)
-                (org-agenda-overriding-header "Scoreless Tasks")))
-              ("h" "Habits" tags "STYLE=\"habit\""
-               ((org-agenda-todo-ignore-with-date nil)
-                (org-agenda-todo-ignore-scheduled nil)
-                (org-agenda-todo-ignore-deadlines nil)
-                (org-agenda-overriding-header "Habits")))
-              ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE+PROJECT|LEVEL=1+REFILE/!-DONE-CANCELED"
-               ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
-                (org-agenda-overriding-header "Stuck Projects")))
-              ("z" "Agenda (including Personal Files)" agenda ""
-               ((org-agenda-files (list "~/Documents/Personal/Org/"))))
-              ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
-               ((org-agenda-skip-function
-                 '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
-                (org-agenda-overriding-header "Set default clocking task with C-u C-u I")))))
+      ;; (setq org-agenda-custom-commands
+      ;;       '(
+      ;;         ("w" "Tasks waiting on something" tags "WAITING/!"
+      ;;          ((org-use-tag-inheritance nil)
+      ;;           (org-agenda-todo-ignore-scheduled nil)
+      ;;           (org-agenda-todo-ignore-deadlines nil)
+      ;;           (org-agenda-todo-ignore-with-date nil)
+      ;;           (org-agenda-overriding-header "Waiting Tasks")))
+      ;;         ("r" "Refile New Notes and Tasks" tags "LEVEL=1+REFILE"
+      ;;          ((org-agenda-todo-ignore-with-date nil)
+      ;;           (org-agenda-todo-ignore-deadlines nil)
+      ;;           (org-agenda-todo-ignore-scheduled nil)
+      ;;           (org-agenda-overriding-header "Tasks to Refile")))
+      ;;         ("n" "Next" tags-todo "-WAITING-CANCELED/!NEXT"
+      ;;          ((org-agenda-overriding-header "Next Tasks")))
+      ;;         ("A" "Tasks to be Archived" tags "LEVEL=2-REFILE/DONE|CANCELED"
+      ;;          ((org-agenda-overriding-header "Tasks to Archive")))
+      ;;         ("u" "Upcoming tasks" tags "+SCHEDULED<=\"<+1w>\"-TODO=\"DONE\"|+DEADLINE<=\"<+1w>\"-TODO=\"DONE\""
+      ;;          ((org-agenda-overriding-header "Upcoming tasks")))
+      ;;         ("U" "Unscheduled tasks" todo "TODO"
+      ;;          ((org-agenda-overriding-header "Unscheduled Tasks")
+      ;;           (org-agenda-skip-function
+      ;;            (lambda nil
+      ;;              (org-agenda-skip-entry-if (quote scheduled) (quote deadline))))))
+      ;;         ("P" "Printable Agenda" ;tags-todo "-DONE-CANCELED-SOMEDAY"
+      ;;          ((tags-todo "+IGNORE"
+      ;;                      ((org-agenda-overriding-header "\n== Upcoming Items ==\n")))
+      ;;           (agenda "" ((org-agenda-span 14)
+      ;;                       (org-agenda-start-on-weekday nil)
+      ;;                       (org-agenda-prefix-format "[ ] %T:\t")
+      ;;                       (org-agenda-repeating-timestamp-show-all t)
+      ;;                       (org-deadline-warning-days 7)))
+      ;;           (tags-todo "-DRB-SOMEDAY-REFERENCE-BNBECKWITH"
+      ;;                      ((org-agenda-prefix-format "[ ] %T:\t")
+      ;;                       (org-agenda-sorting-strategy '(tag-up priority-down))
+      ;;                       (org-agenda-todo-keyword-format "")
+      ;;                       (org-agenda-todo-ignore-with-date nil)
+      ;;                       (org-agenda-todo-ignore-scheduled nil)
+      ;;                       (org-agenda-todo-ignore-deadlines nil)
+      ;;                       (org-agenda-overriding-header "\nTasks by Context\n------------------\n"))))
+      ;;          ((ps-number-of-columns 2)
+      ;;           (ps-landscape-mode t)
+      ;;           (org-agenda-with-colors nil)
+      ;;           (org-agenda-compact-blocks t)
+      ;;           (org-agenda-remove-tags t)
+      ;;           (ps-paper-type 'a4))
+      ;;          ("~/TODO.pdf" "~/TODO.ps"))
+      ;;         ("l" "Scoreless" tags-todo "+Score<1"
+      ;;          ((org-agenda-todo-ignore-with-date nil)
+      ;;           (org-agenda-todo-ignore-scheduled nil)
+      ;;           (org-agenda-todo-ignore-deadlines nil)
+      ;;           (org-agenda-overriding-header "Scoreless Tasks")))
+      ;;         ("h" "Habits" tags "STYLE=\"habit\""
+      ;;          ((org-agenda-todo-ignore-with-date nil)
+      ;;           (org-agenda-todo-ignore-scheduled nil)
+      ;;           (org-agenda-todo-ignore-deadlines nil)
+      ;;           (org-agenda-overriding-header "Habits")))
+      ;;         ("#" "Stuck Projects" tags-todo "LEVEL=2-REFILE+PROJECT|LEVEL=1+REFILE/!-DONE-CANCELED"
+      ;;          ((org-agenda-skip-function 'bh/skip-non-stuck-projects)
+      ;;           (org-agenda-overriding-header "Stuck Projects")))
+      ;;         ("z" "Agenda (including Personal Files)" agenda ""
+      ;;          ((org-agenda-files (list "~/Documents/Personal/Org/"))))
+      ;;         ("c" "Select default clocking task" tags "LEVEL=2-REFILE"
+      ;;          ((org-agenda-skip-function
+      ;;            '(org-agenda-skip-subtree-if 'notregexp "^\\*\\* Organization"))
+      ;;           (org-agenda-overriding-header "Set default clocking task with C-u C-u I")))))
     #+END_SRC
 
     Phew! That is a lot of lisp! It is easiest to describe each view
@@ -2910,26 +2915,22 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Babel
 
-   #+BEGIN_SRC emacs-lisp
-     (org-babel-do-load-languages
-      'org-babel-load-languages
-      '((emacs-lisp . t)
-        (gnuplot    . t)
-        (calc       . t)
-        (clojure    . t)
-        (ditaa      . t)
-        (dot        . t)
-        (latex      . t)
-        (python     . t)
-        (perl       . t)
-        (R          . t)
-        (C          . t)
-        (sqlite     . t)
-        (plantuml   . t)))
-
-     (when (eq system-type 'windows-nt)
-       (setq org-babel-R-command "C:/Progra~1/R/R-2.15.1/bin/R --slave --no-save"))
-   #+END_SRC
+#+BEGIN_SRC emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (gnuplot    . t)
+     (calc       . t)
+     (clojure    . t)
+     (ditaa      . t)
+     (dot        . t)
+     (latex      . t)
+     (python     . t)
+     (perl       . t)
+     (C          . t)
+     (sqlite     . t)
+     (plantuml   . t)))
+#+END_SRC
 
 ** Miscellaneous Settings
 *** Columns
