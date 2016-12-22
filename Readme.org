@@ -527,17 +527,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 *** Interesting Keys
 
-    | Key    | Purpose                        |
-    |--------+--------------------------------|
-    | C-cC-s | Switch horizontal/vertical/top |
-    | m      | Mark a file for action         |
-    | j      | Jump to a different directory  |
-    | J      | Move up a directory            |
-    | n      | Move cursor to next item       |
-    | p      | Move cursor to previous item   |
-    | R      | Rename (move) marked file      |
-    | q      | Quit                           |
-    | v      | Quick view file                |
+    | Key     | Purpose                        |
+    |---------+--------------------------------|
+    | C-c C-s | Switch horizontal/vertical/top |
+    | m       | Mark a file for action         |
+    | j       | Jump to a different directory  |
+    | J       | Move up a directory            |
+    | n       | Move cursor to next item       |
+    | p       | Move cursor to previous item   |
+    | R       | Rename (move) marked file      |
+    | q       | Quit                           |
+    | v       | Quick view file                |
 
 *** Org Links in Sunrise Commander
 
