@@ -607,7 +607,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         ("H-a"    . ace-window)
         ("<f9> a" . ace-window)
         :config
-        (setq aw-keys '(?a ?s ?d ?f ?j ?k ?l)
+        (setq aw-keys '(?j ?k ?l ?\; ?n ?m)
               aw-leading-char-style 'path
               aw-dispatch-always t
               aw-dispatch-alist
