@@ -645,15 +645,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         (set-face-attribute 'aw-leading-char-face nil :height 2.0))
     #+END_SRC
 
-** Avy Utilities
-
 *** Avy Goto
 
     It is time to make some shortcuts for jumping to see if they make
     sense for me.  The interesting feature that I can use is that
     these highlight text an all shown buffers.
 
- #+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (use-package avy
         :ensure t
         :bind
@@ -2088,7 +2086,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        Clock in/out of current subtree
      - org-clock-goto
        Go to current/previous clocked task
-
 
      These are defined in [[Orgmode Initialization]]
 
