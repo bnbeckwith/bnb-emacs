@@ -1712,7 +1712,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       :ensure t
       :bind ("C-s" . swiper)
       ("C-c C-s" . isearch-forward)
-      ("C-x C-r" . ivy-recentf)
+      ("C-x C-r" . counsel-recentf)
       :config
       (setq ivy-display-style 'fancy
             ivy-use-virtual-buffers t
