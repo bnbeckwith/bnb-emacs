@@ -1638,70 +1638,133 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                   ("q"   nil "cancel" :color blue)))
   #+END_SRC
 
-* Clojure
+* Programming Languages
+** Rust
 
-  The easiest way to edit clojure code is with =paredit= so let's have
-  it automatically load each time.
-
-  #+BEGIN_SRC emacs-lisp
-        (use-package clojure-mode
-          :ensure t
-          :config
-          (add-hook 'clojure-mode-hook 'paredit-mode)
-          (add-hook 'clojure-mode-hook 'cljr-clojure-mode-hook)
-          (add-hook 'clojure-mode-hook 'paxedit-mode))
-  #+END_SRC
-
-** Cider
-
-   Using Cider will make a nREPL available for Clojure
-   programming. The configuration snippets here are from the [[https://github.com/clojure-emacs/cider][project
-   page on github]].
+   These initial settings are copied from the [[https://github.com/syl20bnr/spacemacs/blob/master/layers/%2Blang/rust/packages.el][spacemacs rust layer]].
 
    #+BEGIN_SRC emacs-lisp
-     (use-package cider
-       :ensure t
-       :commands (cider-jack-in)
-       :config
-       ;; Enable eldoc
-       (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-       ;; Hide special buffers
-       (setq nrepl-hide-special-buffers t
-       ;; Stop the error from popping up while working in buffers other than the REPL
-             cider-popup-stacktraces nil
-       ;; Stop prompting to save file when killing repl buffer
-             cider-prompt-save-file-on-load nil))
+     (use-package cargo
+       :mode "\\.rs"
+       :init
+       (bind-keys :prefix-map cargo-mode-map
+                  :prefix "C-c c"
+                  ("C" . cargo-process-repeat)
+                  ("." . cargo-process-repeat)
+                  ("X" . cargo-run-example)
+                  ("c" . cargo-process-build)
+                  ("d" . cargo-process-doc)
+                  ("e" . cargo-process-bench)
+                  ("R" . cargo-process-current-test)
+                  ("f" . cargo-process-fmt)
+                  ("i" . cargo-process-init)
+                  ("n" . cargo-process-new)
+                  ("o" . cargo-process-current-file-tests)
+                  ("s" . cargo-process-search)
+                  ("u" . cargo-process-update)
+                  ("x" . cargo-process-run)
+                  ("t" . cargo-process-test)
+                  ("R" . cargo-process-test-regexp)))
+
+     (use-package racer
+       :mode "\\.rs")
+
+     (use-package flycheck-rust
+       :mode "\\.rs"
+       :init
+       (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+     (use-package ggtags
+       :defer t)
+
+     (use-package html-gtags
+       :defer t)
+
+     (use-package racer-mode
+       :init
+       (add-hook 'racer-mode-hook #'eldoc-mode)
+       (add-hook 'racer-mode-hook #'company-mode))
+
+     (use-package company-racer)
+
+     (use-package rust-mode
+       :commands (cargo-minor-mode)
+       :mode "\\.rs"
+       :bind  ("C-c <tab>" . rust-format-buffer)
+       ("TAB" . company-indent-or-complete-common)
+       :init
+       (setq company-tooltip-align-annotations t)
+       (add-hook 'rust-mode-hook #'cargo-minor-mode)
+       (add-hook 'rust-mode-hook #'racer-mode)
+       (add-hook 'rust-mode-hook #'flycheck-mode))
+
+     (use-package toml-mode
+       :mode "\\.toml\\'")
    #+END_SRC
 
-** clj-refactor
+** Clojure
 
-   Refactoring clojure code is made easier with [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor.el]].  I
-   turn it on for any clojure mode (through hooks).  The keybinding
-   for the set of commands is prefixed with =C-c C-r= as shown below.
+   The easiest way to edit clojure code is with =paredit= so let's have
+   it automatically load each time.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package clj-refactor
-       :commands (cljr-clojure-mode-hook)
-       :config
-       (defun cljr-clojure-mode-hook ()
-         (clj-refactor-mode 1)
-         (yas-minor-mode 1)
-         (cljr-add-keybindings-with-prefix "C-c C-r")))
+         (use-package clojure-mode
+           :ensure t
+           :config
+           (add-hook 'clojure-mode-hook 'paredit-mode)
+           (add-hook 'clojure-mode-hook 'cljr-clojure-mode-hook)
+           (add-hook 'clojure-mode-hook 'paxedit-mode))
    #+END_SRC
 
-   The wiki hosts the [[https://github.com/clojure-emacs/clj-refactor.el/wiki][available refactorings]].
+*** Cider
 
-* Elisp
+    Using Cider will make a nREPL available for Clojure
+    programming. The configuration snippets here are from the [[https://github.com/clojure-emacs/cider][project
+    page on github]].
 
-  When modified =emacs-lisp=, it is most helpful to use =paredit= and
-  =eldoc=.
+    #+BEGIN_SRC emacs-lisp
+      (use-package cider
+        :ensure t
+        :commands (cider-jack-in)
+        :config
+        ;; Enable eldoc
+        (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+        ;; Hide special buffers
+        (setq nrepl-hide-special-buffers t
+        ;; Stop the error from popping up while working in buffers other than the REPL
+              cider-popup-stacktraces nil
+        ;; Stop prompting to save file when killing repl buffer
+              cider-prompt-save-file-on-load nil))
+    #+END_SRC
 
-  #+BEGIN_SRC emacs-lisp
-    (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
-    (add-hook 'emacs-lisp-mode-hook 'paxedit-mode)
-    (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-  #+END_SRC
+*** clj-refactor
 
+    Refactoring clojure code is made easier with [[https://github.com/clojure-emacs/clj-refactor.el][clj-refactor.el]].  I
+    turn it on for any clojure mode (through hooks).  The keybinding
+    for the set of commands is prefixed with =C-c C-r= as shown below.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package clj-refactor
+        :commands (cljr-clojure-mode-hook)
+        :config
+        (defun cljr-clojure-mode-hook ()
+          (clj-refactor-mode 1)
+          (yas-minor-mode 1)
+          (cljr-add-keybindings-with-prefix "C-c C-r")))
+    #+END_SRC
+
+    The wiki hosts the [[https://github.com/clojure-emacs/clj-refactor.el/wiki][available refactorings]].
+    
+** Elisp
+
+   When modified =emacs-lisp=, it is most helpful to use =paredit= and
+   =eldoc=.
+
+   #+BEGIN_SRC emacs-lisp
+     (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+     (add-hook 'emacs-lisp-mode-hook 'paxedit-mode)
+     (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+   #+END_SRC
 * Ivy, Counsel and Swiper
 
   Ivy is a completion framework somewhere between =ido= and =helm=. It
