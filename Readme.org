@@ -256,6 +256,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         ("M-p" . bnb/scroll-down-1))
      #+END_SRC
 
+*** Kill current buffer
+
+    Another great tip from [[http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/][Pragmatic Emacs]], use ~kill-this-buffer~ to
+    kill the current buffer instead of asking which one.  I'm not
+    overriding the =C-x k= default, but added a =C-x C-k= alternative.
+
+    #+BEGIN_SRC emacs-lisp
+      (bind-keys
+       ("C-x C-k" . kill-this-buffer))
+    #+END_SRC
+
 ** Minibuffer History Save
 
    This saves the minibuffer histories to preserve across emacs
