@@ -844,16 +844,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                'executable-make-buffer-file-executable-if-script-p)
    #+END_SRC
 
-** Grep
-
-   The grep executable on windows needs to be set because it keeps
-   finding the wrong one.
-
-   #+BEGIN_SRC emacs-lisp
-     (when (eq system-type 'windows-nt)
-       (setq grep-command "C:/cygwin/bin/grep.exe -nH -e"))
-   #+END_SRC
-
 ** Scroll Screen Position
 
    This is one of those cool finds for a problem I mostly knew that I
