@@ -911,22 +911,28 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+END_SRC
 
 ** Window Changes
+   
+   In the fringe area, I like to have markers to show me where the
+   buffer begins/ends on the right. On the left, I have emacs show
+   little dashes where empty lines exist.
+   
+   In the title bar, I have it print the buffer name, full file name
+   and size.
 
    #+BEGIN_SRC emacs-lisp
      (setq-default indicate-buffer-boundaries 'right)
      (setq-default indicate-empty-lines t)
-     (setq-default frame-title-format '("%b - %F"))
+     (setq-default frame-title-format '("%b %f %I"))
    #+END_SRC
 
 ** Faces
 *** Default Fonts
 
-    On windows, I have /Source Code Pro/ installed.  Let's use that
+    On my OS, I have /Source Code Pro/ installed.  Let's use that
     there.
 
     #+BEGIN_SRC emacs-lisp
-      (when (eq system-type 'windows-nt)
-        (set-face-attribute 'default nil :font "Source Code Pro-10"))
+      (set-face-attribute 'default nil :font "Source Code Pro-12")
     #+END_SRC
 
     Setup a strike-through font for agenda items. The /done/ items
@@ -941,11 +947,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              (set-face-attribute 'org-agenda-done nil :strike-through t)))
     #+END_SRC
 
-
 *** Trying out fonts on Windows
 
     #+BEGIN_SRC emacs-lisp
-      (defun bnb/set-font ()
+      (defun bnb/windows-set-font ()
         (interactive)
         (set-face-attribute 'default nil :font (w32-select-font)))
     #+END_SRC
@@ -1332,13 +1337,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                  (cancel-timer bnb/iagenda)
                (run-with-idle-timer 3600 t 'bnb/jump-to-org-agenda))))
 
-     (when (eq system-type 'windows-nt)
-       (bnb/idle-agenda))
+     (bnb/idle-agenda)
    #+END_SRC
-
-    The when clause at the end is because I primarily keep my agenda
-    information on Windows. No need to have my agenda open on the
-    different GNU/Linux boxes all the time.
 
 ** Transparency
 
@@ -2058,13 +2058,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
    #+END_SRC
 
-** Preview Settings
-
-   In order for preview to work with ~tikzpicture~ environments, it
-   has to be added to the default preamble list.
-
-   #+BEGIN_SRC emacs-lisp
-   #+END_SRC
 ** DocView
 
    Have =docview= automatically revert the buffer.
