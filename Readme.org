@@ -1793,6 +1793,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       ("C-x C-f" . counsel-find-file)
       :config
       (setq counsel-find-file-at-point t))
+    (use-package ivy-rich
+      :config
+      (setq ivy-virtual-abbreviate 'full
+            ivy-rich-switch-buffer-align-virtual-buffer t)
+      (ivy-set-display-transformer 'ivy-switch-buffer
+                                   'ivy-rich-switch-buffer-transformer))
   #+END_SRC
 
   The bindings introduced are replacements for built-in
