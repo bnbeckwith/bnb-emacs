@@ -1766,6 +1766,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (add-hook 'emacs-lisp-mode-hook 'paxedit-mode)
      (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
    #+END_SRC
+
 * Ivy, Counsel and Swiper
 
   Ivy is a completion framework somewhere between =ido= and =helm=. It
