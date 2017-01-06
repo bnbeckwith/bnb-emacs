@@ -1325,7 +1325,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       :config
       (bind-key "C-<tab>" 'company-complete org-mode-map)
       (bind-keys :map company-active-map
-                 ("<tab>" . company-complete-common-or-cycle)
+                 ("s-<tab>" . company-complete-common-or-cycle)
                  ("C-n"   . company-select-next)
                  ("C-p"   . company-select-previous))
       ;; Turn off the auto downcasing of things
@@ -1698,7 +1698,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     (use-package swiper
       :ensure t
       :bind ("C-s" . swiper)
-      ("C-c C-s" . isearch-forward)
+      ("C-c S" . isearch-forward)
       ("C-x C-r" . counsel-recentf)
       :config
       (setq ivy-display-style 'fancy
@@ -1714,6 +1714,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       :ensure t
       :bind ("M-x" . counsel-M-x)
       ("C-x C-f" . counsel-find-file)
+      ("C-c k" . counsel-ag)
+      ("<F1> f" . counsel-describe-function)
+      ("<F1> v" . counsel-describe-variable)
+      ("<F1> l" . counsel-find-library)
+      ("<F2> i" . counsel-info-lookup-symbol)
+      ("<F2> u" . counsel-unicode-char)
       :config
       (setq counsel-find-file-at-point t))
     (use-package ivy-rich
