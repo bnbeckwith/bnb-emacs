@@ -169,8 +169,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       _c_ column-number : %(toggle-setting-string column-number-mode)  _b_ orgtbl-mode    : %(toggle-setting-string orgtbl-mode)  _x_/_X_ trans : %(identity bnb/transparency)
       _e_ debug-on-error: %(toggle-setting-string debug-on-error)  _s_ orgstruct-mode : %(toggle-setting-string orgstruct-mode)
       _u_ debug-on-quit : %(toggle-setting-string debug-on-quit)  _h_ diff-hl-mode   : %(toggle-setting-string diff-hl-mode)
-      _f_ auto-fill     : %(toggle-setting-string auto-fill-function)  _y_ symon-mode     : %(toggle-setting-string symon-mode)
-      _t_ truncate-lines: %(toggle-setting-string truncate-lines)  _B_ battery-mode   : %(toggle-setting-string display-battery-mode)
+      _f_ auto-fill     : %(toggle-setting-string auto-fill-function) _B_ battery-mode   : %(toggle-setting-string display-battery-mode)  
+      _t_ truncate-lines: %(toggle-setting-string truncate-lines)  
       _r_ read-only     : %(toggle-setting-string buffer-read-only)
       _w_ whitespace    : %(toggle-setting-string whitespace-mode)
       "
@@ -184,7 +184,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          ("b" orgtbl-mode nil)
          ("s" orgstruct-mode nil)
          ("x" bnb/transparency-next nil)
-         ("y" symon-mode nil)
          ("B" display-battery-mode nil)
          ("X" bnb/transparency-previous nil)
          ("h" diff-hl-mode nil)
@@ -952,17 +951,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :init
        (setq sml/theme 'respectful)
        (sml/setup))
-   #+END_SRC
-
-** Symon
-
-   This is a nice little graphical interface in an inactive mode line
-   showing system resources.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package symon
-       :ensure t
-       :commands (symon-mode))
    #+END_SRC
 
 * BNB Helpers
