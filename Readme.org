@@ -1254,7 +1254,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (defun bnb/idle-agenda (&optional arg)
        (interactive "P")
-       (setq bnb/iagenda
+       (setq bnb/idle-agenda
              (if arg
                  (cancel-timer bnb/iagenda)
                (run-with-idle-timer 3600 t 'bnb/jump-to-org-agenda))))
