@@ -96,16 +96,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
      (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-     (add-to-list 'package-archives '("sr" . "http://joseito.republika.pl/sunrise-commander/") t)
    #+END_SRC
 
    I install the proper packages with these repositories. This may
    take some time the first time it runs.
 
-   Org-mode and Sunrise Commander have their own repositories that
-   keep me on the bleeding edge. They is why they have their own
-   repositories above.
-
+   Org-mode has their own repositories that keep me on the bleeding
+   edge. They is why that repository is listed above.
 
    #+BEGIN_SRC emacs-lisp
      (unless (package-installed-p 'use-package)
@@ -516,69 +513,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (use-package midnight)
    #+END_SRC
-
-** Sunrise Commander
-
-   Sunrise commander is Emacs' answer to the popular Midnight
-   Commander. I have a global key below to launch the default
-   interface.
-
-   I also turn off help for jumping directories.  For Sunrise, I find
-   the ido interface better.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package sunrise-commander
-              :ensure t
-              :bind
-              ("H-/"    . sunrise)
-              ("<f9> /" . sunrise)
-              :config
-              (setq sr-listing-switches "-alhG1vu"))
-   #+END_SRC
-
-*** Interesting Keys
-
-    | Key     | Purpose                        |
-    |---------+--------------------------------|
-    | C-c C-s | Switch horizontal/vertical/top |
-    | m       | Mark a file for action         |
-    | j       | Jump to a different directory  |
-    | J       | Move up a directory            |
-    | n       | Move cursor to next item       |
-    | p       | Move cursor to previous item   |
-    | R       | Rename (move) marked file      |
-    | q       | Quit                           |
-    | v       | Quick view file                |
-
-*** Org Links in Sunrise Commander
-
-    Storing links from Sunrise-commander
-
-    #+BEGIN_SRC emacs-lisp
-      (add-hook 'org-store-link-functions 'org-diredish-store-link)
-
-      (defun org-diredish-store-link ()
-        "Store link to files/directories from dired."
-        (when (derived-mode-p 'dired-mode)
-          (let ((f (dired-filename-at-point)))
-            (setq link (concat "file+system" ":" f)
-                  desc (concat f " (dired)"))
-            (org-add-link-props :link link :description desc)
-            link)))
-    #+END_SRC
-
-*** Visual display
-
-    To improve the listings view of =dired=, I use the =sr-listing-switches= (from
-    [[http://oremacs.com/2015/01/13/dired-options/]])
-
-    This makes the following settings
-
-    - l :: mandatory
-    - a :: list invisible files
-    - G :: omit group information
-    - h :: human readable sizes
-    - 1v :: Sort digits correctly
 
 ** Which Key
 
