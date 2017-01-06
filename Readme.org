@@ -2510,7 +2510,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                       (tags-todo "DEADLINE=\"<+0d>\""
                                  ((org-agenda-overriding-header "DUE TODAY")
                                   (org-agenda-skip-function
-                                   '(org-agenda-sktip-entry-if 'notedeadline))
+                                   '(org-agenda-skip-entry-if 'notedeadline))
                                   (org-agenda-sorting-strategy '(priority-down))))
                       (tags-todo "DEADLINE<\"<+0d>\""
                                  ((org-agenda-overriding-header "OVERDUE")
