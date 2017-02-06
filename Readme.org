@@ -2929,18 +2929,26 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 #+BEGIN_SRC emacs-lisp
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((emacs-lisp . t)
-     (gnuplot    . t)
-     (calc       . t)
+   '((calc       . t)
      (clojure    . t)
+     (C          . t)
      (ditaa      . t)
      (dot        . t)
+     (emacs-lisp . t)
+     (gnuplot    . t)
      (latex      . t)
-     (python     . t)
      (perl       . t)
-     (C          . t)
-     (sqlite     . t)
-     (plantuml   . t)))
+     (plantuml   . t)
+     (python     . t)
+     (shell      . t)
+     (sqlite     . t)))
+#+END_SRC
+
+*** Extra Babel Packages
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ob-http
+    :ensure t)
 #+END_SRC
 
 ** Miscellaneous Settings
