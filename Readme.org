@@ -1029,8 +1029,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (run-hooks 'bnb/kill-emacs-hooks)
        (if bnb/really-kill-emacs
            ad-do-it
-         (when (eq system-type 'windows-nt)
-           (iconify-frame))))
+         (iconify-frame)))
    #+END_SRC
 
    Now, when any event triggers a call to =kill-emacs=, a small set
