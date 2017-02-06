@@ -98,7 +98,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    I like to pull from the popular list of package archives.
 
    #+BEGIN_SRC emacs-lisp
-     (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+     (add-to-list 'package-archives '("stable-melpa" . "http://stable.melpa.org/packages/") t)
      (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
    #+END_SRC
 
@@ -115,6 +115,21 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (setq use-package-verbose t)
      (require 'use-package)
    #+END_SRC
+
+*** From Source
+
+    [[https://github.com/quelpa/quelpa][Quelpa]] grabs and builds packages from source (e.g. Github). I have
+    found a few things not in any package archive yet that I'd like to
+    have automatically installed.
+
+    Along with the ~quelpa~ package, ~quelpa-use-package~ adds a
+    handler to ~use-package~ making it fit in nicely with the rest of
+    my configuration.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package quelpa :ensure t)
+      (use-package quelpa-use-package :ensure t)
+    #+END_SRC
 
 ** Binding Keys
 
