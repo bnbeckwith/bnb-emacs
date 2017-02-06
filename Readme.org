@@ -217,14 +217,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 *** Elisp Maps
 
+    Here are some nice-to-have features when in /elisp-mode/.
+
     #+BEGIN_SRC emacs-lisp
       (bind-key
        "C-c e"
        (defhydra hydra-elisp-cmds (:color blue)
-         ("b" do-eval-buffer "eval buffer")
+         ("b" eval-buffer "eval buffer")
          ("e" toggle-debug-on-error "debug-on-error")
          ("f" emacs-lisp-byte-compile-and-load "byte-compile-and-load")
-         ("r" eval-region "eval-region")))
+         ("r" eval-region "eval-region"))
+       emacs-lisp-mode-map)
     #+END_SRC
 
     #+BEGIN_SRC emacs-lisp
@@ -237,7 +240,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          ("l" find-library "find-library")
          ("v" find-variable "find-variable")
          ("V" apropos-value "apropos-value")
-         ("i" info-display-manual "info-display-manual")))
+         ("i" info-display-manual "info-display-manual"))
+       emacs-lisp-mode-map)
     #+END_SRC
 
 *** Small bindings
