@@ -63,8 +63,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    settings such as proxies, paths, fonts, etc. that may vary from
    machine to machine.
 
-   Here, I set the custom file to reside in my =~/.emacs.d/= directory
-   and load it if it exists.
+   I like to set the custom file explicitly. Mine resides in the
+   =~/.emacs.d/= directory. This code block loads it if it exists.
 
   #+BEGIN_SRC emacs-lisp
     (setq custom-file "~/.emacs.d/custom.el")
@@ -72,13 +72,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         (load-file custom-file))
   #+END_SRC
 
+  If the file doesn't exist, =Emacs= will still use the file if any
+  changes are made through the /custom interface/.
+
 * Small Settings
 
-  The next sections encompass some small settings to make Emacs mine.
+  The next sections encompass some small settings to make Emacs mine
+  (and maybe yours).
 
 ** Super keys
 
-   I like to be able to use the Windows (or super or hyper) keys for
+   I like to be able to use the command (or super or hyper) keys for
    shortcuts. I need to take care to not interfere with the
    built-in shortcuts or my bindings will not work.
 
@@ -139,8 +143,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    This is bound to =C-h B= above.
 
-
 ** Hydra
+
+   Sometimes it is useful to go into a /command mode/ that lets you
+   quickly do a few different actions. Hydra does that and more.
+
+   By defining specific /hydras/, you can group together commands with
+   documentation. Think of it as a mini-control-panel.  I include it here and
+   use it elsewhere when grouping commands. (See [[Toggle Map]] for an example)
 
    #+BEGIN_SRC emacs-lisp
      (use-package hydra
