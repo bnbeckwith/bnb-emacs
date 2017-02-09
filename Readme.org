@@ -956,18 +956,58 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Themes
 
-   I typically use a dark theme. I have yet to find a pleasing light
-   theme, though =mccarthy= is close.
-
    You can layer themes by enabling them in turn, but this is not the
-   default usage for most of us. Github user =larstvei= has the
-   following advice for that case.
+   default usage for most of us. [[http://www.greghendershott.com][Greg Hendershott]] suggests [[http://www.greghendershott.com/2017/02/emacs-themes.html][something
+   like the following code.]]
 
    #+BEGIN_SRC emacs-lisp
-     (defadvice load-theme
-       (before disable-theme-before-load (theme &optional no-confirm no-enable) activate)
-       (mapc 'disable-theme custom-enabled-themes))
+     (defun bnb/disable-all-themes ()
+         (interactive)
+         (mapc #'disable-theme custom-enabled-themes))
+
+     (defvar bnb/theme-hooks nil
+       "((theme-id . function) ...)")
+
+     (defun bnb/add-theme-hook (theme-id hook-func)
+       (add-to-list 'bnb/theme-hooks (cons theme-id hook-func)))
+
+     (defun bnb/load-theme-advice (f theme-id &optional no-confirm no-enable &rest args)
+       "Changes `load-them' in two ways:
+     1. Disables enables themes
+     2. Calls registered theme hooks"
+       (unless no-enable
+         (bnb/disable-all-themes))
+       (prog1
+           (apply f theme-id no-confirm no-enable args)
+         (unless no-enable
+           (pcase (assq theme-id bnb/theme-hooks)
+             (`(,_ . ,f) (funcall f))))))
+
+     (advice-add 'load-theme
+                 :around
+                 #'bnb/load-theme-advice)
    #+END_SRC
+
+*** Extra Themes
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package gruvbox-theme :ensure t :defer t)
+
+      (use-package material-theme :ensure t :defer t
+        :init
+        (defun bnb/material-theme-hook ()
+          (set-face-attribute 'which-key-key-face nil :foreground
+                              (face-attribute 'error :foreground))
+          (loop for n from 1 to 8
+                do (set-face-attribute (intern-soft (format "org-level-%s" n))
+                                       nil
+                                       :background 'unspecified
+                                       :box        'unspecified)))
+        (bnb/add-theme-hook 'material-light #'bnb/material-theme-hook)
+        (bnb/add-theme-hook 'material       #'bnb/material-theme-hook))
+    #+END_SRC
+
+
 
 ** Smart Mode Line
 
