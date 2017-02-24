@@ -3145,6 +3145,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
               ("Score_ALL"  . "1 2 3 5 8")))
     #+END_SRC
 
+*** Calendar
+
+    [[http://acidwords.com/posts/2017-02-16-displaying-org-mode-appointments-in-calendar.html][Acidwords.com]] outlined a nice way to highlight days in the
+    calendar.  These settings are a result of that work.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq calendar-mark-diary-entries-flag t)
+    #+END_SRC
+
 ** Org-drill
 
    #+BEGIN_SRC emacs-lisp
