@@ -855,6 +855,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        ("C-c F" . focus-read-only-mode))
    #+END_SRC
 
+** Paperless Mode
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package paperless
+       :defer t
+       :quelpa
+       (paperless :fetcher github :repo "atgreen/paperless")
+       :config
+       (setq paperless-capture-directory "~/Desktop/"
+           paperless-root-directory "~/Documents/Personal/"))
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
