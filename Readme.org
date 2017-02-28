@@ -768,7 +768,25 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        ("g"   mc/mark-all-in-region-regexp :exit t)
        ("r"   mc/mark-sgml-tag-pair :exit t)
        ("x"   mc/mark-more-like-this-extended)
-       ("q"   nil)))
+       ("q"   nil))
+     (add-hydra-mc-funcs))
+
+     (defun add-hydra-mc-funcs ()
+       "Add my hydra-mc funcs to the proper whitelist"
+       (let* ((hydra-mc-funcs
+               (cl-remove-if-not
+                'functionp
+                (apply #'append hydra-mc/heads)))
+              (mc-funcs-to-ignore (cl-intersection
+                                   hydra-mc-funcs
+                                   mc--default-cmds-to-run-once))
+              (funcs-to-whitelist
+               (cl-mapcar
+                (lambda (x) (intern (concat "hydra-mc/" (symbol-name x))))
+                mc-funcs-to-ignore)))
+         (let (value)
+           (dolist (element funcs-to-whitelist nil)
+             (add-to-list 'mc/cmds-to-run-once element)))))
    #+END_SRC
 
 ** Expand Region
