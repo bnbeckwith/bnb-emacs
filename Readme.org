@@ -106,7 +106,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    take some time the first time it runs.
 
    Org-mode has their own repositories that keep me on the bleeding
-   edge. They is why that repository is listed above.
+   edge. They is why that repository is listed separately above.
 
    #+BEGIN_SRC emacs-lisp
      (unless (package-installed-p 'use-package)
@@ -343,12 +343,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    [[http://emacswiki.org/emacs/BookMarks]]
 
-   | Keystroke           | Action                  |
-   |---------------------+-------------------------|
-   | C-x r m             | Set a bookmark          |
-   | C-x r b             | Jump to a bookmark      |
-   | C-x r l             | List your bookmarks     |
-   | M-x bookmark-delete | Delete bookmark by name |
+   | Keystroke             | Action                  |
+   |-----------------------+-------------------------|
+   | =C-x r m=             | Set a bookmark          |
+   | =C-x r b=             | Jump to a bookmark      |
+   | =C-x r l=             | List your bookmarks     |
+   | =M-x bookmark-delete= | Delete bookmark by name |
 
    I will auto-save my bookmarks.
 
@@ -676,11 +676,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    | Key Binding | Meaning                                    |
    |-------------+--------------------------------------------|
-   | C-c TAB     | Switch syntax                              |
-   | C-c C-e     | Sub-expression mode (show matching groups) |
-   | C-c C-s/r   | Search forward/backward                    |
-   | C-c C-w     | Copy regexp to kill ring                   |
-   | C-c C-q     | Quit the builder                           |
+   | =C-c TAB=   | Switch syntax                              |
+   | =C-c C-e=   | Sub-expression mode (show matching groups) |
+   | =C-c C-s/r= | Search forward/backward                    |
+   | =C-c C-w=   | Copy regexp to kill ring                   |
+   | =C-c C-q=   | Quit the builder                           |
 
    Be sure to consult the [[info:emacs#Regexps][syntax of regular expressions]] to learn more
    about the weird backslashing.
