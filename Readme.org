@@ -194,8 +194,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       _c_ column-number : %(toggle-setting-string column-number-mode)  _b_ orgtbl-mode    : %(toggle-setting-string orgtbl-mode)  _x_/_X_ trans : %(identity bnb/transparency)
       _e_ debug-on-error: %(toggle-setting-string debug-on-error)  _s_ orgstruct-mode : %(toggle-setting-string orgstruct-mode)
       _u_ debug-on-quit : %(toggle-setting-string debug-on-quit)  _h_ diff-hl-mode   : %(toggle-setting-string diff-hl-mode)
-      _f_ auto-fill     : %(toggle-setting-string auto-fill-function) _B_ battery-mode   : %(toggle-setting-string display-battery-mode)  
-      _t_ truncate-lines: %(toggle-setting-string truncate-lines)  
+      _f_ auto-fill     : %(toggle-setting-string auto-fill-function)  _B_ battery-mode   : %(toggle-setting-string display-battery-mode)
+      _t_ truncate-lines: %(toggle-setting-string truncate-lines)  _l_ highlight-line : %(toggle-setting-string hl-line-mode)
       _r_ read-only     : %(toggle-setting-string buffer-read-only)
       _w_ whitespace    : %(toggle-setting-string whitespace-mode)
       "
@@ -212,6 +212,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          ("B" display-battery-mode nil)
          ("X" bnb/transparency-previous nil)
          ("h" diff-hl-mode nil)
+         ("l" hl-line-mode nil)
          ("q" nil)))
     #+END_SRC
 
@@ -226,7 +227,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          ("b" eval-buffer "eval buffer")
          ("e" toggle-debug-on-error "debug-on-error")
          ("f" emacs-lisp-byte-compile-and-load "byte-compile-and-load")
-         ("r" eval-region "eval-region"))
+         ("r" eval-region "eval-region")
+         ("q" nil))
        emacs-lisp-mode-map)
     #+END_SRC
 
@@ -240,7 +242,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          ("l" find-library "find-library")
          ("v" find-variable "find-variable")
          ("V" apropos-value "apropos-value")
-         ("i" info-display-manual "info-display-manual"))
+         ("i" info-display-manual "info-display-manual")
+         ("q" nil))
        emacs-lisp-mode-map)
     #+END_SRC
 
