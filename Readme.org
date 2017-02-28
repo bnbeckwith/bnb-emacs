@@ -725,13 +725,21 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                ("Help" (or (name . "\*Help\*")
                            (name . "\*Apropos\*")
                            (name . "\*info\*"))))))
-
     #+END_SRC
-
 
 **** VC Grouping
 
-     =M-x ibuffer-vc-set-filter-groups-by-vc-root=
+     The ~ibuffer-vc~ package provides groups according to version
+     control sets. Here I setup a small keybinding to get to the
+     filtered vc groups.  The keys =/ R= will go back to the standard
+     view.
+
+     #+BEGIN_SRC emacs-lisp
+       (use-package ibuffer-vc :ensure t
+         :config (bind-keys
+                  :map ibuffer-mode-map
+                  ("/ v" . ibuffer-vc-set-filter-groups-by-vc-root)))
+     #+END_SRC
 
 ** Multiple Cursors
 
