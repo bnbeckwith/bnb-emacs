@@ -1078,6 +1078,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (sml/setup))
    #+END_SRC
 
+
 * BNB Helpers
 
   This is a collection of code specific to how I use emacs.  Some
@@ -1139,6 +1140,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    the flag is false and emacs is simply iconified.
 
 ** Workweeks
+
+   This is vestigal content from my Intel days and this generates
+   their idea of a work week number.
 
    #+BEGIN_SRC emacs-lisp
      (defun bnb/workweek ()
@@ -1420,6 +1424,24 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+END_SRC
 
 ** Styled HTML Export
+
+   This is how I get the one-page html output for Github Pages. There
+   are two main parts to setting up and executing the export.
+
+   First, I use a =SETUPFILE= from
+   https://github.com/fniessen/org-html-themes. Specifically, I use
+   the /readtheorg/ style.
+
+   Second, I setup the emacs theme correctly for nice code
+   output. Syntax highlighting in the export will pull from the
+   current theme. I don't want this. Instead, I want to specify which
+   theme to use for /every/ export.
+
+   The code below stores away the current list of enabled themes
+   before disabling them all. Then, it enables my preferred export
+   theme (~sanityinc-tomorrow-day~) before performing the
+   export. Finally, it disables the last theme and renables all of the
+   ones on the list.
 
    #+BEGIN_SRC emacs-lisp
      (defun bnb/export-readme ()
