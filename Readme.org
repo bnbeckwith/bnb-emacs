@@ -77,10 +77,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     (setq custom-file "~/.emacs.d/custom.el")
     (if (file-exists-p custom-file)
         (load-file custom-file))
+
+    (bind-key "<f7>"
+  	    (lambda ()
+  	      (interactive
+  	       (find-file custom-file))))
   #+END_SRC
 
   If the file doesn't exist, =Emacs= will still use the file if any
   changes are made through the /custom interface/.
+
+  Sometimes I'll get bad settings or cruft in that file. I now have a
+  key, ~<F7>~, for easy navigation to wherever the =custom-file= points.
 
 * Small Settings
 
