@@ -49,6 +49,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   As I add packages or lines to this document, my initialization is
   already in place and ready to go.
 
+* Notes
+
+** Pending sections
+
+   There are some features that I like to take on a /trial run/. These
+   are marked with the *PENDING* tag to help me remember and evaluate.
+
 * Personal Information
 
   The full name is used for email messages.
@@ -871,7 +878,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              uniquify-separator ":"))
    #+END_SRC
 
-** Focus Mode
+** Focus Mode                                                       :PENDING:
 
    Dim everything except for the thing-at-point. Improves focus when
    reading code and text.
@@ -884,7 +891,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        ("C-c F" . focus-read-only-mode))
    #+END_SRC
 
-** Paperless Mode
+** Paperless Mode                                                   :PENDING:
 
    #+BEGIN_SRC emacs-lisp
      (use-package paperless
