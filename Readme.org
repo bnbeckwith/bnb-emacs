@@ -211,8 +211,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       _u_ debug-on-quit : %(toggle-setting-string debug-on-quit)  _h_ diff-hl-mode   : %(toggle-setting-string diff-hl-mode)
       _f_ auto-fill     : %(toggle-setting-string auto-fill-function)  _B_ battery-mode   : %(toggle-setting-string display-battery-mode)
       _t_ truncate-lines: %(toggle-setting-string truncate-lines)  _l_ highlight-line : %(toggle-setting-string hl-line-mode)
-      _r_ read-only     : %(toggle-setting-string buffer-read-only)
-      _w_ whitespace    : %(toggle-setting-string whitespace-mode)
+      _r_ read-only     : %(toggle-setting-string buffer-read-only)  _n_ line-numbers   : %(toggle-setting-string linum-mode)
+      _w_ whitespace    : %(toggle-setting-string whitespace-mode)  _N_ relative lines : %(if (eq linum-format 'linum-relative) '[x] '[_])
       "
          ("c" column-number-mode nil)
          ("e" toggle-debug-on-error nil)
@@ -228,6 +228,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          ("X" bnb/transparency-previous nil)
          ("h" diff-hl-mode nil)
          ("l" hl-line-mode nil)
+         ("n" linum-mode nil)
+         ("N" linum-relative-toggle nil)
          ("q" nil)))
     #+END_SRC
 
@@ -910,6 +912,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (setq paperless-capture-directory "~/Desktop/"
            paperless-root-directory "~/Documents/Personal/"))
    #+END_SRC
+
+** Relative line numbers                                            :PENDING:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package linum-relative
+    :ensure t)
+#+END_SRC
 
 * Style
 
