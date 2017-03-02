@@ -1484,7 +1484,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   #+BEGIN_SRC emacs-lisp
     (use-package company
       :ensure t
-      :defer 2
       :init
       (add-hook 'after-init-hook 'global-company-mode)
       :bind
@@ -1493,12 +1492,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (bind-key "C-<tab>" 'company-complete org-mode-map)
       (bind-keys :map company-active-map
                  ("s-<tab>" . company-complete-common-or-cycle)
-                 ("C-n"   . company-select-next)
-                 ("C-p"   . company-select-previous))
+                 ("C-n"     . company-select-next)
+                 ("C-p"     . company-select-previous))
       ;; Turn off the auto downcasing of things
       (setq company-dabbrev-downcase nil
             company-show-numbers t))
   #+END_SRC
+
 
 * Dired
 
