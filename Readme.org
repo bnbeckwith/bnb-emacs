@@ -2006,6 +2006,37 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   There are two useful shells in emacs: =eshell= and
   =ansi-term=.
 
+** Ansi Term
+
+   Some of the following settings were stolen from [[https://ogbe.net/emacsconfig.html]].
+
+   These settings close =ansi-term= when I exit the shell. They also
+   default to just launching =zsh= instead of asking me
+   (preferred). Then it closes by setting up a hook to ensure some
+   nice functionality in the terminal mode window.
+
+   #+BEGIN_SRC emacs-lisp
+     (defadvice term-sentinel (around bnb/advise-term-sentinel (proc msg))
+       (if (memq (process-status proc) '(signal exit))
+           (let ((buffer (process-buffer proc)))
+             ad-do-it
+             (kill-buffer buffer))
+         ad-do-it))
+     (ad-activate 'term-sentinel)
+
+     (defadvice ansi-term (before force-zsh)
+       (interactive (list "/bin/zsh")))
+     (ad-activate 'ansi-term)
+
+     (defun bnb/term-mode-hook ()
+       (goto-address-mode)
+       (setq-local term-buffer-maximum-size 10000))
+
+     (add-hook 'term-mode-hook 'bnb/term-mode-hook)
+
+     (defalias 'zsh 'ansi-term)
+   #+END_SRC
+
 ** Eshell
 
    Built-in Eshell can provide a shell that works the same on windows or
