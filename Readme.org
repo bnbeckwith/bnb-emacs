@@ -206,8 +206,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        "C-x t"
        (defhydra hydra-toggle (:color amaranth)
          "
-      _c_ column-number : %(toggle-setting-string column-number-mode)  _b_ orgtbl-mode    : %(toggle-setting-string orgtbl-mode)  _x_/_X_ trans : %(identity bnb/transparency)
-      _e_ debug-on-error: %(toggle-setting-string debug-on-error)  _s_ orgstruct-mode : %(toggle-setting-string orgstruct-mode)
+      _c_ column-number : %(toggle-setting-string column-number-mode)  _b_ orgtbl-mode    : %(toggle-setting-string orgtbl-mode)  _x_/_X_ trans          : %(identity bnb/transparency)
+      _e_ debug-on-error: %(toggle-setting-string debug-on-error)  _s_ orgstruct-mode : %(toggle-setting-string orgstruct-mode)  _m_   hide mode-line : %(toggle-setting-string bnb/hide-mode-line-mode)  
       _u_ debug-on-quit : %(toggle-setting-string debug-on-quit)  _h_ diff-hl-mode   : %(toggle-setting-string diff-hl-mode)
       _f_ auto-fill     : %(toggle-setting-string auto-fill-function)  _B_ battery-mode   : %(toggle-setting-string display-battery-mode)
       _t_ truncate-lines: %(toggle-setting-string truncate-lines)  _l_ highlight-line : %(toggle-setting-string hl-line-mode)
@@ -230,6 +230,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          ("l" hl-line-mode nil)
          ("n" linum-mode nil)
          ("N" linum-relative-toggle nil)
+         ("m" bnb/hide-mode-line-mode nil)
          ("q" nil)))
     #+END_SRC
 
@@ -1474,6 +1475,35 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                  (and (not current-prefix-arg)
                       (let ((mark-even-if-inactive transient-mark-mode))
                         (indent-region (region-beginning) (region-end) nil))))))
+   #+END_SRC
+
+** Hide mode line                                                   :PENDING:
+
+   This is a fun one I picked from [[https://ogbe.net/emacsconfig.html]]
+   This block of code hides the mode-line for the current buffer
+   (window).
+
+   #+BEGIN_SRC emacs-lisp
+     (defvar-local bnb/hide-mode-line-mode nil)
+     (define-minor-mode bnb/hide-mode-line-mode
+       "Minor mode to hide mode-line in current buffer"
+       :init-value nil
+       :global nil
+       :variable bnb/hide-mode-line-mode
+       :group 'editing-basics
+       (if bnb/hide-mode-line-mode
+           (setq bnb/hide-mode-line-mode/saved-format mode-line-format
+                 mode-line-format nil)
+         (setq mode-line-format bnb/hide-mode-line-mode/saved-format
+               bnb/hide-mode-line-mode/saved-format nil))
+       (force-mode-line-update)
+       (redraw-display)
+       (when (and (called-interactively-p 'interactive)
+                  hidden-mode-line-mode)
+         (run-with-idle-timer
+          0 nil 'message
+          (concat "Goodbye mode line!"
+                  "Use M-x hidden-mode-line-mode to make the mode-line appear"))))
    #+END_SRC
 
 * Company
