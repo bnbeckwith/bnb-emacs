@@ -1880,16 +1880,20 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (ivy-mode))
     (use-package counsel
       :ensure t
-      :bind ("M-x" . counsel-M-x)
+      :bind
+      ("M-x"     . counsel-M-x)
+      ("H-y"     . counsel-yank-pop)
       ("C-x C-f" . counsel-find-file)
-      ("C-c k" . counsel-ag)
-      ("<F1> f" . counsel-describe-function)
-      ("<F1> v" . counsel-describe-variable)
-      ("<F1> l" . counsel-find-library)
-      ("<F2> i" . counsel-info-lookup-symbol)
-      ("<F2> u" . counsel-unicode-char)
+      ("C-c k"   . counsel-ag)
+      ("<F1> f"  . counsel-describe-function)
+      ("<F1> v"  . counsel-describe-variable)
+      ("<F1> l"  . counsel-find-library)
+      ("<F2> i"  . counsel-info-lookup-symbol)
+      ("<F2> u"  . counsel-unicode-char)
       :config
-      (setq counsel-find-file-at-point t))
+      (setq counsel-find-file-at-point t
+            enable-recursive-minibuffers t))
+
     (use-package ivy-rich
       :config
       (setq ivy-virtual-abbreviate 'full
