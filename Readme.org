@@ -921,6 +921,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     :ensure t)
 #+END_SRC
 
+** ImageMagick
+
+   Register file types if we can.
+
+   #+BEGIN_SRC emacs-lisp
+     (when (fboundp 'imagemagick-register-types)
+       (imagemagick-register-types))
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
