@@ -1097,6 +1097,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (sml/setup))
    #+END_SRC
 
+** Font lock profiling                                              :PENDING:
+
+   Allow for profiling of font-locking.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package font-lock-profiler
+       :quelpa
+       (font-lock-profiler :fetcher github :repo "Lindydancer/font-lock-profiler"))
+   #+END_SRC
 
 * BNB Helpers
 
