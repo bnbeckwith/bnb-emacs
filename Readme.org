@@ -792,6 +792,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :bind
        ("H-m"   . hydra-mc/body)
        ("C-x m" . hydra-mc/body)
+       ("s-<mouse-1>" . mc/add-cursor-on-click)
        ("C-x M" . compose-mail)
        :config
        (defhydra hydra-mc (:hint nil)
