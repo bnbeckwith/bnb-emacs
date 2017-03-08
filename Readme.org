@@ -1101,7 +1101,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         (bnb/add-theme-hook 'material       #'bnb/material-theme-hook))
     #+END_SRC
 
+*** Remember last themes
 
+    Instead of specifying a set theme each time (or statically here),
+    I can just load the last one.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package remember-last-theme
+        :defer t
+        :quelpa
+        (remember-last-theme :fetcher github :repo "anler/remember-last-theme")
+        :config (remember-last-theme-enable))
+    #+END_SRC
 
 ** Smart Mode Line
 
