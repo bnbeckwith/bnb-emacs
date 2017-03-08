@@ -1583,32 +1583,47 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   #+END_SRC
 
 
-* Dired
+* File Management
+** Dired
 
-  So, I used =dired+= instead of the regular =dired=. It offers more
-  interesting colors and more flexible ways to mark files.
+   So, I used =dired+= instead of the regular =dired=. It offers more
+   interesting colors and more flexible ways to mark files.
 
-  For example, to mark by extension, press =*.=, then type the
-  extension (with dot).
+   For example, to mark by extension, press =*.=, then type the
+   extension (with dot).
 
-  Here I enable the =dired-find-alternate-file= command. It lets my
-  just type =a= to replace the current buffer and reduces the
-  accumulating =dired= buffers.
+   Here I enable the =dired-find-alternate-file= command. It lets my
+   just type =a= to replace the current buffer and reduces the
+   accumulating =dired= buffers.
 
-  #+BEGIN_SRC emacs-lisp
-    (use-package dired+
-      :defer 10
-      :ensure t
-      :config
-      (put 'dired-find-alternate-file 'disabled nil)
-      (when (eq system-type 'windows-nt)
-        (setq dired-guess-shell-alist-user
-              '(("\\.pdf" "SumatraPDF.exe")))))
-  #+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (use-package dired+
+       :defer 10
+       :ensure t
+       :config
+       (put 'dired-find-alternate-file 'disabled nil)
+       (when (eq system-type 'windows-nt)
+         (setq dired-guess-shell-alist-user
+               '(("\\.pdf" "SumatraPDF.exe")))))
+   #+END_SRC
 
-  Also, there is a nice faculty to run an external command on a given
-  file with =!=.  =Dired= has some idea of what to run, but I can make
-  it smarter on windows.
+   Also, there is a nice faculty to run an external command on a given
+   file with =!=.  =Dired= has some idea of what to run, but I can make
+   it smarter on windows.
+
+** Sunrise Commander
+
+   I always seem to need something better than =dired= when moving
+   files around. Sunrise commander seems to fit the bill nicely.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package sunrise-commander
+       :defer t
+       :bind ("<f8>" . sunrise)
+       :quelpa (sunrise-commander
+                :fetcher github
+                :repo "escherdragon/sunrise-commander"))
+   #+END_SRC
 
 * Smart Tabs
 
