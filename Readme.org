@@ -1018,9 +1018,27 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     argument function, but that one is also accessible by =M--=.
 
     #+BEGIN_SRC emacs-lisp
+      (defun bnb/change-frame-font-size (fn)
+        (let* ((font-name (frame-parameter nil 'font))
+               (decomposed-font-name (x-decompose-font-name font-name))
+               (font-size (string-to-int (aref decomposed-font-name 5))))
+          (aset decomposed-font-name 5 (int-to-string (funcall fn font-size)))
+          (set-frame-font (x-compose-font-name decomposed-font-name))))
+
+      (defun bnb/frame-text-scale-increase ()
+        (interactive)
+        (bnb/change-frame-font-size '1+))
+
+      (defun bnb/frame-text-scale-decrease ()
+        (interactive)
+        (bnb/change-frame-font-size '1-))
+
       (bind-keys
        ("C-+" . text-scale-increase)
-       ("C--" . text-scale-decrease))
+       ("C--" . text-scale-decrease)
+       ("s--" . bnb/frame-text-scale-decrease)
+       ("s-+" . bnb/frame-text-scale-increase)
+       ("s-=" . bnb/frame-text-scale-increase))
     #+END_SRC
 
 *** Mode Line Style
