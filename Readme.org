@@ -3102,6 +3102,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (use-package ox-odt :defer t)
     #+END_SRC
 
+*** EPUB
+
+    E-readers may be a thing that sticks around.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package ox-epub :ensure t)
+    #+END_SRC
+
 ** Clocking
 
    I have found clocking to be useful in understanding where my time
