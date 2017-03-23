@@ -3478,6 +3478,24 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package org-drill :defer t)
    #+END_SRC
 
+** Org projectile                                                   :PENDING:
+
+   Make it easy to capture tasks into the right projects and setup a project todo.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-projectile
+       :bind ("C-c n p" . org-projectile:project-todo-completing-read)
+       :ensure t
+       :config
+       (org-projectile:per-repo)
+       (add-to-list 'org-capture-templates
+                    (org-projectile:project-todo-entry))
+       (setq org-agenda-files
+             (append org-agenda-files (org-projectile:todo-files))
+             org-projectile:per-repo-filename "Tasks.org"))
+   #+END_SRC
+
+
 * Calc
 
   Working in computer land, I add these additional units to =calc=.
@@ -3547,4 +3565,21 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   #+END_SRC
 
 
+
+** Org projectile                                                   :PENDING:
+
+   Make it easy to capture tasks into the right projects and setup a project todo.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-projectile
+       :bind ("C-c n p" . org-projectile:project-todo-completing-read)
+       :ensure t
+       :config
+       (org-projectile:per-repo)
+       (add-to-list 'org-capture-templates
+                    (org-projectile:project-todo-entry))
+       (setq org-agenda-files
+             (append org-agenda-files (org-projectile:todo-files))
+             org-projectile:per-repo-filename "Tasks.org"))
+   #+END_SRC
 
