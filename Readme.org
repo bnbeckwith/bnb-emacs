@@ -1041,6 +1041,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :bind ("C-x x f" . projectile-persp-switch-project))
    #+END_SRC
 
+** Key frequency                                                    :PENDING:
+
+   Record how often I use my keys.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package keyfreq
+       :ensure t
+       :init
+       (keyfreq-mode 1)
+       (keyfreq-autosave-mode 1))
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
