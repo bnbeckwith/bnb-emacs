@@ -608,6 +608,58 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+END_SRC
 
 ** Ace Utilities
+*** Ace Flyspell
+
+    Turn on [[https://github.com/cute-jumper/ace-flyspell][ace-flyspell]] when flyspell is enabled.
+    
+    #+BEGIN_SRC emacs-lisp
+      (use-package ace-flyspell
+        :ensure t
+        :config
+        (add-hook 'flyspell-mode-hook 'ace-flyspell-setup))
+    #+END_SRC
+
+
+*** Ace Isearch                                                     :PENDING:
+
+    Supercharge ~isearch~ to vary its behavior depending on the
+    input. The ~C-'~ key let's me jump to the isearch match easily
+    with the ~ace-jump~ methods.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package ace-isearch
+        :ensure t
+        :config
+        (global-ace-isearch-mode t)
+        (setq ace-isearch-function-from-isearch 'bnb/ace-swiper-from-isearch
+              ace-isearch-input-length 8)
+        (bind-keys :map isearch-mode-map
+                  ("C-'" . ace-isearch-jump-during-isearch)))
+
+      (defun bnb/ace-swiper-from-isearch  ()
+        "Invoke `swiper' from ace-isearch."
+        (interactive)
+        (let (($query (if isearch-regexp
+                          isearch-string
+                        (regexp-quote isearch-string))))
+          (let (search-nonincremental-instead)
+            (ignore-errors (isearch-exit)))
+          (swiper $query)))
+    #+END_SRC
+
+*** Ace Link
+
+    In modes with links, use =o= to jump to links. Map =M-o= to do the
+    same in ~org-mode~.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package ace-link
+        :ensure t
+        :config (ace-link-setup-default)
+        (bind-keys :map org-mode-map
+                   ("M-o" . ace-link-org)))
+    #+END_SRC
+
 *** Ace Window
 
     Instead of =C-x o= traversal, =ace-window= mode provides numbers
