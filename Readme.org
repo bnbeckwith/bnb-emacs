@@ -1026,6 +1026,21 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (schrute-mode))
    #+END_SRC
 
+** Perspective                                                      :PENDING:
+
+   Use tagged workspaces to keep work neat and tidy (I hope). Use `C-x
+   x` to get the party started.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package perspective
+       :ensure t
+       :config (persp-mode))
+
+     (use-package persp-projectile
+       :ensure t
+       :bind ("C-x x f" . projectile-persp-switch-project))
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
