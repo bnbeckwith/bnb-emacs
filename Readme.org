@@ -2090,6 +2090,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (setq js-indent-level 2)
    #+END_SRC
 
+** Ember
+
+   Use ~ember-mode~ to move around nicely
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package ember-mode
+       :quelpa (ember-mode
+                :fetcher github
+                :repo "madnificent/ember-mode"))
+   #+END_SRC
 
 ** Web Mode
 
