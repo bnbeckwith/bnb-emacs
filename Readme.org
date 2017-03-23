@@ -1014,6 +1014,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (imagemagick-register-types))
    #+END_SRC
 
+** Schrute Mode                                                     :PENDING:
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package schrute
+       :ensure t
+       :config
+       (setf schrute-shortcuts-commands
+             '((avy-goto-line . (next-line previous-line))
+               (avy-goto-word-1 . (left-char right-char))))
+       (schrute-mode))
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
