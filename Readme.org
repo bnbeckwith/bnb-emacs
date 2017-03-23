@@ -729,6 +729,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         :ensure t
         :bind
         ("H-SPC" . avy-goto-char-timer)
+        ("H-w"   . avy-goto-word-1)
+        ("H-c"   . avy-goto-char-2)
+        ("H-l"   . avy-goto-line)
+        ("H-d"   . avy-goto-word-0)
         ("<f9> SPC" . avy-goto-char-timer)
         ("C-c g" . avy-goto-word-1)
         ("M-g l" . avy-goto-line)
