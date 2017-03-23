@@ -1884,7 +1884,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       _d_: dir
 
     "
-                  ("a"   projectile-ag)
+                  ("a"   counsel-projectile-ag)
                   ("b"   projectile-switch-to-buffer)
                   ("c"   projectile-invalidate-cache)
                   ("d"   projectile-find-dir)
@@ -1964,8 +1964,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package rust-mode
        :commands (cargo-minor-mode)
        :mode "\\.rs"
-       :bind  ("C-c <tab>" . rust-format-buffer)
-       ("TAB" . company-indent-or-complete-common)
+       :config
+       (bind-keys :map rust-mode-map
+                  ("C-c TAB" . rust-format-buffer)
+                  ("TAB" . company-indent-or-complete-common))
        :init
        (setq company-tooltip-align-annotations t)
        (add-hook 'rust-mode-hook #'cargo-minor-mode)
@@ -2049,8 +2051,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   #+BEGIN_SRC emacs-lisp
     (use-package swiper
       :ensure t
-      :bind ("C-s" . swiper)
-      ("C-c S" . isearch-forward)
+      :bind ("H-s" . swiper)
+      ("C-c S" . swiper)
       ("C-x C-r" . counsel-recentf)
       :config
       (setq ivy-display-style 'fancy
@@ -2069,11 +2071,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       ("H-y"     . counsel-yank-pop)
       ("C-x C-f" . counsel-find-file)
       ("C-c k"   . counsel-ag)
-      ("<F1> f"  . counsel-describe-function)
-      ("<F1> v"  . counsel-describe-variable)
-      ("<F1> l"  . counsel-find-library)
-      ("<F2> i"  . counsel-info-lookup-symbol)
-      ("<F2> u"  . counsel-unicode-char)
+      ("C-c p s a" . counsel-projectile-ag)
+      ("C-c p p" . counsel-projectile-switch-project)
+      ("<f1> f"  . counsel-describe-function)
+      ("<f1> v"  . counsel-describe-variable)
+      ("<f1> l"  . counsel-find-library)
+      ("<f2> i"  . counsel-info-lookup-symbol)
+      ("<f2> u"  . counsel-unicode-char)
       :config
       (setq counsel-find-file-at-point t
             enable-recursive-minibuffers t))
