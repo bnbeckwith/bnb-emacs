@@ -2388,10 +2388,27 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    Have =docview= automatically revert the buffer.
 
+* Markdown
+  
+  Everything can't be as nice as org-mode.  Oh well.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package markdown-mode
+      :ensure t
+      :commands (markdown-mode gfm-mode)
+      :mode (("README\\.md\\'" . gfm-mode)
+             ("\\.md\\'" . markdown-mode)
+             ("\\.markdown\\'" . markdown-mode))
+      :init (setq markdown-command "multimarkdown"))
+  #+END_SRC
+  
+     - org-clock-goto
+       Go to current/previous clocked task
+
+     These are defined in [[Orgmode Initialization]]
 * Orgmode
 
   The one feature I cannot do without. Let's set up some basics.
-
 
 ** Orgmode Initialization
 
@@ -2467,11 +2484,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        Show the file as-is (no special org handling)
      - org-clock-in/org-clock-out
        Clock in/out of current subtree
-     - org-clock-goto
-       Go to current/previous clocked task
-
-     These are defined in [[Orgmode Initialization]]
-
 *** Speed
 
     Using org-mode efficiently for task management is best done with
