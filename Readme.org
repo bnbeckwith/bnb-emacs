@@ -2082,6 +2082,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
    #+END_SRC
 
+** Javascript
+
+   Let's make some javascript settings!
+
+   #+BEGIN_SRC emacs-lisp
+     (setq js-indent-level 2)
+   #+END_SRC
+
 
 ** Web Mode
 
