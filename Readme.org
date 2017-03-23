@@ -2061,8 +2061,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             '((t . ivy--regex-fuzzy))
             colir-compose-method 'colir-compose-soft-light)
       (use-package smex
-       :ensure t
-       :config (smex-initialize))
+        :ensure t
+        :config (smex-initialize))
       (ivy-mode))
     (use-package counsel
       :ensure t
