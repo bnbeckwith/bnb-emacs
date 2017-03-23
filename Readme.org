@@ -1191,7 +1191,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (use-package remember-last-theme
-        :defer t
+        :ensure t
         :quelpa
         (remember-last-theme :fetcher github :repo "anler/remember-last-theme")
         :config (remember-last-theme-enable))
