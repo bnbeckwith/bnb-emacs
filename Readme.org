@@ -302,6 +302,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         ("M-p" . bnb/scroll-down-1))
      #+END_SRC
 
+**** Align Regexp
+
+     When selecting a region, a quick trip to ~align-regexp~ can align
+     all of that nasty text.
+
+     #+BEGIN_SRC emacs-lisp
+       (bind-key "C-c TAB" 'align-regexp)
+     #+END_SRC
+
 *** Kill current buffer
 
     Another great tip from [[http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/][Pragmatic Emacs]], use ~kill-this-buffer~ to
