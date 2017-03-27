@@ -541,6 +541,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      the magit warning, I set =magit-last-seen-setup-instructions= to
      1.4.0 as shown above.
 
+**** Magithub
+
+     Add in an interface to Github
+
+     #+BEGIN_SRC emacs-lisp
+       (use-package magithub
+         :ensure t
+         :after magit
+         :config (magithub-feature-autoinject t))
+     #+END_SRC
+
 *** Git timemachine                                                 :PENDING:
 
     Loop through the history of a file with some simple keystrokes (or wheeling up and down)
