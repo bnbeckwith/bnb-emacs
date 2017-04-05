@@ -2221,6 +2221,57 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (add-hook 'web-mode-hook 'bnb/web-mode-hook))
    #+END_SRC
 
+** Ruby
+
+   I followed along with [[https://lorefnon.me/2014/02/02/configuring-emacs-for-rails.html][configuring emacs for rails]] and arrived at
+   the following settings.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package ruby-mode
+       :ensure t
+       :config
+       (setq ruby-deep-indent-paren nil))
+   #+END_SRC
+
+*** Flymake Ruby
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package flymake-ruby
+        :ensure t
+        :init (add-hook 'ruby-mode-hook 'flymake-ruby-load))
+    #+END_SRC
+
+*** RBenv
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package rbenv
+        :quelpa
+        (rbenv :fetcher github :repo "senny/rbenv.el")
+        :config (global-rbenv-mode))
+    #+END_SRC
+
+*** Inf Ruby
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package inf-ruby
+        :defer t
+        :quelpa
+        (inf-ruby :fetcher github :repo "nonsequitur/inf-ruby")
+        :config
+        (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode))
+    #+END_SRC
+
+*** Robe mode
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package robe
+        :ensure t
+        :config
+        (add-hook 'ruby-mode 'robe-mode)
+        (eval-after-load 'company
+          '(push 'company-robe company-backends)))
+    #+END_SRC
+
 * Ivy, Counsel and Swiper
 
   Ivy is a completion framework somewhere between =ido= and =helm=. It
