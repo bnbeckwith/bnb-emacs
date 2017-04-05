@@ -1029,7 +1029,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package schrute
-       :ensure t
+       :quelpa
+       (schrute :fetcher github :repo "bnbeckwith/dwight-k.-schrute")
        :config
        (setf schrute-shortcuts-commands
              '((avy-goto-line . (next-line previous-line))
