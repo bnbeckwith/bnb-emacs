@@ -759,6 +759,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     single character jumping, I have the Ace Isearch mode below that
     will facilitate quick jumping.
 
+*** Avy Zap
+
+    Zap to char using avy.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package avy-zap
+        :ensure t
+        :bind ("M-z" . avy-zap-to-char-dwim)
+        ("M-Z" . avy-zap-up-to-char-dwim))
+    #+END_SRC
+
 ** Edit Server
 
    The edit server talks to Chrome and uses emacs to edit any
