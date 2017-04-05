@@ -1044,10 +1044,24 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    x` to get the party started.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package perspective
-       :ensure t
-       :config (persp-mode))
+     (use-package persp-mode
+       :quelpa (persp-mode :fetcher github :repo "Bad-ptr/persp-mode.el")
+       :bind
+       (("C-x b" . persp-switch-to-buffer)
+        ("C-x k" . persp-kill-buffer)
+        ("C-x x x" . bnb/persp-ibuffer))
+       :init
+       (defun bnb/persp-ibuffer (arg)
+         (interactive "P")
+         (with-persp-buffer-list () (bs-show arg)))
+       :config (persp-mode)
 
+       (setq persp-autokill-buffer-on-remove 'kill-weak))
+   #+END_SRC
+
+   Switching projects puts us into a new perspective.
+
+   #+BEGIN_SRC emacs-lisp
      (use-package persp-projectile
        :ensure t
        :bind ("C-x x f" . projectile-persp-switch-project))
