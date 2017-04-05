@@ -1079,6 +1079,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (keyfreq-autosave-mode 1))
    #+END_SRC
 
+** PDF Tools
+
+   #+BEGIN_SRC emacs-lisp
+     (setenv "PKG_CONFIG_PATH" "/usr/local/Cellar/zlib/1.2.8/lib/pkgconfig:/usr/local/lib/pkgconfig:/opt/X11/lib/pkgconfig")
+
+     (use-package pdf-tools
+       :ensure t
+       :config (pdf-tools-install))
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
