@@ -1245,7 +1245,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         :ensure t
         :quelpa
         (remember-last-theme :fetcher github :repo "anler/remember-last-theme")
-        :config (remember-last-theme-enable))
+        :config (add-hook 'bnb/kill-emacs-hooks #'remember-last-theme-save))
     #+END_SRC
 
 ** Smart Mode Line
