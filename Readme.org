@@ -1355,6 +1355,23 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                    ("Union" .    #x22c3))))))
     #+END_SRC
 
+** Color
+*** Rainbow Mode
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package rainbow-mode
+        :ensure t)
+    #+END_SRC
+
+*** KureColor
+
+    Color helper
+
+    #+BEGIN_SRC emacs-lisp
+     (use-package kurecolor
+       :ensure t)
+    #+END_SRC
+
 * BNB Helpers
 
   This is a collection of code specific to how I use emacs.  Some
