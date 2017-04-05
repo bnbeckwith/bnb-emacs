@@ -1984,6 +1984,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                   ("q"   nil "cancel" :color blue)))
   #+END_SRC
 
+** Rails
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package projectile-rails
+       :ensure t
+       :bind
+       ("s-r" . hydra-projectile-rails/body)
+       :config
+       (setq projectile-rails-keymap-prefix (kbd "C-c p C-r"))
+       (projectile-rails-global-mode))
+   #+END_SRC
+
 * Programming Languages
 ** Rust
 
