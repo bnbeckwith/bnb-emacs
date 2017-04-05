@@ -2272,6 +2272,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
           '(push 'company-robe company-backends)))
     #+END_SRC
 
+** Common Lisp
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package slime
+       :ensure t
+       :config
+       (setq inferior-lisp-program "/usr/local/bin/sbcl"
+             slime-net-coding-system 'utf-8-unix)
+       (slime-setup '(slime-fancy)))
+   #+END_SRC
+
 * Ivy, Counsel and Swiper
 
   Ivy is a completion framework somewhere between =ido= and =helm=. It
