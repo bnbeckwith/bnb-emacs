@@ -1295,6 +1295,55 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (font-lock-profiler :fetcher github :repo "Lindydancer/font-lock-profiler"))
    #+END_SRC
 
+** Pretty Symbols
+
+*** Pretty mode
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package pretty-mode
+       :config
+       (global-pretty-mode t)
+       (pretty-activate-groups
+        '(:sub-and-superscripts :greek :arithmetic-nary)))
+   #+END_SRC
+
+
+
+
+*** Prettify symbols mode
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package prettify-symbols-mode
+        :config
+        (global-prettify-symbols-mode t)
+        (add-hook
+         'python-mode-hook
+         (lambda ()
+           (mapc (lambda (pair) (push pair prettify-symbols-alist))
+                 '(;; Syntax
+                   ("def" .      #x2131) ; ℱ
+                   ("not" .      #x2757) ; ❗
+                   ("in" .       #x2208) ; ∈
+                   ("not in" .   #x2209) ; ∉
+                   ("return" .   #x27fc) ; ⟼
+                   ("yield" .    #x27fb) ; ⟻
+                   ("for" .      #x2200) ; ∀
+                   ;; Base Types
+                   ("int" .      #x2124) ; ℤ
+                   ("float" .    #x211d) ; ℝ
+                   ("str" .      #x1d54a); 𝕊
+                   ("True" .     #x1d54b); 𝕋
+                   ("False" .    #x1d53d); 𝔽
+                   ;; Mypy
+                   ("Dict" .     #x1d507); 𝔇
+                   ("List" .     #x2112) ; ℒ
+                   ("Tuple" .    #x2a02) ; ⨂
+                   ("Set" .      #x2126) ; Ω
+                   ("Iterable" . #x1d50a); 𝔊
+                   ("Any" .      #x2754) ; ❔
+                   ("Union" .    #x22c3))))))
+    #+END_SRC
+
 * BNB Helpers
 
   This is a collection of code specific to how I use emacs.  Some
