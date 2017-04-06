@@ -1166,18 +1166,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (set-face-attribute 'default nil :font "Source Code Pro-12")
     #+END_SRC
 
-    Setup a strike-through font for agenda items. The /done/ items
-    are now easily overlooked within an agenda or task list.
-
-    #+BEGIN_SRC emacs-lisp
-      (set-face-attribute 'org-agenda-done nil :strike-through t)
-
-      (defadvice enable-theme (after org-strike-done activate)
-        "Setup org-agenda-done faces to have strike-through on"
-        (and (message "Running advice")
-             (set-face-attribute 'org-agenda-done nil :strike-through t)))
-    #+END_SRC
-
 *** Trying out fonts on Windows
 
     #+BEGIN_SRC emacs-lisp
