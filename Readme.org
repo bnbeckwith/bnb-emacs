@@ -95,6 +95,21 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   The next sections encompass some small settings to make Emacs mine
   (and maybe yours).
 
+** Backups
+
+   Sensible backup settings from [[https://www.emacswiki.org/emacs/BackupDirectory]]
+
+   #+BEGIN_SRC emacs-lisp
+     (setq
+      backup-by-copying t
+      backup-directory-alist
+      '(("." . "~/.saves"))
+      delete-old-versions t
+      kept-new-versions 6
+      kept-old-versions 2
+      version-control t)
+   #+END_SRC
+
 ** Super keys
 
    I like to be able to use the command (or super or hyper) keys for
