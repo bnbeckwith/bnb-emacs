@@ -3797,6 +3797,20 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+END_SRC
 
 
+** Org Repo Todo                                                    :PENDING:
+
+   Make it easy to setup a =TODO.org= from within a repo. I use this
+   to capture thoughts while coding
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-repo-todo
+       :ensure t
+       :defer
+       :bind ("s-;" . ort/capture-todo)
+       ("s-'" . ort/capture-checkitem)
+       ("s-`" . ort/goto-todos))
+   #+END_SRC
+
 * Calc
 
   Working in computer land, I add these additional units to =calc=.
