@@ -117,11 +117,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    built-in shortcuts or my bindings will not work.
 
    #+BEGIN_SRC emacs-lisp
-     (setq mac-pass-command-to-system t
-           mac-option-modifier 'super
-           mac-right-option-modifier '(function: alt mouse: alt)
-           mac-function-modifier 'hyper)
+     (setq mac-pass-command-to-system nil
+           mac-right-option-modifier 'none
+           mac-right-command-modifier 'none
+           mac-right-control-modifier 'hyper
+           mac-command-modifier 'meta
+           mac-control-modifier 'ctrl
+           mac-option-modifier 'super)
    #+END_SRC
+
+   Inspiration for the keys comes from [[https://www.wisdomandwonder.com/article/10146/every-emacser-can-use-hyper-on-every-usb-hid-keyboard][wisdom and wonder]].
 
 ** Package archives
 
