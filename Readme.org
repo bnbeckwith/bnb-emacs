@@ -378,6 +378,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (setq save-abbrevs t)
      (setq-default abbrev-mode t)
+     (diminish 'abbrev-mode)
    #+END_SRC
 
 ** Hippie Expand
@@ -633,6 +634,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (use-package which-key
        :ensure t
+       :diminish which-key-mode
        :init
        (which-key-mode)
        (which-key-setup-side-window-right-bottom))
@@ -660,12 +662,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+BEGIN_SRC emacs-lisp
       (use-package ace-isearch
         :ensure t
+        :diminish ace-isearch-mode
         :config
         (global-ace-isearch-mode t)
         (setq ace-isearch-function-from-isearch 'bnb/ace-swiper-from-isearch
               ace-isearch-input-length 8)
         (bind-keys :map isearch-mode-map
-                  ("C-'" . ace-isearch-jump-during-isearch)))
+                   ("C-'" . ace-isearch-jump-during-isearch)))
 
       (defun bnb/ace-swiper-from-isearch  ()
         "Invoke `swiper' from ace-isearch."
@@ -1060,6 +1063,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package schrute
+       :diminish schrute-mode
        :quelpa
        (schrute :fetcher github :repo "bnbeckwith/dwight-k.-schrute")
        :config
@@ -1817,6 +1821,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   #+BEGIN_SRC emacs-lisp
     (use-package company
       :ensure t
+      :diminish company-mode
       :init
       (add-hook 'after-init-hook 'global-company-mode)
       :bind
@@ -2034,7 +2039,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (when (eq system-type 'windows-nt)
         (setq projectile-indexing-method 'native))
       (setq projectile-enable-caching t
-            projectile-require-project-root t)
+            projectile-require-project-root t
+            projectile-mode-line '(:eval (format " 🛠[%s]" (projectile-project-name)))
+            projectile-completion-system 'default)
       (projectile-global-mode)
       (defhydra hydra-projectile-other-window (:color teal)
                   "projectile-other-window"
@@ -2351,6 +2358,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (use-package smex
         :ensure t
         :config (smex-initialize))
+      (diminish 'ivy-mode)
       (ivy-mode))
 
     (use-package counsel
@@ -2707,6 +2715,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (use-package org-mode
        :ensure org-plus-contrib
+       :diminish " ⊞"
        :mode "\\.org\\(.gpg|_archive\\)?$"
        :bind
        ("C-c t"  . orgtbl-mode)
@@ -3690,6 +3699,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (setq global-auto-revert-mode t)
+      (diminish 'auto-revert-mode " 🔁")
     #+END_SRC
 
 *** IDO Integration
