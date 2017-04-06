@@ -1243,55 +1243,22 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Themes
 
-   You can layer themes by enabling them in turn, but this is not the
-   default usage for most of us. [[http://www.greghendershott.com][Greg Hendershott]] suggests [[http://www.greghendershott.com/2017/02/emacs-themes.html][something
-   like the following code.]]
+   I used to have [[http://www.greghendershott.com/2017/02/emacs-themes.html][something else]] from [[http://www.greghendershott.com][Greg Hendershot]], but now I
+   created my own theme override and layer it corectly.
 
    #+BEGIN_SRC emacs-lisp
      (defun bnb/disable-all-themes ()
          (interactive)
          (mapc #'disable-theme custom-enabled-themes))
-
-     (defvar bnb/theme-hooks nil
-       "((theme-id . function) ...)")
-
-     (defun bnb/add-theme-hook (theme-id hook-func)
-       (add-to-list 'bnb/theme-hooks (cons theme-id hook-func)))
-
-     (defun bnb/load-theme-advice (f theme-id &optional no-confirm no-enable &rest args)
-       "Changes `load-them' in two ways:
-     1. Disables enables themes
-     2. Calls registered theme hooks"
-       (unless no-enable
-         (bnb/disable-all-themes))
-       (prog1
-           (apply f theme-id no-confirm no-enable args)
-         (unless no-enable
-           (pcase (assq theme-id bnb/theme-hooks)
-             (`(,_ . ,f) (funcall f))))))
-
-     (advice-add 'load-theme
-                 :around
-                 #'bnb/load-theme-advice)
    #+END_SRC
+
+   On creating themes: https://www.gnu.org/software/emacs/manual/html_node/emacs/Creating-Custom-Themes.html#Creating-Custom-Themes
 
 *** Extra Themes
 
     #+BEGIN_SRC emacs-lisp
       (use-package gruvbox-theme :ensure t :defer t)
-
-      (use-package material-theme :ensure t :defer t
-        :init
-        (defun bnb/material-theme-hook ()
-          (set-face-attribute 'which-key-key-face nil :foreground
-                              (face-attribute 'error :foreground))
-          (loop for n from 1 to 8
-                do (set-face-attribute (intern-soft (format "org-level-%s" n))
-                                       nil
-                                       :background 'unspecified
-                                       :box        'unspecified)))
-        (bnb/add-theme-hook 'material-light #'bnb/material-theme-hook)
-        (bnb/add-theme-hook 'material       #'bnb/material-theme-hook))
+      (use-package material-theme :ensure t :defer t)
     #+END_SRC
 
 *** Remember last themes
