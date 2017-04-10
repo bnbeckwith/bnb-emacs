@@ -1287,11 +1287,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (sml/setup))
 
      (setq bnb/sml-adjustment 3)
-     (setq bnb/sml-subtract-adjustment (width)
-           (- width bnb/sml-adjustment))
+     (defun bnb/sml-subtract-adjustment (width)
+        (- width bnb/sml-adjustment))
      (add-function :filter-return
-                   (symbol-function 'sml/fill-width-available)
-                   #'bnb/sml-subtract-adjustment)
+         	  (symbol-function 'sml/fill-width-available)
+         	  #'bnb/sml-subtract-adjustment)
    #+END_SRC
 
 ** Font lock profiling                                              :PENDING:
