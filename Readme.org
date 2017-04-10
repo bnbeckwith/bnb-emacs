@@ -2086,75 +2086,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+END_SRC
 
 * Programming Languages
-** Rust
-
-   These initial settings are copied from the [[https://github.com/syl20bnr/spacemacs/blob/master/layers/%2Blang/rust/packages.el][spacemacs rust layer]].
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package cargo
-       :mode "\\.rs"
-       :init
-       (bind-keys :prefix-map cargo-mode-map
-                  :prefix "C-c c"
-                  ("C" . cargo-process-repeat)
-                  ("." . cargo-process-repeat)
-                  ("X" . cargo-run-example)
-                  ("c" . cargo-process-build)
-                  ("d" . cargo-process-doc)
-                  ("e" . cargo-process-bench)
-                  ("R" . cargo-process-current-test)
-                  ("f" . cargo-process-fmt)
-                  ("i" . cargo-process-init)
-                  ("n" . cargo-process-new)
-                  ("o" . cargo-process-current-file-tests)
-                  ("s" . cargo-process-search)
-                  ("u" . cargo-process-update)
-                  ("x" . cargo-process-run)
-                  ("t" . cargo-process-test)
-                  ("R" . cargo-process-test-regexp)))
-
-     (use-package racer
-       :mode "\\.rs")
-
-     (use-package flycheck-rust
-       :mode "\\.rs"
-       :init
-       (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
-
-     (use-package ggtags
-       :defer t)
-
-     (use-package html-gtags
-       :defer t)
-
-     (use-package racer-mode
-       :init
-       (add-hook 'racer-mode-hook #'eldoc-mode)
-       (add-hook 'racer-mode-hook #'company-mode))
-
-     (use-package company-racer
-       :init
-       (with-eval-after-load 'company
-         (add-to-list 'company-backends 'company-racer)))
-
-     (use-package rust-mode
-       :commands (cargo-minor-mode)
-       :mode "\\.rs"
-       :config
-       (bind-keys :map rust-mode-map
-                  ("C-c TAB" . rust-format-buffer)
-                  ("TAB" . company-indent-or-complete-common))
-       :init
-       (setq company-tooltip-align-annotations t)
-       (add-hook 'rust-mode-hook #'cargo-minor-mode)
-       (add-hook 'rust-mode-hook #'racer-mode)
-       (add-hook 'rust-mode-hook #'flycheck-mode)
-       (add-hook 'rust-mode-hook #'electric-pair-mode))
-
-     (use-package toml-mode
-       :mode "\\.toml\\'")
-   #+END_SRC
-
 ** Clojure
 
    The easiest way to edit clojure code is with =paredit= so let's have
@@ -2230,14 +2161,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
    #+END_SRC
 
-** Javascript
-
-   Let's make some javascript settings!
-
-   #+BEGIN_SRC emacs-lisp
-     (setq js-indent-level 2)
-   #+END_SRC
-
 ** Ember
 
    Use ~ember-mode~ to move around nicely
@@ -2249,27 +2172,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                 :repo "madnificent/ember-mode"))
    #+END_SRC
 
-** Web Mode
+** Javascript
 
-   For all of the webish-stuff, this mode works well. Let's enable it
-   on the right things.
+   Let's make some javascript settings!
 
    #+BEGIN_SRC emacs-lisp
-     (use-package web-mode
-       :ensure t
-       :config
-       (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-       (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-       (add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
-       (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-       (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-       (setq web-mode-engines-alist
-             '(("handlebars" . "\\.hbs\\'")))
-       (defun bnb/web-mode-hook ()
-         (setq web-mode-markup-indent-offset 2
-               web-mode-css-indent-offset 2
-               web-mode-code-indent-offset 2))
-       (add-hook 'web-mode-hook 'bnb/web-mode-hook))
+     (setq js-indent-level 2)
    #+END_SRC
 
 ** Ruby
@@ -2323,15 +2231,96 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
           '(push 'company-robe company-backends)))
     #+END_SRC
 
-** Common Lisp
+** Rust
+
+   These initial settings are copied from the [[https://github.com/syl20bnr/spacemacs/blob/master/layers/%2Blang/rust/packages.el][spacemacs rust layer]].
 
    #+BEGIN_SRC emacs-lisp
-     (use-package slime
+     (use-package cargo
+       :mode "\\.rs"
+       :init
+       (bind-keys :prefix-map cargo-mode-map
+                  :prefix "C-c c"
+                  ("C" . cargo-process-repeat)
+                  ("." . cargo-process-repeat)
+                  ("X" . cargo-run-example)
+                  ("c" . cargo-process-build)
+                  ("d" . cargo-process-doc)
+                  ("e" . cargo-process-bench)
+                  ("R" . cargo-process-current-test)
+                  ("f" . cargo-process-fmt)
+                  ("i" . cargo-process-init)
+                  ("n" . cargo-process-new)
+                  ("o" . cargo-process-current-file-tests)
+                  ("s" . cargo-process-search)
+                  ("u" . cargo-process-update)
+                  ("x" . cargo-process-run)
+                  ("t" . cargo-process-test)
+                  ("R" . cargo-process-test-regexp)))
+
+     (use-package racer
+       :mode "\\.rs")
+
+     (use-package flycheck-rust
+       :mode "\\.rs"
+       :init
+       (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+     (use-package ggtags
+       :defer t)
+
+     (use-package html-gtags
+       :defer t)
+
+     (use-package racer-mode
+       :init
+       (add-hook 'racer-mode-hook #'eldoc-mode)
+       (add-hook 'racer-mode-hook #'company-mode))
+
+     (use-package company-racer
+       :init
+       (with-eval-after-load 'company
+         (add-to-list 'company-backends 'company-racer)))
+
+     (use-package rust-mode
+       :commands (cargo-minor-mode)
+       :mode "\\.rs"
+       :config
+       (bind-keys :map rust-mode-map
+                  ("C-c TAB" . rust-format-buffer)
+                  ("TAB" . company-indent-or-complete-common))
+       :init
+       (setq company-tooltip-align-annotations t)
+       (add-hook 'rust-mode-hook #'cargo-minor-mode)
+       (add-hook 'rust-mode-hook #'racer-mode)
+       (add-hook 'rust-mode-hook #'flycheck-mode)
+       (add-hook 'rust-mode-hook #'electric-pair-mode))
+
+     (use-package toml-mode
+       :mode "\\.toml\\'")
+   #+END_SRC
+
+** Web Mode
+
+   For all of the webish-stuff, this mode works well. Let's enable it
+   on the right things.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package web-mode
        :ensure t
        :config
-       (setq inferior-lisp-program "/usr/local/bin/sbcl"
-             slime-net-coding-system 'utf-8-unix)
-       (slime-setup '(slime-fancy)))
+       (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+       (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+       (add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
+       (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+       (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+       (setq web-mode-engines-alist
+             '(("handlebars" . "\\.hbs\\'")))
+       (defun bnb/web-mode-hook ()
+         (setq web-mode-markup-indent-offset 2
+               web-mode-css-indent-offset 2
+               web-mode-code-indent-offset 2))
+       (add-hook 'web-mode-hook 'bnb/web-mode-hook))
    #+END_SRC
 
 * Ivy, Counsel and Swiper
