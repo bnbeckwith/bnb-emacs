@@ -1859,6 +1859,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                 :repo "escherdragon/sunrise-commander"))
    #+END_SRC
 
+** OSX Reveal
+
+   Show files in finder.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package reveal-in-osx-finder
+       :ensure t
+       :defer t
+       :bind ("C-c z" . reveal-in-osx-finder))
+   #+END_SRC
+
 * Smart Tabs
 
   [[http://www.emacswiki.org/emacs-en/SmartTabs][SmartTabs]] try to do the right thing regarding tabs/spaces in
