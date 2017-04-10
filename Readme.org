@@ -2208,6 +2208,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     The wiki hosts the [[https://github.com/clojure-emacs/clj-refactor.el/wiki][available refactorings]].
     
+** Common Lisp
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package slime
+       :ensure t
+       :config
+       (setq inferior-lisp-program "/usr/local/bin/sbcl"
+             slime-net-coding-system 'utf-8-unix)
+       (slime-setup '(slime-fancy)))
+   #+END_SRC
+
 ** Elisp
 
    When modified =emacs-lisp=, it is most helpful to use =paredit= and
