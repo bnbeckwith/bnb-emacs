@@ -1167,6 +1167,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (set-face-attribute 'default nil :font "Source Code Pro-12")
     #+END_SRC
 
+**** Unicode
+
+     Support unicode fonts
+
+     #+BEGIN_SRC emacs-lisp
+       (use-package unicode-fonts
+         :ensure t
+         :config
+         (unicode-fonts-setup))
+     #+END_SRC
+
 *** Trying out fonts on Windows
 
     #+BEGIN_SRC emacs-lisp
