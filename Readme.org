@@ -117,7 +117,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    built-in shortcuts or my bindings will not work.
 
    #+BEGIN_SRC emacs-lisp
-     (setq mac-pass-command-to-system nil
+     (setq mac-function-modifier 'hyper
+           mac-pass-command-to-system nil
            mac-right-option-modifier 'none
            mac-right-command-modifier 'none
            mac-right-control-modifier 'hyper
