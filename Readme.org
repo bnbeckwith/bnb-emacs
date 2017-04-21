@@ -473,14 +473,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (use-package view
        :init (setq view-read-only t)
-       :config (bind-keys :map view-mode-map
-                          ("n" . next-line    )
-                          ("p" . previous-line)
-                          ("j" . next-line    )
-                          ("k" . previous-line)
-                          ("l" . forward-char)
-                          ("h" . (lambda () (interactive) (forward-char -1)))
-                          ("q" . (lambda () (interactive) (view-mode -1)))))
+       :bind (:map view-mode-map
+                   ("n" . next-line    )
+                   ("p" . previous-line)
+                   ("j" . next-line    )
+                   ("k" . previous-line)
+                   ("l" . forward-char)
+                   ("h" . (lambda () (interactive) (forward-char -1)))
+                   ("q" . (lambda () (interactive) (view-mode -1)))))
    #+END_SRC
 
 ** Default File encoding
@@ -648,6 +648,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+BEGIN_SRC emacs-lisp
       (use-package ace-flyspell
         :ensure t
+        :defer
         :config
         (add-hook 'flyspell-mode-hook 'ace-flyspell-setup))
     #+END_SRC
@@ -662,6 +663,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+BEGIN_SRC emacs-lisp
       (use-package ace-isearch
         :ensure t
+        :defer
         :diminish ace-isearch-mode
         :config
         (global-ace-isearch-mode t)
@@ -689,9 +691,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+BEGIN_SRC emacs-lisp
       (use-package ace-link
         :ensure t
-        :config (ace-link-setup-default)
-        (bind-keys :map org-mode-map
-                   ("M-o" . ace-link-org)))
+        :bind (:map org-mode-map
+                   ("M-o" . ace-link-org))
+        :config (ace-link-setup-default))
     #+END_SRC
 
 *** Ace Window
@@ -801,6 +803,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (use-package edit-server
        :ensure t
+       :defer
        :init
        (edit-server-start))
    #+END_SRC
@@ -1013,6 +1016,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package uniquify
+       :ensure t
+       :defer
        :config
        (setq uniquify-buffer-name-style 'post-forward
              uniquify-separator ":"))
@@ -1035,7 +1040,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package paperless
-       :defer t
+       :defer
        :quelpa
        (paperless :fetcher github :repo "atgreen/paperless")
        :config
@@ -1047,6 +1052,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 #+BEGIN_SRC emacs-lisp
   (use-package linum-relative
+    :defer
     :ensure t)
 #+END_SRC
 
@@ -1064,6 +1070,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (use-package schrute
        :diminish schrute-mode
+       :defer
        :quelpa
        (schrute :fetcher github :repo "bnbeckwith/dwight-k.-schrute")
        :config
@@ -1109,6 +1116,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (use-package keyfreq
        :ensure t
+       :defer
        :init
        (keyfreq-mode 1)
        (keyfreq-autosave-mode 1))
@@ -1121,6 +1129,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (use-package pdf-tools
        :ensure t
+       :defer
        :config (pdf-tools-install))
    #+END_SRC
 
@@ -1172,7 +1181,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      #+BEGIN_SRC emacs-lisp
        (use-package unicode-fonts
-         :ensure t
+         :defer
          :config
          (unicode-fonts-setup))
      #+END_SRC
@@ -1357,6 +1366,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (use-package rainbow-mode
+        :commands (rainbow-mode)
         :ensure t)
     #+END_SRC
 
@@ -1365,8 +1375,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     Color helper
 
     #+BEGIN_SRC emacs-lisp
-     (use-package kurecolor
-       :ensure t)
+      (use-package kurecolor
+        :bind (("H-k" . kurecolor-increase-hue-by-step)
+               ("H-j" . kurecolor-decrease-hue-by-step)
+               ("s-k" . kurecolor-increase-saturation-by-step)
+               ("s-j" . kurecolor-decrease-saturation-by-step)
+               ("s-l" . kurecolor-increase-brightness-by-step)
+               ("s-h" . kurecolor-decrease-brightness-by-step))
+        :ensure t)
     #+END_SRC
 
 * BNB Helpers
@@ -1851,7 +1867,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package sunrise-commander
-       :defer t
+       :defer
        :bind ("<f8>" . sunrise)
        :quelpa (sunrise-commander
                 :fetcher github
@@ -1865,7 +1881,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (use-package reveal-in-osx-finder
        :ensure t
-       :defer t
+       :defer
        :bind ("C-c z" . reveal-in-osx-finder))
    #+END_SRC
 
@@ -1883,6 +1899,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   #+BEGIN_SRC emacs-lisp
     (use-package smart-tabs-mode
+      :defer
       :ensure t
       :init
       (setq-default indent-tabs-mode nil)
@@ -2091,12 +2108,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    it automatically load each time.
 
    #+BEGIN_SRC emacs-lisp
-         (use-package clojure-mode
-           :ensure t
-           :config
-           (add-hook 'clojure-mode-hook 'paredit-mode)
-           (add-hook 'clojure-mode-hook 'cljr-clojure-mode-hook)
-           (add-hook 'clojure-mode-hook 'paxedit-mode))
+     (use-package clojure-mode
+       :defer
+       :ensure t
+       :config
+       (add-hook 'clojure-mode-hook 'paredit-mode)
+       (add-hook 'clojure-mode-hook 'cljr-clojure-mode-hook)
+       (add-hook 'clojure-mode-hook 'paxedit-mode))
    #+END_SRC
 
 *** Cider
@@ -2166,6 +2184,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package ember-mode
+       :defer
        :quelpa (ember-mode
                 :fetcher github
                 :repo "madnificent/ember-mode"))
@@ -2195,6 +2214,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (use-package flymake-ruby
+        :defer
         :ensure t
         :init (add-hook 'ruby-mode-hook 'flymake-ruby-load))
     #+END_SRC
@@ -2212,7 +2232,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (use-package inf-ruby
-        :defer t
+        :defer
         :quelpa
         (inf-ruby :fetcher github :repo "nonsequitur/inf-ruby")
         :config
@@ -2223,6 +2243,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (use-package robe
+        :defer
         :ensure t
         :config
         (add-hook 'ruby-mode 'robe-mode)
@@ -2266,17 +2287,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
      (use-package ggtags
-       :defer t)
+       :defer)
 
      (use-package html-gtags
-       :defer t)
+       :defer)
 
      (use-package racer-mode
+       :defer
        :init
        (add-hook 'racer-mode-hook #'eldoc-mode)
        (add-hook 'racer-mode-hook #'company-mode))
 
      (use-package company-racer
+       :defer
        :init
        (with-eval-after-load 'company
          (add-to-list 'company-backends 'company-racer)))
@@ -2306,6 +2329,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package web-mode
+       :defer
        :ensure t
        :config
        (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
@@ -2329,10 +2353,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   #+BEGIN_SRC emacs-lisp
     (use-package swiper
-      :ensure t
+      :quelpa
+      (swiper :fetcher github :repo "abo-abo/swiper")
       :bind ("H-s" . swiper)
       ("C-c S" . swiper)
       ("C-x C-r" . counsel-recentf)
+      ("s-E" . counsel-colors-emacs)
+      ("s-W" . counsel-colors-web)
       :config
       (setq ivy-display-style 'fancy
             ivy-use-virtual-buffers t
@@ -2364,6 +2391,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             enable-recursive-minibuffers t))
 
     (use-package ivy-rich
+      :defer
       :config
       (setq ivy-virtual-abbreviate 'full
             ivy-rich-switch-buffer-align-virtual-buffer t)
@@ -2587,6 +2615,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   #+BEGIN_SRC emacs-lisp
     (use-package tex-site
+      :defer
       :ensure auctex
       :config
       (add-hook 'LaTeX-mode-hook 'flyspell-mode)
@@ -3453,8 +3482,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    (=ox-beamer.el=).
 
    #+BEGIN_SRC emacs-lisp
-     (use-package ox-md     :defer t)
-     (use-package ox-beamer :defer t)
+     (use-package ox-md     :defer)
+     (use-package ox-beamer :defer)
    #+END_SRC
 
 *** Office Documents
@@ -3462,7 +3491,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     To begin this process, we enable the ODT exporter.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package ox-odt :defer t)
+      (use-package ox-odt :defer)
     #+END_SRC
 
 *** EPUB
@@ -3470,7 +3499,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     E-readers may be a thing that sticks around.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package ox-epub :ensure t)
+      (use-package ox-epub :defer)
     #+END_SRC
 
 ** Clocking
@@ -3548,7 +3577,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     order to work.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package org-protocol :defer t)
+      (use-package org-protocol :defer)
     #+END_SRC
 
 *** Crypt
@@ -3558,7 +3587,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (use-package org-crypt
-        :defer t
+        :defer
         :config
         (org-crypt-use-before-save-magic)
         (setq org-tags-exclude-from-inheritance '("crypt")))
@@ -3603,7 +3632,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 #+BEGIN_SRC emacs-lisp
   (use-package ob-http
-    :ensure t)
+    :defer)
 #+END_SRC
 
 ** Miscellaneous Settings
@@ -3770,7 +3799,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 ** Org-drill
 
    #+BEGIN_SRC emacs-lisp
-     (use-package org-drill :defer t)
+     (use-package org-drill :defer)
    #+END_SRC
 
 ** Org projectile                                                   :PENDING:
@@ -3811,6 +3840,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   #+BEGIN_SRC emacs-lisp
     (use-package calc
+      :defer
       :init
       (setq math-additional-units
           '((GiB "1024 * MiB" "Giga Byte")
