@@ -427,7 +427,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (cond
-      ((executable-find "aspell")
+      ((executable-find "/usr/local/bin/aspell")
        (setq ispell-program-name (executable-find "aspell")
              ispell-extra-args '("--sug-mode=ultra" "--lang=en_US")))
       (t (setq ispell-program-name nil)
