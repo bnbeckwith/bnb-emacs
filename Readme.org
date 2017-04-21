@@ -2383,6 +2383,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         :ensure t
         :config (smex-initialize))
       (diminish 'ivy-mode)
+      (require 'ivy-hydra)
       (ivy-mode))
 
     (use-package counsel
