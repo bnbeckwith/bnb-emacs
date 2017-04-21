@@ -2391,7 +2391,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       ("M-x"     . counsel-M-x)
       ("H-y"     . counsel-yank-pop)
       ("C-x C-f" . counsel-find-file)
-      ("C-c k"   . counsel-ag)
+      ("C-c a"   . counsel-ag)
       ("C-c p s a" . counsel-projectile-ag)
       ("C-c p p" . counsel-projectile-switch-project)
       ("<f1> f"  . counsel-describe-function)
