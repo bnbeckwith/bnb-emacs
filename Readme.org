@@ -95,6 +95,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   The next sections encompass some small settings to make Emacs mine
   (and maybe yours).
 
+** Path
+
+   Sometimes Emacs' idea of path differs from the shell. The package
+   =exec-path-from-shell= seeks to bring those in line with each other.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package exec-path-from-shell
+       :config
+       (exec-path-from-shell-initialize))
+   #+END_SRC
+
 ** Backups
 
    Sensible backup settings from [[https://www.emacswiki.org/emacs/BackupDirectory]]
