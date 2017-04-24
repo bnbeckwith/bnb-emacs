@@ -2112,6 +2112,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (projectile-rails-global-mode))
    #+END_SRC
 
+** Counsel
+
+   Setup some extra counsel functions for interacting with projectile.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package counsel-projectile
+       :quelpa (counsel-projectile :fetcher github :repo "ericdanan/counsel-projectile"))
+   #+END_SRC
+
 * Programming Languages
 ** Clojure
 
