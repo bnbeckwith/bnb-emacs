@@ -50,6 +50,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   already in place and ready to go.
 
 * Notes
+** Emacs Build
+
+   My current flavor of Emacs comes from: https://github.com/d12frosted/homebrew-emacs-plus
 
 ** Pending sections
 
