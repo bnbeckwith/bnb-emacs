@@ -115,6 +115,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (setq backup-by-copying t
+           create-lockfiles nil
            backup-directory-alist '((".*" . "~/.saves"))
            auto-save-file-name-transforms `((".*" "~/.saves" t))
            delete-old-versions t
