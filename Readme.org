@@ -1301,8 +1301,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (use-package remember-last-theme
-        :quelpa
-        (remember-last-theme :fetcher github :repo "anler/remember-last-theme")
         :config (add-hook 'bnb/kill-emacs-hooks #'remember-last-theme-save))
     #+END_SRC
 
