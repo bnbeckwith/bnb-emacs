@@ -148,11 +148,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    I like to pull from the popular list of package archives.
 
    #+BEGIN_SRC emacs-lisp
-     (add-to-list 'package-archives '("stable-melpa" . "http://stable.melpa.org/packages/") t)
+     (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
      (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
    #+END_SRC
 
-   I install the proper packages with these repositories. This may
+   I install the packages with these repositories. This may
    take some time the first time it runs.
 
    Org-mode has their own repositories that keep me on the bleeding
