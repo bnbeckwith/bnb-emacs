@@ -150,6 +150,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
      (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+     (add-to-list 'package-archives '("sr" . "http://joseito.republika.pl/sunrise-commander/") t)
    #+END_SRC
 
    I install the packages with these repositories. This may
@@ -2035,10 +2036,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package sunrise-commander
-       :bind ("<f8>" . sunrise)
-       :quelpa (sunrise-commander
-                :fetcher github
-                :repo "escherdragon/sunrise-commander"))
+       :bind ("<f8>" . sunrise))
    #+END_SRC
 
 ** OSX Reveal
