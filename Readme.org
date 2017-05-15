@@ -3650,28 +3650,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    exporters. To do this, simply require the files necessary that
    are not on by default.
 
-   I add exporters for Markdown (=ox-md.el=) and beamer
-   (=ox-beamer.el=).
+   I add exporters for github-flavored markdown and tufte html.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package ox-md     :defer 10 :ensure nil)
-     (use-package ox-beamer :defer 10 :ensure nil)
+     (use-package ox-gfm)
+     (use-package ox-tufte)
    #+END_SRC
-
-*** Office Documents
-
-    To begin this process, we enable the ODT exporter.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package ox-odt :defer 10 :ensure nil)
-    #+END_SRC
 
 *** EPUB
 
     E-readers may be a thing that sticks around.
 
     #+BEGIN_SRC emacs-lisp
-      (use-package ox-epub :defer 10)
+      (use-package ox-epub :after org-mode)
     #+END_SRC
 
 ** Clocking
