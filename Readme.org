@@ -1472,6 +1472,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package pretty-mode
+       :disabled
        :config
        (global-pretty-mode t)
        (pretty-activate-groups
