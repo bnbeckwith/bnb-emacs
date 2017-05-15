@@ -1883,6 +1883,21 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          (bnb/transparency-apply (list active inactive))))
    #+END_SRC
 
+** Compile on save                                                  :PENDING:
+
+   Whenever I save this file, I'd like to have it
+   auto-compiled. First, I setup a function with the right steps.
+
+   #+BEGIN_SRC emacs-lisp
+     (defun bnb/compile-readme ()
+       (interactive)
+       (let ((src "~/.emacs.d/bnb-emacs/Readme.org")
+             (dst "~/.emacs.d/bnb-emacs/Readme.el"))
+         (when (file-newer-than-file-p src dst)
+           (org-babel-tangle-file src dst "emacs-lisp"))
+         (byte-recompile-file dst t 0 nil)))
+   #+END_SRC
+
 ** Styled HTML Export
 
    This is how I get the one-page html output for Github Pages. There
