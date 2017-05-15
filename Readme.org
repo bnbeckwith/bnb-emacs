@@ -523,8 +523,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (set-terminal-coding-system 'utf-8)
      (set-keyboard-coding-system 'utf-8)
      (set-language-environment 'utf-8)
-     (setq default-buffer-file-coding-system 'utf-8)
-     (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+     (setq buffer-file-coding-system 'utf-8
+           x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
      ;; MS Windows clipboard is UTF-16LE
      (when (eq system-type 'windows-nt)
        (set-clipboard-coding-system 'utf-16le-dos))
@@ -1210,7 +1210,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
               bnb/font
               (ring-ref bnb/font-ring 0))
         (defun bnb/font-apply (font)
-          (set-default-font (setq bnb/font font))
+          (set-frame-font (setq bnb/font font))
           (message "Set default font to %s" bnb/font))
         (defun bnb/font-next ()
           (interactive)
@@ -1218,7 +1218,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         (defun bnb/font-prev ()
           (interactive)
           (bnb/font-apply (ring-prev bnb/font-ring bnb/font)))
-        (set-default-font bnb/font))
+        (set-frame-font bnb/font))
 
       (defconst fira-code-font-lock-keywords-alist
         (mapcar (lambda (regex-char-pair)
@@ -1375,7 +1375,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (defun bnb/change-frame-font-size (fn)
         (let* ((font-name (frame-parameter nil 'font))
                (decomposed-font-name (x-decompose-font-name font-name))
-               (font-size (string-to-int (aref decomposed-font-name 5))))
+               (font-size (string-to-number (aref decomposed-font-name 5))))
           (aset decomposed-font-name 5 (int-to-string (funcall fn font-size)))
           (set-frame-font (x-compose-font-name decomposed-font-name))))
 
@@ -1922,7 +1922,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (defun bnb/export-readme ()
        (interactive)
        (let ((themes custom-enabled-themes))
-         (mapcar 'disable-theme themes)
+         (mapc 'disable-theme themes)
          (load-theme 'sanityinc-tomorrow-day)
          (org-html-export-to-html)
          (rename-file "Readme.html" "index.html" t)
@@ -2766,7 +2766,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (defun eshell/gst (&rest args)
-        (magit-status (pop args) nil)
+        (magit-status-internal (pop args) nil)
         (eshell/echo))
 
       (defun eshell/gd (&rest args)
