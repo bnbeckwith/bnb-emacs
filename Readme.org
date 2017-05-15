@@ -1488,6 +1488,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (use-package prog-mode ; Contains pretty-symbols-mode
         :ensure nil
         :config
+        (setq prettify-symbols-unprettify-at-point 'right-edge)
         (global-prettify-symbols-mode t)
         (add-hook
          'python-mode-hook
