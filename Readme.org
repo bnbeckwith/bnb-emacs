@@ -1479,9 +1479,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         '(:sub-and-superscripts :greek :arithmetic-nary)))
    #+END_SRC
 
-
-
-
 *** Prettify symbols mode
 
     #+BEGIN_SRC emacs-lisp
@@ -1845,7 +1842,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (defun bnb/idle-agenda (&optional arg)
        (interactive "P")
-       (setq bnb/idle-agenda
+       (setq bnb/iagenda
              (if arg
                  (cancel-timer bnb/iagenda)
                (run-with-idle-timer 3600 t 'bnb/jump-to-org-agenda))))
