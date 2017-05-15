@@ -3774,32 +3774,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              org-calc))
    #+END_SRC
 
-*** Org-protocol
-
-    For some reason, I have to load =org-protocol= explicitly in
-    order to work.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package org-protocol :defer 10 :ensure nil)
-    #+END_SRC
-
-*** Crypt
-
-    Encrypts contents of headlines with =gpg= when saved
-    with the "crypt" tag.
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package org-crypt
-        :defer 10
-        :ensure nil
-        :config
-        (org-crypt-use-before-save-magic)
-        (setq org-tags-exclude-from-inheritance '("crypt")))
-    #+END_SRC
-
-    The =org-crypt-key= variable will let this use an address from
-    the public keyring.
-
 *** Habit
 
     Some tasks repeat, but you still want to log when you have done
@@ -3999,6 +3973,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (setq calendar-mark-diary-entries-flag t)
     #+END_SRC
 
+** Org Repo Todo                                                    :PENDING:
+
+   Make it easy to setup a =TODO.org= from within a repo. I use this
+   to capture thoughts while coding
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-repo-todo
+       :ensure t
+       :bind ("s-;" . ort/capture-todo)
+       ("s-'" . ort/capture-checkitem)
+       ("s-`" . ort/goto-todos))
+   #+END_SRC
+
 ** Org projectile                                                   :PENDING:
 
    Make it easy to capture tasks into the right projects and setup a project todo.
@@ -4014,20 +4001,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (setq org-agenda-files
              (append org-agenda-files (org-projectile:todo-files))
              org-projectile:per-repo-filename "Tasks.org"))
-   #+END_SRC
-
-
-** Org Repo Todo                                                    :PENDING:
-
-   Make it easy to setup a =TODO.org= from within a repo. I use this
-   to capture thoughts while coding
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package org-repo-todo
-       :ensure t
-       :bind ("s-;" . ort/capture-todo)
-       ("s-'" . ort/capture-checkitem)
-       ("s-`" . ort/goto-todos))
    #+END_SRC
 
 * Calc
@@ -4101,20 +4074,4 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 
 
-** Org projectile                                                   :PENDING:
-
-   Make it easy to capture tasks into the right projects and setup a project todo.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package org-projectile
-       :bind ("C-c n p" . org-projectile:project-todo-completing-read)
-       :ensure t
-       :config
-       (org-projectile:per-repo)
-       (add-to-list 'org-capture-templates
-                    (org-projectile:project-todo-entry))
-       (setq org-agenda-files
-             (append org-agenda-files (org-projectile:todo-files))
-             org-projectile:per-repo-filename "Tasks.org"))
-   #+END_SRC
 
