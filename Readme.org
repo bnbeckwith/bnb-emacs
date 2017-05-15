@@ -2651,6 +2651,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          :config (smex-initialize))
    #+END_SRC
 
+** Ivy View
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package ivy-view
+       :ensure nil
+       :bind
+       ("H-[" . ivy-push-view)
+       ("H-]" . ivy-pop-view)
+       ("H-b" . ivy-switch-buffer)
+       :config
+       (setq ivy-use-virtual-buffers t))
+   #+END_SRC
+
 * IDO (Interactively Do Things)
 
   First, I start with some basic IDO settings. I enabled it
