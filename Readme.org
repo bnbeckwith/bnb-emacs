@@ -2517,10 +2517,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   Ivy is a completion framework somewhere between =ido= and =helm=. It
   and =counsel= are in the =swiper= package.
 
-  #+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp :noweb yes
     (use-package swiper
-      :quelpa
-      (swiper :fetcher github :repo "abo-abo/swiper")
       :bind ("H-s" . swiper)
       ("C-c S" . swiper)
       ("C-x C-r" . counsel-recentf)
@@ -2532,9 +2530,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             ivy-re-builders-alist
             '((t . ivy--regex-fuzzy))
             colir-compose-method 'colir-compose-soft-light)
-      (use-package smex
-        :ensure t
-        :config (smex-initialize))
+      <<smex>>
       (diminish 'ivy-mode)
       (require 'ivy-hydra)
       (ivy-mode))
@@ -2589,7 +2585,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    Counsel can use =smex= under the hood for /recent-item/
    sorting. This give a better LRU functionality to command
-   selection. Naturally, I enabled it above.
+   selection.
+
+   #+NAME: smex
+   #+BEGIN_SRC emacs-lisp 
+     (use-package smex
+         :ensure t
+         :config (smex-initialize))
+   #+END_SRC
 
 * IDO (Interactively Do Things)
 
