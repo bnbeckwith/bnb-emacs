@@ -2300,7 +2300,27 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (use-package flycheck
         :ensure t
         :defer 10
-        :init (global-flycheck-mode))
+        :init (global-flycheck-mode)
+        :config
+        (bind-key "H-!"
+          (defhydra hydra-toggle (:color amaranth)
+            "
+      _c_ Check buffer      _x_ Explain error
+      _n_ Next error        _h_ Show error
+      _p_ Previous error
+      _l_ Show all errors   _s_ Select syntax checker
+      _C_ Clear errors      _?_ Describe syntax checker
+      "
+            ("c" flycheck-buffer)
+            ("n" flycheck-next-error)
+            ("p" flycheck-previous-error)
+            ("l" flycheck-list-errors)
+            ("C" flycheck-clear-errors)
+            ("x" flycheck-explain-error-at-point)
+            ("h" flycheck-display-error-at-point)
+            ("s" flycheck-select-checker)
+            ("?" flycheck-describe-checker)
+            ("q" nil))))
     #+END_SRC
 
 ** Clojure
