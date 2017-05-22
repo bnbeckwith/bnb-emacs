@@ -2919,6 +2919,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
               (quote
                (("^pdf$" "." "evince -f %o")
                 ("^html?$" "." "start %o"))))
+            TeX-command-extra-options "-shell-escape"
             TeX-PDF-mode 1
             TeX-engine 'xetex)
       (setq-default TeX-master nil)
