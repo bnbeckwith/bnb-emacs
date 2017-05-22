@@ -1799,20 +1799,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 ** Calendars
 
    #+BEGIN_SRC emacs-lisp
-     (use-package calfw
-       :commands (bnb/calfw-calendars)
-       :ensure t
-       :config
-       (use-package calfw-cal :ensure nil)
-       (use-package calfw-ical :ensure nil)
-       (use-package calfw-org :ensure nil)
-       (use-package sunshine
+     (setq bnb/calfw-calendars-list nil)
+
+     (defun bnb/add-calendar (calendar)
+       (add-to-list bnb/calfw-calendars-list calendar))
+
+     (use-package sunshine
          :ensure t
-         :commands bnb/get-forecast-data
-         :defines bnb/calfw-calendars-list
+         :commands (bnb/get-forecast-data)
          :config
          (defun bnb/get-forecast-data (b e)
-           (let* ((url (sunshine-make-url sunshine-location sunshine-units))
+           (let* ((url (sunshine-make-url sunshine-location sunshine-units sunshine-appid))
                   (forecast (if (sunshine-forecast-cache-expired url)
                                 (with-current-buffer (url-retrieve-synchronously url)
                                   (goto-char (point-min))
@@ -1828,15 +1825,21 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                                       (round (cdr (assoc 'max (cdr (assoc 'temp day)))))
                                       (cdr (assoc 'main (elt (cdr (assoc 'weather day)) 0))))
                        :start-date (cfw:emacs-to-calendar (seconds-to-time (cdr (assoc 'dt day)))))))))
-       (defvar bnb/calfw-calendars-list
-           (list (cfw:org-create-source "Green")
-                 (make-cfw:source :name "Weather" :data 'bnb/get-forecast-data :color "IndianRed")))
+
+     (use-package calfw
+       :ensure t
+       :commands (bnb/calfw-calendars)
+       :config
+       (use-package calfw-cal :ensure nil)
+       (use-package calfw-ical :ensure nil)
+       (use-package calfw-org :ensure nil)
+       (setq bnb/calfw-calendars-list
+             (list (cfw:org-create-source "purple")
+                   (make-cfw:source :name "Weather" :data 'bnb/get-forecast-data :color "IndianRed")))
        (defun bnb/calfw-calendars ()
          (interactive)
          (cfw:open-calendar-buffer
           :contents-sources bnb/calfw-calendars-list)))
-     ;; For weather into the calendar
-
    #+END_SRC
 
 ** Auto-display agenda
