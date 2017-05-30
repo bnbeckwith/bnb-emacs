@@ -2100,8 +2100,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       :ensure t
       :init
       (setq-default indent-tabs-mode nil)
-      (smart-tabs-insinuate 'c 'javascript 'cperl 'c++)
-      (setq-default tab-width 4))
+      (smart-tabs-insinuate 'c 'cperl 'c++)
+      (setq-default tab-width 2))
   #+END_SRC
 
 ** Notes
@@ -2436,7 +2436,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (use-package js2-mode
         :mode "\\.js\\'"
         :init
-        (add-hook 'js2-mode-hook #'js2-imenu-extras-mode))
+        (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
+        :config
+        (setq js2-basic-offset 2))
     #+END_SRC
 
     #+BEGIN_SRC emacs-lisp
@@ -2465,11 +2467,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         :after js2-mode
         :config
         (add-to-list 'company-backends 'company-tern)
+        (add-to-list 'tern-command "--no-port-file" 'append)
         (add-hook 'js2-mode-hook (lambda ()
                                    (tern-mode)
                                    (company-mode))))
     #+END_SRC
-
 
 ** Ruby
 
