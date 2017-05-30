@@ -3107,7 +3107,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                     ("s" . org-save-all-org-buffers)
                     ("z" . org-add-note)
                     ("N" . org-narrow-to-subtree)
-                    ("W" . widen))))
+                    ("W" . widen)
+                    ("m" . org-mark-subtree))))
     #+END_SRC
 
 ** Org TODO Configuration
@@ -4055,6 +4056,87 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (setq calendar-mark-diary-entries-flag t)
     #+END_SRC
 
+*** Teleport
+
+    From [[http://kitchingroup.cheme.cmu.edu/blog/2016/03/18/Org-teleport-headlines/][the Kitchin Group]], I can have a nice /teleport/ function for
+    org sections. Using a speed command on the current headline kills
+    it and then presents avy-style markers to select the insertion
+    point.
+
+    By default the teleported headline will be inserted after the
+    target. With a prefix argument, it will preceed the target.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun bnb/org-teleport (&optional arg)
+        "Teleport the current heading to after a headline selected with avy.
+      With a prefix ARG move the headline to before the selected
+      headline. With a numeric prefix, set the headline level. If ARG
+      is positive, move after, and if negative, move before."
+        (interactive "P")
+        ;; Kill current headline
+        (org-mark-subtree)
+        (kill-region (region-beginning) (region-end))
+        ;; Jump to a visible headline
+        (avy-with avy-goto-line (avy--generic-jump "^\\*+" nil avy-style))
+        (cond
+         ;; Move before  and change headline level
+         ((and (numberp arg) (> 0 arg))
+          (save-excursion
+            (yank))
+          ;; arg is what we want, second is what we have
+          ;; if n is positive, we need to demote (increase level)
+          (let ((n (- (abs arg) (car (org-heading-components)))))
+            (cl-loop for i from 1 to (abs n)
+                     do
+                     (if (> 0 n)
+                         (org-promote-subtree)
+                       (org-demote-subtree)))))
+         ;; Move after and change level
+         ((and (numberp arg) (< 0 arg))
+          (org-mark-subtree)
+          (goto-char (region-end))
+          (when (eobp) (insert "\n"))
+          (save-excursion
+            (yank))
+          ;; n is what we want and second is what we have
+          ;; if n is positive, we need to demote
+          (let ((n (- (abs arg) (car (org-heading-components)))))
+            (cl-loop for i from 1 to (abs n)
+                     do
+                     (if (> 0 n) (org-promote-subtree)
+                       (org-demote-subtree)))))
+
+         ;; move to before selection
+         ((equal arg '(4))
+          (save-excursion
+            (yank)))
+         ;; move to after selection
+         (t
+          (org-mark-subtree)
+          (goto-char (region-end))
+          (when (eobp) (insert "\n"))
+          (save-excursion
+            (yank))))
+        (outline-hide-leaves))
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-speed-commands-user
+                   (cons "k" (lambda ()
+                               (org-mark-subtree)
+                               (kill-region
+                                (region-beginning)
+                                (region-end)))))
+
+      (add-to-list 'org-speed-commands-user
+                   (cons "q" (lambda ()
+                               (avy-with avy-goto-line
+                                 (avy--generic-jump "^\\*+" nil avy-style)))))
+
+      (add-to-list 'org-speed-commands-user
+                   (cons "T" 'bnb/org-teleport))
+    #+END_SRC
+    
 ** Org Repo Todo                                                    :PENDING:
 
    Make it easy to setup a =TODO.org= from within a repo. I use this
