@@ -191,6 +191,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (quelpa-use-package-activate-advice)
     #+END_SRC
 
+*** Load the latest files
+
+    Always pick the latest version of the library to load.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq load-prefer-newer t)
+    #+END_SRC
+
 ** Binding Keys
 
    For binding keys, I use the =bind-key= package. Not only does it
