@@ -30,6 +30,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   (=C-c C-c=) to bootstrap the system.
 
   #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el" :exports code :results silent
+    ;;; init.el --- bnbeckwith config -*- eval: (read-only-mode 1) -*-
     (require 'package)
     (setq package-enable-at-startup nil)
     (package-initialize)
@@ -76,7 +77,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    I typically use the customize interface to generate any local
    settings such as proxies, paths, fonts, etc. that may vary from
-   machine to machine.
+   machine to machine. This keeps the setup the same and allows for
+   only some details to differ.
 
    I like to set the custom file explicitly. Mine resides in the
    =~/.emacs.d/= directory. This code block loads it if it exists.
@@ -101,7 +103,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 * Small Settings
 
   The next sections encompass some small settings to make Emacs mine
-  (and maybe yours).
+  (and maybe yours). There is a loose order of dependency, but even
+  then it isn't strict.
 
 ** Path
 
@@ -122,12 +125,23 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (setq backup-by-copying t
            create-lockfiles nil
            backup-directory-alist '((".*" . "~/.saves"))
-           auto-save-file-name-transforms `((".*" "~/.saves" t))
+           ;; auto-save-file-name-transforms `((".*" "~/.saves" t))
            delete-old-versions t
            kept-new-versions 6
            kept-old-versions 2
            version-control t)
    #+END_SRC
+
+   Here's a quick rundown of the settings:
+
+   - [[elisp:(describe-variable%20'backup-by-copying)][~backup-by-copying~]] :: Use copying to create backups when ~t~
+   - [[elisp:(describe-variable 'create-lockfile)][~create-lockfiles~]] :: Don't use lockfiles if ~nil~
+   - [[elisp:(describe-variable%20'backup-directory-alist)][~backup-directory-alist~]] :: List of regexp/location pairs of where to backup files
+   - [[elisp:(describe-variable%20'auto-save-file-name-transforms)][~auto-save-file-name-transforms~]] :: Transform file names before autosave
+   - [[elisp:(describe-variable%20'delete-old-versions)][~delete-old-versions~]] :: Delete excess backups silently if ~t~
+   - [[elisp:(describe-variable%20'kept-new-versions)][~kept-new-versions~]] :: Number of newest versions to keep
+   - [[elisp:(describe-variable%20'kept-old-versions)][~kept-old-versions~]] :: Number of oldest versions to keep
+   - [[elisp:(describe-variable%20'version-control)][~version-control~]] :: When ~t~, make numeric backup versions always
 
 ** Super keys
 
@@ -145,6 +159,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
            mac-control-modifier 'ctrl
            mac-option-modifier 'super)
    #+END_SRC
+
+   Note that the right =option= and =command= keys will pass through
+   to the system. This is especially cool for the =option= key on a
+   mac that lets insert special characters directly. (E.g. á or ∑ or
+   ®)
 
    Inspiration for the keys comes from [[https://www.wisdomandwonder.com/article/10146/every-emacser-can-use-hyper-on-every-usb-hid-keyboard][wisdom and wonder]].
 
@@ -209,21 +228,21 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :bind ("C-h B" . describe-personal-keybindings))
    #+END_SRC
 
-   By using =bind-key=, you can specify the keystrokes that invoke a
+   By using ~bind-key~, you can specify the keystrokes that invoke a
    command. This is regular behavior that you can already achieve in
    Emacs and will result in a global binding.
 
    If you also want to override any possible minor-mode bindings of
-   the same keys, you can use =bind-key*= instead.
+   the same keys, you can use ~bind-key*~ instead.
 
-   There is also an =unbind-key= to, of course, remove any binding.
+   There is also an ~unbind-key~ to, of course, remove any binding.
 
    The real kicker is that it will keep track of these bindings and
    let you see a summary of your customizations with
 
    : M-x describe-personal-keybindings
 
-   This is bound to =C-h B= above.
+   This is bound to ~C-h B~ above.
 
 ** Hydra
 
@@ -301,6 +320,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          ("q" nil))
        emacs-lisp-mode-map)
     #+END_SRC
+
+    There is one block for execuing items and another for looking up
+    specific =elisp= help.
 
     #+BEGIN_SRC emacs-lisp
       (bind-key
