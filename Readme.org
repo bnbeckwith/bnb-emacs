@@ -1206,6 +1206,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :config (pdf-tools-install))
    #+END_SRC
 
+** Helpful                                                          :PENDING:
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package helpful
+       :bind
+       ("C-h f" . helpful-function)
+       ("C-h x" . helpful-command)
+       ("C-h z" . helpful-macro))
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
