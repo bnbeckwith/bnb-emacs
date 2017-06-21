@@ -668,6 +668,29 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          ("<S-wheel-down>" . git-timemachine-show-next-revision)))
     #+END_SRC
 
+*** Smerge
+
+    Somewhere along the line, =smerge= was added. To facilitate
+    editing merge conflicts, this hydra helps me do the work.
+
+    #+BEGIN_SRC emacs-lisp
+      (add-hook
+       'smerge-mode
+       (lambda ()
+         (bind-key
+          "C-c ^ h"
+          (defhydra hydra-smerge (:color amaranth)
+            ("a" smerge-keep-all "Keep all")
+            ("b" smerge-keep-base "Keep base")
+            ("m" smerge-keep-mine "Keep mine")
+            ("o" smerge-keep-other "Keep other")
+            ("n" smerge-next "Next conflict")
+            ("p" smerge-previous "Previous conflict")
+            ("r" smerge-resolve "Keep mine")
+            ("q" nil "quit"))
+          smerge-mode-map)))
+    #+END_SRC
+
 ** Open/Edit This file
 
    When I hit ~<F5>~, open this file for editing. That way, any
