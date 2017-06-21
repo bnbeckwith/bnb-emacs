@@ -396,7 +396,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        ("C-x C-k" . kill-this-buffer))
     #+END_SRC
 
-** Minibuffer History Save
+** Minibuffer History
+
+   Let's get rid of duplicates in the minibuffer history.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq history-delete-duplicates t)
+   #+END_SRC
 
    This saves the minibuffer histories to preserve across emacs
    sessions.
