@@ -4213,6 +4213,23 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                    (cons "T" 'bnb/org-teleport))
     #+END_SRC
     
+*** Protocols
+**** Org-mac-protocol
+
+**** Org-board                                                      :PENDING:
+
+     Bookmarking in org.
+
+     #+BEGIN_SRC emacs-lisp
+       (use-package org-board
+         :config (global-set-key (kbd "C-c o") org-board-keymap)
+         (setq org-board-capture-file "~/Documents/Personal/Org/bookmarks.org")
+         (add-to-list 'org-capture-templates
+                      `("w" "catpure through org protocol" entry
+                        (file+headline ,org-board-capture-file "Unsorted")
+                        "* %?:description\n:PROPERTIES:\n:URL: %:link\n:END:\n\n Added %U")))
+     #+END_SRC
+
 ** Org Repo Todo                                                    :PENDING:
 
    Make it easy to setup a =TODO.org= from within a repo. I use this
