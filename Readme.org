@@ -2685,6 +2685,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (add-hook 'web-mode-hook 'bnb/web-mode-hook))
    #+END_SRC
 
+** HTML
+
+   [[https://github.com/smihica/emmet-mode][Emmet mode]] allows for terse description of nested elements. There
+   is great documentation on the approach at [[http://emmet.io][emmet.io]].
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package emmet-mode
+       :config
+       (add-hook 'web-mode-hook 'emmet-mode)
+       (add-hook 'sgml-mode-hook 'emmet-mode)
+       (add-hook 'css-mode-hook 'emmet-mode))
+   #+END_SRC
+
 * Ivy, Counsel and Swiper
 
   Ivy is a completion framework somewhere between =ido= and =helm=. It
