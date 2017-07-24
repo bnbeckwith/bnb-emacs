@@ -3969,6 +3969,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (perl       . t)
      (plantuml   . t)
      (python     . t)
+     (restclient . t)
      (shell      . t)
      (sqlite     . t)))
 #+END_SRC
@@ -3977,6 +3978,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 #+BEGIN_SRC emacs-lisp
   (use-package ob-http :after org-mode)
+  (use-package ob-restclient :ensure nil :after org-mode)
 #+END_SRC
 
 ** Miscellaneous Settings
