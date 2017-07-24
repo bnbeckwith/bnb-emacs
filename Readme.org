@@ -689,7 +689,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (add-hook
-       'smerge-mode
+       'smerge-mode-hook
        (lambda ()
          (bind-key
           "C-c ^ h"
