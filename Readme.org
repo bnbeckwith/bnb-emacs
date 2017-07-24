@@ -1590,27 +1590,27 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          (lambda ()
            (mapc (lambda (pair) (push pair prettify-symbols-alist))
                  '(;; Syntax
-                   ("def" .      #x2131) ; ℱ
-                   ("not" .      #x2757) ; ❗
-                   ("in" .       #x2208) ; ∈
-                   ("not in" .   #x2209) ; ∉
-                   ("return" .   #x27fc) ; ⟼
-                   ("yield" .    #x27fb) ; ⟻
-                   ("for" .      #x2200) ; ∀
+                   ("def" .      ?ℱ)
+                   ("not" .      ?❗)
+                   ("in" .       ?∈)
+                   ("not in" .   ?∉)
+                   ("return" .   ?⟼)
+                   ("yield" .    ?⟻)
+                   ("for" .      ?∀)
                    ;; Base Types
-                   ("int" .      #x2124) ; ℤ
-                   ("float" .    #x211d) ; ℝ
-                   ("str" .      #x1d54a); 𝕊
-                   ("True" .     #x1d54b); 𝕋
-                   ("False" .    #x1d53d); 𝔽
+                   ("int" .      ?ℤ)
+                   ("float" .    ?ℝ)
+                   ("str" .      ?𝕊)
+                   ("True" .     ?𝕋)
+                   ("False" .    ?𝔽)
                    ;; Mypy
-                   ("Dict" .     #x1d507); 𝔇
-                   ("List" .     #x2112) ; ℒ
-                   ("Tuple" .    #x2a02) ; ⨂
-                   ("Set" .      #x2126) ; Ω
-                   ("Iterable" . #x1d50a); 𝔊
-                   ("Any" .      #x2754) ; ❔
-                   ("Union" .    #x22c3))))))
+                   ("Dict" .     ?𝔇)
+                   ("List" .     ?ℒ)
+                   ("Tuple" .    ?⨂)
+                   ("Set" .      ?Ω)
+                   ("Iterable" . ?𝔊)
+                   ("Any" .      ?❔)
+                   ("Union" .    ?∪))))))
     #+END_SRC
 
 ** Color
