@@ -3467,7 +3467,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2 :fileskip0 t)
         org-agenda-time-grid '((daily today require-timed)
                                "----------------"
-                               (800 1000 1200 1400 1600 1800 2000)))
+                               (800 1000 1200 1400 1600 1800 2000))
+        org-agenda-block-separator "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 #+END_SRC
 
 *** Views
