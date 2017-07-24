@@ -120,6 +120,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package exec-path-from-shell
+       :defer 10
        :config
        (exec-path-from-shell-initialize))
    #+END_SRC
@@ -3859,8 +3860,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    I add exporters for github-flavored markdown and tufte html.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package ox-gfm)
-     (use-package ox-tufte)
+     (use-package ox-gfm :defer 10)
+     (use-package ox-tufte :defer 10)
    #+END_SRC
 
 *** EPUB
