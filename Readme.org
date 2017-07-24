@@ -4270,6 +4270,32 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              org-projectile:per-repo-filename "Tasks.org"))
    #+END_SRC
 
+** Org Ref
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-ref
+       :defer 10
+       :config
+       (setq org-ref-notes-directory "~/Documents/Personal/Org/Biblio/"
+             org-ref-bibliography-notes "~/Documents/Personal/Org/Biblio/index.org"
+             org-ref-default-bibliography '("~/Documents/Personal/Org/Biblio/index.bib")
+             org-ref-pdf-directory "~/Documents/Personal/Org/Biblio/lib"))
+   #+END_SRC
+
+*** Helm Bibtex
+
+    To support the stuff above, this:
+
+#+BEGIN_SRC emacs-lisp
+  (use-package helm-bibtex
+    :config
+    (setq helm-bibtex-bibliography "~/Documents/Personal/Org/Biblio/index.bib" ;; where your references are stored
+          helm-bibtex-library-path "~/Documents/Personal/Org/Biblio/lib/" ;; where your pdfs etc are stored
+          helm-bibtex-notes-path "~/Documents/Personal/Org/Biblio/index.org" ;; where your notes are stored
+          bibtex-completion-bibliography "~/Documents/Personal/Org/Biblio/index.bib" ;; writing completion
+          bibtex-completion-notes-path "~/Documents/Personal/Org/Biblio/index.org"))
+#+END_SRC
+
 * Calc
 
   Working in computer land, I add these additional units to =calc=.
