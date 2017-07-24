@@ -65,6 +65,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    There are some features that I like to take on a /trial run/. These
    are marked with the *PENDING* tag to help me remember and evaluate.
 
+** Performance
+
+   #+BEGIN_SRC emacs-lisp
+     (setq use-package-verbose t
+           use-package-minimum-reported-time 0)
+   #+END_SRC
+
 * Personal Information
 
   The full name is used for email messages.
