@@ -2706,13 +2706,119 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (add-hook 'css-mode-hook 'emmet-mode))
    #+END_SRC
 
-* Ivy, Counsel and Swiper
+
+* Helm
+
+  This one is just too useful to ignore. I've tried others, now I'm
+  back in the helm camp.
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package helm
+      :ensure t
+      :bind
+      (("C-c h" . helm-command-prefix)
+       ("C-x b" . helm-mini)
+       ("H-y" . helm-show-kill-ring)
+       ("M-x" . helm-M-x)
+       ("C-x C-f" . helm-find-files)
+       :map helm-find-files-map
+       ("TAB" . helm-execute-persistent-action)
+       ("<backtab>" . helm-select-action))
+      :config
+      (require 'helm-config)
+      (bind-key "C-c h" 'helm-command-prefix)
+      (setq helm-quick-update  t
+            helm-autoresize-mode t
+            helm-autoresize-min-height 30
+            helm-split-window-in-side-p t
+            helm-buffers-fuzzy-matching t
+            helm-move-to-line-cycle-in-source t
+            helm-scroll-amount 8
+            helm-ff-search-library-in-sexp t
+            helm-ff-file-name-history-use-recentf t
+            helm-echo-input-in-header-line t
+            helm-recentf-fuzzy-match t
+            helm-M-x-fuzzy-match t
+            helm-buffers-fuzzy-matching t)
+      (helm-mode t))
+  #+END_SRC
+
+** Describe bindings
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package helm-descbinds
+       :ensure t
+       :bind ("C-h b" . helm-descbinds)
+       :config
+       (helm-descbinds-mode))
+   #+END_SRC
+
+** CSS/SCSS                                                         :PENDING:
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package helm-css-scss
+       :ensure t
+       :bind ((:map isearch-mode-mode
+                    ("s-i" . helm-css-scss-from-isearch)
+                    :map helm-css-scss-map
+                    ("s-i" . helm-css-scss-multi-from-helm-css-scss)
+                    :map css-mode-map
+                    ("s-i" . helm-css-scss)
+                    ("s-I" . helm-css-scss-back-to-last-point)
+                    :map less-css-mode-map
+                    ("s-i" . helm-css-scss)
+                    ("s-I" . helm-css-scss-back-to-last-point)
+                    :map scss-mode-map
+                    ("s-i" . helm-css-scss)
+                    ("s-I" . helm-css-scss-back-to-last-point)))
+       :config
+       (setq helm-css-scss-insert-close-comment-depth 2
+             helm-css-scss-split-with-multiple-windows t
+             helm-css-scss-split-direction 'split-window-vertically))
+   #+END_SRC
+
+** Helm commands
+
+   A list of helm's own commands
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package helm-helm-commands
+       :ensure t
+       :bind ("H-h c" . helm-helm-commands))
+   #+END_SRC
+
+** Projectile
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package helm-projectile
+       :ensure t
+       :bind ("H-h p" . helm-projectile))
+   #+END_SRC
+
+** Swoop
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package helm-swoop
+       :ensure t
+       :bind ("H-h s" . helm-swoop))
+   #+END_SRC
+
+** Themes
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package helm-themes
+       :ensure t
+       :bind ("H-h t" . helm-themes))
+   #+END_SRC
+
+* Ivy, Counsel and Swiper                                          :DISABLED:
 
   Ivy is a completion framework somewhere between =ido= and =helm=. It
   and =counsel= are in the =swiper= package.
 
   #+BEGIN_SRC emacs-lisp :noweb yes
     (use-package swiper
+      :disabled
       :bind ("H-s" . swiper)
       ("C-c S" . swiper)
       ("C-x C-r" . counsel-recentf)
@@ -2730,6 +2836,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (ivy-mode))
 
     (use-package counsel
+      :disabled
       :ensure t
       :bind
       ("M-x"     . counsel-M-x)
@@ -2748,6 +2855,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             enable-recursive-minibuffers t))
 
     (use-package ivy-rich
+      :disabled
       :defer
       :config
       (setq ivy-virtual-abbreviate 'full
