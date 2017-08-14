@@ -4405,6 +4405,30 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
           bibtex-completion-notes-path "~/Documents/Personal/Org/Biblio/index.org"))
 #+END_SRC
 
+** Org Rifle
+
+   Rifle through my org-mode entries.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package helm-org-rifle
+       :ensure t
+       :bind
+       ("H-h r r" . helm-org-rifle)
+       ("H-h r a" . helm-org-rifle-agenda-files)
+       ("H-h r ." . helm-org-rifle-current-buffer)
+       ("H-h r d" . helm-org-rifle-directories)
+       ("H-h r f" . helm-org-rifle-files)
+       ("H-h r D" . helm-org-rifle-org-directory)
+       ("H-h o o" . helm-org-rifle-occur)
+       ("H-h o a" . helm-org-rifle-occur-agenda-files)
+       ("H-h o ." . helm-org-rifle-occur-current-buffer)
+       ("H-h o d" . helm-org-rifle-occur-directories)
+       ("H-h o d" . helm-org-rifle-occur-directories)
+       ("H-h o f" . helm-org-rifle-occur-files)
+       ("H-h o D" . helm-org-rifle-occur-org-directory))
+   #+END_SRC
+
+
 * Calc
 
   Working in computer land, I add these additional units to =calc=.
