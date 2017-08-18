@@ -1567,6 +1567,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Pretty Symbols
 
+   Emacs can be so pretty sometimes.
+
 *** Pretty mode
 
    #+BEGIN_SRC emacs-lisp
@@ -1579,6 +1581,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+END_SRC
 
 *** Prettify symbols mode
+
+    Some reading to consider:
+
+    - http://endlessparentheses.com/using-prettify-symbols-in-clojure-and-elisp-without-breaking-indentation.html
+    - https://www.emacswiki.org/emacs/PrettySymbolsForLanguages
 
     #+BEGIN_SRC emacs-lisp
       (use-package prog-mode ; Contains pretty-symbols-mode
