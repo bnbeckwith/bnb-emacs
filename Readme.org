@@ -1253,6 +1253,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        ("C-h z" . helpful-macro))
    #+END_SRC
 
+** All the icons                                                    :PENDING:
+
+   https://github.com/domtronn/all-the-icons.el
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package all-the-icons
+       :ensure t
+       :defer 10)
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
