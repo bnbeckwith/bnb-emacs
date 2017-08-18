@@ -2765,7 +2765,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             helm-echo-input-in-header-line t
             helm-recentf-fuzzy-match t
             helm-M-x-fuzzy-match t
-            helm-buffers-fuzzy-matching t)
+            helm-buffers-fuzzy-matching t
+            helm-mode-fuzzy-match t
+            helm-completion-in-region-fuzzy-match t)
       (helm-mode t))
   #+END_SRC
 
@@ -2818,7 +2820,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (use-package helm-projectile
        :ensure t
-       :bind ("H-h p" . helm-projectile))
+       :bind ("H-h p" . helm-projectile)
+       :config 
+       (helm-projectile-on))
    #+END_SRC
 
 ** Swoop
@@ -2835,6 +2839,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package helm-themes
        :ensure t
        :bind ("H-h t" . helm-themes))
+   #+END_SRC
+
+** Dash
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package helm-dash
+       :ensure t)
    #+END_SRC
 
 * Ivy, Counsel and Swiper                                          :DISABLED:
