@@ -1263,6 +1263,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :defer 10)
    #+END_SRC
 
+** Discover my mode
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package discover-my-major
+       :ensure t
+       :bind (("C-h C-m" . discover-my-major)
+              ("C-h C-d" . discover-my-mode)))
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
