@@ -3171,6 +3171,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        ("C-c b"  . org-iswitchb)
        ("<f12>"  . org-agenda)
        ("H-z"    . org-agenda)
+       ("H-g"    . org-mac-grab-link)
        ("<apps>" . org-agenda)
        ("<f9> v" . visible-mode)
        ("<f9> g" . org-clock-goto)
@@ -3229,6 +3230,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        Show the file as-is (no special org handling)
      - org-clock-in/org-clock-out
        Clock in/out of current subtree
+
 *** Speed
 
     Using org-mode efficiently for task management is best done with
