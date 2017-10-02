@@ -3262,14 +3262,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 *** Keywords
 
     The keywords that org uses in the headlines exist as sequences
-    describing the state changes. The characters in =()= also allow
-    fast access to these states described [[info:org#Fast%20access%20to%20TODO%20states][here]].
+    describing the state changes. [[info:org#Workflow%20states][The sequences]] describe how you can
+    cycle through the different states. However, I don't cycle through
+    states and just select them. I find that is better for the large
+    list of possibilities here.
+
+    The characters in =()= also
+    allow fast access to these states described [[info:org#Fast%20access%20to%20TODO%20states][here]].
 
     #+BEGIN_SRC emacs-lisp
       (setq org-todo-keywords
             (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
-                (sequence "WAITING(w@/!)" "SOMEDAY(s!)" "|" "CANCELED(c@/!)")
-                (sequence "OPEN(O)" "|" "CLOSED(C)"))))
+                    (sequence "WAITING(w@/!)" "SOMEDAY(s!)" "|" "CANCELED(c@/!)")
+                    (sequence "CANCELED(c@/!)"))))
     #+END_SRC
 
     I used to set [[elisp:(describe-variable 'org-todo-keyword-faces)][org-todo-keyword-faces]], but now I rely on theme
@@ -3345,6 +3350,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      #+BEGIN_SRC emacs-lisp
        (setq org-log-done (quote note)
+             org-log-redeadline (quote time)
+             org-log-reschedule (quote time)
              org-log-into-drawer t
              org-drawers '("PROPERTIES" "LOGBOOK" "CLOCK"))
      #+END_SRC
@@ -3392,14 +3399,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              ("n" "Note" entry
               (file "~/Documents/Org/Refile.org")
               "* %?                                                                            :NOTE:\n  %U\n  %a\n  :CLOCK:\n  :END:")
-             ("i" "Isabelle Journal" entry (file+datetree "~/Documents/Personal/Org/Isabelle.org")
-              "* %?\n\tEntered on %U")
-             ("j" "Johannes Journal" entry (file+datetree "~/Documents/Personal/Org/Johannes.org")
-              "* %?\n\tEntered on %U")
-             ("a" "Andrea Journal" entry (file+datetree "~/Documents/Personal/Org/Andrea.org")
-              "* %?\n\tEntered on %U")
-             ("e" "Journal" entry (file+datetree "~/Documents/Personal/Org/Journal.org")
-              "* %?\n\tEntered on %U")
              ("c" "Capture current TODO mix in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Burndown")
               "%(bnb/org-count-tasks-by-status)")
              ("s" "Capture Weekly Score in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Scores")
@@ -3407,12 +3406,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              ("w" "Weekly Time Table" plain
               (file+function "~/Documents/Org/WeeklyReports.org" bnb/insert-weekly-clocking)
               "%(bnb/insert-weekly-time-sheet)" :unnarrowed t)
-             ("o" "org-outlook" entry
-              (file "~/Documents/Org/Refile.org")
-              "* TODO EMAIL: %:title (%:sender)
-       %c
-
-       %?" :clock-in t :clock-resume t)))
+             ("u" "Url" entry (file "~/Documents/Org/Refile.org")
+              "* TODO %?\n  %U\n\n  %(org-mac-chrome-get-frontmost-url)")
+             ("m" "Mail" entry (file "~/Documents/Org/Refile.org")
+              "* TODO %?\n  %U\n\n  %(org-mac-message-get-links \"s\")")))
    #+END_SRC
 
    There are five main capture templates here. The first two store a
@@ -3523,9 +3520,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   (setq org-agenda-show-inherited-tags t
         org-agenda-log-mode-items '(clock)
         org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2 :fileskip0 t)
-        org-agenda-time-grid '((daily today require-timed)
-                               "----------------"
-                               (800 1000 1200 1400 1600 1800 2000))
         org-agenda-block-separator "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 #+END_SRC
 
@@ -3557,7 +3551,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (add-to-list 'org-agenda-custom-commands
-                   '("a" "Agenda" bnb/org-agenda-with-tip))
+                   '("b" "Agenda" bnb/org-agenda-with-tip))
     #+END_SRC
 
     #+BEGIN_SRC emacs-lisp
@@ -3687,6 +3681,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (add-to-list 'org-agenda-custom-commands
+                   '("rag" "Grouped Tasks")
+                   ())
+    #+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'org-agenda-custom-commands
                    '("rt" . "Timesheet...") t)
     #+END_SRC
 
@@ -3725,7 +3725,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                      ((agenda ""))
                      ((org-agenda-entry-types '(:timestamp :sexp))
                       ;; (org-agenda-overriding-header "Calendar for 7 days")
-                      ;; (org-agenda-repeating-timestamp-show-all t)
                       (org-agenda-span 'week)
                       (org-agenda-format-date "\n%a %d")
                       ;; (org-agenda-date-weekend ... new face ...)
@@ -3767,16 +3766,31 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         :ensure t
         :quelpa (org-super-agenda :fetcher github :repo "alphapapa/org-super-agenda")
         :config
+        (org-super-agenda-mode t)
         (add-to-list 'org-agenda-custom-commands
-                     '("u" "Super view"
-                        ((agenda "" ((org-super-agenda-groups
-                                      '((:name "Today"
-                                               :time-grid t)))))
-                         (todo "" ((org-agenda-overriding-header "")
-                                   (org-super-agenda-groups
-                                    '((:name "Projects"
-                                             :children todo)
-                                      (:discard (:anything t))))))))))
+                     '("rag" "Grouped Tasks"
+                       ((todo "" ((org-super-agenda-groups
+                                   '((:name "All Tasks" :auto-category t))))))))
+        (add-to-list 'org-agenda-custom-commands
+                     '("f1" "Score 1 Tasks"
+                       ((tags "+Score=1" ((org-super-agenda-groups
+                                           '((:name "Score 1 Tasks" :auto-category t))))))))
+        (add-to-list 'org-agenda-custom-commands
+                     '("f2" "Score 2 Tasks"
+                       ((tags "+Score=2" ((org-super-agenda-groups
+                                           '((:name "Score 1 Tasks" :auto-category t))))))))
+        (add-to-list 'org-agenda-custom-commands
+                     '("f3" "Score 3 Tasks"
+                       ((tags "+Score=3" ((org-super-agenda-groups
+                                           '((:name "Score 1 Tasks" :auto-category t))))))))
+        (add-to-list 'org-agenda-custom-commands
+                     '("f5" "Score 5 Tasks"
+                       ((tags "+Score=5" ((org-super-agenda-groups
+                                           '((:name "Score 1 Tasks" :auto-category t))))))))
+        (add-to-list 'org-agenda-custom-commands
+                     '("f8" "Score 8 Tasks"
+                       ((tags "+Score=8" ((org-super-agenda-groups
+                                   '((:name "Score 1 Tasks" :auto-category t)))))))))
     #+END_SRC
 
     Phew! That is a lot of lisp! It is easiest to describe each view
@@ -4117,7 +4131,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 *** Insertion
 
      I define when org should leave a blank line before an
-     item. In my case, it is headings and plain list items.
+     item. In my case it is headings and plain list items.
 
     #+BEGIN_SRC emacs-lisp
       (setq org-blank-before-new-entry '((heading)
