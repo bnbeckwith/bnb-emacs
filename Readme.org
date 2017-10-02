@@ -1273,6 +1273,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
               ("C-h C-d" . discover-my-mode)))
    #+END_SRC
 
+** Easy Kill
+
+   While looking for a way to store the filename in the clipboard, I
+   ran across [[https://github.com/leoliu/easy-kill][easy-kill]]. Not only will it grab the filename, but
+   provides ways to grab all sorts of fun things.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package easy-kill
+       :bind ("M-w" . easy-kill)
+       :ensure t)
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
