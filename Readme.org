@@ -497,7 +497,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (cond
       ((executable-find "/usr/local/bin/aspell")
-       (setq ispell-program-name (executable-find "aspell")
+       (setq ispell-program-name (executable-find "/usr/local/bin/aspell")
              ispell-extra-args '("--sug-mode=ultra" "--lang=en_US")))
       (t (setq ispell-program-name nil)
          (message "No aspell found!")))
@@ -2147,15 +2147,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :after dired
        :ensure t
        :config
-       (put 'dired-find-alternate-file 'disabled nil)
-       (when (eq system-type 'windows-nt)
-         (setq dired-guess-shell-alist-user
-               '(("\\.pdf" "SumatraPDF.exe")))))
+       (put 'dired-find-alternate-file 'disabled nil))
    #+END_SRC
 
    Also, there is a nice faculty to run an external command on a given
-   file with =!=.  =Dired= has some idea of what to run, but I can make
-   it smarter on windows.
+   file with =!=.
 
 ** Sunrise Commander
 
