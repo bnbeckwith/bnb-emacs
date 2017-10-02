@@ -3,7 +3,8 @@
 #+OPTIONS: html-preamble:t html-scripts:t html-style:t
 #+OPTIONS: html5-fancy:nil tex:t
 #+CREATOR: <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.7a)
-#+SETUPFILE: theme-readtheorg.setup
+#+SETUPFILE: https://raw.githubusercontent.com/fniessen/org-html-themes/master/setup/theme-readtheorg.setup
+#+EXPORT_FILE_NAME: index.html
 #+HTML_CONTAINER: div
 #+HTML_DOCTYPE: xhtml-strict
 #+HTML_HEAD:
@@ -2053,7 +2054,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          (mapc 'disable-theme themes)
          (load-theme 'sanityinc-tomorrow-day)
          (org-html-export-to-html)
-         (rename-file "Readme.html" "index.html" t)
          (disable-theme 'sanityinc-tomorrow-day)
          (mapcar 'load-theme (reverse themes))))
    #+END_SRC
