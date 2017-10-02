@@ -2737,6 +2737,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   #+BEGIN_SRC emacs-lisp
     (use-package helm
       :ensure t
+      :diminish helm-mode
       :bind
       (("C-c h" . helm-command-prefix)
        ("C-x b" . helm-mini)
@@ -3149,7 +3150,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (use-package org-mode
        :ensure org-plus-contrib
-       :diminish " ⊞"
+       :diminish org-mode
        :mode "\\.org\\(.gpg|_archive\\)?$"
        :bind
        ("C-c t"  . orgtbl-mode)
