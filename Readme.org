@@ -785,17 +785,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         :diminish ace-isearch-mode
         :config
         (global-ace-isearch-mode t)
-        (defun bnb/ace-swiper-from-isearch  ()
-        "Invoke `swiper' from ace-isearch."
-        (interactive)
-        (let (($query (if isearch-regexp
-                          isearch-string
-                        (regexp-quote isearch-string))))
-          (let (search-nonincremental-instead)
-            (ignore-errors (isearch-exit)))
-          (swiper $query)))
-        (setq ace-isearch-function-from-isearch 'bnb/ace-swiper-from-isearch
-              ace-isearch-input-length 8))
+        (setq ace-isearch-function-from-isearch ace-isearch-input-length 8))
     #+END_SRC
 
 *** Ace Link
