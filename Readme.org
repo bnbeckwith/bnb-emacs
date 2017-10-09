@@ -1275,6 +1275,22 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :ensure t)
    #+END_SRC
 
+** Omni Kill                                                        :PENDING:
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package omni-kill
+       :ensure t
+       :bind (("H-o c" . omni-copy)
+              ("H-o d" . omni-delete)
+              ("H-o k" . omni-kill)
+              ("H-o s" . omni-select)
+              ("H-o n" . omni-narrow)
+              ("H-o r" . omni-save)
+              ("H-o a" . omni-start)
+              ("H-o e" . omni-end)
+              ("H-o h" . omni-help)))
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
