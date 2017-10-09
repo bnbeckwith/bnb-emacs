@@ -1552,6 +1552,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                         (font-spec :size 20 :name "Symbola"))
     #+END_SRC
 
+*** Cursor width
+
+    Make the cursor the full width of the character at point.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq x-stretch-cursor t)
+    #+END_SRC
+
 ** Themes
 
    I used to have [[http://www.greghendershott.com/2017/02/emacs-themes.html][something else]] from [[http://www.greghendershott.com][Greg Hendershot]], but now I
