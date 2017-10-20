@@ -4006,7 +4006,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (python     . t)
      (restclient . t)
      (shell      . t)
-     (sqlite     . t)))
+     (sqlite     . t)
+     (R          . t)))
 #+END_SRC
 
 *** Extra Babel Packages
