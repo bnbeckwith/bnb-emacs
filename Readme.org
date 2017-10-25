@@ -3417,6 +3417,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
               "%(bnb/org-count-tasks-by-status)")
              ("s" "Capture Weekly Score in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Scores")
               "%(bnb/add-weekly-score-table-entry)")
+             ("e" "Capture Weekly time in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Minutes")
+              "%(bnb/org-time-logged-table-entry)")
              ("w" "Weekly Time Table" plain
               (file+function "~/Documents/Org/WeeklyReports.org" bnb/insert-weekly-clocking)
               "%(bnb/insert-weekly-time-sheet)" :unnarrowed t)
@@ -3464,7 +3466,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
            'agenda)
           (setq values (mapcar (lambda (x)
                                  (or (gethash x counts) 0))
-                               '("DONE" "STARTED" "TODO" "WAITING" "CANCELLED" "SOMEDAY")))
+                               '("DONE" "TODO" "WAITING" "CANCELLED" "SOMEDAY")))
           (setq output
                 (concat "| " today " | "
                         (mapconcat 'number-to-string values " | ")
@@ -3495,6 +3497,39 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                (year (format-time-string "%Y" (current-time)))
                (ww (number-to-string (bnb/workweek))))
           (format "| %s | %s | %s |" year ww score)))
+    #+END_SRC
+
+
+    How about the hours logged last week? Let's give that a go.
+
+    #+BEGIN_SRC emacs-lisp
+      (defun bnb/org-time-logged-table-entry ()
+        "Insert table of minutes per category"
+        (interactive)
+        (let ((minh (make-hash-table :test 'equal))
+              (now (decode-time))
+              (start (encode-time 0 0 0 (- (nth 3 now) (nth 6 now)) (nth 2 now) (nth 5 now)))
+              (today (format-time-string "%Y-%m-%d" (current-time))))
+          ;; Collect minutes clocked per category
+          (org-map-entries
+           (lambda ()
+             (let ((category (org-entry-get-with-inheritance "CATEGORY" t))
+                   (minutes (org-clock-sum-current-item start)))
+               (puthash category (+ minutes
+                                    (or (gethash category minh) 0)) minh)))
+           nil
+           'agenda)
+          ;; Print out table lines
+          (let ((rows nil))
+            (maphash
+             (lambda (k v)
+               (when (> v 0)
+                 (setq rows
+                       (cons (format "| %s | %s | %d |" today k v) rows))))
+             minh)
+            (if (called-interactively-p 'any)
+                (insert (mapconcat 'identity rows "\n"))
+              (mapconcat 'identity rows "\n")))))
     #+END_SRC
 
 ** Refile
