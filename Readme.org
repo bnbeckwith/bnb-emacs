@@ -3549,7 +3549,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                    (minutes (org-clock-sum-current-item start)))
                (puthash category (+ minutes
                                     (or (gethash category minh) 0)) minh)))
-           nil
+           "LEVEL=1"
            'agenda)
           ;; Print out table lines
           (let ((rows nil))
