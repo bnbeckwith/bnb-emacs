@@ -1291,6 +1291,28 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
               ("H-o h" . omni-help)))
    #+END_SRC
 
+** Undo Tree                                                        :PENDING:
+
+   It's time to give undo-tree another try. The following hydra makes
+   repeated undo/redo easier.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package undo-tree
+       :ensure t
+       :config
+       (global-undo-tree-mode)
+       (defhydra hydra-undo-tree (:color yellow :hint nil)
+         "
+     _p_: undo _n_: redo _s_: save _l_: load  "
+         ("p" undo-tree-undo)
+         ("n" undo-tree-redo)
+         ("s" undo-tree-save-history)
+         ("l" undo-tree-load-history)
+         ("u" undo-tree-visualize "visualize" :color blue)
+         ("q" nil "quit" :color blue))
+       (global-set-key (kbd "H-,") 'hydra-undo-tree/body))
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
