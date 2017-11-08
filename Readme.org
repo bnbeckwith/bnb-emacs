@@ -2777,6 +2777,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+END_SRC
 
 
+** Plantuml
+
+   Not a /programming language/, but certainly a language.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package plantuml-mode
+       :defer
+       :ensure t)
+   #+END_SRC
+
 * Helm
 
   This one is just too useful to ignore. I've tried others, now I'm
@@ -4323,6 +4333,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                         (file+headline ,org-board-capture-file "Unsorted")
                         "* %?:description\n:PROPERTIES:\n:URL: %:link\n:END:\n\n Added %U")))
      #+END_SRC
+
+*** Plantuml
+
+    Setup the path for orgmode to find the jar needed.
+
+    #+BEGIN_SRC emacs-lisp
+      (setq org-plantuml-jar-path "/usr/local/Cellar/plantuml/1.2017.18/libexec/plantuml.jar")
+    #+END_SRC
 
 ** Org Repo Todo                                                    :PENDING:
 
