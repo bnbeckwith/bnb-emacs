@@ -2717,7 +2717,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                   ("R" . cargo-process-test-regexp)))
 
      (use-package racer
-       :mode "\\.rs")
+       :mode "\\.rs"
+       :init
+       (setq racer-rust-src-path "/Users/bnbeckwith/.rustup/toolchains/stable-x86_64-apple-darwin"))
 
      (use-package flycheck-rust
        :mode "\\.rs"
