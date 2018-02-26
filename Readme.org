@@ -1635,6 +1635,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          	  #'bnb/sml-subtract-adjustment)
    #+END_SRC
 
+** Sky Color Clock
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package sky-color-clock
+       :defer 10
+       :quelpa
+       (sky-color-clock :fetcher github :repo "zk-phi/sky-color-clock")
+       :config
+       (sky-color-clock-initialize 40)
+       (setq sky-color-clock-enable-emoji-icon t)
+       (push '(:eval (sky-color-clock)) (default-value 'mode-line-format)))
+   #+END_SRC
+
 ** Font lock profiling                                              :PENDING:
 
    Allow for profiling of font-locking.
