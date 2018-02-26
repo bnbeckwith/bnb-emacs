@@ -768,8 +768,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (use-package ace-flyspell
         :ensure t
         :commands (ace-flyspell-setup)
+        :bind
+        ("H-s" . hydra-fly/body)
         :init
-        (add-hook 'flyspell-mode-hook 'ace-flyspell-setup))
+        (add-hook 'flyspell-mode-hook 'ace-flyspell-setup)
+        (defhydra hydra-fly (:color pink)
+          ("n" flyspell-goto-next-error "Next error")
+          ("c" ispell-word "Correct word")
+          ("j" ace-flyspell-jump-word "Jump word")
+          ("." ace-flyspell-dwim "dwim")
+          ("q" nil "Quit")))
     #+END_SRC
 
 
