@@ -1923,13 +1923,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
               (org-update-dblock)
               (buffer-substring (point-min) (point-max))))
 
-          (defun bnb/insert-weekly-clocking ()
-              (let ((year (number-to-string (nth 2 (calendar-gregorian-from-absolute (org-today)))))
-                    (ww (bnb/workweek)))
-                (goto-char (point-min))
-                (goto-char (cdr (org-id-find "clocking")))
-                (bnb/find-year-create (string-to-number year))
-                (bnb/find-ww-create ww)))
+     (defun bnb/insert-weekly-clocking ()
+       (let ((year (number-to-string (nth 2 (calendar-gregorian-from-absolute (org-today)))))
+             (ww (bnb/workweek)))
+         (goto-char (point-min))
+         (goto-char (cdr (org-id-find "clocking")))
+         (bnb/find-year-create (string-to-number year))
+         (bnb/find-ww-create ww)))
    #+END_SRC
 
 ** Weekly Score Goal in Org-Agenda
@@ -3474,9 +3474,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
               "%(bnb/add-weekly-score-table-entry)")
              ("e" "Capture Weekly time in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Minutes")
               "%(bnb/org-time-logged-table-entry)")
-             ("w" "Weekly Time Table" plain
-              (file+function "~/Documents/Org/WeeklyReports.org" bnb/insert-weekly-clocking)
-              "%(bnb/insert-weekly-time-sheet)" :unnarrowed t)
              ("u" "Url" entry (file "~/Documents/Org/Refile.org")
               "* TODO %?\n  %U\n\n  %(org-mac-chrome-get-frontmost-url)")
              ("m" "Mail" entry (file "~/Documents/Org/Refile.org")
@@ -3558,13 +3555,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     How about the hours logged last week? Let's give that a go.
 
     #+BEGIN_SRC emacs-lisp
-      (defun bnb/org-time-logged-table-entry ()
-        "Insert table of minutes per category"
-        (interactive)
-        (let ((minh (make-hash-table :test 'equal))
-              (now (decode-time))
-              (start (encode-time 0 0 0 (- (nth 3 now) (nth 6 now)) (nth 2 now) (nth 5 now)))
-              (today (format-time-string "%Y-%m-%d" (current-time))))
+      (defun bnb/org-time-logged-table-entry (&optional additional-weeks)
+        "Insert table of minutes per category.
+      Optionally provide ADDITIONAL-WEEKS to get more history"
+        (interactive "P")
+        (unless additional-weeks (setq additional-weeks 0))
+        (let* ((minh (make-hash-table :test 'equal))
+               (now (decode-time))
+               (start (encode-time 0 0 0 (- (nth 3 now) (nth 6 now) (* 7 (or additional-weeks 1))) (nth 4 now) (nth 5 now)))
+               (today (format-time-string "%Y-%m-%d" (current-time))))
           ;; Collect minutes clocked per category
           (org-map-entries
            (lambda ()
