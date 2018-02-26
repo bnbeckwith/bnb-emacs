@@ -3148,6 +3148,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (setq-default TeX-master nil)
       (add-to-list 'org-latex-packages-alist
                    '("" "tikz" t))
+        (add-to-list 'org-latex-packages-alist
+                   '("" "minted" t))
       (setq org-latex-create-formula-image-program 'imagemagick)
       (eval-after-load "preview"
         '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
@@ -3255,7 +3257,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :config
        (bind-key "M-i" 'org-toggle-inline-images org-mode-map)
        (add-hook 'org-babel-after-execute-hook
-                 (lambda () (org-display-inline-images nil t))))
+                 (lambda () (org-display-inline-images t t))))
    #+END_SRC
 
 ** Auto mode
@@ -3976,6 +3978,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
            org-export-latex-custom-lang-environments
            '((emacs-lisp "common-lispcode"))
            org-export-latex-minted-options '()
+           org-highlight-latex-and-related '(latex script entities)
            org-latex-to-pdf-process
            '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
              "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
