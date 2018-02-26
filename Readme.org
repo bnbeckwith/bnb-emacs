@@ -197,7 +197,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (package-refresh-contents)
        (package-install 'use-package))
      (setq use-package-verbose t
-           use-package-always-ensure t)
+           use-package-always-ensure nil)
      (require 'use-package)
    #+END_SRC
 
@@ -501,6 +501,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              ispell-extra-args '("--sug-mode=ultra" "--lang=en_US")))
       (t (setq ispell-program-name nil)
          (message "No aspell found!")))
+
+     (bind-key "H-$" 'ispell-word)
    #+END_SRC
 
 ** Proselint
@@ -1122,7 +1124,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (use-package uniquify
        :defer 10
-       :ensure nil
        :config
        (setq uniquify-buffer-name-style 'post-forward
              uniquify-separator ":"))
@@ -1230,8 +1231,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (use-package pdf-tools
        :ensure t
-       :defer 10
-       :config (pdf-tools-install))
+       :pin manual
+       :config
+       (custom-set-variables '(pdf-tools-handle-upgrades nil)) ;; brew upgrade pdf-tools instead
+       (setq-default pdf-view-display-size 'fit-page)
+       (setq pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo")
+       (pdf-tools-install))
    #+END_SRC
 
 ** Helpful                                                          :PENDING:
@@ -1657,7 +1662,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (use-package prog-mode ; Contains pretty-symbols-mode
-        :ensure nil
         :config
         (setq prettify-symbols-unprettify-at-point 'right-edge)
         (global-prettify-symbols-mode t)
@@ -1982,9 +1986,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :ensure t
        :commands (bnb/calfw-calendars)
        :config
-       (use-package calfw-cal :ensure nil)
-       (use-package calfw-ical :ensure nil)
-       (use-package calfw-org :ensure nil)
+       (use-package calfw-cal)
+       (use-package calfw-ical)
+       (use-package calfw-org)
        (setq bnb/calfw-calendars-list
              (list (cfw:org-create-source "purple")
                    (make-cfw:source :name "Weather" :data 'bnb/get-forecast-data :color "IndianRed")))
@@ -2703,7 +2707,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :defer)
 
      (use-package html-gtags
-       :ensure nil
        :defer)
 
      (use-package racer-mode
@@ -2734,7 +2737,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (add-hook 'rust-mode-hook #'electric-pair-mode))
 
      (use-package toml-mode
-       :ensure nil
        :quelpa (toml-mode :fetcher github :repo "dryman/toml-mode.el")
        :mode "\\.toml\\'")
    #+END_SRC
@@ -4081,7 +4083,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 #+BEGIN_SRC emacs-lisp
   (use-package ob-http :after org-mode)
-  (use-package ob-restclient :ensure nil :after org-mode)
+  (use-package ob-restclient :after org-mode)
 #+END_SRC
 
 ** Miscellaneous Settings
