@@ -2833,6 +2833,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       :config
       (require 'helm-config)
       (bind-key "C-c h" 'helm-command-prefix)
+      (bind-key [s-tab] 'other-frame)
       (setq helm-quick-update  t
             helm-autoresize-mode t
             helm-autoresize-min-height 30
@@ -2847,7 +2848,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             helm-M-x-fuzzy-match t
             helm-buffers-fuzzy-matching t
             helm-mode-fuzzy-match t
-            helm-completion-in-region-fuzzy-match t)
+            helm-completion-in-region-fuzzy-match t
+            helm-display-function 'helm-display-buffer-in-own-frame
+            helm-display-buffer-reuse-frame t
+            helm-use-undecorated-frame-option t)
       (helm-mode t))
   #+END_SRC
 
