@@ -4445,6 +4445,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+END_SRC
 
 
+** Org-Noter
+   [[https://github.com/weirdNox/org-noter][Taking notes in a PDF]] is a useful trick. =org-noter= lets me do just that.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-noter
+       :ensure t
+       :bind ("H-n" . org-noter))
+   #+END_SRC
+
 * Calc
 
   Working in computer land, I add these additional units to =calc=.
