@@ -4099,6 +4099,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (emacs-lisp . t)
      (gnuplot    . t)
      (latex      . t)
+     (maxima     . t)
      (perl       . t)
      (plantuml   . t)
      (python     . t)
