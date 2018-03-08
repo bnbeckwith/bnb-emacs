@@ -1240,6 +1240,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package pdf-tools
        :ensure t
        :pin manual
+       :init (add-hook 'pdf-view-mode-hook
+                       (lambda ()
+                         (nlinum-mode 0)))
        :config
        (custom-set-variables '(pdf-tools-handle-upgrades nil)) ;; brew upgrade pdf-tools instead
        (setq-default pdf-view-display-size 'fit-page)
