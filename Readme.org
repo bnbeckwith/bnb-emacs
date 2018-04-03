@@ -2833,6 +2833,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :ensure t)
    #+END_SRC
 
+** Pollen
+
+
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package pollen-mode
+       :ensure t
+       :mode (("\\.pp$" . pollen-mode)))
+
+     (use-package company-pollen
+       :ensure t)
+   #+END_SRC
+
 * Helm
 
   This one is just too useful to ignore. I've tried others, now I'm
