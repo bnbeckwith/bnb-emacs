@@ -4127,6 +4127,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (plantuml   . t)
      (python     . t)
      (restclient . t)
+     (ruby       . t)
      (shell      . t)
      (sqlite     . t)
      (R          . t)))
