@@ -353,7 +353,25 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     This sections contains smaller bindings (or overrides) that I use
     to customize functionality.
 
-**** Whitespace deletion
+**** Whitespace
+
+     Handle the emptiness without staring too long into the void.
+
+***** Whitespace Mode
+
+      A little setup for =whitespace-mode= to diminish the mode and
+      cleanup on save.
+
+      #+BEGIN_SRC emacs-lisp
+        (use-package whitespace
+          :ensure nil
+          :config
+          (setq whitespace-line-column nil)
+          (add-hook 'before-save-hook 'whitespace-cleanup)
+          :diminish whitespace-mode)
+      #+END_SRC
+
+***** Deletion
 
      By default, ~M-\~ performs =delete-horizontal-space= and will
      consume all of the whitespace present.
@@ -763,7 +781,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 *** Ace Flyspell
 
     Turn on [[https://github.com/cute-jumper/ace-flyspell][ace-flyspell]] when flyspell is enabled.
-    
+
     #+BEGIN_SRC emacs-lisp
       (use-package ace-flyspell
         :ensure t
@@ -1347,11 +1365,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+END_SRC
 
 ** Window Changes
-   
+
    In the fringe area, I like to have markers to show me where the
    buffer begins/ends on the right. On the left, I have emacs show
    little dashes where empty lines exist.
-   
+
    In the title bar, I have it print the buffer name, full file name
    and size.
 
@@ -2176,7 +2194,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+END_SRC
 
 * Company
-  
+
   [[http://company-mode.github.io][Company Mode]] is an in-buffer completion system. To get started, I
   need to load the mode and bind some keys.
 
@@ -2553,7 +2571,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+END_SRC
 
     The wiki hosts the [[https://github.com/clojure-emacs/clj-refactor.el/wiki][available refactorings]].
-    
+
 ** Common Lisp
 
    #+BEGIN_SRC emacs-lisp
@@ -3225,7 +3243,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              ("\\.markdown\\'" . markdown-mode))
       :init (setq markdown-command "multimarkdown"))
   #+END_SRC
-  
+
      - org-clock-goto
        Go to current/previous clocked task
 
@@ -4353,7 +4371,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (add-to-list 'org-speed-commands-user
                    (cons "T" 'bnb/org-teleport))
     #+END_SRC
-    
+
 *** Protocols
 **** Org-mac-protocol
 
@@ -4536,7 +4554,3 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (message "Skipping %s library as it does not exist." user-login-name))
       nil)
   #+END_SRC
-
-
-
-
