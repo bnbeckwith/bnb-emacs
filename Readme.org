@@ -97,9 +97,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         (load-file custom-file))
 
     (bind-key "<f7>"
-  	    (lambda ()
-  	      (interactive
-  	       (find-file custom-file))))
+        (lambda ()
+          (interactive
+           (find-file custom-file))))
   #+END_SRC
 
   If the file doesn't exist, =Emacs= will still use the file if any
@@ -287,7 +287,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (defhydra hydra-toggle (:color amaranth)
          "
       _c_ column-number : %(toggle-setting-string column-number-mode)  _b_ orgtbl-mode    : %(toggle-setting-string orgtbl-mode)  _x_/_X_ trans          : %(identity bnb/transparency)
-      _e_ debug-on-error: %(toggle-setting-string debug-on-error)  _s_ orgstruct-mode : %(toggle-setting-string orgstruct-mode)  _m_   hide mode-line : %(toggle-setting-string bnb/hide-mode-line-mode)  
+      _e_ debug-on-error: %(toggle-setting-string debug-on-error)  _s_ orgstruct-mode : %(toggle-setting-string orgstruct-mode)  _m_   hide mode-line : %(toggle-setting-string bnb/hide-mode-line-mode)
       _u_ debug-on-quit : %(toggle-setting-string debug-on-quit)  _h_ diff-hl-mode   : %(toggle-setting-string diff-hl-mode)
       _f_ auto-fill     : %(toggle-setting-string auto-fill-function)  _B_ battery-mode   : %(toggle-setting-string display-battery-mode)
       _t_ truncate-lines: %(toggle-setting-string truncate-lines)  _l_ highlight-line : %(toggle-setting-string hl-line-mode)
@@ -580,13 +580,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package view
        :init (setq view-read-only t)
        :bind (:map view-mode-map
-   		("n" . next-line    )
-   		("p" . previous-line)
-   		("j" . next-line    )
-   		("k" . previous-line)
-   		("l" . forward-char)
-   		("h" . bnb/view/h)
-   		("q" . bnb/view/q))
+      ("n" . next-line    )
+      ("p" . previous-line)
+      ("j" . next-line    )
+      ("k" . previous-line)
+      ("l" . forward-char)
+      ("h" . bnb/view/h)
+      ("q" . bnb/view/q))
        :config
        (defun bnb/view/h ()
          (interactive)
@@ -1652,8 +1652,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (defun bnb/sml-subtract-adjustment (width)
         (- width bnb/sml-adjustment))
      (add-function :filter-return
-         	  (symbol-function 'sml/fill-width-available)
-         	  #'bnb/sml-subtract-adjustment)
+            (symbol-function 'sml/fill-width-available)
+            #'bnb/sml-subtract-adjustment)
    #+END_SRC
 
 ** Sky Color Clock
@@ -2401,7 +2401,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       ("C-^"       . paxedit-sexp-raise)
       ("M-u"       . paxedit-symbol-change-case)
       ("C-@"       . paxedit-symbol-copy)
-      ("C-#"       . paxedit-symbol-kill))      
+      ("C-#"       . paxedit-symbol-kill))
   #+END_SRC
 
 * Projectile
@@ -2926,7 +2926,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package helm-projectile
        :ensure t
        :bind ("H-h p" . helm-projectile)
-       :config 
+       :config
        (helm-projectile-on))
    #+END_SRC
 
@@ -4478,7 +4478,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+END_SRC
 
 
-** Org-Noter
+** Org Noter
    [[https://github.com/weirdNox/org-noter][Taking notes in a PDF]] is a useful trick. =org-noter= lets me do just that.
 
    #+BEGIN_SRC emacs-lisp
@@ -4513,7 +4513,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    responsive.
 
   #+BEGIN_SRC emacs-lisp
-    (when (and (or (eq system-type 'windows-nt) (eq system-type 'darwin)) 
+    (when (and (or (eq system-type 'windows-nt) (eq system-type 'darwin))
                (not (and (boundp 'server-clients) server-clients))
                (not (daemonp)))
       (server-start))
