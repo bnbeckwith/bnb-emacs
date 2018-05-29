@@ -121,7 +121,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package exec-path-from-shell
-       :defer 10
        :config
        (exec-path-from-shell-initialize))
    #+END_SRC
