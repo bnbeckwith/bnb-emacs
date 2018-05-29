@@ -2938,6 +2938,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :ensure t)
    #+END_SRC
 
+** Lines
+
+   Search for and insert lines from the current project (directory).
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package helm-lines
+       :ensure t
+       :bind ("M-l" . helm-lines))
+   #+END_SRC
+
 * IDO (Interactively Do Things)
 
   First, I start with some basic IDO settings. I enabled it
