@@ -2556,6 +2556,24 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (slime-setup '(slime-fancy)))
    #+END_SRC
 
+** C++
+
+   Oh my! I finally have a C++ addition to make!
+
+*** Compilation Buffers
+
+    I forget where I snarfed this from, but it does a great job fixing
+    the ANSI escape sequences in compilation buffers.
+
+    #+BEGIN_SRC emacs-lisp
+      (require 'ansi-color)
+      (defun colorize-compilation-buffer ()
+        (toggle-read-only)
+        (ansi-color-apply-on-region compilation-filter-start (point))
+        (toggle-read-only))
+      (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+    #+END_SRC
+
 ** Elisp
 
    When modified =emacs-lisp=, it is most helpful to use =paredit= and
@@ -3026,6 +3044,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (add-hook 'term-mode-hook 'bnb/term-mode-hook)
 
      (defalias 'zsh 'ansi-term)
+
+     (setq ansi-term-color-vector
+           [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
    #+END_SRC
 
 ** Eshell
