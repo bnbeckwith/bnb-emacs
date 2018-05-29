@@ -161,12 +161,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (setq mac-function-modifier 'hyper
            mac-pass-command-to-system nil
-           mac-right-option-modifier 'none
+           mac-right-option-modifier 'super
            mac-right-command-modifier 'none
            mac-right-control-modifier 'hyper
            mac-command-modifier 'meta
            mac-control-modifier 'ctrl
-           mac-option-modifier 'super)
+           mac-option-modifier 'none)
+
    #+END_SRC
 
    Note that the right =option= and =command= keys will pass through
