@@ -3836,18 +3836,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                       (tags-todo "DEADLINE>\"<+28d>\""
                                  ((org-agenda-overriding-header "DUE LATER")
                                   (org-agenda-skip-function
-                                   '(org-agenda-skip-entry-if 'notdeadline)))                           )
+                                   '(org-agenda-skip-entry-if 'notdeadline))))
                       (tags-todo "TODO={WAIT}"
                                  ((org-agenda-overriding-header "WAITING FOR")
                                   (org-agenda-skip-function
                                    '(org-agenda-skip-entry-if 'deadline))))
                       (todo ""
-                                 ((org-agenda-overriding-header "WAITING FOR")
-                                  (org-agenda-skip-function
-                                   '(org-agenda-skip-entry-if 'deadline)))))
+                            ((org-agenda-overriding-header "WAITING FOR")
+                             (org-agenda-skip-function
+                              '(org-agenda-skip-entry-if 'deadline)))))
                      ((org-agenda-sorting-strategy '(priority-down))
                       (org-agenda-write-buffer-name "All Tasks (grouped by Due Date)"))
-                       "~/Documents/Org/all-tasks-by-due-date.pdf") t)
+                     "~/Documents/Org/all-tasks-by-due-date.pdf") t)
     #+END_SRC
 
 
@@ -3939,8 +3939,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                             ((org-agenda-overriding-header "PROJECT LIST")))
                       (todo "DONE|PROJECTDONE"
                             ((org-agenda-overriding-header
-                              "Candidates to be archived")))))
-       )
+                              "Candidates to be archived"))))))
     #+END_SRC
 
     #+BEGIN_SRC emacs-lisp
