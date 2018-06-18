@@ -96,10 +96,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     (if (file-exists-p custom-file)
         (load-file custom-file))
 
-    (bind-key "<f7>"
-        (lambda ()
-          (interactive
-           (find-file custom-file))))
+    (with-eval-after-load "bind-key"
+      (bind-key "<f7>"
+              (lambda ()
+                (interactive
+                 (find-file custom-file)))))
   #+END_SRC
 
   If the file doesn't exist, =Emacs= will still use the file if any
@@ -113,68 +114,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   The next sections encompass some small settings to make Emacs mine
   (and maybe yours). There is a loose order of dependency, but even
   then it isn't strict.
-
-** Path
-
-   Sometimes Emacs' idea of path differs from the shell. The package
-   =exec-path-from-shell= seeks to bring those in line with each other.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package exec-path-from-shell
-       :config
-       (exec-path-from-shell-initialize))
-   #+END_SRC
-
-** Backups
-
-   Sensible backup settings from [[https://www.emacswiki.org/emacs/BackupDirectory]]
-
-   #+BEGIN_SRC emacs-lisp
-     (setq backup-by-copying t
-           create-lockfiles nil
-           backup-directory-alist '((".*" . "~/.saves"))
-           ;; auto-save-file-name-transforms `((".*" "~/.saves" t))
-           delete-old-versions t
-           kept-new-versions 6
-           kept-old-versions 2
-           version-control t)
-   #+END_SRC
-
-   Here's a quick rundown of the settings:
-
-   - [[elisp:(describe-variable%20'backup-by-copying)][~backup-by-copying~]] :: Use copying to create backups when ~t~
-   - [[elisp:(describe-variable 'create-lockfile)][~create-lockfiles~]] :: Don't use lockfiles if ~nil~
-   - [[elisp:(describe-variable%20'backup-directory-alist)][~backup-directory-alist~]] :: List of regexp/location pairs of where to backup files
-   - [[elisp:(describe-variable%20'auto-save-file-name-transforms)][~auto-save-file-name-transforms~]] :: Transform file names before autosave
-   - [[elisp:(describe-variable%20'delete-old-versions)][~delete-old-versions~]] :: Delete excess backups silently if ~t~
-   - [[elisp:(describe-variable%20'kept-new-versions)][~kept-new-versions~]] :: Number of newest versions to keep
-   - [[elisp:(describe-variable%20'kept-old-versions)][~kept-old-versions~]] :: Number of oldest versions to keep
-   - [[elisp:(describe-variable%20'version-control)][~version-control~]] :: When ~t~, make numeric backup versions always
-
-** Super keys
-
-   I like to be able to use the command (or super or hyper) keys for
-   shortcuts. I need to take care to not interfere with the
-   built-in shortcuts or my bindings will not work.
-
-   #+BEGIN_SRC emacs-lisp
-     (setq mac-function-modifier 'hyper
-           mac-pass-command-to-system nil
-           mac-right-option-modifier 'super
-           mac-right-command-modifier 'none
-           mac-right-control-modifier 'hyper
-           mac-command-modifier 'meta
-           mac-control-modifier 'ctrl
-           mac-option-modifier 'none)
-
-   #+END_SRC
-
-   Note that the right =option= and =command= keys will pass through
-   to the system. This is especially cool for the =option= key on a
-   mac that lets insert special characters directly. (E.g. á or ∑ or
-   ®)
-
-   Inspiration for the keys comes from [[https://www.wisdomandwonder.com/article/10146/every-emacser-can-use-hyper-on-every-usb-hid-keyboard][wisdom and wonder]].
 
 ** Package archives
 
@@ -251,6 +190,67 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    : M-x describe-personal-keybindings
 
    This is bound to ~C-h B~ above.
+
+** Path
+
+   Sometimes Emacs' idea of path differs from the shell. The package
+   =exec-path-from-shell= seeks to bring those in line with each other.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package exec-path-from-shell
+       :config
+       (exec-path-from-shell-initialize))
+   #+END_SRC
+
+** Backups
+
+   Sensible backup settings from [[https://www.emacswiki.org/emacs/BackupDirectory]]
+
+   #+BEGIN_SRC emacs-lisp
+     (setq backup-by-copying t
+           create-lockfiles nil
+           backup-directory-alist '((".*" . "~/.saves"))
+           ;; auto-save-file-name-transforms `((".*" "~/.saves" t))
+           delete-old-versions t
+           kept-new-versions 6
+           kept-old-versions 2
+           version-control t)
+   #+END_SRC
+
+   Here's a quick rundown of the settings:
+
+   - [[elisp:(describe-variable%20'backup-by-copying)][~backup-by-copying~]] :: Use copying to create backups when ~t~
+   - [[elisp:(describe-variable 'create-lockfile)][~create-lockfiles~]] :: Don't use lockfiles if ~nil~
+   - [[elisp:(describe-variable%20'backup-directory-alist)][~backup-directory-alist~]] :: List of regexp/location pairs of where to backup files
+   - [[elisp:(describe-variable%20'auto-save-file-name-transforms)][~auto-save-file-name-transforms~]] :: Transform file names before autosave
+   - [[elisp:(describe-variable%20'delete-old-versions)][~delete-old-versions~]] :: Delete excess backups silently if ~t~
+   - [[elisp:(describe-variable%20'kept-new-versions)][~kept-new-versions~]] :: Number of newest versions to keep
+   - [[elisp:(describe-variable%20'kept-old-versions)][~kept-old-versions~]] :: Number of oldest versions to keep
+   - [[elisp:(describe-variable%20'version-control)][~version-control~]] :: When ~t~, make numeric backup versions always
+
+** Super keys
+
+   I like to be able to use the command (or super or hyper) keys for
+   shortcuts. I need to take care to not interfere with the
+   built-in shortcuts or my bindings will not work.
+
+   #+BEGIN_SRC emacs-lisp
+     (setq mac-function-modifier 'hyper
+           mac-pass-command-to-system nil
+           mac-right-option-modifier 'super
+           mac-right-command-modifier 'none
+           mac-right-control-modifier 'hyper
+           mac-command-modifier 'meta
+           mac-control-modifier 'ctrl
+           mac-option-modifier 'none)
+   #+END_SRC
+
+   Note that the right =option= and =command= keys will pass through
+   to the system. This is especially cool for the =option= key on a
+   mac that lets insert special characters directly. (E.g. á or ∑ or
+   ®)
+
+   Inspiration for the keys comes from [[https://www.wisdomandwonder.com/article/10146/every-emacser-can-use-hyper-on-every-usb-hid-keyboard][wisdom and wonder]].
 
 ** Hydra
 
