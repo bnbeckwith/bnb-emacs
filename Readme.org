@@ -151,7 +151,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (use-package quelpa)
-      (use-package quelpa-use-package)
+      (use-package quelpa-use-package :ensure t)
 
       ;; Handle the `use-package-always-ensure' setting
       (quelpa-use-package-activate-advice)
@@ -264,6 +264,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+BEGIN_SRC emacs-lisp
      (use-package hydra
        :ensure t)
+   #+END_SRC
+
+** Diminish
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package 'diminish :ensure t)
    #+END_SRC
 
 ** Personal Keymaps
@@ -754,7 +760,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    default, /inactive/ means is any buffer untouched for three days.
 
    #+BEGIN_SRC emacs-lisp
-     (use-package midnight)
+     (use-package midnight
+       :ensure t
+       :defer 10)
    #+END_SRC
 
 ** Which Key
@@ -1215,6 +1223,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package keyfreq
+       :disabled
        :ensure t
        :init
        (keyfreq-mode 1)
@@ -1228,7 +1237,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (use-package pdf-tools
        :ensure t
-       :pin manual
+       :quelpa
+       (pdf-tools :fetcher github
+                  :repo "politza/pdf-tools"
+                  :files ("lisp/*.el"
+                          "README"
+                          ("build" "Makefile")
+                          ("build" "server")
+                          (:exclude "lisp/tablist.el" "lisp/tablist-filter.el")))
        :init (add-hook 'pdf-view-mode-hook
                        (lambda ()
                          (nlinum-mode 0)))
