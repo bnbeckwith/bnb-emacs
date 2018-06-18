@@ -2786,19 +2786,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (with-eval-after-load 'company
          (add-to-list 'company-backends 'company-racer)))
 
-     (use-package rust-mode
+     (use-package rustic
        :commands (cargo-minor-mode)
        :mode "\\.rs"
        :config
-       (bind-keys :map rust-mode-map
-                  ("C-c TAB" . rust-format-buffer)
+       (bind-keys :map rustic-mode-map
+                  ("C-c TAB" . rustic-format-buffer)
                   ("TAB" . company-indent-or-complete-common))
        :init
        (setq company-tooltip-align-annotations t)
-       (add-hook 'rust-mode-hook #'cargo-minor-mode)
-       (add-hook 'rust-mode-hook #'racer-mode)
-       (add-hook 'rust-mode-hook #'flycheck-mode)
-       (add-hook 'rust-mode-hook #'electric-pair-mode))
+       (add-hook 'rustic-mode-hook #'cargo-minor-mode)
+       (add-hook 'rustic-mode-hook #'racer-mode)
+       (add-hook 'rustic-mode-hook #'flycheck-mode)
+       (add-hook 'rustic-mode-hook #'electric-pair-mode))
 
      (use-package toml-mode
        :quelpa (toml-mode :fetcher github :repo "dryman/toml-mode.el")
@@ -3972,7 +3972,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         (add-to-list 'org-agenda-custom-commands
                      '("f8" "Score 8 Tasks"
                        ((tags "+Score=8" ((org-super-agenda-groups
-                                   '((:name "Score 1 Tasks" :auto-category t)))))))))
+                                           '((:name "Score 1 Tasks" :auto-category t)))))))))
     #+END_SRC
 
     Phew! That is a lot of lisp! It is easiest to describe each view
