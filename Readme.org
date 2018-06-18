@@ -291,14 +291,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        "C-x t"
        (defhydra hydra-toggle (:color amaranth)
          "
-      _c_ column-number : %(toggle-setting-string column-number-mode)  _b_ orgtbl-mode    : %(toggle-setting-string orgtbl-mode)  _x_/_X_ trans          : %(identity bnb/transparency)
-      _e_ debug-on-error: %(toggle-setting-string debug-on-error)  _s_ orgstruct-mode : %(toggle-setting-string orgstruct-mode)  _m_   hide mode-line : %(toggle-setting-string bnb/hide-mode-line-mode)
-      _u_ debug-on-quit : %(toggle-setting-string debug-on-quit)  _h_ diff-hl-mode   : %(toggle-setting-string diff-hl-mode)
-      _f_ auto-fill     : %(toggle-setting-string auto-fill-function)  _B_ battery-mode   : %(toggle-setting-string display-battery-mode)
-      _t_ truncate-lines: %(toggle-setting-string truncate-lines)  _l_ highlight-line : %(toggle-setting-string hl-line-mode)
-      _r_ read-only     : %(toggle-setting-string buffer-read-only)  _n_ line-numbers   : %(toggle-setting-string linum-mode)
-      _w_ whitespace    : %(toggle-setting-string whitespace-mode)  _N_ relative lines : %(if (eq linum-format 'linum-relative) '[x] '[_])
-      "
+          _c_ column-number : %(toggle-setting-string column-number-mode)  _b_ orgtbl-mode    : %(toggle-setting-string orgtbl-mode)  _x_/_X_ trans          : %(identity bnb/transparency)
+          _e_ debug-on-error: %(toggle-setting-string debug-on-error)  _s_ orgstruct-mode : %(toggle-setting-string orgstruct-mode)  _m_   hide mode-line : %(toggle-setting-string bnb/hide-mode-line-mode)
+          _u_ debug-on-quit : %(toggle-setting-string debug-on-quit)  _h_ diff-hl-mode   : %(toggle-setting-string diff-hl-mode)
+          _f_ auto-fill     : %(toggle-setting-string auto-fill-function)  _B_ battery-mode   : %(toggle-setting-string display-battery-mode)
+          _t_ truncate-lines: %(toggle-setting-string truncate-lines)  _l_ highlight-line : %(toggle-setting-string hl-line-mode)
+          _r_ read-only     : %(toggle-setting-string buffer-read-only)  _n_ line-numbers   : %(toggle-setting-string linum-mode)
+          _w_ whitespace    : %(toggle-setting-string whitespace-mode)  _N_ relative lines : %(if (eq linum-format 'linum-relative) '[x] '[_])
+          "
          ("c" column-number-mode nil)
          ("e" toggle-debug-on-error nil)
          ("u" toggle-debug-on-quit nil)
@@ -455,8 +455,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (defun bnb/ispell-word-then-abbrev (p)
        "Call `ispell-word'. Then create an abbrev for the correction
-     made. With prefix P, create local abbrev. Otherwise, it will be
-     global."
+       made. With prefix P, create local abbrev. Otherwise, it will be
+       global."
        (interactive "P")
        (let ((bef (downcase (or (thing-at-point 'word) ""))) aft)
          (call-interactively 'ispell-word)
@@ -569,7 +569,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package epa
-       :disabled t
+       :disabled
        :config (epa-file-enable))
    #+END_SRC
 
@@ -585,13 +585,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package view
        :init (setq view-read-only t)
        :bind (:map view-mode-map
-      ("n" . next-line    )
-      ("p" . previous-line)
-      ("j" . next-line    )
-      ("k" . previous-line)
-      ("l" . forward-char)
-      ("h" . bnb/view/h)
-      ("q" . bnb/view/q))
+                   ("n" . next-line    )
+                   ("p" . previous-line)
+                   ("j" . next-line    )
+                   ("k" . previous-line)
+                   ("l" . forward-char)
+                   ("h" . bnb/view/h)
+                   ("q" . bnb/view/q))
        :config
        (defun bnb/view/h ()
          (interactive)
@@ -697,6 +697,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (use-package git-timemachine
+        :disabled
         :ensure t
         :bind ("C-x C-g" . git-timemachine-toggle)
         :config
@@ -832,7 +833,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (use-package ace-link
         :ensure t
         :bind (:map org-mode-map
-                   ("M-o" . ace-link-org))
+                    ("M-o" . ace-link-org))
         :config (ace-link-setup-default))
     #+END_SRC
 
@@ -1049,25 +1050,25 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        ("C-x M" . compose-mail)
        :config
        (defhydra hydra-mc (:hint nil)
-        "
-          ^Up^            ^Down^        ^Miscellaneous^
-     -----------------------------------------------------------
-     [_p_]   Next    [_n_]   Next    [_l_] Edit lines  [_x_] Arrows
-     [_P_]   Skip    [_N_]   Skip    [_a_] Mark all    [_g_] Regexp
-     [_M-p_] Unmark  [_M-n_] Unmark  [_q_] Quit"
-       ("l"   mc/edit-lines :exit t)
-       ("a"   mc/mark-all-like-this-dwim :exit t)
-       ("n"   mc/mark-next-like-this)
-       ("N"   mc/skip-to-next-like-this)
-       ("M-n" mc/unmark-next-like-this)
-       ("p"   mc/mark-previous-like-this)
-       ("P"   mc/skip-to-previous-like-this)
-       ("M-p" mc/unmark-previous-like-this)
-       ("g"   mc/mark-all-in-region-regexp :exit t)
-       ("r"   mc/mark-sgml-tag-pair :exit t)
-       ("x"   mc/mark-more-like-this-extended)
-       ("q"   nil))
-     (add-hydra-mc-funcs))
+         "
+       ^Up^            ^Down^        ^Miscellaneous^
+        -----------------------------------------------------------
+        [_p_]   Next    [_n_]   Next    [_l_] Edit lines  [_x_] Arrows
+        [_P_]   Skip    [_N_]   Skip    [_a_] Mark all    [_g_] Regexp
+        [_M-p_] Unmark  [_M-n_] Unmark  [_q_] Quit"
+         ("l"   mc/edit-lines :exit t)
+         ("a"   mc/mark-all-like-this-dwim :exit t)
+         ("n"   mc/mark-next-like-this)
+         ("N"   mc/skip-to-next-like-this)
+         ("M-n" mc/unmark-next-like-this)
+         ("p"   mc/mark-previous-like-this)
+         ("P"   mc/skip-to-previous-like-this)
+         ("M-p" mc/unmark-previous-like-this)
+         ("g"   mc/mark-all-in-region-regexp :exit t)
+         ("r"   mc/mark-sgml-tag-pair :exit t)
+         ("x"   mc/mark-more-like-this-extended)
+         ("q"   nil))
+       (add-hydra-mc-funcs))
 
      (defun add-hydra-mc-funcs ()
        "Add my hydra-mc funcs to the proper whitelist"
@@ -1187,11 +1188,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Relative line numbers                                            :PENDING:
 
-#+BEGIN_SRC emacs-lisp
-  (use-package linum-relative
-    :defer 10
-    :ensure t)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (use-package linum-relative
+       :defer 10
+       :ensure t)
+   #+END_SRC
 
 ** ImageMagick
 
@@ -1321,10 +1322,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package undo-tree
        :ensure t
        :config
-       ;(global-undo-tree-mode)
+                                             ;(global-undo-tree-mode)
        (defhydra hydra-undo-tree (:color yellow :hint nil)
          "
-     _p_: undo _n_: redo _s_: save _l_: load  "
+       _p_: undo _n_: redo _s_: save _l_: load  "
          ("p" undo-tree-undo)
          ("n" undo-tree-redo)
          ("s" undo-tree-save-history)
@@ -1510,7 +1511,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                   ("[^<]\\(~~\\)"                #Xe168)
                   ("\\(~~>\\)"                   #Xe169)
                   ("\\(%%\\)"                    #Xe16a)
-                 ;; ("\\(x\\)"                   #Xe16b) This ended up being hard to do properly so i'm leaving it out.
+                  ;; ("\\(x\\)"                   #Xe16b) This ended up being hard to do properly so i'm leaving it out.
                   ("[^:=]\\(:\\)[^:=]"           #Xe16c)
                   ("[^\\+<>]\\(\\+\\)[^\\+<>]"   #Xe16d)
                   ("[^\\*/<>]\\(\\*\\)[^\\*/<>]" #Xe16f))))
@@ -1637,10 +1638,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (setq bnb/sml-adjustment 3)
      (defun bnb/sml-subtract-adjustment (width)
-        (- width bnb/sml-adjustment))
+       (- width bnb/sml-adjustment))
      (add-function :filter-return
-            (symbol-function 'sml/fill-width-available)
-            #'bnb/sml-subtract-adjustment)
+                   (symbol-function 'sml/fill-width-available)
+                   #'bnb/sml-subtract-adjustment)
    #+END_SRC
 
 ** Sky Color Clock
@@ -1844,10 +1845,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (setq calendar-week-start-day 1
            calendar-intermonth-text
-             '(propertize
-               (format "%2d"
-                       (bnb/workweek-from-gregorian (list month day year)))
-               'font-lock-face 'font-lock-function-name-face))
+           '(propertize
+             (format "%2d"
+                     (bnb/workweek-from-gregorian (list month day year)))
+             'font-lock-face 'font-lock-function-name-face))
 
    #+END_SRC
 
@@ -1924,12 +1925,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (defun bnb/insert-weekly-time-sheet ()
        (with-temp-buffer
          (insert
-               (concat  "#+BEGIN: clocktable :maxlevel 3 :scope agenda-with-archives :block lastweek :fileskip0 t :properties (\"Score\") :indent nil \n"
-                        "#+TBLFM: $6='(org-clock-time% @2$4 $3..$5);%.1f::@2$2=vsum(@3$2..@>$2)\n"
-                        "#+END:\n\n"))
-              (goto-char (point-min))
-              (org-update-dblock)
-              (buffer-substring (point-min) (point-max))))
+          (concat  "#+BEGIN: clocktable :maxlevel 3 :scope agenda-with-archives :block lastweek :fileskip0 t :properties (\"Score\") :indent nil \n"
+                   "#+TBLFM: $6='(org-clock-time% @2$4 $3..$5);%.1f::@2$2=vsum(@3$2..@>$2)\n"
+                   "#+END:\n\n"))
+         (goto-char (point-min))
+         (org-update-dblock)
+         (buffer-substring (point-min) (point-max))))
 
      (defun bnb/insert-weekly-clocking ()
        (let ((year (number-to-string (nth 2 (calendar-gregorian-from-absolute (org-today)))))
@@ -1955,31 +1956,31 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    all is green.  Otherwise, I get a warning type formatting above 80%
    and error type formatting under.
 
-#+BEGIN_SRC emacs-lisp
-  ;; Define my goal to hit
-  (defvar bnb/weekly-score-goal 42)
+   #+BEGIN_SRC emacs-lisp
+     ;; Define my goal to hit
+     (defvar bnb/weekly-score-goal 42)
 
-  ;; Add up all the scores from DONE items in the agenda files
-  (defun bnb/agenda-score-goal ()
-    (let* ((score ;; Add up all scores from DONE items
-            (apply '+
-                   (org-map-entries
-                    (lambda () (string-to-number (or (org-entry-get (point) "Score") "0")))
-                    "/DONE" 'agenda)))
-           (scaled-goal (* bnb/weekly-score-goal (/ (string-to-number (format-time-string "%w")) 5.0)))
-           (face (cond ((>= score scaled-goal) 'success)
-                       ((>= score (* .8 scaled-goal)) 'warning)
-                       (t 'error))))
-      (insert
-       (concat
-        (propertize
-         (format "Score Goal (%d): " scaled-goal) 'face 'org-agenda-structure)
-        (propertize
-         (format "%d/%d\n" score bnb/weekly-score-goal) 'face face)))))
+     ;; Add up all the scores from DONE items in the agenda files
+     (defun bnb/agenda-score-goal ()
+       (let* ((score ;; Add up all scores from DONE items
+               (apply '+
+                      (org-map-entries
+                       (lambda () (string-to-number (or (org-entry-get (point) "Score") "0")))
+                       "/DONE" 'agenda)))
+              (scaled-goal (* bnb/weekly-score-goal (/ (string-to-number (format-time-string "%w")) 5.0)))
+              (face (cond ((>= score scaled-goal) 'success)
+                          ((>= score (* .8 scaled-goal)) 'warning)
+                          (t 'error))))
+         (insert
+          (concat
+           (propertize
+            (format "Score Goal (%d): " scaled-goal) 'face 'org-agenda-structure)
+           (propertize
+            (format "%d/%d\n" score bnb/weekly-score-goal) 'face face)))))
 
-  ;; This hook runs first in the agenda (and before it is set to read-only)
-  (add-hook 'org-agenda-mode-hook 'bnb/agenda-score-goal)
-#+END_SRC
+     ;; This hook runs first in the agenda (and before it is set to read-only)
+     (add-hook 'org-agenda-mode-hook 'bnb/agenda-score-goal)
+   #+END_SRC
 
 ** Calendars
 
@@ -2048,7 +2049,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                      (org-fit-window-to-buffer))
                  (with-selected-window (display-buffer buf)
                    (org-fit-window-to-buffer))))
-            (bnb/org-agenda-with-tip nil))))
+           (bnb/org-agenda-with-tip nil))))
 
      (defun bnb/idle-agenda (&optional arg)
        (interactive "P")
@@ -2145,10 +2146,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC elisp
      (dolist (command '(yank yank-pop))
-        (eval `(defadvice ,command (after indent-region activate)
-                 (and (not current-prefix-arg)
-                      (let ((mark-even-if-inactive transient-mark-mode))
-                        (indent-region (region-beginning) (region-end) nil))))))
+       (eval `(defadvice ,command (after indent-region activate)
+                (and (not current-prefix-arg)
+                     (let ((mark-even-if-inactive transient-mark-mode))
+                       (indent-region (region-beginning) (region-end) nil))))))
    #+END_SRC
 
 ** Hide mode line                                                   :PENDING:
@@ -2419,48 +2420,48 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             projectile-completion-system 'default)
       (projectile-mode)
       (defhydra hydra-projectile-other-window (:color teal)
-                  "projectile-other-window"
-                  ("f"  projectile-find-file-other-window        "file")
-                  ("g"  projectile-find-file-dwim-other-window   "file dwim")
-                  ("d"  projectile-find-dir-other-window         "dir")
-                  ("b"  projectile-switch-to-buffer-other-window "buffer")
-                  ("q"  nil                                      "cancel" :color blue))
+        "projectile-other-window"
+        ("f"  projectile-find-file-other-window        "file")
+        ("g"  projectile-find-file-dwim-other-window   "file dwim")
+        ("d"  projectile-find-dir-other-window         "dir")
+        ("b"  projectile-switch-to-buffer-other-window "buffer")
+        ("q"  nil                                      "cancel" :color blue))
       (defhydra hydra-projectile (:color teal :hint nil)
-                  "
-         PROJECTILE: %(projectile-project-root)
+        "
+     PROJECTILE: %(projectile-project-root)
 
-         Find File            Search/Tags          Buffers                Cache
-    ------------------------------------------------------------------------------------------
-    _C-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache clear
-     _ff_: file dwim       _g_: update gtags      _b_: switch to buffer  _x_: remove known project
-     _fd_: file curr dir   _o_: multi-occur     _C-k_: Kill all buffers  _X_: cleanup non-existing
-      _r_: recent file                                               ^^^^_z_: cache current
-      _d_: dir
+     Find File            Search/Tags          Buffers                Cache
+      ------------------------------------------------------------------------------------------
+      _C-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache clear
+       _ff_: file dwim       _g_: update gtags      _b_: switch to buffer  _x_: remove known project
+       _fd_: file curr dir   _o_: multi-occur     _C-k_: Kill all buffers  _X_: cleanup non-existing
+        _r_: recent file                                               ^^^^_z_: cache current
+        _d_: dir
 
-    "
-                  ("a"   counsel-projectile-ag)
-                  ("b"   projectile-switch-to-buffer)
-                  ("c"   projectile-invalidate-cache)
-                  ("d"   projectile-find-dir)
-                  ("C-f" projectile-find-file)
-                  ("ff"  projectile-find-file-dwim)
-                  ("fd"  projectile-find-file-in-directory)
-                  ("g"   ggtags-update-tags)
-                  ("C-g" ggtags-update-tags)
-                  ("i"   projectile-ibuffer)
-                  ("K"   projectile-kill-buffers)
-                  ("C-k" projectile-kill-buffers)
-                  ("m"   projectile-multi-occur)
-                  ("o"   projectile-multi-occur)
-                  ("C-p" projectile-switch-project "switch project")
-                  ("p"   projectile-switch-project)
-                  ("s"   projectile-switch-project)
-                  ("r"   projectile-recentf)
-                  ("x"   projectile-remove-known-project)
-                  ("X"   projectile-cleanup-known-projects)
-                  ("z"   projectile-cache-current-file)
-                  ("`"   hydra-projectile-other-window/body "other window")
-                  ("q"   nil "cancel" :color blue)))
+      "
+        ("a"   counsel-projectile-ag)
+        ("b"   projectile-switch-to-buffer)
+        ("c"   projectile-invalidate-cache)
+        ("d"   projectile-find-dir)
+        ("C-f" projectile-find-file)
+        ("ff"  projectile-find-file-dwim)
+        ("fd"  projectile-find-file-in-directory)
+        ("g"   ggtags-update-tags)
+        ("C-g" ggtags-update-tags)
+        ("i"   projectile-ibuffer)
+        ("K"   projectile-kill-buffers)
+        ("C-k" projectile-kill-buffers)
+        ("m"   projectile-multi-occur)
+        ("o"   projectile-multi-occur)
+        ("C-p" projectile-switch-project "switch project")
+        ("p"   projectile-switch-project)
+        ("s"   projectile-switch-project)
+        ("r"   projectile-recentf)
+        ("x"   projectile-remove-known-project)
+        ("X"   projectile-cleanup-known-projects)
+        ("z"   projectile-cache-current-file)
+        ("`"   hydra-projectile-other-window/body "other window")
+        ("q"   nil "cancel" :color blue)))
   #+END_SRC
 
 ** Rails
@@ -2483,27 +2484,38 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (use-package flycheck
         :ensure t
         :defer 10
-        :init (global-flycheck-mode)
+                                              ;:init (global-flycheck-mode)
         :config
         (bind-key "H-!"
-          (defhydra hydra-toggle (:color amaranth)
-            "
-      _c_ Check buffer      _x_ Explain error
-      _n_ Next error        _h_ Show error
-      _p_ Previous error
-      _l_ Show all errors   _s_ Select syntax checker
-      _C_ Clear errors      _?_ Describe syntax checker
-      "
-            ("c" flycheck-buffer)
-            ("n" flycheck-next-error)
-            ("p" flycheck-previous-error)
-            ("l" flycheck-list-errors)
-            ("C" flycheck-clear-errors)
-            ("x" flycheck-explain-error-at-point)
-            ("h" flycheck-display-error-at-point)
-            ("s" flycheck-select-checker)
-            ("?" flycheck-describe-checker)
-            ("q" nil))))
+                  (defhydra hydra-toggle (:color amaranth)
+                    "
+          _c_ Check buffer      _x_ Explain error
+          _n_ Next error        _h_ Show error
+          _p_ Previous error
+          _l_ Show all errors   _s_ Select syntax checker
+          _C_ Clear errors      _?_ Describe syntax checker
+          "
+                    ("c" flycheck-buffer)
+                    ("n" flycheck-next-error)
+                    ("p" flycheck-previous-error)
+                    ("l" flycheck-list-errors)
+                    ("C" flycheck-clear-errors)
+                    ("x" flycheck-explain-error-at-point)
+                    ("h" flycheck-display-error-at-point)
+                    ("s" flycheck-select-checker)
+                    ("?" flycheck-describe-checker)
+                    ("q" nil))))
+    #+END_SRC
+
+*** Prog fill                                                       :PENDING:
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package prog-fill
+        :ensure t
+        :config
+        (setq
+         prog-fill-floating-close-paren-p nil
+         prog-fill-break-method-immediate-p t))
     #+END_SRC
 
 ** Clojure
@@ -2536,9 +2548,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
         ;; Hide special buffers
         (setq nrepl-hide-special-buffers t
-        ;; Stop the error from popping up while working in buffers other than the REPL
+              ;; Stop the error from popping up while working in buffers other than the REPL
               cider-popup-stacktraces nil
-        ;; Stop prompting to save file when killing repl buffer
+              ;; Stop prompting to save file when killing repl buffer
               cider-prompt-save-file-on-load nil))
     #+END_SRC
 
@@ -2992,16 +3004,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   extensions to my liking and enable the mode.
 
   #+BEGIN_SRC emacs-lisp
-    ;(setq ido-everywhere t)
+                                            ;(setq ido-everywhere t)
     (setq ido-enable-flex-matching t)
-    ; Do not ask to create a new buffer -- just do it.
+                                            ; Do not ask to create a new buffer -- just do it.
     (setq ido-create-new-buffer 'always)
-    ; Try to guess if point is at a filename
+                                            ; Try to guess if point is at a filename
     (setq ido-use-filename-at-point 'guess)
-    ; Set extension ordering
+                                            ; Set extension ordering
     (setq ido-file-extensions-order '(".org" ".tex" ".el" ".txt" ".c" ".cpp" ".h" ".clj"))
-    ; Enable mode
-    ; (ido-mode t)
+                                            ; Enable mode
+                                            ; (ido-mode t)
   #+END_SRC
 
 ** Keystrokes
@@ -3064,7 +3076,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (defalias 'zsh 'ansi-term)
 
      (setq ansi-term-color-vector
-           [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
+           [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white]
+           ansi-color-faces-vector
+           [default bold shadow italic underline bold bold-italic bold])
    #+END_SRC
 
 ** Eshell
@@ -3109,10 +3123,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+BEGIN_SRC emacs-lisp
       (defun eshell/emo (&rest args)
         (mapc
-           (lambda (f)
-             (save-selected-window
-               (find-file-other-window f)))
-           (mapcar #'expand-file-name (eshell-flatten-list (reverse args)))))
+         (lambda (f)
+           (save-selected-window
+             (find-file-other-window f)))
+         (mapcar #'expand-file-name (eshell-flatten-list (reverse args)))))
     #+END_SRC
 
     I also setup some command aliases. Here, I create a long listing,
@@ -3203,7 +3217,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (setq-default TeX-master nil)
       (add-to-list 'org-latex-packages-alist
                    '("" "tikz" t))
-        (add-to-list 'org-latex-packages-alist
+      (add-to-list 'org-latex-packages-alist
                    '("" "minted" t))
       (setq org-latex-create-formula-image-program 'imagemagick)
       (eval-after-load "preview"
@@ -3603,14 +3617,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+BEGIN_SRC emacs-lisp
       (defun bnb/add-weekly-score-table-entry ()
         (let ((score (apply
-                       '+
-                       (org-map-entries
-                        (lambda ()
-                          (string-to-number (or (org-entry-get (point) "Score") "0")))
-                        "/DONE"
-                        'agenda)))
-               (year (format-time-string "%Y" (current-time)))
-               (ww (number-to-string (bnb/workweek))))
+                      '+
+                      (org-map-entries
+                       (lambda ()
+                         (string-to-number (or (org-entry-get (point) "Score") "0")))
+                       "/DONE"
+                       'agenda)))
+              (year (format-time-string "%Y" (current-time)))
+              (ww (number-to-string (bnb/workweek))))
           (format "| %s | %s | %s |" year ww score)))
     #+END_SRC
 
@@ -3620,7 +3634,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+BEGIN_SRC emacs-lisp
       (defun bnb/org-time-logged-table-entry (&optional additional-weeks)
         "Insert table of minutes per category.
-      Optionally provide ADDITIONAL-WEEKS to get more history"
+          Optionally provide ADDITIONAL-WEEKS to get more history"
         (interactive "P")
         (unless additional-weeks (setq additional-weeks 0))
         (let* ((minh (make-hash-table :test 'equal))
@@ -3859,7 +3873,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+END_SRC
 
     #+BEGIN_SRC emacs-lisp
-       ;; Show what happened today.
+      ;; Show what happened today.
       (add-to-list 'org-agenda-custom-commands
                    '("rtd" "Daily Timesheet"
                      ((agenda ""))
