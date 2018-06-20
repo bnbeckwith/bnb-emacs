@@ -269,7 +269,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 ** Diminish
 
    #+BEGIN_SRC emacs-lisp
-     (use-package 'diminish :ensure t)
+     (use-package diminish :ensure t)
    #+END_SRC
 
 ** Personal Keymaps
