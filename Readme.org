@@ -2903,7 +2903,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             helm-buffers-fuzzy-matching t
             helm-mode-fuzzy-match t
             helm-completion-in-region-fuzzy-match t
-            helm-display-function 'helm-display-buffer-in-own-frame
+            helm-display-function (if (eq system-type 'darwin) 'helm-display-buffer-in-own-frame 'helm-default-display-buffer)
             helm-display-buffer-reuse-frame t
             helm-use-undecorated-frame-option t)
       (helm-mode t))
