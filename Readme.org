@@ -2214,22 +2214,26 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 * File Management
 ** Dired
 
-   So, I used =dired+= instead of the regular =dired=. It offers more
-   interesting colors and more flexible ways to mark files.
-
-   For example, to mark by extension, press =*.=, then type the
-   extension (with dot).
-
-   Here I enable the =dired-find-alternate-file= command. It lets my
-   just type =a= to replace the current buffer and reduces the
-   accumulating =dired= buffers.
-
    #+BEGIN_SRC emacs-lisp
-     (use-package dired+
-       :after dired
+     (use-package dired-hacks-utils
+       :ensure t)
+
+     (use-package dired-filter
        :ensure t
-       :config
-       (put 'dired-find-alternate-file 'disabled nil))
+       :bind (:map dired-mode-map
+                   ("*" . dired-filter-map)))
+
+     (use-package dired-rainbow
+       :ensure t)
+
+     (use-package dired-narrow
+       :ensure t)
+
+     (use-package dired-collapse
+       :ensure t)
+
+     (use-package dired-open
+       :ensure t)
    #+END_SRC
 
    Also, there is a nice faculty to run an external command on a given
