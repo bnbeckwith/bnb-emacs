@@ -4565,6 +4565,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :bind ("H-n" . org-noter))
    #+END_SRC
 
+** Org Wild Notifier                                                :PENDING:
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-wild-notifier
+       :ensure t
+       :init (org-wild-notifier-mode t))
+   #+END_SRC
 * Calc
 
   Working in computer land, I add these additional units to =calc=.
