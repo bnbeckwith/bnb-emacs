@@ -2829,6 +2829,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package web-mode
        :defer
        :ensure t
+       :bind ("H-b" . browse-url-of-file)
        :config
        (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
        (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
