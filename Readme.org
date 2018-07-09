@@ -2214,14 +2214,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 * File Management
 ** Dired
 
+   These are part of the [[https://github.com/Fuco1/dired-hacks][dired-hacks repository]].
+
+
+
    #+BEGIN_SRC emacs-lisp
      (use-package dired-hacks-utils
        :ensure t)
 
      (use-package dired-filter
-       :ensure t
-       :bind (:map dired-mode-map
-                   ("*" . dired-filter-map)))
+       :ensure t)
 
      (use-package dired-rainbow
        :ensure t)
@@ -2230,9 +2232,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :ensure t)
 
      (use-package dired-collapse
-       :ensure t)
-
-     (use-package dired-open
        :ensure t)
    #+END_SRC
 
