@@ -1347,6 +1347,20 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (global-set-key (kbd "H-,") 'hydra-undo-tree/body))
    #+END_SRC
 
+** Adaptive Fill                                                    :PENDING:
+
+   Try to keep any prefixed elements of the first line for paragraph
+   filling.
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package filladapt
+       :ensure t
+       :commands filladapt-mode
+       :init (setq-default filladapt-mode t)
+       :hook ((text-mode . filladapt-mode)
+              (prog-mode . turn-off-filladapt-mode)))
+   #+END_SRC
+
 * Style
 
   The following sections describe items that affect the visual
