@@ -2852,6 +2852,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package emmet-mode
+       :ensure t
        :config
        (add-hook 'web-mode-hook 'emmet-mode)
        (add-hook 'sgml-mode-hook 'emmet-mode)
