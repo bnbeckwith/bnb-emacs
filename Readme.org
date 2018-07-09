@@ -691,6 +691,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          :config (magithub-feature-autoinject t))
      #+END_SRC
 
+**** Magit Todos
+
+     Within the [[Magit]] interface, show any todos listed in the files
+     under version control.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package magit-todos
+        :ensure t
+        :after magit
+        :hook (magit-mode-hook . magit-todos-mode))
+    #+END_SRC
+
 *** Git timemachine                                                 :PENDING:
 
     Loop through the history of a file with some simple keystrokes (or wheeling up and down)
