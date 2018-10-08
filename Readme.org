@@ -2083,8 +2083,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              (if arg
                  (cancel-timer bnb/iagenda)
                (run-with-idle-timer 3600 t 'bnb/jump-to-org-agenda))))
-
-     (bnb/idle-agenda)
    #+END_SRC
 
 ** Transparency
