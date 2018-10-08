@@ -2880,17 +2880,29 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** HTML
 
-   [[https://github.com/smihica/emmet-mode][Emmet mode]] allows for terse description of nested elements. There
-   is great documentation on the approach at [[http://emmet.io][emmet.io]].
+*** Impatient mode
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package emmet-mode
-       :ensure t
-       :config
-       (add-hook 'web-mode-hook 'emmet-mode)
-       (add-hook 'sgml-mode-hook 'emmet-mode)
-       (add-hook 'css-mode-hook 'emmet-mode))
-   #+END_SRC
+    In order to play nicely with HTML+, it needs to be added to the
+    filters of impatient mode.
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package impatient-mode
+        :config
+        (add-to-list 'imp-default-user-filters '(mhtml-mode . nil)))
+    #+END_SRC
+
+*** Emmet
+    [[https://github.com/smihica/emmet-mode][Emmet mode]] allows for terse description of nested elements. There
+    is great documentation on the approach at [[http://emmet.io][emmet.io]].
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package emmet-mode
+        :ensure t
+        :config
+        (add-hook 'web-mode-hook 'emmet-mode)
+        (add-hook 'sgml-mode-hook 'emmet-mode)
+        (add-hook 'css-mode-hook 'emmet-mode))
+    #+END_SRC
 
 
 ** Plantuml
