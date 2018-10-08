@@ -2545,6 +2545,20 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          prog-fill-break-method-immediate-p t))
     #+END_SRC
 
+*** Language Server Protocol
+
+    | Key   | Function            |
+    |-------+---------------------|
+    | C-M-i | completion at point |
+    | M-.   | Goto definition     |
+    | M-?   | Symbol references   |
+    | M-x   | Rename              |
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package lsp-mode
+        :ensure t)
+    #+END_SRC
+
 ** Clojure
 
    The easiest way to edit clojure code is with =paredit= so let's have
@@ -2813,6 +2827,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (with-eval-after-load 'company
          (add-to-list 'company-backends 'company-racer)))
 
+     (use-package lsp-rust
+       :ensure
+       :after (lsp-mode)
+       :config
+       (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls")))
+
      (use-package rustic
        :commands (cargo-minor-mode)
        :mode "\\.rs"
@@ -2821,7 +2841,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                   ("C-c TAB" . rustic-format-buffer)
                   ("TAB" . company-indent-or-complete-common))
        :init
-       (setq company-tooltip-align-annotations t)
+       (setq company-tooltip-align-annotations t
+             rustic-format-on-save nil)
        (add-hook 'rustic-mode-hook #'cargo-minor-mode)
        (add-hook 'rustic-mode-hook #'racer-mode)
        (add-hook 'rustic-mode-hook #'flycheck-mode)
