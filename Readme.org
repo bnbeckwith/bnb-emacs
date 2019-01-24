@@ -4603,6 +4603,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :ensure t
        :init (org-wild-notifier-mode t))
    #+END_SRC
+
+** Org QL
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package org-ql
+     :ensure t
+     :quelpa (org-ql :fetcher github :repo "alphapapa/org-ql")
+     :config
+     :ensure t)
+   #+END_SRC
+
+
 * Calc
 
   Working in computer land, I add these additional units to =calc=.
