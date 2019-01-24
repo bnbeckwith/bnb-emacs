@@ -2706,6 +2706,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                     (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
     #+END_SRC
 
+**** React Style JSX
+
+     #+BEGIN_SRC emacs-lisp
+       (use-package rjsx-mode
+         :mode "(components|src\\/pages)\\/.*\\.js\\'")
+     #+END_SRC
+
 *** Company tern
 
     #+BEGIN_SRC emacs-lisp
