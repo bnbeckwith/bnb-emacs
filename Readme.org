@@ -1188,16 +1188,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        ("C-c F" . focus-read-only-mode))
    #+END_SRC
 
-** Paperless Mode                                                   :PENDING:
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package paperless
-       :commands (paperless)
-       :config
-       (setq paperless-capture-directory "~/Desktop/"
-             paperless-root-directory "~/Documents/Personal/"))
-   #+END_SRC
-
 ** Relative line numbers                                            :PENDING:
 
    #+BEGIN_SRC emacs-lisp
@@ -1250,14 +1240,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (use-package pdf-tools
        :ensure t
-       :quelpa
-       (pdf-tools :fetcher github
-                  :repo "politza/pdf-tools"
-                  :files ("lisp/*.el"
-                          "README"
-                          ("build" "Makefile")
-                          ("build" "server")
-                          (:exclude "lisp/tablist.el" "lisp/tablist-filter.el")))
+       ;; :quelpa
+       ;; (pdf-tools :fetcher github
+       ;;            :repo "politza/pdf-tools"
+       ;;            :files ("lisp/*.el"
+       ;;                    "README"
+       ;;                    ("build" "Makefile")
+       ;;                    ("build" "server")
+       ;;                    (:exclude "lisp/tablist.el" "lisp/tablist-filter.el")))
        :init (add-hook 'pdf-view-mode-hook
                        (lambda ()
                          (nlinum-mode 0)))
@@ -1268,7 +1258,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (pdf-tools-install))
    #+END_SRC
 
-** Helpful                                                          :PENDING:
+** Helpful
 
    #+BEGIN_SRC emacs-lisp
      (use-package helpful
@@ -1683,7 +1673,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (push '(:eval (sky-color-clock)) (default-value 'mode-line-format)))
    #+END_SRC
 
-** Font lock profiling                                              :PENDING:
+** Font lock profiling
 
    Allow for profiling of font-locking.
 
@@ -2842,7 +2832,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (use-package rustic
        :commands (cargo-minor-mode)
-       :mode "\\.rs"
+       :mode ("\\.rs" . rustic-mode)
        :config
        (bind-keys :map rustic-mode-map
                   ("C-c TAB" . rustic-format-buffer)
@@ -2957,7 +2947,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (require 'helm-config)
       (bind-key "C-c h" 'helm-command-prefix)
       (bind-key [s-tab] 'other-frame)
-      (setq helm-quick-update  t
+      (setq helm-quick-update t
             helm-autoresize-mode t
             helm-autoresize-min-height 30
             helm-split-window-in-side-p t
@@ -3063,6 +3053,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package helm-lines
        :ensure t
        :bind ("M-l" . helm-lines))
+   #+END_SRC
+
+
+
+** Flx + Helm
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package helm-flx
+       :ensure t
+       :config
+       (setq helm-flx-for-helm-find-files t
+             helm-flx-for-helm-locate t))
    #+END_SRC
 
 * IDO (Interactively Do Things)
@@ -4603,21 +4605,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :bind ("H-n" . org-noter))
    #+END_SRC
 
-** Org Wild Notifier                                                :PENDING:
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package org-wild-notifier
-       :ensure t
-       :init (org-wild-notifier-mode t))
-   #+END_SRC
-
 ** Org QL
 
    #+BEGIN_SRC emacs-lisp
      (use-package org-ql
      :ensure t
      :quelpa (org-ql :fetcher github :repo "alphapapa/org-ql")
-     :config
+     :commands (org-ql-search)
+     :config (progn
+               (require 'org-habit))
      :ensure t)
    #+END_SRC
 
