@@ -2579,16 +2579,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
    #+END_SRC
 
-** Ember
-
-   Use ~ember-mode~ to move around nicely
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package ember-mode
-       :commands (ember-mode)
-       :defer)
-   #+END_SRC
-
 ** Javascript
 
    Let's make some javascript settings!
