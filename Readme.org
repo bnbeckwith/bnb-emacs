@@ -1263,6 +1263,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package helpful
+       :ensure t
        :bind
        ("C-h f" . helpful-function)
        ("C-h x" . helpful-command)
@@ -1545,6 +1546,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      #+BEGIN_SRC emacs-lisp
        (use-package unicode-fonts
+         :ensure t
          :defer 10
          :config
          (unicode-fonts-setup))
@@ -1639,6 +1641,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+BEGIN_SRC emacs-lisp
       (use-package gruvbox-theme :ensure t :defer t)
       (use-package material-theme :ensure t :defer t)
+      (use-package tango-plus-theme :ensure t :defer t)
+      (use-package minimal-theme :ensure t :defer t)
+      ;; dichromacy
+      ;; adwaita
     #+END_SRC
 
 ** Smart Mode Line
@@ -2697,6 +2703,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package cargo
+       :ensure t
        :mode "\\.rs"
        :init
        (bind-keys :prefix-map cargo-mode-map
@@ -2719,11 +2726,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                   ("R" . cargo-process-test-regexp)))
 
      (use-package racer
+       :ensure t
        :mode "\\.rs"
        :init
        (setq racer-rust-src-path "/Users/bnbeckwith/.rustup/toolchains/stable-x86_64-apple-darwin"))
 
      (use-package flycheck-rust
+       :ensure t
        :mode "\\.rs"
        :init
        (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
@@ -2742,6 +2751,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (add-hook 'racer-mode-hook #'company-mode))
 
      (use-package company-racer
+       :ensure t
        :defer
        :init
        (with-eval-after-load 'company
@@ -2754,6 +2764,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls")))
 
      (use-package rustic
+       :ensure t
        :commands (cargo-minor-mode)
        :mode ("\\.rs" . rustic-mode)
        :config
