@@ -30,7 +30,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   (=bnb-emacs=) in the =~/.emacs.d/= directory and run the code block
   (=C-c C-c=) to bootstrap the system.
 
-  #+BEGIN_SRC emacs-lisp :tangle "~/.emacs.d/init.el" :exports code :results silent
+  #+begin_src emacs-lisp :tangle "~/.emacs.d/init.el" :exports code :results silent
     ;;; init.el --- bnbeckwith config -*- eval: (read-only-mode 1) -*-
     (require 'package)
     (setq package-enable-at-startup nil)
@@ -38,7 +38,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     (require 'ob-tangle)
     (org-babel-load-file "~/.emacs.d/bnb-emacs/Readme.org")
-  #+END_SRC
+  #+end_src
 
   The bootstrapping is simple. Emacs finds =~/.emacs.d/init.el= and
   runs the code. The first step is to initialize the packages I have
@@ -68,18 +68,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Performance
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq use-package-verbose t
            use-package-minimum-reported-time 0)
-   #+END_SRC
+   #+end_src
 
 * Personal Information
 
   The full name is used for email messages.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (setq user-full-name "Benjamin Beckwith")
-  #+END_SRC
+  #+end_src
 
 * Local customizations (custom.el)
 
@@ -91,17 +91,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    I like to set the custom file explicitly. Mine resides in the
    =~/.emacs.d/= directory. This code block loads it if it exists.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (setq custom-file "~/.emacs.d/custom.el")
     (if (file-exists-p custom-file)
         (load-file custom-file))
 
     (with-eval-after-load "bind-key"
       (bind-key "<f7>"
-              (lambda ()
-                (interactive
-                 (find-file custom-file)))))
-  #+END_SRC
+                (lambda ()
+                  (interactive
+                   (find-file custom-file)))))
+  #+end_src
 
   If the file doesn't exist, =Emacs= will still use the file if any
   changes are made through the /custom interface/.
@@ -119,10 +119,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    I like to pull from the popular list of package archives.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
      (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-   #+END_SRC
+   #+end_src
 
    I install the packages with these repositories. This may
    take some time the first time it runs.
@@ -130,14 +130,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    Org-mode has their own repositories that keep me on the bleeding
    edge. They is why that repository is listed separately above.
 
-   #+BEGIN_SRC emacs-lisp
+   Once the repositories are defined, it's time to bootstrap the
+   package system and `use-package` in general since I use it
+   everywhere.
+
+   #+begin_src emacs-lisp
      (unless (package-installed-p 'use-package)
        (package-refresh-contents)
        (package-install 'use-package))
      (setq use-package-verbose t
            use-package-always-ensure nil)
      (require 'use-package)
-   #+END_SRC
+   #+end_src
 
 *** From Source
 
@@ -149,31 +153,31 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     handler to ~use-package~ making it fit in nicely with the rest of
     my configuration.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package quelpa)
       (use-package quelpa-use-package :ensure t)
 
       ;; Handle the `use-package-always-ensure' setting
       (quelpa-use-package-activate-advice)
-    #+END_SRC
+    #+end_src
 
 *** Load the latest files
 
     Always pick the latest version of the library to load.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq load-prefer-newer t)
-    #+END_SRC
+    #+end_src
 
 ** Binding Keys
 
    For binding keys, I use the =bind-key= package. Not only does it
    easily bind keys, but it does so with some nice features.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package bind-key
        :bind ("C-h B" . describe-personal-keybindings))
-   #+END_SRC
+   #+end_src
 
    By using ~bind-key~, you can specify the keystrokes that invoke a
    command. This is regular behavior that you can already achieve in
@@ -196,27 +200,27 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    Sometimes Emacs' idea of path differs from the shell. The package
    =exec-path-from-shell= seeks to bring those in line with each other.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package exec-path-from-shell
        :ensure t
        :config
        (exec-path-from-shell-initialize))
-   #+END_SRC
+   #+end_src
 
 ** Backups
 
    Sensible backup settings from [[https://www.emacswiki.org/emacs/BackupDirectory]]
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq backup-by-copying t
-           create-lockfiles nil
-           backup-directory-alist '((".*" . "~/.saves"))
-           ;; auto-save-file-name-transforms `((".*" "~/.saves" t))
-           delete-old-versions t
-           kept-new-versions 6
-           kept-old-versions 2
-           version-control t)
-   #+END_SRC
+     create-lockfiles nil
+     backup-directory-alist '((".*" . "~/.saves"))
+     ;; auto-save-file-name-transforms `((".*" "~/.saves" t))
+     delete-old-versions t
+     kept-new-versions 6
+     kept-old-versions 2
+     version-control t)
+   #+end_src
 
    Here's a quick rundown of the settings:
 
@@ -235,7 +239,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    shortcuts. I need to take care to not interfere with the
    built-in shortcuts or my bindings will not work.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq mac-function-modifier 'hyper
            mac-pass-command-to-system nil
            mac-right-option-modifier 'super
@@ -244,7 +248,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
            mac-command-modifier 'meta
            mac-control-modifier 'ctrl
            mac-option-modifier 'none)
-   #+END_SRC
+   #+end_src
 
    Note that the right =option= and =command= keys will pass through
    to the system. This is especially cool for the =option= key on a
@@ -262,16 +266,20 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    documentation. Think of it as a mini-control-panel. I include it here and
    use it elsewhere when grouping commands. (See [[Toggle Map]] for an example)
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package hydra
        :ensure t)
-   #+END_SRC
+   #+end_src
 
-** Diminish
+** Delight
 
-   #+BEGIN_SRC emacs-lisp
-     (use-package diminish :ensure t)
-   #+END_SRC
+   The mode line can get pretty busy showing all of the package
+   names. ~delight~ helps tone it down by removing some packages from
+   showing up, or changing their name to something shorter.
+
+   #+begin_src emacs-lisp
+     (use-package delight :ensure t)
+   #+end_src
 
 ** Personal Keymaps
 
@@ -284,7 +292,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     shortcut keys for enabling. The amaranth color makes this buffer
     stay around until I press =q=.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (defmacro toggle-setting-string (setting)
         `(if (and (boundp ',setting) ,setting) '[x] '[_]))
 
@@ -318,41 +326,41 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          ("N" linum-relative-toggle nil)
          ("m" bnb/hide-mode-line-mode nil)
          ("q" nil)))
-    #+END_SRC
+    #+end_src
 
 *** Elisp Maps
 
     Here are some nice-to-have features when in /elisp-mode/.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (bind-key
        "C-c e"
        (defhydra hydra-elisp-cmds (:color blue)
-         ("b" eval-buffer "eval buffer")
-         ("e" toggle-debug-on-error "debug-on-error")
-         ("f" emacs-lisp-byte-compile-and-load "byte-compile-and-load")
-         ("r" eval-region "eval-region")
-         ("q" nil))
+   ("b" eval-buffer "eval buffer")
+   ("e" toggle-debug-on-error "debug-on-error")
+   ("f" emacs-lisp-byte-compile-and-load "byte-compile-and-load")
+   ("r" eval-region "eval-region")
+   ("q" nil))
        emacs-lisp-mode-map)
-    #+END_SRC
+    #+end_src
 
     There is one block for execuing items and another for looking up
     specific =elisp= help.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (bind-key
        "C-h e"
        (defhydra hydra-elisp-help (:color blue)
-         ("e" view-echo-area-messages "view-echod-area-messages")
-         ("f" find-function "find-function")
-         ("k" find-function-on-key "find-function-on-key")
-         ("l" find-library "find-library")
-         ("v" find-variable "find-variable")
-         ("V" apropos-value "apropos-value")
-         ("i" info-display-manual "info-display-manual")
-         ("q" nil))
+   ("e" view-echo-area-messages "view-echod-area-messages")
+   ("f" find-function "find-function")
+   ("k" find-function-on-key "find-function-on-key")
+   ("l" find-library "find-library")
+   ("v" find-variable "find-variable")
+   ("V" apropos-value "apropos-value")
+   ("i" info-display-manual "info-display-manual")
+   ("q" nil))
        emacs-lisp-mode-map)
-    #+END_SRC
+    #+end_src
 
 *** Small bindings
 
@@ -368,14 +376,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       A little setup for =whitespace-mode= to diminish the mode and
       cleanup on save.
 
-      #+BEGIN_SRC emacs-lisp
+      #+begin_src emacs-lisp
         (use-package whitespace
           :ensure nil
           :config
           (setq whitespace-line-column nil)
           (add-hook 'before-save-hook 'whitespace-cleanup)
-          :diminish whitespace-mode)
-      #+END_SRC
+          :delight whitespace-mode)
+      #+end_src
 
 ***** Deletion
 
@@ -385,9 +393,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      I'd like it to be smart and leave one or no spaces if
      possible. The =fixup-whitespace= function will do that.
 
-     #+BEGIN_SRC emacs-lisp
+     #+begin_src emacs-lisp
        (bind-key "M-\\" 'fixup-whitespace)
-     #+END_SRC
+     #+end_src
 
 **** Scroll window up/down
 
@@ -395,7 +403,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      scroll the screen (without moving the cursor with respect to the
      frame).
 
-     #+BEGIN_SRC emacs-lisp
+     #+begin_src emacs-lisp
        (defun bnb/scroll-up-1 ()
          (interactive)
          (cua-scroll-up 1))
@@ -407,16 +415,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (bind-keys
         ("M-n" . bnb/scroll-up-1)
         ("M-p" . bnb/scroll-down-1))
-     #+END_SRC
+     #+end_src
 
 **** Align Regexp
 
      When selecting a region, a quick trip to ~align-regexp~ can align
      all of that nasty text.
 
-     #+BEGIN_SRC emacs-lisp
+     #+begin_src emacs-lisp
        (bind-key "C-c TAB" 'align-regexp)
-     #+END_SRC
+     #+end_src
 
 *** Kill current buffer
 
@@ -424,40 +432,40 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     kill the current buffer instead of asking which one.  I'm not
     overriding the =C-x k= default, but added a =C-x C-k= alternative.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (bind-keys
        ("C-x C-k" . kill-this-buffer))
-    #+END_SRC
+    #+end_src
 
 ** Minibuffer History
 
    Let's get rid of duplicates in the minibuffer history.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq history-delete-duplicates t)
-   #+END_SRC
+   #+end_src
 
    This saves the minibuffer histories to preserve across emacs
    sessions.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq savehist-additional-variables
-           '(search-ring regexp-search-ring)
-           savehist-file "~/.emacs.d/savehist")
+     '(search-ring regexp-search-ring)
+     savehist-file "~/.emacs.d/savehist")
      (savehist-mode t)
-   #+END_SRC
+   #+end_src
 
 ** Abbrev
 
    The following block is courtesy of [[http://endlessparentheses.com/ispell-and-abbrev-the-perfect-auto-correct.html][Endless Parentheses]].
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (bind-key "C-x C-i" 'bnb/ispell-word-then-abbrev)
 
      (defun bnb/ispell-word-then-abbrev (p)
        "Call `ispell-word'. Then create an abbrev for the correction
-       made. With prefix P, create local abbrev. Otherwise, it will be
-       global."
+         made. With prefix P, create local abbrev. Otherwise, it will be
+         global."
        (interactive "P")
        (let ((bef (downcase (or (thing-at-point 'word) ""))) aft)
          (call-interactively 'ispell-word)
@@ -472,16 +480,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (setq save-abbrevs t)
      (setq-default abbrev-mode t)
      (diminish 'abbrev-mode)
-   #+END_SRC
+   #+end_src
 
 ** Hippie Expand
 
    Try to expand the text before point in an intelligent way. Repeat
    the keypress to cycle through options.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (bind-key "M-/" 'hippie-expand)
-   #+END_SRC
+   #+end_src
 
 ** Emacs Bookmarks
 
@@ -496,71 +504,71 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    I will auto-save my bookmarks.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq bookmark-save-flag t)
-   #+END_SRC
+   #+end_src
 
 ** Writegood Mode
 
    This mode installs through the ELPA system.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package writegood-mode
        :ensure t
        :bind
        ("C-c g"     . writegood-mode)
        ("C-c C-g g" . writegood-grade-level)
        ("C-c C-g e" . writegood-reading-ease))
-   #+END_SRC
+   #+end_src
 
 ** Spell Checking
 
    [[http://blog.binchen.org/posts/what-s-the-best-spell-check-set-up-in-emacs.html][This site]] has an interesting suggestion on how to use =aspell= for
    CamelCase spell checking.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (cond
       ((executable-find "/usr/local/bin/aspell")
        (setq ispell-program-name (executable-find "/usr/local/bin/aspell")
-             ispell-extra-args '("--sug-mode=ultra" "--lang=en_US")))
+       ispell-extra-args '("--sug-mode=ultra" "--lang=en_US")))
       (t (setq ispell-program-name nil)
-         (message "No aspell found!")))
+   (message "No aspell found!")))
 
      (bind-key "H-$" 'ispell-word)
-   #+END_SRC
+   #+end_src
 
 ** Proselint
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (with-eval-after-load "flycheck-mode"
        (flycheck-define-checker proselint
-         "A linter for prose"
-         :command ("proselint" source-inplace)
-         :error-patterns
-         ((warning line-start (file-name) ":" line ":" column ": "
-                   (id (one-or-more (not (any " "))))
-                   (message (one-or-more not-newline)
-                            (zero-or-more "\n" (any " ") (one-or-more not-newline)))
-                   line-end))
-         :modes (text-mode markdown-mode gfm-mode org-mode))
+   "A linter for prose"
+   :command ("proselint" source-inplace)
+   :error-patterns
+   ((warning line-start (file-name) ":" line ":" column ": "
+       (id (one-or-more (not (any " "))))
+       (message (one-or-more not-newline)
+          (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+       line-end))
+   :modes (text-mode markdown-mode gfm-mode org-mode))
        (add-to-list 'flycheck-checkers 'proselint))
-   #+END_SRC
+   #+end_src
 
 ** Development
 
    For any lisp development, the following is nice to have.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (show-paren-mode t)
-   #+END_SRC
+   #+end_src
 
    While developing, documentation is nice to have handy and
    automatic.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (add-hook 'cperl-mode-hook 'turn-on-eldoc-mode)
      (add-hook 'eshell-mode-hook 'turn-on-eldoc-mode)
-   #+END_SRC
+   #+end_src
 
 ** Encryption
 
@@ -568,11 +576,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    below turns on the automatic encryption/decryption of =*.gpg=
    files.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package epa
        :disabled
        :config (epa-file-enable))
-   #+END_SRC
+   #+end_src
 
    It is possible that you would need to [[elisp:(customize-group%20'epg)][customize the location of
    gpg]].
@@ -582,7 +590,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    For read-only files, look at them in =view-mode= which will enable
    vi-style navigation.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package view
        :init (setq view-read-only t)
        :bind (:map view-mode-map
@@ -600,7 +608,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (defun bnb/view/q ()
          (interactive)
          (view-mode -1)))
-   #+END_SRC
+   #+end_src
 
 ** Default File encoding
 
@@ -610,7 +618,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    Set =utf-8= for all coding systems except for the clipboard on
    windows. That one gets =utf-16le= to be compatible.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (prefer-coding-system       'utf-8)
      (set-default-coding-systems 'utf-8)
      (set-terminal-coding-system 'utf-8)
@@ -621,28 +629,28 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      ;; MS Windows clipboard is UTF-16LE
      (when (eq system-type 'windows-nt)
        (set-clipboard-coding-system 'utf-16le-dos))
-   #+END_SRC
+   #+end_src
 
 ** Vimrc generic mode
 
    Good to have to help with my pentadactyl configuration as it is in
    a vim-style of configuration.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (define-generic-mode 'vimrc-generic-mode
        '()
        '()
        '(("^[\t ]*:?\\(!\\|ab\\|map\\|unmap\\)[^\r\n\"]*\"[^\r\n\"]*\\(\"[^\r\n\"]*\"[^\r\n\"]*\\)*$"
-          (0 font-lock-warning-face))
-         ("\\(^\\|[\t ]\\)\\(\".*\\)$"
-          (2 font-lock-comment-face))
-         ("\"\\([^\n\r\"\\]\\|\\.\\)*\""
-          (0 font-lock-string-face)))
+    (0 font-lock-warning-face))
+   ("\\(^\\|[\t ]\\)\\(\".*\\)$"
+    (2 font-lock-comment-face))
+   ("\"\\([^\n\r\"\\]\\|\\.\\)*\""
+    (0 font-lock-string-face)))
        '("/vimrc\\'" "\\.vim\\(rc\\)?\\'")
        '((lambda ()
-           (modify-syntax-entry ?\" ".")))
+     (modify-syntax-entry ?\" ".")))
        "Generic mode for Vim configuration files.")
-   #+END_SRC
+   #+end_src
 
 ** Ediff single frame
 
@@ -651,22 +659,22 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    the following setting, it forces =ediff= to use only one
    frame.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-   #+END_SRC
+   #+end_src
 
    Now the control window will be a small window instead of a
    separate frame.
 
 ** Git
-*** Magit
+** Magit
 
     [[info:magit#Top][Magit]] is a git interface for Emacs.
 
     Here I set a global key for ~magit-status~. Think 'G' looks
     like 6.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package magit
         :ensure t
         :bind ("<f6>" . magit-status)
@@ -681,34 +689,34 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      the magit warning, I set =magit-last-seen-setup-instructions= to
      1.4.0 as shown above.
 
-**** Magithub
+**** Forge
 
-     Add in an interface to Github
+     [[https://magit.vc/manual/forge/index.html#Top][Forge]] is the replacement for magithub. It uses `ghub` to work
+     with git forges such as github and gitlab.
 
-     #+BEGIN_SRC emacs-lisp
-       (use-package magithub
+     #+begin_src emacs-lisp
+       (use-package forge
          :ensure t
-         :after magit
-         :config (magithub-feature-autoinject t))
-     #+END_SRC
+         :commands (forge-pull))
+     #+end_src
 
 **** Magit Todos
 
      Within the [[Magit]] interface, show any todos listed in the files
      under version control.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package magit-todos
         :ensure t
         :after magit
         :hook (magit-mode-hook . magit-todos-mode))
-    #+END_SRC
+    #+end_src
 
 *** Git timemachine                                                 :PENDING:
 
     Loop through the history of a file with some simple keystrokes (or wheeling up and down)
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package git-timemachine
         :disabled
         :ensure t
@@ -720,14 +728,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          ("<M-down>" . git-timemachine-show-next-revision)
          ("<S-wheel-up>" . git-timemachine-show-previous-revision)
          ("<S-wheel-down>" . git-timemachine-show-next-revision)))
-    #+END_SRC
+    #+end_src
 
 *** Smerge
 
     Somewhere along the line, =smerge= was added. To facilitate
     editing merge conflicts, this hydra helps me do the work.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-hook
        'smerge-mode-hook
        (lambda ()
@@ -743,7 +751,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             ("r" smerge-resolve "Keep mine")
             ("q" nil "quit"))
           smerge-mode-map)))
-    #+END_SRC
+    #+end_src
 
 ** Open/Edit This file
 
@@ -751,33 +759,33 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    time I have something I need to remember for my emacs setting, it
    is just a button-push away.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (bind-key "<f5>"
                (lambda ()
                  (interactive)
                  (find-file "~/.emacs.d/bnb-emacs/Readme.org")))
-   #+END_SRC
+   #+end_src
 
 ** Sounds
 
    I dislike the bell ringing when I hit =C-g=. To silence the bell,
    just set the =ring-bell-function= to =nil=.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq visual-bell nil
            ring-bell-function `(lambda () nil))
-   #+END_SRC
+   #+end_src
 
 ** Midnight Mode
 
    This mode looks at midnight and kills any inactive buffers. By
    default, /inactive/ means is any buffer untouched for three days.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package midnight
        :ensure t
        :defer 10)
-   #+END_SRC
+   #+end_src
 
 ** Which Key
 
@@ -788,22 +796,22 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    I am using a setup that tries the right side of emacs first, and
    punts to a bottom window if there is not enough room.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package which-key
        :ensure t
-       :diminish which-key-mode
+       :delight which-key-mode
        :init
        (which-key-mode)
        (which-key-setup-side-window-right-bottom)
        (setq which-key-max-description-length 60))
-   #+END_SRC
+   #+end_src
 
 ** Ace Utilities
 *** Ace Flyspell
 
     Turn on [[https://github.com/cute-jumper/ace-flyspell][ace-flyspell]] when flyspell is enabled.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package ace-flyspell
         :ensure t
         :commands (ace-flyspell-setup)
@@ -817,7 +825,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
           ("j" ace-flyspell-jump-word "Jump word")
           ("." ace-flyspell-dwim "dwim")
           ("q" nil "Quit")))
-    #+END_SRC
+    #+end_src
 
 
 *** Ace Isearch                                                     :PENDING:
@@ -826,29 +834,29 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     input. The ~C-'~ key let's me jump to the isearch match easily
     with the ~ace-jump~ methods.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package ace-isearch
         :ensure t
         :bind (:map isearch-mode-map
                     ("C-'" . ace-isearch-jump-during-isearch))
-        :diminish ace-isearch-mode
+        :delight ace-isearch-mode
         :config
         (global-ace-isearch-mode t)
         (setq ace-isearch-function-from-isearch ace-isearch-input-length 8))
-    #+END_SRC
+    #+end_src
 
 *** Ace Link
 
     In modes with links, use =o= to jump to links. Map =M-o= to do the
     same in ~org-mode~.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package ace-link
-        :ensure t
-        :bind (:map org-mode-map
-                    ("M-o" . ace-link-org))
-        :config (ace-link-setup-default))
-    #+END_SRC
+  :ensure t
+  :bind (:map org-mode-map
+        ("M-o" . ace-link-org))
+  :config (ace-link-setup-default))
+    #+end_src
 
 *** Ace Window
 
@@ -863,7 +871,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     After reading [[https://github.com/abo-abo/ace-window/wiki][the wiki]], I supercharged the interface for =ace-window=.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package ace-window
         :ensure t
         :bind
@@ -906,7 +914,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         (add-to-list 'aw-dispatch-alist '(?o hydra-window-scroll/body) t)
 
         (set-face-attribute 'aw-leading-char-face nil :height 2.0))
-    #+END_SRC
+    #+end_src
 
 *** Avy Goto
 
@@ -914,7 +922,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     sense for me.  The interesting feature that I can use is that
     these highlight text an all shown buffers.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package avy
         :ensure t
         :bind
@@ -928,7 +936,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         ("M-g l" . avy-goto-line)
         ("M-g c" . avy-goto-char-2)
         ("M-g w" . avy-goto-word-0))
-    #+END_SRC
+    #+end_src
 
     The commands begin with the normal prefix of =M-g= for the goto
     commands and use l,c and w for lines, characters and words
@@ -942,25 +950,25 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     Zap to char using avy.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package avy-zap
         :ensure t
         :bind ("M-z" . avy-zap-to-char-dwim)
         ("M-Z" . avy-zap-up-to-char-dwim))
-    #+END_SRC
+    #+end_src
 
 ** Edit Server
 
    The edit server talks to Chrome and uses emacs to edit any
    text areas. I start this server here.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package edit-server
        :ensure t
        :defer 10
        :init
        (edit-server-start))
-   #+END_SRC
+   #+end_src
 
    Chrome needs to have the proper extension installed there too for
    the installation to be complete.
@@ -976,9 +984,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    syntax is what I tend to use most in searching and replacing, so I
    will make that my default.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq reb-re-syntax 'string)
-   #+END_SRC
+   #+end_src
 
    | Key Binding | Meaning                                    |
    |-------------+--------------------------------------------|
@@ -999,7 +1007,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    I also squash any empty groups from being displayed and add hooks
    to automatically set the filter groups and update contents.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (bind-key "C-x C-b" 'ibuffer)
 
      (setq ibuffer-show-empty-filter-groups nil)
@@ -1008,14 +1016,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                '(lambda ()
                   (ibuffer-auto-mode 1)
                   (ibuffer-switch-to-saved-filter-groups "Standard")))
-   #+END_SRC
+   #+end_src
 
 *** Groups
 
     The buffer list splits into arbitrary groups for easier
     management. Below I create an "Org" group for ~org-mode~ buffers.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq ibuffer-saved-filter-groups
             '(("Standard"
                ("Emacs" (or (filename . ".*bnb-emacs.*")
@@ -1028,7 +1036,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                ("Help" (or (name . "\*Help\*")
                            (name . "\*Apropos\*")
                            (name . "\*info\*"))))))
-    #+END_SRC
+    #+end_src
 
 **** VC Grouping
 
@@ -1037,12 +1045,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      filtered vc groups.  The keys =/ R= will go back to the standard
      view.
 
-     #+BEGIN_SRC emacs-lisp
+     #+begin_src emacs-lisp
        (use-package ibuffer-vc :ensure t
          :bind
          (:map ibuffer-mode-map
                ("/ v" . ibuffer-vc-set-filter-groups-by-vc-root)))
-     #+END_SRC
+     #+end_src
 
 ** Multiple Cursors
 
@@ -1053,7 +1061,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    *all* cursors when prompted. Otherwise, it seems, the cursors are
    duplicated in strange ways.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package multiple-cursors
        :ensure t
        :bind
@@ -1099,18 +1107,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          (let (value)
            (dolist (element funcs-to-whitelist nil)
              (add-to-list 'mc/cmds-to-run-once element)))))
-   #+END_SRC
+   #+end_src
 
 ** Expand Region
 
    Nice way to expand selections to semantic regions. Read more on
    [[https://github.com/magnars/expand-region.el]].
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package expand-region
        :ensure t
        :bind ("C-=" . er/expand-region))
-   #+END_SRC
+   #+end_src
 
 ** Hooks
 
@@ -1119,36 +1127,36 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 *** Ensure proper lisping
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-hook 'after-save-hook  'check-parens nil t)
-    #+END_SRC
+    #+end_src
 
 *** Auto Reverting in modes
 
     For view-only buffers rendering content, it is useful to have them
     ~auto-revert~ in case of changes.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-hook 'doc-view-mode-hook 'auto-revert-mode)
       (add-hook 'image-mode 'auto-revert-mode)
-    #+END_SRC
+    #+end_src
 
 ** Recentf
 
    I enable emacs remembering recently open files.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (recentf-mode t)
-   #+END_SRC
+   #+end_src
 
 ** Executable Scripts on save
 
    Taken from: http://mbork.pl/2015-01-10_A_few_random_Emacs_tips
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (add-hook 'after-save-hook
                'executable-make-buffer-file-executable-if-script-p)
-   #+END_SRC
+   #+end_src
 
 ** Scroll Screen Position
 
@@ -1157,9 +1165,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    following setting, =M-v= completely undoes the scroll leaving the
    cursor back in the original position.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq scroll-preserve-screen-position 'always)
-   #+END_SRC
+   #+end_src
 
    Thanks to http://irreal.org/blog/?p=3963 for the tip.
 
@@ -1168,49 +1176,49 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    When editing files with the same name, but different location, a
    unique identifier (based on path) is preferred over a number.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package uniquify
        :defer 10
        :config
        (setq uniquify-buffer-name-style 'post-forward
              uniquify-separator ":"))
-   #+END_SRC
+   #+end_src
 
-** Focus Mode                                                       :PENDING:
+** Focus Mode
 
    Dim everything except for the thing-at-point. Improves focus when
    reading code and text.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package focus
        :ensure t
        :bind
        ("C-c f" . focus-mode)
        ("C-c F" . focus-read-only-mode))
-   #+END_SRC
+   #+end_src
 
-** Relative line numbers                                            :PENDING:
+** Relative line numbers
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package linum-relative
        :defer 10
        :ensure t)
-   #+END_SRC
+   #+end_src
 
 ** ImageMagick
 
    Register file types if we can.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (when (fboundp 'imagemagick-register-types)
        (imagemagick-register-types))
-   #+END_SRC
+   #+end_src
 
 ** Schrute Mode                                                     :PENDING:
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package schrute
-       :diminish schrute-mode
+       :delight schrute-mode
        :defer 10
        :quelpa
        (schrute :fetcher github :repo "bnbeckwith/dwight-k.-schrute")
@@ -1219,75 +1227,99 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              '((avy-goto-line . (next-line previous-line))
                (avy-goto-word-1 . (left-char right-char))))
        (schrute-mode))
-   #+END_SRC
+   #+end_src
 
 ** Key frequency                                                    :PENDING:
 
    Record how often I use my keys.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package keyfreq
        :disabled
        :ensure t
        :init
        (keyfreq-mode 1)
        (keyfreq-autosave-mode 1))
-   #+END_SRC
+   #+end_src
 
 ** PDF Tools
 
-   #+BEGIN_SRC emacs-lisp
-     (setenv "PKG_CONFIG_PATH" "/usr/local/Cellar/zlib/1.2.8/lib/pkgconfig:/usr/local/lib/pkgconfig:/opt/X11/lib/pkgconfig")
+   This replaces the built-in DocView for PDF files. Find out the
+   details [[https://github.com/politza/pdf-tools][on the repo]].
+
+   #+begin_src emacs-lisp
+     (defcustom bnb/homebrew-prefix ""
+       "Prefix to use for an alternative path to homebrew items"
+       :type 'string
+       :group 'bnb)
+
+     (setenv "PKG_CONFIG_PATH"
+             (let ((hbp bnb/homebrew-prefix))
+               (setq pdf-info-epdfinfo-program (concat hbp "/usr/local/bin/epdfinfo"))
+               (mapconcat 'identity
+                          (list (concat hbp "/usr/local/Cellar/libffi/3.2.1/lib/pkgconfig")
+                                (concat hbp "/usr/local/Cellar/zlib/1.2.8/lib/pkgconfig")
+                                (concat hbp "/usr/local/lib/pkgconfig")
+                                "/opt/X11/lib/pkgconfig")
+                          ":")))
 
      (use-package pdf-tools
        :ensure t
-       ;; :quelpa
-       ;; (pdf-tools :fetcher github
-       ;;            :repo "politza/pdf-tools"
-       ;;            :files ("lisp/*.el"
-       ;;                    "README"
-       ;;                    ("build" "Makefile")
-       ;;                    ("build" "server")
-       ;;                    (:exclude "lisp/tablist.el" "lisp/tablist-filter.el")))
        :init (add-hook 'pdf-view-mode-hook
                        (lambda ()
                          (nlinum-mode 0)))
        :config
-       (custom-set-variables '(pdf-tools-handle-upgrades nil)) ;; brew upgrade pdf-tools instead
+       (custom-set-variables '(pdf-tools-handle-upgrades nil))
        (setq-default pdf-view-display-size 'fit-page)
-       (setq pdf-info-epdfinfo-program "/usr/local/bin/epdfinfo")
-       (pdf-tools-install))
-   #+END_SRC
+       (pdf-loader-install))
+   #+end_src
 
 ** Helpful
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package helpful
        :ensure t
        :bind
        ("C-h f" . helpful-function)
        ("C-h x" . helpful-command)
        ("C-h z" . helpful-macro))
-   #+END_SRC
+   #+end_src
 
 ** All the icons                                                    :PENDING:
 
    https://github.com/domtronn/all-the-icons.el
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package all-the-icons
        :ensure t
        :defer 10)
-   #+END_SRC
+   #+end_src
+
+*** All the icons Dired
+
+    Dired can also make use of pretty icons. Because of this integration,
+    ~sunrise-commander~ also gets some nice icons.
+
+    #+begin_src emacs-lisp
+      (use-package all-the-icons-dired
+  :ensure t
+  :commands (all-the-icons-dired-mode)
+  :config (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+    #+end_src
+
 
 ** Discover my mode
 
-   #+BEGIN_SRC emacs-lisp
+   If you ever wanted to know what keybindings were active in the
+   current buffer for the current mode, then it is now just a keypress
+   away.
+
+   #+begin_src emacs-lisp
      (use-package discover-my-major
        :ensure t
        :bind (("C-h C-m" . discover-my-major)
-              ("C-h C-d" . discover-my-mode)))
-   #+END_SRC
+        ("C-h C-d" . discover-my-mode)))
+   #+end_src
 
 ** Easy Kill
 
@@ -1295,63 +1327,49 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    ran across [[https://github.com/leoliu/easy-kill][easy-kill]]. Not only will it grab the filename, but
    provides ways to grab all sorts of fun things.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package easy-kill
        :bind ("M-w" . easy-kill)
        :ensure t)
-   #+END_SRC
+   #+end_src
 
-** Omni Kill                                                        :PENDING:
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package omni-kill
-       :ensure t
-       :bind (("H-o c" . omni-copy)
-              ("H-o d" . omni-delete)
-              ("H-o k" . omni-kill)
-              ("H-o s" . omni-select)
-              ("H-o n" . omni-narrow)
-              ("H-o r" . omni-save)
-              ("H-o a" . omni-start)
-              ("H-o e" . omni-end)
-              ("H-o h" . omni-help)))
-   #+END_SRC
-
-** Undo Tree                                                        :PENDING:
+** Undo Tree
 
    It's time to give undo-tree another try. The following hydra makes
    repeated undo/redo easier.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package undo-tree
+       :delight "¬"
        :ensure t
        :config
-                                             ;(global-undo-tree-mode)
+       (global-undo-tree-mode)
        (defhydra hydra-undo-tree (:color yellow :hint nil)
-         "
+   "
        _p_: undo _n_: redo _s_: save _l_: load  "
-         ("p" undo-tree-undo)
-         ("n" undo-tree-redo)
-         ("s" undo-tree-save-history)
-         ("l" undo-tree-load-history)
-         ("u" undo-tree-visualize "visualize" :color blue)
-         ("q" nil "quit" :color blue))
+   ("p" undo-tree-undo)
+   ("n" undo-tree-redo)
+   ("s" undo-tree-save-history)
+   ("l" undo-tree-load-history)
+   ("u" undo-tree-visualize "visualize" :color blue)
+   ("q" nil "quit" :color blue))
        (global-set-key (kbd "H-,") 'hydra-undo-tree/body))
-   #+END_SRC
+   #+end_src
 
 ** Adaptive Fill                                                    :PENDING:
 
    Try to keep any prefixed elements of the first line for paragraph
    filling.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package filladapt
+       :delight "▦"
        :ensure t
        :commands filladapt-mode
        :init (setq-default filladapt-mode t)
        :hook ((text-mode . filladapt-mode)
-              (prog-mode . turn-off-filladapt-mode)))
-   #+END_SRC
+        (prog-mode . turn-off-filladapt-mode)))
+   #+end_src
 
 * Style
 
@@ -1364,11 +1382,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    platform.  I remove the menu bar, tool bar and the scroll bar for
    starters.  Then, I setup the fringe area with some items
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
      (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
      (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
-   #+END_SRC
+   #+end_src
 
 ** Window Changes
 
@@ -1379,11 +1397,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    In the title bar, I have it print the buffer name, full file name
    and size.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq-default indicate-buffer-boundaries 'right)
      (setq-default indicate-empty-lines t)
      (setq-default frame-title-format '("%b %f %I"))
-   #+END_SRC
+   #+end_src
 
 ** Faces
 *** Default Fonts
@@ -1393,7 +1411,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     https://github.com/tonsky/FiraCode/wiki/Setting-up-Emacs
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package ring
         :bind ("H-f" . bnb/font-next)
         ("H-F" . bnb/font-prev)
@@ -1538,27 +1556,27 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         (font-lock-add-keywords nil fira-code-font-lock-keywords-alist))
 
       ;;(add-fira-code-symbol-keywords)
-    #+END_SRC
+    #+end_src
 
 **** Unicode
 
      Support unicode fonts
 
-     #+BEGIN_SRC emacs-lisp
+     #+begin_src emacs-lisp
        (use-package unicode-fonts
          :ensure t
          :defer 10
          :config
          (unicode-fonts-setup))
-     #+END_SRC
+     #+end_src
 
 *** Trying out fonts on Windows
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (defun bnb/windows-set-font ()
         (interactive)
         (set-face-attribute 'default nil :font (w32-select-font)))
-    #+END_SRC
+    #+end_src
 
 *** Dynamic Font sizes
 
@@ -1566,7 +1584,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     use the following keybindings. =C--= overrides the negative
     argument function, but that one is also accessible by =M--=.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (defun bnb/change-frame-font-size (fn)
         (let* ((font-name (frame-parameter nil 'font))
                (decomposed-font-name (x-decompose-font-name font-name))
@@ -1588,7 +1606,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        ("s--" . bnb/frame-text-scale-decrease)
        ("s-+" . bnb/frame-text-scale-increase)
        ("s-=" . bnb/frame-text-scale-increase))
-    #+END_SRC
+    #+end_src
 
 *** Mode Line Style
 
@@ -1597,11 +1615,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     get a flat feel. Be sure to do it to all =mode-line= faces that
     have this attribute.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (set-face-attribute 'mode-line nil :box nil)
       (set-face-attribute 'mode-line-inactive nil :box nil)
       (set-face-attribute 'mode-line-highlight nil :box nil)
-    #+END_SRC
+    #+end_src
 
 *** Missing Glyphs
 
@@ -1610,49 +1628,49 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     [[http://users.teilar.gr/~g1951d/][Download Symbola]] if you do not have it.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (set-fontset-font "fontset-default" nil
                         (font-spec :size 20 :name "Symbola"))
-    #+END_SRC
+    #+end_src
 
 *** Cursor width
 
     Make the cursor the full width of the character at point.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq x-stretch-cursor t)
-    #+END_SRC
+    #+end_src
 
 ** Themes
 
    I used to have [[http://www.greghendershott.com/2017/02/emacs-themes.html][something else]] from [[http://www.greghendershott.com][Greg Hendershot]], but now I
    created my own theme override and layer it corectly.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defun bnb/disable-all-themes ()
-         (interactive)
-         (mapc #'disable-theme custom-enabled-themes))
-   #+END_SRC
+       (interactive)
+       (mapc #'disable-theme custom-enabled-themes))
+   #+end_src
 
    On creating themes: https://www.gnu.org/software/emacs/manual/html_node/emacs/Creating-Custom-Themes.html#Creating-Custom-Themes
 
 *** Extra Themes
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package gruvbox-theme :ensure t :defer t)
       (use-package material-theme :ensure t :defer t)
       (use-package tango-plus-theme :ensure t :defer t)
       (use-package minimal-theme :ensure t :defer t)
       ;; dichromacy
       ;; adwaita
-    #+END_SRC
+    #+end_src
 
 ** Smart Mode Line
 
    This package reduces the noise in the mode-line and allows me to
    customize just the pieces that I need.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package smart-mode-line
        :ensure t
        :init
@@ -1665,11 +1683,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (add-function :filter-return
                    (symbol-function 'sml/fill-width-available)
                    #'bnb/sml-subtract-adjustment)
-   #+END_SRC
+   #+end_src
 
 ** Sky Color Clock
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package sky-color-clock
        :defer 10
        :quelpa
@@ -1678,18 +1696,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (sky-color-clock-initialize 40)
        (setq sky-color-clock-enable-emoji-icon t)
        (push '(:eval (sky-color-clock)) (default-value 'mode-line-format)))
-   #+END_SRC
+   #+end_src
 
 ** Font lock profiling
 
    Allow for profiling of font-locking.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package font-lock-profiler
        :commands (font-lock-profiler-start
                   font-lock-profiler-buffer
                   font-lock-profiler-region))
-   #+END_SRC
+   #+end_src
 
 ** Pretty Symbols
 
@@ -1697,14 +1715,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 *** Pretty mode
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package pretty-mode
        :disabled
        :config
        (global-pretty-mode t)
        (pretty-activate-groups
         '(:sub-and-superscripts :greek :arithmetic-nary)))
-   #+END_SRC
+   #+end_src
 
 *** Prettify symbols mode
 
@@ -1713,7 +1731,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     - http://endlessparentheses.com/using-prettify-symbols-in-clojure-and-elisp-without-breaking-indentation.html
     - https://www.emacswiki.org/emacs/PrettySymbolsForLanguages
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package prog-mode ; Contains pretty-symbols-mode
         :config
         (setq prettify-symbols-unprettify-at-point 'right-edge)
@@ -1744,22 +1762,22 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                    ("Iterable" . ?𝔊)
                    ("Any" .      ?❔)
                    ("Union" .    ?∪))))))
-    #+END_SRC
+    #+end_src
 
 ** Color
 *** Rainbow Mode
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package rainbow-mode
         :commands (rainbow-mode)
         :ensure t)
-    #+END_SRC
+    #+end_src
 
 *** KureColor
 
     Color helper
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package kurecolor
         :bind (("H-k" . kurecolor-increase-hue-by-step)
                ("H-j" . kurecolor-decrease-hue-by-step)
@@ -1768,7 +1786,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                ("s-l" . kurecolor-increase-brightness-by-step)
                ("s-h" . kurecolor-decrease-brightness-by-step))
         :ensure t)
-    #+END_SRC
+    #+end_src
 
 * BNB Helpers
 
@@ -1790,11 +1808,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    I create a variable, =bnb/kill-emacs-hooks=, for functions that
    need to run before emacs is /killed/.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defvar bnb/kill-emacs-hooks)
      (add-hook 'bnb/kill-emacs-hooks
                (lambda () (if (functionp 'server-edit)(server-edit))))
-   #+END_SRC
+   #+end_src
 
    In the hook above, I call the =server-edit= function to act as if
    I am closing emacs for a file opened via the server API. This has
@@ -1804,25 +1822,25 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    Next, I provide a flag and a function to set the flag if emacs is
    to really exit. We always need an escape hatch.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defvar bnb/really-kill-emacs nil)
      (defun bnb/kill-emacs ()
        (interactive)
        (setq bnb/really-kill-emacs t)
        (kill-emacs))
-   #+END_SRC
+   #+end_src
 
    Now that mechanism is in place, it is time to augment
    =kill-emacs= with some advice around the function.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defadvice kill-emacs (around bnb/pardon-emacs activate)
        "Only kill emacs if a prefix is set"
        (run-hooks 'bnb/kill-emacs-hooks)
        (if bnb/really-kill-emacs
            ad-do-it
          (iconify-frame)))
-   #+END_SRC
+   #+end_src
 
    Now, when any event triggers a call to =kill-emacs=, a small set
    of activities happen. First, the =bnb/kill-emacs-hooks= execute
@@ -1835,7 +1853,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    This is vestigal content from my Intel days and this generates
    their idea of a work week number.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defun bnb/workweek ()
        (interactive)
        (let* ((now (current-time))
@@ -1873,7 +1891,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                      (bnb/workweek-from-gregorian (list month day year)))
              'font-lock-face 'font-lock-function-name-face))
 
-   #+END_SRC
+   #+end_src
 
 ** Better window splitting functions
 
@@ -1883,7 +1901,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    of the same buffer in both).  This has a better chance of being
    what I want when splitting strings.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defun bnb/vplit-last-buffer ()
        (interactive)
        (split-window-vertically)
@@ -1899,14 +1917,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (bind-keys
       ("C-x 2" . bnb/vplit-last-buffer)
       ("C-x 3" . bnb/hsplit-last-buffer))
-   #+END_SRC
+   #+end_src
 
 ** Weekly Time Reporting
 
    This is a function to create an entry like a datetree, but using
    years and workweeks instead.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defun bnb/find-year-create (year)
        (let ((re "^\\**[ \t]+\\([12][0-9]\\{3\\}\\)")
              match)
@@ -1962,7 +1980,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          (goto-char (cdr (org-id-find "clocking")))
          (bnb/find-year-create (string-to-number year))
          (bnb/find-ww-create ww)))
-   #+END_SRC
+   #+end_src
 
 ** Weekly Score Goal in Org-Agenda
 
@@ -1979,7 +1997,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    all is green.  Otherwise, I get a warning type formatting above 80%
    and error type formatting under.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      ;; Define my goal to hit
      (defvar bnb/weekly-score-goal 42)
 
@@ -2003,37 +2021,37 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      ;; This hook runs first in the agenda (and before it is set to read-only)
      (add-hook 'org-agenda-mode-hook 'bnb/agenda-score-goal)
-   #+END_SRC
+   #+end_src
 
 ** Calendars
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq bnb/calfw-calendars-list nil)
 
      (defun bnb/add-calendar (calendar)
        (add-to-list bnb/calfw-calendars-list calendar))
 
      (use-package sunshine
-         :ensure t
-         :commands (bnb/get-forecast-data)
-         :config
-         (defun bnb/get-forecast-data (b e)
-           (let* ((url (sunshine-make-url sunshine-location sunshine-units sunshine-appid))
-                  (forecast (if (sunshine-forecast-cache-expired url)
-                                (with-current-buffer (url-retrieve-synchronously url)
-                                  (goto-char (point-min))
-                                  (sunshine-extract-response))
-                              (with-temp-buffer
-                                (mm-disable-multibyte)
-                                (url-cache-extract (url-cache-create-filename url))
-                                (sunshine-extract-response)))))
-             (cl-loop for day across (cdr (assoc 'list forecast)) collect
-                      (make-cfw:event
-                       :title (format "%s/%s°, %s"
-                                      (round (cdr (assoc 'min (cdr (assoc 'temp day)))))
-                                      (round (cdr (assoc 'max (cdr (assoc 'temp day)))))
-                                      (cdr (assoc 'main (elt (cdr (assoc 'weather day)) 0))))
-                       :start-date (cfw:emacs-to-calendar (seconds-to-time (cdr (assoc 'dt day)))))))))
+       :ensure t
+       :commands (bnb/get-forecast-data)
+       :config
+       (defun bnb/get-forecast-data (b e)
+         (let* ((url (sunshine-make-url sunshine-location sunshine-units sunshine-appid))
+                (forecast (if (sunshine-forecast-cache-expired url)
+                              (with-current-buffer (url-retrieve-synchronously url)
+                                (goto-char (point-min))
+                                (sunshine-extract-response))
+                            (with-temp-buffer
+                              (mm-disable-multibyte)
+                              (url-cache-extract (url-cache-create-filename url))
+                              (sunshine-extract-response)))))
+           (cl-loop for day across (cdr (assoc 'list forecast)) collect
+                    (make-cfw:event
+                     :title (format "%s/%s°, %s"
+                                    (round (cdr (assoc 'min (cdr (assoc 'temp day)))))
+                                    (round (cdr (assoc 'max (cdr (assoc 'temp day)))))
+                                    (cdr (assoc 'main (elt (cdr (assoc 'weather day)) 0))))
+                     :start-date (cfw:emacs-to-calendar (seconds-to-time (cdr (assoc 'dt day)))))))))
 
      (use-package calfw
        :ensure t
@@ -2049,7 +2067,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          (interactive)
          (cfw:open-calendar-buffer
           :contents-sources bnb/calfw-calendars-list)))
-   #+END_SRC
+   #+end_src
 
 ** Auto-display agenda
 
@@ -2058,7 +2076,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     John Weigley shows a way to display the agenda after some period
     of inactivity.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defun bnb/jump-to-org-agenda ()
        (interactive)
        (let ((buf (get-buffer "*Org Agenda*"))
@@ -2080,11 +2098,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              (if arg
                  (cancel-timer bnb/iagenda)
                (run-with-idle-timer 3600 t 'bnb/jump-to-org-agenda))))
-   #+END_SRC
+   #+end_src
 
 ** Transparency
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package ring
        :commands (bnb/transparency-apply bnb/transparency-next bnb/transparency-previous
                                          bnb/transparency-cycle bnb/transparency-add)
@@ -2113,14 +2131,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          (interactive "nActive Transparency:\nnInactive Transparency:")
          (ring-insert+extend bnb/transparency-ring (list active inactive) t)
          (bnb/transparency-apply (list active inactive))))
-   #+END_SRC
+   #+end_src
 
 ** Compile on save                                                  :PENDING:
 
    Whenever I save this file, I'd like to have it
    auto-compiled. First, I setup a function with the right steps.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defun bnb/compile-readme ()
        (interactive)
        (let ((src "~/.emacs.d/bnb-emacs/Readme.org")
@@ -2128,7 +2146,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          (when (file-newer-than-file-p src dst)
            (org-babel-tangle-file src dst "emacs-lisp"))
          (byte-recompile-file dst t 0 nil)))
-   #+END_SRC
+   #+end_src
 
 ** Styled HTML Export
 
@@ -2150,7 +2168,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    export. Finally, it disables the last theme and renables all of the
    ones on the list.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defun bnb/export-readme ()
        (interactive)
        (let ((themes custom-enabled-themes))
@@ -2159,19 +2177,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          (org-html-export-to-html)
          (disable-theme 'sanityinc-tomorrow-day)
          (mapcar 'load-theme (reverse themes))))
-   #+END_SRC
+   #+end_src
 
 ** Auto-indent when pasting
 
    Automatically indent pasted blocks of text.
 
-   #+BEGIN_SRC elisp
+   #+begin_src elisp
      (dolist (command '(yank yank-pop))
        (eval `(defadvice ,command (after indent-region activate)
                 (and (not current-prefix-arg)
                      (let ((mark-even-if-inactive transient-mark-mode))
                        (indent-region (region-beginning) (region-end) nil))))))
-   #+END_SRC
+   #+end_src
 
 ** Hide mode line                                                   :PENDING:
 
@@ -2179,7 +2197,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    This block of code hides the mode-line for the current buffer
    (window).
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defvar-local bnb/hide-mode-line-mode nil)
      (define-minor-mode bnb/hide-mode-line-mode
        "Minor mode to hide mode-line in current buffer"
@@ -2200,17 +2218,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
           0 nil 'message
           (concat "Goodbye mode line!"
                   "Use M-x hidden-mode-line-mode to make the mode-line appear"))))
-   #+END_SRC
+   #+end_src
 
 * Company
 
   [[http://company-mode.github.io][Company Mode]] is an in-buffer completion system. To get started, I
   need to load the mode and bind some keys.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package company
       :ensure t
-      :diminish company-mode
+      :delight company-mode
       :init
       (add-hook 'after-init-hook 'global-company-mode)
       :bind
@@ -2229,8 +2247,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             company-tooltip-flip-when-above t
             company-dabbrev-code-everywhere t
             company-dabbrev-code-ignore-case t))
-  #+END_SRC
-
+  #+end_src
 
 * File Management
 ** Dired
@@ -2239,7 +2256,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package dired-hacks-utils
        :ensure t)
 
@@ -2254,33 +2271,58 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (use-package dired-collapse
        :ensure t)
-   #+END_SRC
+   #+end_src
 
    Also, there is a nice faculty to run an external command on a given
    file with =!=.
+
+** Neotree                                                          :PENDING:
+
+   Neotree is a file sidebar for navigation.
+
+   #+begin_src emacs-lisp
+     (use-package neotree
+       :ensure t
+       :commands (neotree)
+       :bind ("H-t" . neotree-toggle)
+       :config
+       (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+   #+end_src
 
 ** Sunrise Commander
 
    I always seem to need something better than =dired= when moving
    files around. Sunrise commander seems to fit the bill nicely.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package sunrise-commander
        :defer 10
        :quelpa
        (sunrise-commander :fetcher github :repo "escherdragon/sunrise-commander")
        :bind ("<f8>" . sunrise))
-   #+END_SRC
+   #+end_src
+
+** OSX Dictionary
+
+   Search ~Dictionary.app~ from the comfort of an Emacs buffer.
+
+   #+begin_src emacs-lisp
+     (use-package osx-dictionary
+       :ensure t
+       :bind
+       ("C-c d" . osx-dictionary-search-word-at-point)
+       ("C-c i" . osx-dictionary-search-input))
+   #+end_src
 
 ** OSX Reveal
 
    Show files in finder.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package reveal-in-osx-finder
        :ensure t
        :bind ("C-c z" . reveal-in-osx-finder))
-   #+END_SRC
+   #+end_src
 
 * Smart Tabs
 
@@ -2294,7 +2336,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   the default width to 4. Because of the way this mode works, any
   change in the default width will result in code that still aligns.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package smart-tabs-mode
       :defer 10
       :ensure t
@@ -2302,7 +2344,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (setq-default indent-tabs-mode nil)
       (smart-tabs-insinuate 'c 'cperl 'c++)
       (setq-default tab-width 2))
-  #+END_SRC
+  #+end_src
 
 ** Notes
 
@@ -2316,12 +2358,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   *that* is why I enable it. I also happen to turn off those other
   bindings and prefer the emacs defaults.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (cua-mode t)
     (setq cua-enable-cua-keys nil)
-  #+END_SRC
+  #+end_src
 
 ** Bindings
+
+   There are two main binding types: [[CUA Rectangles]] and [[CUA Global Mark]].
 
 *** CUA Rectangles
 
@@ -2379,7 +2423,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     |---------------+---------------------------------------------------------------------------------------------------------------------|
     | TAB           | Indents the current line or rectangle to the column of the global mark.                                             |
 
-
 * Paredit
 
   I added =paredit-mode= to several of the lisp modes that follow.
@@ -2388,18 +2431,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   [[http://danmidwood.com/content/2014/11/21/animated-paredit.html][Animated Paredit]]
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package paredit
       :commands (paredit-mode)
       :ensure t)
-  #+END_SRC
+  #+end_src
 
 * Paxedit
 
   Maybe even /more/ power for lisp coding?
   [[https://github.com/promethial/paxedit][Paxedit repo]]
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package paxedit
       :ensure t
       :commands (paxedit-mode)
@@ -2417,7 +2460,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       ("M-u"       . paxedit-symbol-change-case)
       ("C-@"       . paxedit-symbol-copy)
       ("C-#"       . paxedit-symbol-kill))
-  #+END_SRC
+  #+end_src
 
 * Projectile
 
@@ -2427,7 +2470,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   From the [[https://github.com/abo-abo/hydra/wiki/Projectile][Hydra Wiki]], the additional hydras launch the projectile
   functions.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package projectile
       :ensure t
       :bind
@@ -2486,61 +2529,49 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         ("z"   projectile-cache-current-file)
         ("`"   hydra-projectile-other-window/body "other window")
         ("q"   nil "cancel" :color blue)))
-  #+END_SRC
-
-** Rails
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package projectile-rails
-       :ensure t
-       :bind
-       ("s-r" . hydra-projectile-rails/body)
-       :config
-       (setq projectile-rails-keymap-prefix (kbd "C-c p C-r"))
-       (projectile-rails-global-mode))
-   #+END_SRC
+  #+end_src
 
 * Programming Languages
 ** Utilities
 *** Flycheck
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package flycheck
-        :ensure t
-        :defer 10
-                                              ;:init (global-flycheck-mode)
-        :config
-        (bind-key "H-!"
-                  (defhydra hydra-toggle (:color amaranth)
-                    "
-          _c_ Check buffer      _x_ Explain error
-          _n_ Next error        _h_ Show error
-          _p_ Previous error
-          _l_ Show all errors   _s_ Select syntax checker
-          _C_ Clear errors      _?_ Describe syntax checker
-          "
-                    ("c" flycheck-buffer)
-                    ("n" flycheck-next-error)
-                    ("p" flycheck-previous-error)
-                    ("l" flycheck-list-errors)
-                    ("C" flycheck-clear-errors)
-                    ("x" flycheck-explain-error-at-point)
-                    ("h" flycheck-display-error-at-point)
-                    ("s" flycheck-select-checker)
-                    ("?" flycheck-describe-checker)
-                    ("q" nil))))
-    #+END_SRC
+  :ensure t
+  :defer 10
+                ;:init (global-flycheck-mode)
+  :config
+  (bind-key "H-!"
+      (defhydra hydra-toggle (:color amaranth)
+        "
+    _c_ Check buffer      _x_ Explain error
+    _n_ Next error        _h_ Show error
+    _p_ Previous error
+    _l_ Show all errors   _s_ Select syntax checker
+    _C_ Clear errors      _?_ Describe syntax checker
+    "
+        ("c" flycheck-buffer)
+        ("n" flycheck-next-error)
+        ("p" flycheck-previous-error)
+        ("l" flycheck-list-errors)
+        ("C" flycheck-clear-errors)
+        ("x" flycheck-explain-error-at-point)
+        ("h" flycheck-display-error-at-point)
+        ("s" flycheck-select-checker)
+        ("?" flycheck-describe-checker)
+        ("q" nil))))
+    #+end_src
 
 *** Prog fill                                                       :PENDING:
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package prog-fill
-        :ensure t
-        :config
-        (setq
-         prog-fill-floating-close-paren-p nil
-         prog-fill-break-method-immediate-p t))
-    #+END_SRC
+  :ensure t
+  :config
+  (setq
+   prog-fill-floating-close-paren-p nil
+   prog-fill-break-method-immediate-p t))
+    #+end_src
 
 *** Language Server Protocol
 
@@ -2551,10 +2582,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     | M-?   | Symbol references   |
     | M-x   | Rename              |
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package lsp-mode
         :ensure t)
-    #+END_SRC
+    #+end_src
 
 ** C++
 
@@ -2565,48 +2596,48 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     I forget where I snarfed this from, but it does a great job fixing
     the ANSI escape sequences in compilation buffers.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (require 'ansi-color)
       (defun colorize-compilation-buffer ()
         (toggle-read-only)
         (ansi-color-apply-on-region compilation-filter-start (point))
         (toggle-read-only))
       (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
-    #+END_SRC
+    #+end_src
 
 ** Elisp
 
    When modified =emacs-lisp=, it is most helpful to use =paredit= and
    =eldoc=.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
      (add-hook 'emacs-lisp-mode-hook 'paxedit-mode)
      (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-   #+END_SRC
+   #+end_src
 
 ** Javascript
 
    Let's make some javascript settings!
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq js-indent-level 2)
-   #+END_SRC
+   #+end_src
 
    Additional setup from https://emacs.cafe/emacs/javascript/setup/2017/04/23/emacs-setup-javascript.html
 
 *** JS2
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package js2-mode
         :mode "\\.js\\'"
         :init
         (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
         :config
         (setq js2-basic-offset 2))
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package js2-refactor
         :after js2-mode
         :functions (js2r-add-keybindings-with-prefix)
@@ -2614,27 +2645,27 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                     ("C-k" . js2r-kill))
         :config
         (js2r-add-keybindings-with-prefix "C-c C-r"))
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package xref-js2
         :after js2-mode
         :config
         (add-hook 'js2-mode-hook
                   (lambda ()
                     (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
-    #+END_SRC
+    #+end_src
 
 **** React Style JSX
 
-     #+BEGIN_SRC emacs-lisp
+     #+begin_src emacs-lisp
        (use-package rjsx-mode
          :mode "(components|src\\/pages)\\/.*\\.js\\'")
-     #+END_SRC
+     #+end_src
 
 *** Company tern
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package company-tern
         :after js2-mode
         :config
@@ -2643,65 +2674,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         (add-hook 'js2-mode-hook (lambda ()
                                    (tern-mode)
                                    (company-mode))))
-    #+END_SRC
-
-** Ruby
-
-   I followed along with [[https://lorefnon.me/2014/02/02/configuring-emacs-for-rails.html][configuring emacs for rails]] and arrived at
-   the following settings.
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package ruby-mode
-       :ensure t
-       :config
-       (setq ruby-deep-indent-paren nil))
-   #+END_SRC
-
-*** Flymake Ruby
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package flymake-ruby
-        :defer
-        :commands (flymake-ruby-load)
-        :ensure t
-        :init (add-hook 'ruby-mode-hook 'flymake-ruby-load))
-    #+END_SRC
-
-*** RBenv
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package rbenv
-        :ensure t
-        :config (global-rbenv-mode))
-    #+END_SRC
-
-*** Inf Ruby
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package inf-ruby
-        :commands (inf-ruby-minor-mode)
-        :init
-        (add-hook 'ruby-mode-hook 'inf-ruby-minor-mode))
-    #+END_SRC
-
-*** Robe mode
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package robe
-        :commands (robe-mode)
-        :ensure t
-        :init
-        (add-hook 'ruby-mode 'robe-mode)
-        :config
-        (eval-after-load 'company
-          '(push 'company-robe company-backends)))
-    #+END_SRC
+    #+end_src
 
 ** Rust
 
    These initial settings are copied from the [[https://github.com/syl20bnr/spacemacs/blob/master/layers/%2Blang/rust/packages.el][spacemacs rust layer]].
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package cargo
        :ensure t
        :mode "\\.rs"
@@ -2757,12 +2736,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (with-eval-after-load 'company
          (add-to-list 'company-backends 'company-racer)))
 
-     (use-package lsp-rust
-       :ensure t
-       :after (lsp-mode)
-       :config
-       (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls")))
-
      (use-package rustic
        :ensure t
        :commands (cargo-minor-mode)
@@ -2782,14 +2755,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package toml-mode
        :quelpa (toml-mode :fetcher github :repo "dryman/toml-mode.el")
        :mode "\\.toml\\'")
-   #+END_SRC
+
+   #+end_src
 
 ** Web Mode
 
    For all of the webish-stuff, this mode works well. Let's enable it
    on the right things.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package web-mode
        :defer
        :ensure t
@@ -2807,7 +2781,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                web-mode-css-indent-offset 2
                web-mode-code-indent-offset 2))
        (add-hook 'web-mode-hook 'bnb/web-mode-hook))
-   #+END_SRC
+   #+end_src
 
 ** HTML
 
@@ -2816,40 +2790,41 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     In order to play nicely with HTML+, it needs to be added to the
     filters of impatient mode.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package impatient-mode
         :ensure t
+        :mode "\\.html\\'"
         :config
         (add-to-list 'imp-default-user-filters '(mhtml-mode . nil)))
-    #+END_SRC
+    #+end_src
 
 *** Emmet
     [[https://github.com/smihica/emmet-mode][Emmet mode]] allows for terse description of nested elements. There
     is great documentation on the approach at [[http://emmet.io][emmet.io]].
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package emmet-mode
         :ensure t
         :config
         (add-hook 'web-mode-hook 'emmet-mode)
         (add-hook 'sgml-mode-hook 'emmet-mode)
         (add-hook 'css-mode-hook 'emmet-mode))
-    #+END_SRC
+    #+end_src
 
 
 ** Plantuml
 
    Not a /programming language/, but certainly a language.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package plantuml-mode
        :defer
        :ensure t)
-   #+END_SRC
+   #+end_src
 
 ** Pollen
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package pollen-mode
        :ensure t
        :defer t
@@ -2858,17 +2833,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package company-pollen
        :defer t
        :ensure t)
-   #+END_SRC
+   #+end_src
 
 * Helm
 
   This one is just too useful to ignore. I've tried others, now I'm
   back in the helm camp.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package helm
       :ensure t
-      :diminish helm-mode
+      :delight helm-mode
       :bind
       (("C-c h" . helm-command-prefix)
        ("C-x b" . helm-mini)
@@ -2901,21 +2876,21 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             helm-display-buffer-reuse-frame t
             helm-use-undecorated-frame-option t)
       (helm-mode t))
-  #+END_SRC
+  #+end_src
 
 ** Describe bindings
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package helm-descbinds
        :ensure t
        :bind ("C-h b" . helm-descbinds)
        :config
        (helm-descbinds-mode))
-   #+END_SRC
+   #+end_src
 
 ** CSS/SCSS                                                         :PENDING:
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package helm-css-scss
        :ensure t
        :bind ((:map isearch-mode-mode
@@ -2935,116 +2910,72 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (setq helm-css-scss-insert-close-comment-depth 2
              helm-css-scss-split-with-multiple-windows t
              helm-css-scss-split-direction 'split-window-vertically))
-   #+END_SRC
+   #+end_src
 
 ** Helm commands
 
    A list of helm's own commands
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package helm-helm-commands
        :ensure t
        :bind ("H-h c" . helm-helm-commands))
-   #+END_SRC
+   #+end_src
 
 ** Projectile
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package helm-projectile
        :ensure t
        :bind ("H-h p" . helm-projectile)
        :config
        (helm-projectile-on))
-   #+END_SRC
+   #+end_src
 
 ** Swoop
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package helm-swoop
        :ensure t
        :bind ("H-h s" . helm-swoop))
-   #+END_SRC
+   #+end_src
 
 ** Themes
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package helm-themes
        :ensure t
        :bind ("H-h t" . helm-themes))
-   #+END_SRC
+   #+end_src
 
 ** Dash
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package helm-dash
        :ensure t)
-   #+END_SRC
+   #+end_src
 
 ** Lines
 
    Search for and insert lines from the current project (directory).
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package helm-lines
        :ensure t
        :bind ("M-l" . helm-lines))
-   #+END_SRC
+   #+end_src
 
 
 
 ** Flx + Helm
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package helm-flx
        :ensure t
        :config
        (setq helm-flx-for-helm-find-files t
              helm-flx-for-helm-locate t))
-   #+END_SRC
-
-* IDO (Interactively Do Things)
-
-  First, I start with some basic IDO settings. I enabled it
-  everywhere so that it will work in all contexts. I like flex
-  matching so I also turn that feature on. Finally, I order the file
-  extensions to my liking and enable the mode.
-
-  #+BEGIN_SRC emacs-lisp
-                                            ;(setq ido-everywhere t)
-    (setq ido-enable-flex-matching t)
-                                            ; Do not ask to create a new buffer -- just do it.
-    (setq ido-create-new-buffer 'always)
-                                            ; Try to guess if point is at a filename
-    (setq ido-use-filename-at-point 'guess)
-                                            ; Set extension ordering
-    (setq ido-file-extensions-order '(".org" ".tex" ".el" ".txt" ".c" ".cpp" ".h" ".clj"))
-                                            ; Enable mode
-                                            ; (ido-mode t)
-  #+END_SRC
-
-** Keystrokes
-
-   | Keystroke | Operates on        | Description                            |
-   |-----------+--------------------+----------------------------------------|
-   | C-b       | Buffers            | Reverts to the old switch-buffer       |
-   | C-f       | Files              | Reverts to the old find-file           |
-   | C-d       | Dirs/Files         | Opens a dired buffer in current dir    |
-   | C-a       | Files/Buffers      | Toggles showing ignored files          |
-   | C-c       | Buffers/Dirs/Files | Toggles ignore case for names          |
-   | TAB       | Buffers/Dirs/Files | Attempt to complete input              |
-   | C-p       | Files              | Toggles prefix matching                |
-   | C-s/C-r   | All                | Moves to next/previous match           |
-   | C-t       | All                | Toggles matching Emacs Regexp          |
-   | Backspace | All                | Deletes chars or up directory          |
-   | C-SPC/C-@ | All                | Restricts completion list              |
-   | //        | Dirs/Files         | Ignore preceding path                  |
-   | ~/        | Dirs/Files         | Jump to home directory                 |
-   | M-d       | Files              | Searches for input in cwd sub-dirs     |
-   | C-k       | Buffers/Files      | Kills focused buffer or deletes file   |
-   | M-m       | Files              | Creates a new sub-dir to cwd           |
-   | M-n/M-p   | Dirs/Files         | Cycles through next/previous work dirs |
-   | M-k       | Dirs/Files         | Kills active work dir from list        |
-   | M-s M-s   | Dirs/Files         | Search list of work dirs for input     |
+   #+end_src
 
 * Shells
 
@@ -3060,7 +2991,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    (preferred). Then it closes by setting up a hook to ensure some
    nice functionality in the terminal mode window.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (defadvice term-sentinel (around bnb/advise-term-sentinel (proc msg))
        (if (memq (process-status proc) '(signal exit))
            (let ((buffer (process-buffer proc)))
@@ -3085,7 +3016,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
            [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white]
            ansi-color-faces-vector
            [default bold shadow italic underline bold bold-italic bold])
-   #+END_SRC
+   #+end_src
 
 ** Eshell
 
@@ -3100,16 +3031,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     environment. Because this is running in Emacs, there is no need
     for a pager.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setenv "PAGER" "cat")
-    #+END_SRC
+    #+end_src
 
 *** Eshell Commands
 
     Fast fingers are used to typing =emacs= at a prompt to open a
     file.  This gives the same behavior in =eshell=.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (defun eshell/emacs (&rest args)
         "Open a file in emacs the natural way"
         (if (null args)
@@ -3121,45 +3052,45 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
           ;; Otherwise, find-file will look in the current directory which
           ;; would fail for 'foo.txt' in the example above.
           (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
-    #+END_SRC
+    #+end_src
 
     One can also keep the shell active and open files in the other
     window.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (defun eshell/emo (&rest args)
         (mapc
          (lambda (f)
            (save-selected-window
              (find-file-other-window f)))
          (mapcar #'expand-file-name (eshell-flatten-list (reverse args)))))
-    #+END_SRC
+    #+end_src
 
     I also setup some command aliases. Here, I create a long listing,
     =ll=, alias for =ls=, a =llc= varient with colored output, and an
     emacs shortcut.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (with-eval-after-load "em-alias"
         '(progn
            (eshell/alias "em" "emacs")
            (eshell/alias "ll" "ls -Aloh")
            (eshell/alias "llc" "*ls -AlohG --color=always")))
-    #+END_SRC
+    #+end_src
 
     On a windows box, setup grep to be a cygwin version.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (when (eq system-type 'windows-nt)
         (with-eval-after-load "eshell"
           (defun eshell/grep (&rest args)
             (eshell-grep "c:/cygwin/bin/grep.exe" args t))))
-    #+END_SRC
+    #+end_src
 
 
     For Magit, there are some niceties to add.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (defun eshell/gst (&rest args)
         (magit-status-internal (pop args) nil)
         (eshell/echo))
@@ -3171,7 +3102,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (defun eshell/gds (&rest args)
         (magit-diff-staged)
         (eshell/echo))
-    #+END_SRC
+    #+end_src
 
 
 *** Plan 9 Smart Shells
@@ -3180,7 +3111,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     Basically, the cursor stays on the command for editing if
     necessary.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (require 'eshell)
       (require 'em-smart)
 
@@ -3188,7 +3119,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (setq eshell-review-quick-commands nil)
       (setq eshell-smart-space-goes-to-end t)
       (add-hook  'eshell-mode-hook 'eshell-smart-initialize)
-    #+END_SRC
+    #+end_src
 
 * AucTeX
 
@@ -3196,7 +3127,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   Superb handling of TeX documents.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package tex-site
       :defer 10
       :ensure auctex
@@ -3229,7 +3160,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (eval-after-load "preview"
         '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t))
       (add-hook 'doc-view-mode-hook 'auto-revert-mode))
-  #+END_SRC
+  #+end_src
 
 ** RefTeX
 
@@ -3238,9 +3169,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    RefTeX provides navigation, easy references, easy citations and
    integrates well into AUCTeX.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-   #+END_SRC
+   #+end_src
 
    | Keystroke | Function                           |
    |-----------+------------------------------------|
@@ -3262,23 +3193,23 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    it set to "master" as recommended in the documentation, but I had
    bad results for LaTeX files generated on the fly.
 
-   #+BEGIN_SRC emacs-lisp
-   #+END_SRC
+   #+begin_src emacs-lisp
+   #+end_src
 
    For viewing the output, I can specify the command to use on the
    files generated in the process. However, the programs differ on
    GNU/Linux and Windows, so I have differing settings below.
 
-   #+BEGIN_SRC emacs-lisp
-   #+END_SRC
+   #+begin_src emacs-lisp
+   #+end_src
 
 ** XeTeX settings
 
    To get more beautiful fonts, I use the XeTeX processor. I also
    use this in PDF mode.
 
-   #+BEGIN_SRC emacs-lisp
-   #+END_SRC
+   #+begin_src emacs-lisp
+   #+end_src
 
 ** DocView
 
@@ -3288,7 +3219,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   Everything can't be as nice as org-mode. Oh well.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package markdown-mode
       :ensure t
       :commands (markdown-mode gfm-mode)
@@ -3296,7 +3227,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              ("\\.md\\'" . markdown-mode)
              ("\\.markdown\\'" . markdown-mode))
       :init (setq markdown-command "multimarkdown"))
-  #+END_SRC
+  #+end_src
 
      - org-clock-goto
        Go to current/previous clocked task
@@ -3311,10 +3242,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    Here are the initial settings that will invoke org-mode or need to
    be set when it is loaded.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package org-mode
        :ensure org-plus-contrib
-       :diminish org-mode
+       :delight org-mode
        :mode "\\.org\\(.gpg|_archive\\)?$"
        :bind
        ("C-c t"  . orgtbl-mode)
@@ -3333,7 +3264,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (bind-key "M-i" 'org-toggle-inline-images org-mode-map)
        (add-hook 'org-babel-after-execute-hook
                  (lambda () (org-display-inline-images t t))))
-   #+END_SRC
+   #+end_src
 
 ** Auto mode
 
@@ -3352,9 +3283,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    The next hook just saves the org files opened before exiting
    emacs -- just in case.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (add-hook 'bnb/kill-emacs-hooks 'org-save-all-org-buffers 'append)
-   #+END_SRC
+   #+end_src
 
    The final hook shows images automatically. When I execute =babel=
    to get graphs from my work logs, I hate having to toggle the inline
@@ -3390,7 +3321,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     of a headline. And they come with an easy cheat-sheet by typing
     =?=. I enable this feature and add some of my own commands.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-use-speed-commands t
             org-speed-commands-user
             (quote (("0" . delete-window)
@@ -3402,8 +3333,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                     ("z" . org-add-note)
                     ("N" . org-narrow-to-subtree)
                     ("W" . widen)
-                    ("m" . org-mark-subtree))))
-    #+END_SRC
+                    ("m" . org-mark-subtree)
+                    ("C" . org-global-cycle))))
+    #+end_src
 
 ** Org TODO Configuration
 
@@ -3422,12 +3354,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     The characters in =()= also
     allow fast access to these states described [[info:org#Fast%20access%20to%20TODO%20states][here]].
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-todo-keywords
             (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
                     (sequence "WAITING(w@/!)" "SOMEDAY(s!)" "|" "CANCELED(c@/!)")
                     (sequence "CANCELED(c@/!)"))))
-    #+END_SRC
+    #+end_src
 
     I used to set [[elisp:(describe-variable 'org-todo-keyword-faces)][org-todo-keyword-faces]], but now I rely on theme
     settings.
@@ -3442,9 +3374,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     tagging interface. I use 'project' as my tag to easily
     differentiate simple tasks from more complex ones.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-tag-alist '(("PROJECT" . ?p)))
-    #+END_SRC
+    #+end_src
 
 *** Mechanics
 
@@ -3456,10 +3388,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     state. I also turn off the S-cursor transitions as state
     changes to avoid the logging prompts.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-use-fast-todo-selection t)
       (setq org-treat-S-cursor-todo-selection-as-state-change nil)
-    #+END_SRC
+    #+end_src
 
     Upon changing the state of todo items, I can automatically
     add/remove tags with the following list. It's a bit lispy, but
@@ -3467,7 +3399,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     state named as a string has tuples of tags and flags. 't'
     indicates to set the flag, empty means to remove it.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-todo-state-tags-triggers
             (quote (("CANCELED"
                      ("CANCELED" . t))
@@ -3485,14 +3417,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                     ("DONE"
                      ("WAITING")
                      ("CANCELED")))))
-    #+END_SRC
+    #+end_src
 
     Along with tags and states are priorities. I do not use task
     priorities myself so I turn them off.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-enable-priority-commands nil)
-    #+END_SRC
+    #+end_src
 
 **** Logging
 
@@ -3500,13 +3432,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      for reasons behind specific state changes. There is also a
      setting to set a different drawer for clocking and logs.
 
-     #+BEGIN_SRC emacs-lisp
+     #+begin_src emacs-lisp
        (setq org-log-done (quote note)
              org-log-redeadline (quote time)
              org-log-reschedule (quote time)
              org-log-into-drawer t
              org-drawers '("PROPERTIES" "LOGBOOK" "CLOCK"))
-     #+END_SRC
+     #+end_src
 
 **** Sub-tasks
 
@@ -3516,23 +3448,23 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      lists. In this way, the overall item cannot change to done
      without the completion of the sub-tasks.
 
-     #+BEGIN_SRC emacs-lisp
+     #+begin_src emacs-lisp
        (setq org-enforce-todo-checkbox-dependencies t
              org-enforce-todo-dependencies t)
-     #+END_SRC
+     #+end_src
 
      Because of the previous enforcement of state, I can also
      automatically infer when a parent state is complete. The
      following code marks the parent complete once the sub-tasks
      are all done.
 
-     #+BEGIN_SRC emacs-lisp
+     #+begin_src emacs-lisp
        (defun org-summary-todo (n-done n-not-done)
          "Switch entry to DONE when all sub-entries are done, to TODO otherwise."
          (let (org-log-done org-log-states)
            (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
        (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
-     #+END_SRC
+     #+end_src
 
 ** Capture
 
@@ -3540,7 +3472,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    slouch. The capture templates define what get captures, where it
    goes, and what the user needs to type.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq org-capture-templates
            '(("t" "Todo" entry
               (file "~/Documents/Org/Refile.org")
@@ -3561,7 +3493,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
               "* TODO %?\n  %U\n\n  %(org-mac-chrome-get-frontmost-url)")
              ("m" "Mail" entry (file "~/Documents/Org/Refile.org")
               "* TODO %?\n  %U\n\n  %(org-mac-message-get-links \"s\")")))
-   #+END_SRC
+   #+end_src
 
    There are five main capture templates here. The first two store a
    todo item in my Refile.org file. The only difference is automatic
@@ -3586,7 +3518,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     in the agenda files. I use this as part of my weekly review for
     task amount and mix at a glance.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (defun bnb/org-count-tasks-by-status ()
         (interactive)
         (let ((counts (make-hash-table :test 'equal))
@@ -3614,13 +3546,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
           (if (called-interactively-p 'any)
               (insert output)
             output)))
-    #+END_SRC
+    #+end_src
 
     I also have a helper function to get the score of done tasks
     closed within the last week.  I store this in a table line with
     year and workweek number.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (defun bnb/add-weekly-score-table-entry ()
         (let ((score (apply
                       '+
@@ -3632,15 +3564,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
               (year (format-time-string "%Y" (current-time)))
               (ww (number-to-string (bnb/workweek))))
           (format "| %s | %s | %s |" year ww score)))
-    #+END_SRC
+    #+end_src
 
 
     How about the hours logged last week? Let's give that a go.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (defun bnb/org-time-logged-table-entry (&optional additional-weeks)
         "Insert table of minutes per category.
-          Optionally provide ADDITIONAL-WEEKS to get more history"
+        Optionally provide ADDITIONAL-WEEKS to get more history"
         (interactive "P")
         (unless additional-weeks (setq additional-weeks 0))
         (let* ((minh (make-hash-table :test 'equal))
@@ -3667,7 +3599,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             (if (called-interactively-p 'any)
                 (insert (mapconcat 'identity rows "\n"))
               (mapconcat 'identity rows "\n")))))
-    #+END_SRC
+    #+end_src
 
 ** Refile
 
@@ -3685,12 +3617,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    Finally, I set the filenames to be first for refiling.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq org-refile-use-cache t
            org-refile-targets '((org-agenda-files :maxlevel . 2)
                                 (nil :maxlevel . 5))
            org-refile-use-outline-path 'file)
-   #+END_SRC
+   #+end_src
 
 ** Agenda
 
@@ -3702,14 +3634,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    on tags in the agenda line, show the logged items for the day,
    and only show a time grid if a scheduled tasks exists.
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (setq org-agenda-show-inherited-tags t
         org-agenda-log-mode-items '(clock)
         org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2 :fileskip0 t)
         org-agenda-block-separator "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
         org-agenda-dim-blocked-tasks nil
         org-agenda-inhibit-startup t)
-#+END_SRC
+#+end_src
 
 *** Views
 
@@ -3721,44 +3653,44 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     First, I define a little helper function (from Sacha Chua) to
     display a note with agenda.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (defun bnb/org-agenda-with-tip (arg)
         (org-agenda-list arg)
         (let ((inhibit-read-only t)
               (pos (point)))
           (goto-char (point-max))
           (goto-char pos)))
-    #+END_SRC
+    #+end_src
 
     WIP from: https://github.com/fniessen/emacs-leuven/blob/master/org-custom-agenda-views.el
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       ;; Reset everything to nil
       (setq org-agenda-custom-commands nil)
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-to-list 'org-agenda-custom-commands
                    '("b" "Agenda" bnb/org-agenda-with-tip))
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-to-list 'org-agenda-custom-commands
                    '("c" . "COLLECT...") t)
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-to-list 'org-agenda-custom-commands
                    '("cb" "CollectBox"
                      ((alltodo ""))))
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-to-list 'org-agenda-custom-commands
                    '("f" . "FOCUS...") t)
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-to-list 'org-agenda-custom-commands
                    `("f." "Today"
                      ((agenda ""
@@ -3793,10 +3725,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                             ((org-agenda-overriding-header "COMPLETED"))))
                      ((org-agenda-format-date "")
                       (org-agenda-start-with-clockreport-mode nil))) t)
-    #+END_SRC
+    #+end_src
 
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-to-list 'org-agenda-custom-commands
                    '("fh" "Hotlist"
                      ((tags-todo "DEADLINE<\"<+0d>\""
@@ -3806,17 +3738,17 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                       (tags-todo "DEADLINE=\"\"+FLAGGED|DEADLINE>\"<+1w>\"+FLAGGED"
                                  ((org-agenda-overriding-header "FLAGGED"))))
                      ((org-agenda-todo-ignore-scheduled 'future)))  t)
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-to-list 'org-agenda-custom-commands
                    '("r" . "REVIEW...") t)
 
       (add-to-list 'org-agenda-custom-commands
                    '("ra" . "All Tasks...") t)
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-to-list 'org-agenda-custom-commands
                    '("rad" "All Tasks (grouped by Due Date)"
                      ((tags-todo "DEADLINE<\"<+0d>\""
@@ -3854,10 +3786,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                      ((org-agenda-sorting-strategy '(priority-down))
                       (org-agenda-write-buffer-name "All Tasks (grouped by Due Date)"))
                      "~/Documents/Org/all-tasks-by-due-date.pdf") t)
-    #+END_SRC
+    #+end_src
 
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-to-list 'org-agenda-custom-commands
                    '("ra1" "All Tasks with a due date"
                      ((alltodo ""))
@@ -3865,20 +3797,20 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                       (org-agenda-skip-function
                        '(org-agenda-skip-entry-if 'notdeadline))
                       (org-agenda-sorting-strategy '(deadline-up)))) t)
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-to-list 'org-agenda-custom-commands
                    '("rag" "Grouped Tasks")
                    ())
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-to-list 'org-agenda-custom-commands
                    '("rt" . "Timesheet...") t)
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       ;; Show what happened today.
       (add-to-list 'org-agenda-custom-commands
                    '("rtd" "Daily Timesheet"
@@ -3902,9 +3834,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                       (org-agenda-start-on-weekday 1)
                       (org-agenda-start-with-clockreport-mode t)
                       (org-agenda-time-grid nil))) t)
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-to-list 'org-agenda-custom-commands
                    '("rc" . "Calendar...") t)
 
@@ -3917,9 +3849,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                       (org-agenda-format-date "\n%a %d")
                       ;; (org-agenda-date-weekend ... new face ...)
                       (org-agenda-time-grid nil))) t)
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-to-list 'org-agenda-custom-commands
                    '("rw" "Weekly review"
                      ((tags "CATEGORY={@REFILE}&LEVEL<=2"
@@ -3946,9 +3878,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                       (todo "DONE|PROJECTDONE"
                             ((org-agenda-overriding-header
                               "Candidates to be archived"))))))
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package org-super-agenda
         :ensure t
         :quelpa (org-super-agenda :fetcher github :repo "alphapapa/org-super-agenda")
@@ -3978,7 +3910,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                      '("f8" "Score 8 Tasks"
                        ((tags "+Score=8" ((org-super-agenda-groups
                                            '((:name "Score 1 Tasks" :auto-category t)))))))))
-    #+END_SRC
+    #+end_src
 
     Phew! That is a lot of lisp! It is easiest to describe each view
     by the key that triggers it.
@@ -4009,23 +3941,23 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    For HTML, I just want to inline the links to images.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq org-export-html-inline-images t)
-   #+END_SRC
+   #+end_src
 
    I also used to suppress the postamble with
    =org-export-html-postamble=.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq org-html-postamble nil)
-   #+END_SRC
+   #+end_src
 
    I'll use the /fancy/ HTML5 export by default.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq org-html-doctype "html5"
            org-html-html5-fancy t)
-   #+END_SRC
+   #+end_src
 
    I like to have striped tables in email, but this is terribly
    difficult due to cruddy CSS support. Luckily,
@@ -4033,7 +3965,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    classes to the table rows. Now styling can be done in CSS-reduced
    instances.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq org-html-table-row-tags
            (cons '(cond (top-row-p "<tr class=\"tr-top\">")
                         (bottom-row-p "<tr class=\"tr-bottom\">")
@@ -4041,7 +3973,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                                "<tr class=\"tr-odd\">"
                              "<tr class=\"tr-even\">")))
                  "</tr>"))
-   #+END_SRC
+   #+end_src
 
 *** LaTeX
 
@@ -4049,7 +3981,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    for any source blocks. I also want to have =xelatex= as the
    backend.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq org-export-latex-listings 'minted
            org-export-latex-custom-lang-environments
            '((emacs-lisp "common-lispcode"))
@@ -4059,7 +3991,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
            '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
              "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
              "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-   #+END_SRC
+   #+end_src
 
 
    Also, I want to enable some of the other contributed
@@ -4068,18 +4000,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    I add exporters for github-flavored markdown and tufte html.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package ox-gfm :defer 10)
      (use-package ox-tufte :defer 10)
-   #+END_SRC
+   #+end_src
 
 *** EPUB
 
     E-readers may be a thing that sticks around.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (use-package ox-epub :after org-mode)
-    #+END_SRC
+    #+end_src
 
 ** Clocking
 
@@ -4091,48 +4023,48 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    clocks), history length and resuming a task after clocking in
    twice (interrupted task).
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (org-clock-persistence-insinuate)
      (setq org-clock-history-length 28
            org-clock-in-resume t)
-   #+END_SRC
+   #+end_src
 
    Behavior of the clock can change to accommodate other needs. I
    like having clocks log into a specific drawer. Also, it is nice
    to remove zero-time clocks and clock out automatically when an
    item completes.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq org-clock-into-drawer "CLOCK"
            org-clock-out-remove-zero-time-clocks t
            org-clock-out-when-done t)
-   #+END_SRC
+   #+end_src
 
    Two settings help resolve most clock issues that I have
    seen. Persisting the clock across sessions helps prevent loss of
    time by accident. Auto-resolution of open clocks help prompt how
    to handle the situation where a dangling clock exists.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq org-clock-persist 'history
            org-clock-auto-clock-resolution 'when-no-clock-is-running)
-   #+END_SRC
+   #+end_src
 
    Two final settings regarding clocking setup how I change and view
    the clocks. I want any clock reports to include the currently
    clocked task as well. And for clock editing, I change to 15
    minute increments.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq org-clock-report-include-clocking-task t
            org-time-stamp-rounding-minutes '(1 15))
-   #+END_SRC
+   #+end_src
 
 ** Modules
 
    Org-modules allow for specific functionality within org-mode.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (setq org-modules
            '(org-bbdb
              org-bibtex
@@ -4148,7 +4080,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              org-protocol
              org-bookmark
              org-calc))
-   #+END_SRC
+   #+end_src
 
 *** Habit
 
@@ -4158,13 +4090,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     My one setting blow sets a width for the graph in Agenda View.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-habit-graph-column 50)
-    #+END_SRC
+    #+end_src
 
 ** Babel
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((calc       . t)
@@ -4184,24 +4116,24 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (shell      . t)
      (sqlite     . t)
      (R          . t)))
-#+END_SRC
+#+end_src
 
 *** Extra Babel Packages
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package ob-http :after org-mode)
   (use-package ob-restclient :ensure t :after org-mode)
-#+END_SRC
+#+end_src
 
 ** Miscellaneous Settings
 *** Columns
 
     The default columns are as follows.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-columns-default-format
             "%80ITEM(Task) %5Score{+} %10Effort(Effort){:} %10CLOCKSUM")
-    #+END_SRC
+    #+end_src
 
 *** Automatically save org files
 
@@ -4209,9 +4141,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     sometimes had the capture buffer/timer crash on me. So, now I
     save at the top of every hour to be sure.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (run-at-time "00:59" 3600 'org-save-all-org-buffers)
-    #+END_SRC
+    #+end_src
 
 *** File Applications
 
@@ -4219,13 +4151,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     types. Most things open inside =emacs=, but the others
     set to default rely on the OS to supply a program.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-file-apps
             '((auto-mode . emacs)
-                ("\\.x?html?\\'" . default)
-                ("\\.pdf\\'" . default)
-                ("\\.mm\\'" . default)))
-    #+END_SRC
+              ("\\.x?html?\\'" . default)
+              ("\\.pdf\\'" . default)
+              ("\\.mm\\'" . default)))
+    #+end_src
 
 *** Goto Interface
 
@@ -4236,9 +4168,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     I explicitly set it to the default because I sometimes go back
     and forth with the default and =outline-path-completion= setting.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-goto-interface 'outline-path)
-    #+END_SRC
+    #+end_src
 
 *** Special Control Keys
 
@@ -4255,10 +4187,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     headline, it kills the headline text up to the tags. After the
     headline text, it kills the tags.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-special-ctrl-a/e t
             org-special-ctrl-k t)
-    #+END_SRC
+    #+end_src
 
 *** Auto-revert mode
 
@@ -4268,10 +4200,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     This is a global setting, but most useful for the org files that
     exists elsewhere.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq global-auto-revert-mode t)
       (diminish 'auto-revert-mode " 🔁")
-    #+END_SRC
+    #+end_src
 
 *** IDO Integration
 
@@ -4281,10 +4213,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     The =outline-path-completion= may conflict with IDO, so then it
     is best to have it not use IDO in this case.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-completion-use-ido t
             org-outline-path-complete-in-steps nil)
-    #+END_SRC
+    #+end_src
 
 *** Display settings
 
@@ -4295,10 +4227,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     explicit that I do *not* want only odd levels. I also like to
     hide the leading stars.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-odd-levels-only nil
             org-hide-leading-stars nil)
-    #+END_SRC
+    #+end_src
 
     Cycling the headline states can produce different views of the
     files. I like this to be as compact as possible, so I try to
@@ -4307,43 +4239,43 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     compact view of the file and can jump to a relevant section with
     =C-c C-j=.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-cycle-separator-lines 0
             org-startup-folded 'content)
-    #+END_SRC
+    #+end_src
 
     When using SRC-blocks, org can provide highlighting native to
     the SRC type. Note that this may slow down some files.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-src-fontify-natively t)
-    #+END_SRC
+    #+end_src
 
 *** Insertion
 
      I define when org should leave a blank line before an
      item. In my case it is headings and plain list items.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-blank-before-new-entry '((heading)
                                          (plain-list-item)))
-    #+END_SRC
+    #+end_src
 
      Also, when inserting a new heading, do so after the current
      subtree.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-insert-heading-respect-content t)
-    #+END_SRC
+    #+end_src
 
 *** Properties
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-global-properties
             '(("STYLE_ALL"  . "habit")
               ("Effort_ALL" . "0:10 0:30 1:00 2:00 3:00 4:00")
               ("Score_ALL"  . "1 2 3 5 8")))
-    #+END_SRC
+    #+end_src
 
 *** Teleport
 
@@ -4355,12 +4287,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     By default the teleported headline will be inserted after the
     target. With a prefix argument, it will preceed the target.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (defun bnb/org-teleport (&optional arg)
         "Teleport the current heading to after a headline selected with avy.
-      With a prefix ARG move the headline to before the selected
-      headline. With a numeric prefix, set the headline level. If ARG
-      is positive, move after, and if negative, move before."
+          With a prefix ARG move the headline to before the selected
+          headline. With a numeric prefix, set the headline level. If ARG
+          is positive, move after, and if negative, move before."
         (interactive "P")
         ;; Kill current headline
         (org-mark-subtree)
@@ -4407,9 +4339,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
           (save-excursion
             (yank))))
         (outline-hide-leaves))
-    #+END_SRC
+    #+end_src
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (add-to-list 'org-speed-commands-user
                    (cons "k" (lambda ()
                                (org-mark-subtree)
@@ -4424,7 +4356,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
       (add-to-list 'org-speed-commands-user
                    (cons "T" 'bnb/org-teleport))
-    #+END_SRC
+    #+end_src
 
 *** Protocols
 **** Org-mac-protocol
@@ -4433,42 +4365,43 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      Bookmarking in org.
 
-     #+BEGIN_SRC emacs-lisp
+     #+begin_src emacs-lisp
        (use-package org-board
+         :ensure t
          :config (global-set-key (kbd "C-c o") org-board-keymap)
          (setq org-board-capture-file "~/Documents/Personal/Org/bookmarks.org")
          (add-to-list 'org-capture-templates
                       `("w" "catpure through org protocol" entry
                         (file+headline ,org-board-capture-file "Unsorted")
                         "* %?:description\n:PROPERTIES:\n:URL: %:link\n:END:\n\n Added %U")))
-     #+END_SRC
+     #+end_src
 
 *** Plantuml
 
     Setup the path for orgmode to find the jar needed.
 
-    #+BEGIN_SRC emacs-lisp
+    #+begin_src emacs-lisp
       (setq org-plantuml-jar-path "/usr/local/Cellar/plantuml/1.2017.18/libexec/plantuml.jar")
-    #+END_SRC
+    #+end_src
 
 ** Org Repo Todo                                                    :PENDING:
 
    Make it easy to setup a =TODO.org= from within a repo. I use this
    to capture thoughts while coding
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package org-repo-todo
        :ensure t
        :bind ("s-;" . ort/capture-todo)
        ("s-'" . ort/capture-checkitem)
        ("s-`" . ort/goto-todos))
-   #+END_SRC
+   #+end_src
 
 ** Org projectile                                                   :PENDING:
 
    Make it easy to capture tasks into the right projects and setup a project todo.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package org-projectile
        :bind ("C-c n p" . org-projectile:project-todo-completing-read)
        :ensure t
@@ -4479,11 +4412,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (setq org-agenda-files
              (append org-agenda-files (org-projectile:todo-files))
              org-projectile:per-repo-filename "Tasks.org"))
-   #+END_SRC
+   #+end_src
 
 ** Org Ref
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package org-ref
        :defer 10
        :config
@@ -4491,27 +4424,28 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              org-ref-bibliography-notes "~/Documents/Personal/Org/Biblio/index.org"
              org-ref-default-bibliography '("~/Documents/Personal/Org/Biblio/index.bib")
              org-ref-pdf-directory "~/Documents/Personal/Org/Biblio/lib"))
-   #+END_SRC
+   #+end_src
 
 *** Helm Bibtex
 
     To support the stuff above, this:
 
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package helm-bibtex
+    :ensure t
     :config
     (setq helm-bibtex-bibliography "~/Documents/Personal/Org/Biblio/index.bib" ;; where your references are stored
           helm-bibtex-library-path "~/Documents/Personal/Org/Biblio/lib/" ;; where your pdfs etc are stored
           helm-bibtex-notes-path "~/Documents/Personal/Org/Biblio/index.org" ;; where your notes are stored
           bibtex-completion-bibliography "~/Documents/Personal/Org/Biblio/index.bib" ;; writing completion
           bibtex-completion-notes-path "~/Documents/Personal/Org/Biblio/index.org"))
-#+END_SRC
+#+end_src
 
 ** Org Rifle
 
    Rifle through my org-mode entries.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package helm-org-rifle
        :ensure t
        :bind
@@ -4528,62 +4462,61 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        ("H-h o d" . helm-org-rifle-occur-directories)
        ("H-h o f" . helm-org-rifle-occur-files)
        ("H-h o D" . helm-org-rifle-occur-org-directory))
-   #+END_SRC
+   #+end_src
 
 
 ** Org Noter
    [[https://github.com/weirdNox/org-noter][Taking notes in a PDF]] is a useful trick. =org-noter= lets me do just that.
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package org-noter
        :ensure t
        :bind ("H-n" . org-noter))
-   #+END_SRC
+   #+end_src
 
 ** Org QL
 
-   #+BEGIN_SRC emacs-lisp
+   #+begin_src emacs-lisp
      (use-package org-ql
-     :ensure t
-     :quelpa (org-ql :fetcher github :repo "alphapapa/org-ql")
-     :commands (org-ql-search)
-     :config (progn
-               (require 'org-habit))
-     :ensure t)
-   #+END_SRC
-
+       :ensure t
+       :quelpa (org-ql :fetcher github :repo "alphapapa/org-ql")
+       :commands (org-ql-search)
+       :config (progn
+                 (require 'org-habit))
+       :ensure t)
+   #+end_src
 
 * Calc
 
-  Working in computer land, I add these additional units to =calc=.
+  Working in computer land, I add these additional units to ~calc~.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (use-package calc
       :commands (calc)
       :init
       (setq math-additional-units
-          '((GiB "1024 * MiB" "Giga Byte")
-            (MiB "1024 * KiB" "Mega Byte")
-            (KiB "1024 * B"   "Kilo Byte")
-            (B   nil          "Byte")
-            (Gib "1024 * Mib" "Giga bit")
-            (Mib "1024 * Kib" "Mega bit")
-            (Kib "1024 * b"   "Kilo bit")
-            (b   nil          "bit")
-            )))
-  #+END_SRC
+            '((GiB "1024 * MiB" "Giga Byte")
+              (MiB "1024 * KiB" "Mega Byte")
+              (KiB "1024 * B"   "Kilo Byte")
+              (B   nil          "Byte")
+              (Gib "1024 * Mib" "Giga bit")
+              (Mib "1024 * Kib" "Mega bit")
+              (Kib "1024 * b"   "Kilo bit")
+              (b   nil          "bit")
+              )))
+  #+end_src
 
 * Server
 
    [[info:emacs#Emacs%20Server][Using Emacs as a server]] is a great way to keep the power
    responsive.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (when (and (or (eq system-type 'windows-nt) (eq system-type 'darwin))
                (not (and (boundp 'server-clients) server-clients))
                (not (daemonp)))
       (server-start))
-  #+END_SRC
+  #+end_src
 
    I need to look into the TCP connections to see how
    that work across machines. Perhaps it can be useful in a
@@ -4595,10 +4528,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    settings such as proxies, paths, fonts, etc. that may vary from
    machine to machine.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (setq custom-file "~/.emacs.d/custom.el")
     (load-file custom-file)
-  #+END_SRC
+  #+end_src
 
 * Local customizations (user-login-name)
 
@@ -4612,7 +4545,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   loaded, otherwise the error normally returned if the file is
   non-existent gets ignored.
 
-  #+BEGIN_SRC emacs-lisp
+  #+begin_src emacs-lisp
     (condition-case err
         (progn
           (load-file (format "~/.emacs.d/%s.el"  user-login-name))
@@ -4620,4 +4553,4 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (file-error
        (message "Skipping %s library as it does not exist." user-login-name))
       nil)
-  #+END_SRC
+  #+end_src
