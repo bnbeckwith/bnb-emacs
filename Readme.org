@@ -121,7 +121,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-     (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+     (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
    #+end_src
 
    I install the packages with these repositories. This may
