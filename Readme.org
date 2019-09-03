@@ -4100,7 +4100,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((calc       . t)
-     (clojure    . t)
      (C          . t)
      (ditaa      . t)
      (dot        . t)
