@@ -198,6 +198,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+BEGIN_SRC emacs-lisp
      (use-package exec-path-from-shell
+       :ensure t
        :config
        (exec-path-from-shell-initialize))
    #+END_SRC
@@ -2825,7 +2826,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          (add-to-list 'company-backends 'company-racer)))
 
      (use-package lsp-rust
-       :ensure
+       :ensure t
        :after (lsp-mode)
        :config
        (setq lsp-rust-rls-command '("rustup" "run" "nightly" "rls")))
@@ -2884,6 +2885,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+BEGIN_SRC emacs-lisp
       (use-package impatient-mode
+        :ensure t
         :config
         (add-to-list 'imp-default-user-filters '(mhtml-mode . nil)))
     #+END_SRC
@@ -4255,7 +4257,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 #+BEGIN_SRC emacs-lisp
   (use-package ob-http :after org-mode)
-  (use-package ob-restclient :after org-mode)
+  (use-package ob-restclient :ensure t :after org-mode)
 #+END_SRC
 
 ** Miscellaneous Settings
