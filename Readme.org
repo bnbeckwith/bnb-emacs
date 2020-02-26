@@ -528,8 +528,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (cond
-      ((executable-find "/usr/local/bin/aspell")
-       (setq ispell-program-name (executable-find "/usr/local/bin/aspell")
+      ((executable-find "aspell")
+       (setq ispell-program-name (executable-find "aspell")
        ispell-extra-args '("--sug-mode=ultra" "--lang=en_US")))
       (t (setq ispell-program-name nil)
    (message "No aspell found!")))
