@@ -4212,7 +4212,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (perl       . t)
      (plantuml   . t)
      (python     . t)
-     (restclient . t)
      (ruby       . t)
      (shell      . t)
      (sqlite     . t)
@@ -4229,7 +4228,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     :after org-mode
     :ensure t
     :quelpa
-    (ob-restclient :fetcher github :repo "alf/ob-restclient.el"))
+    (ob-restclient :fetcher github :repo "alf/ob-restclient.el")
+    :config
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     (append org-babel-load-languages '((restclient . t)))))
 #+end_src
 
 ** Miscellaneous Settings
