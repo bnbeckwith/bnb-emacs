@@ -2850,7 +2850,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (ivy-use-virtual-buffers t)
       (ivy-display-style 'fancy)
       (ivy-re-builders-alist
-            '((t . ivy--regex-fuzzy)))
+       '((t . ivy--regex-fuzzy)))
       :config
       (ivy-mode))
 
@@ -2896,6 +2896,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (ivy-rich-switch-buffer-align-virtual-buffer t)
       :config
       (ivy-rich-mode 1))
+
+    (use-package ivy-hydra
+      :ensure t
+      :after ivy)
   #+END_SRC
 
   The bindings introduced are replacements for built-in
