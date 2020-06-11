@@ -2141,21 +2141,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          (bnb/transparency-apply (list active inactive))))
    #+end_src
 
-** Compile on save                                                  :PENDING:
-
-   Whenever I save this file, I'd like to have it
-   auto-compiled. First, I setup a function with the right steps.
-
-   #+begin_src emacs-lisp
-     (defun bnb/compile-readme ()
-       (interactive)
-       (let ((src "~/.emacs.d/bnb-emacs/Readme.org")
-             (dst "~/.emacs.d/bnb-emacs/Readme.el"))
-         (when (file-newer-than-file-p src dst)
-           (org-babel-tangle-file src dst "emacs-lisp"))
-         (byte-recompile-file dst t 0 nil)))
-   #+end_src
-
 ** Styled HTML Export
 
    This is how I get the one-page html output for Github Pages. There
@@ -2955,136 +2940,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (setq ivy-use-virtual-buffers t))
    #+END_SRC
 
-* Helm                                                             :DISABLED:
-
-  This one is just too useful to ignore. I've tried others, now I'm
-  back in the helm camp.
-
-  #+begin_src emacs-lisp
-    (use-package helm
-      :disabled
-      :ensure t
-      :delight helm-mode
-      :bind
-      (("C-c h" . helm-command-prefix)
-       ("C-x b" . helm-mini)
-       ("H-y" . helm-show-kill-ring)
-       ("M-x" . helm-M-x)
-       ("C-x C-f" . helm-find-files)
-       :map helm-find-files-map
-       ("TAB" . helm-execute-persistent-action)
-       ("<backtab>" . helm-select-action))
-      :config
-      (require 'helm-config)
-      (bind-key "C-c h" 'helm-command-prefix)
-      (bind-key [s-tab] 'other-frame)
-      (setq helm-quick-update t
-            helm-autoresize-mode t
-            helm-autoresize-min-height 30
-            helm-split-window-in-side-p t
-            helm-buffers-fuzzy-matching t
-            helm-move-to-line-cycle-in-source t
-            helm-scroll-amount 8
-            helm-ff-search-library-in-sexp t
-            helm-ff-file-name-history-use-recentf t
-            helm-echo-input-in-header-line t
-            helm-recentf-fuzzy-match t
-            helm-M-x-fuzzy-match t
-            helm-mode-fuzzy-match t
-            helm-completion-in-region-fuzzy-match t
-            helm-display-function (if (eq system-type 'darwin) 'helm-display-buffer-in-own-frame 'helm-default-display-buffer)
-            helm-display-buffer-reuse-frame t
-            helm-use-undecorated-frame-option t)
-      (helm-mode t))
-  #+end_src
-
-** Describe bindings
-
-   #+begin_src emacs-lisp
-     (use-package helm-descbinds
-       :disabled
-       :ensure t
-       :bind ("C-h b" . helm-descbinds)
-       :config
-       (helm-descbinds-mode))
-   #+end_src
-
-** CSS/SCSS                                                         :PENDING:
-
-   #+begin_src emacs-lisp
-     (use-package helm-css-scss
-       :disabled
-       :ensure t
-       :bind ((:map isearch-mode-mode
-                    ("s-i" . helm-css-scss-from-isearch)
-                    :map helm-css-scss-map
-                    ("s-i" . helm-css-scss-multi-from-helm-css-scss)
-                    :map css-mode-map
-                    ("s-i" . helm-css-scss)
-                    ("s-I" . helm-css-scss-back-to-last-point)
-                    :map less-css-mode-map
-                    ("s-i" . helm-css-scss)
-                    ("s-I" . helm-css-scss-back-to-last-point)
-                    :map scss-mode-map
-                    ("s-i" . helm-css-scss)
-                    ("s-I" . helm-css-scss-back-to-last-point)))
-       :config
-       (setq helm-css-scss-insert-close-comment-depth 2
-             helm-css-scss-split-with-multiple-windows t
-             helm-css-scss-split-direction 'split-window-vertically))
-   #+end_src
-
-** Helm commands
-
-   A list of helm's own commands
-
-   #+begin_src emacs-lisp
-     (use-package helm-helm-commands
-       :disabled
-       :ensure t
-       :bind ("H-h c" . helm-helm-commands))
-   #+end_src
-
-** Projectile
-
-   #+begin_src emacs-lisp
-     (use-package helm-projectile
-       :disabled
-       :ensure t
-       :bind ("H-h p" . helm-projectile)
-       :config
-       (helm-projectile-on))
-   #+end_src
-
-** Swoop
-
-   #+begin_src emacs-lisp
-     (use-package helm-swoop
-       :disabled
-       :ensure t
-       :bind ("H-h s" . helm-swoop))
-   #+end_src
-
-** Themes
-
-   #+begin_src emacs-lisp
-     (use-package helm-themes
-       :disabled
-       :ensure t
-       :bind ("H-h t" . helm-themes))
-   #+end_src
-
-** Flx + Helm
-
-   #+begin_src emacs-lisp
-     (use-package helm-flx
-       :disabled
-       :ensure t
-       :config
-       (setq helm-flx-for-helm-find-files t
-             helm-flx-for-helm-locate t))
-   #+end_src
-
 * Shells
 
   There are two useful shells in emacs: =eshell= and
@@ -3337,10 +3192,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       :init (setq markdown-command "multimarkdown"))
   #+end_src
 
-     - org-clock-goto
-       Go to current/previous clocked task
-
-     These are defined in [[Orgmode Initialization]]
 * Orgmode
 
   The one feature I cannot do without. Let's set up some basics.
@@ -4543,21 +4394,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              org-ref-default-bibliography '("~/Documents/Personal/Org/Biblio/index.bib")
              org-ref-pdf-directory "~/Documents/Personal/Org/Biblio/lib"))
    #+end_src
-
-*** Helm Bibtex
-
-    To support the stuff above, this:
-
-#+begin_src emacs-lisp
-  (use-package helm-bibtex
-    :ensure t
-    :config
-    (setq helm-bibtex-bibliography "~/Documents/Personal/Org/Biblio/index.bib" ;; where your references are stored
-          helm-bibtex-library-path "~/Documents/Personal/Org/Biblio/lib/" ;; where your pdfs etc are stored
-          helm-bibtex-notes-path "~/Documents/Personal/Org/Biblio/index.org" ;; where your notes are stored
-          bibtex-completion-bibliography "~/Documents/Personal/Org/Biblio/index.bib" ;; writing completion
-          bibtex-completion-notes-path "~/Documents/Personal/Org/Biblio/index.org"))
-#+end_src
 
 ** Org Noter
    [[https://github.com/weirdNox/org-noter][Taking notes in a PDF]] is a useful trick. =org-noter= lets me do just that.
