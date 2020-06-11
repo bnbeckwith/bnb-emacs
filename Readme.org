@@ -2860,11 +2860,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       :config
       (ivy-mode))
 
-    (use-package ivy-hydra
-      :after ivy)
-
     (use-package swiper
       :ensure t
+      :diminish
       :bind
       ("H-s" . swiper)
       ("C-c S" . swiper)
@@ -2876,6 +2874,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     (use-package counsel
       :after ivy
+      :diminish
       :bind
       ("M-x"     . counsel-M-x)
       ("H-y"     . counsel-yank-pop)
@@ -2895,13 +2894,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (counsel-mode))
 
     (use-package ivy-rich
+      :ensure t
       :after ivy
+      :diminish
       :custom
       (ivy-virtual-abbreviate 'full)
       (ivy-rich-switch-buffer-align-virtual-buffer t)
       :config
-      (ivy-set-display-transformer 'ivy-switch-buffer
-                                   'ivy-rich-switch-buffer-transformer))
+      (ivy-rich-mode 1))
   #+END_SRC
 
   The bindings introduced are replacements for built-in
