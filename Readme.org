@@ -4578,6 +4578,23 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :bind ("H-n" . org-noter))
    #+end_src
 
+** Org Roam
+
+   #+begin_src emacs-lisp
+     (use-package org-roam
+       :ensure t
+       :hook
+       (after-init . org-roam-mode)
+       :custom
+       (org-roam-directory "~/Documents/zettel")
+       :bind (:map org-roam-mode-map
+                   (("C-c n l" . org-roam)
+                    ("C-c n f" . org-roam-find-file)
+                    ("C-c n g" . org-roam-show-graph))
+                   :map org-mode-map
+                   (("C-c n i" . org-roam-insert))))
+   #+end_src
+
 ** Org QL
 
    #+begin_src emacs-lisp
