@@ -1664,6 +1664,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (use-package material-theme :ensure t :defer t)
       (use-package tango-plus-theme :ensure t :defer t)
       (use-package minimal-theme :ensure t :defer t)
+      (use-package color-theme-sanityinc-tomorrow :ensure t :defer t)
       ;; dichromacy
       ;; adwaita
     #+end_src
