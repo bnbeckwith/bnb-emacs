@@ -478,7 +478,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              bef aft))))
 
      (use-package abbrev
-       :diminish
+       :delight " ⚆"
        :config
        (setq save-abbrevs t)
        (setq-default abbrev-mode t))
@@ -594,6 +594,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (use-package view
+       :delight " 👁"
        :init (setq view-read-only t)
        :bind (:map view-mode-map
                    ("n" . next-line    )
@@ -1366,7 +1367,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (use-package filladapt
-       :delight "▦"
+       :delight " ▦"
        :ensure t
        :commands filladapt-mode
        :init (setq-default filladapt-mode t)
@@ -2848,7 +2849,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     (use-package ivy
       :ensure t
       :defer 0.1
-      :diminish
+      :delight " 🙘"
       :bind
       ("C-c C-r" . ivy-resume)
       ("C-x B" . ivy-switch-buffer-other-window)
@@ -2875,7 +2876,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     (use-package counsel
       :after ivy
-      :diminish
+      :delight " 𝖈"
       :bind
       ("M-x"     . counsel-M-x)
       ("H-y"     . counsel-yank-pop)
@@ -2897,7 +2898,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     (use-package ivy-rich
       :ensure t
       :after ivy
-      :diminish
+      :delight
       :custom
       (ivy-virtual-abbreviate 'full)
       (ivy-rich-switch-buffer-align-virtual-buffer t)
@@ -2933,8 +2934,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+NAME: smex
    #+BEGIN_SRC emacs-lisp
      (use-package smex
-         :ensure t
-         :config (smex-initialize))
+       :delight
+       :ensure t
+       :config (smex-initialize))
    #+END_SRC
 
 ** Ivy View
@@ -3348,7 +3350,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+begin_src emacs-lisp
      (use-package org-mode
        :ensure org-plus-contrib
-       :delight org-mode
+       :delight (org-mode "🦄" :major)
        :mode "\\.org\\(.gpg|_archive\\)?$"
        :bind
        ("C-c t"  . orgtbl-mode)
@@ -4568,6 +4570,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+begin_src emacs-lisp
      (use-package org-roam
        :ensure t
+       :delight " 𝕫"
        :hook
        (after-init . org-roam-mode)
        :custom
