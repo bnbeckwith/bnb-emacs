@@ -1264,6 +1264,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                           ":")))
 
      (use-package pdf-tools
+       :defer t
        :ensure t
        :init (add-hook 'pdf-view-mode-hook
                        (lambda ()
