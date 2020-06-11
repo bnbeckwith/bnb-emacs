@@ -1567,7 +1567,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (use-package unicode-fonts
          :ensure t
          :defer 10
-         :config
+         :init
          (unicode-fonts-setup))
      #+end_src
 
