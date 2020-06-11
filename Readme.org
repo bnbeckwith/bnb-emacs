@@ -848,7 +848,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         :delight ace-isearch-mode
         :config
         (global-ace-isearch-mode t)
-        (setq ace-isearch-function-from-isearch ace-isearch-input-length 8))
+        (setq ace-isearch-input-length 8))
     #+end_src
 
 *** Ace Link
