@@ -2184,14 +2184,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                        (indent-region (region-beginning) (region-end) nil))))))
    #+end_src
 
-** Hide mode line                                                   :PENDING:
+** Hide mode line
 
-   This is a fun one I picked from [[https://ogbe.net/emacsconfig.html]]
-   This block of code hides the mode-line for the current buffer
-   (window).
+   This is a fun one I picked from a now defunct website. This block
+   of code hides the mode-line for the current buffer (window).
 
    #+begin_src emacs-lisp
+     ;; Setup buffer-local behavior
      (defvar-local bnb/hide-mode-line-mode nil)
+     ;; Setup minor mode
      (define-minor-mode bnb/hide-mode-line-mode
        "Minor mode to hide mode-line in current buffer"
        :init-value nil
@@ -2206,11 +2207,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (force-mode-line-update)
        (redraw-display)
        (when (and (called-interactively-p 'interactive)
-                  hidden-mode-line-mode)
+                  bnb/hide-mode-line-mode)
          (run-with-idle-timer
           0 nil 'message
           (concat "Goodbye mode line!"
-                  "Use M-x hidden-mode-line-mode to make the mode-line appear"))))
+                  "Use M-x bnb/hide-mode-line-mode to make the mode-line appear"))))
+
+     ;; Bind global key
+     (bind-key "H-0" 'bnb/hide-mode-line-mode)
    #+end_src
 
 * Company
