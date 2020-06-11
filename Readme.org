@@ -2835,13 +2835,125 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :ensure t)
    #+end_src
 
-* Helm
+* Ivy, Counsel and Swiper
+
+  Ivy is a completion framework somewhere between =ido= and =helm=. It
+  and =counsel= are in the =swiper= package.
+
+  #+BEGIN_SRC emacs-lisp :noweb yes
+    (use-package ivy
+      :ensure t
+      :defer 0.1
+      :diminish
+      :bind
+      ("C-c C-r" . ivy-resume)
+      ("C-x B" . ivy-switch-buffer-other-window)
+      :custom
+      (ivy-count-format "(%d/%d) ")
+      (ivy-use-virtual-buffers t)
+      (ivy-display-style 'fancy)
+      (ivy-re-builders-alist
+            '((t . ivy--regex-fuzzy)))
+      :config
+      (ivy-mode))
+
+    (use-package ivy-hydra
+      :after ivy)
+
+    (use-package swiper
+      :ensure t
+      :bind
+      ("H-s" . swiper)
+      ("C-c S" . swiper)
+      ("C-x C-r" . counsel-recentf)
+      ("s-E" . counsel-colors-emacs)
+      ("s-W" . counsel-colors-web)
+      :custom
+      (colir-compose-method 'colir-compose-soft-light))
+
+    (use-package counsel
+      :after ivy
+      :bind
+      ("M-x"     . counsel-M-x)
+      ("H-y"     . counsel-yank-pop)
+      ("C-x C-f" . counsel-find-file)
+      ("C-c a"   . counsel-rg)
+      ("C-c p s a" . counsel-projectile-rg)
+      ("C-c p p" . counsel-projectile-switch-project)
+      ("H-h f"  . counsel-describe-function)
+      ("H-h v"  . counsel-describe-variable)
+      ("H-h l"  . counsel-find-library)
+      ("H-h i"  . counsel-info-lookup-symbol)
+      ("H-u"    . counsel-unicode-char)
+      :custom
+      (counsel-find-file-at-point t)
+      (enable-recursive-minibuffers t)
+      :config
+      (counsel-mode))
+
+    (use-package ivy-rich
+      :after ivy
+      :custom
+      (ivy-virtual-abbreviate 'full)
+      (ivy-rich-switch-buffer-align-virtual-buffer t)
+      :config
+      (ivy-set-display-transformer 'ivy-switch-buffer
+                                   'ivy-rich-switch-buffer-transformer))
+  #+END_SRC
+
+  The bindings introduced are replacements for built-in
+  commands. =counsel-M-x= becomes my default =M-x= binding with =smex=
+  ordering the results smartly.  I also enable it to try to find the
+  file at point if applicable.
+
+  The searching functionality of =C-x= advances with =swiper= showing
+  search with context, navigation and matching portions.
+
+  The remaining settings and binding relate to =ivy= itself.  This
+  library does the actual listing of completion items. I bind the
+  =ivy-recentf= interface to find recently used files.
+
+  For =ivy='s look and feel, I make a few settings.  First, the
+  display style is set to /fancy/.  This shows the matching portions
+  of the candidates.  I also alter =colir-compose-method= to a better
+  colorizing scheme for my preferred themes. Next, I instruct =ivy= to
+  use virtual buffers (recentf, bookmarks) when switching buffers.
+  Finally, I enable fuzzy matching of the input.
+
+** Smex
+
+   Counsel can use =smex= under the hood for /recent-item/
+   sorting. This give a better LRU functionality to command
+   selection.
+
+   #+NAME: smex
+   #+BEGIN_SRC emacs-lisp
+     (use-package smex
+         :ensure t
+         :config (smex-initialize))
+   #+END_SRC
+
+** Ivy View
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package ivy-view
+       :ensure nil
+       :bind
+       ("H-[" . ivy-push-view)
+       ("H-]" . ivy-pop-view)
+       ("H-b" . ivy-switch-buffer)
+       :config
+       (setq ivy-use-virtual-buffers t))
+   #+END_SRC
+
+* Helm                                                             :DISABLED:
 
   This one is just too useful to ignore. I've tried others, now I'm
   back in the helm camp.
 
   #+begin_src emacs-lisp
     (use-package helm
+      :disabled
       :ensure t
       :delight helm-mode
       :bind
@@ -2869,7 +2981,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             helm-echo-input-in-header-line t
             helm-recentf-fuzzy-match t
             helm-M-x-fuzzy-match t
-            helm-buffers-fuzzy-matching t
             helm-mode-fuzzy-match t
             helm-completion-in-region-fuzzy-match t
             helm-display-function (if (eq system-type 'darwin) 'helm-display-buffer-in-own-frame 'helm-default-display-buffer)
@@ -2882,6 +2993,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (use-package helm-descbinds
+       :disabled
        :ensure t
        :bind ("C-h b" . helm-descbinds)
        :config
@@ -2892,6 +3004,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (use-package helm-css-scss
+       :disabled
        :ensure t
        :bind ((:map isearch-mode-mode
                     ("s-i" . helm-css-scss-from-isearch)
@@ -2918,6 +3031,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (use-package helm-helm-commands
+       :disabled
        :ensure t
        :bind ("H-h c" . helm-helm-commands))
    #+end_src
@@ -2926,6 +3040,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (use-package helm-projectile
+       :disabled
        :ensure t
        :bind ("H-h p" . helm-projectile)
        :config
@@ -2936,6 +3051,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (use-package helm-swoop
+       :disabled
        :ensure t
        :bind ("H-h s" . helm-swoop))
    #+end_src
@@ -2944,33 +3060,16 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (use-package helm-themes
+       :disabled
        :ensure t
        :bind ("H-h t" . helm-themes))
    #+end_src
-
-** Dash
-
-   #+begin_src emacs-lisp
-     (use-package helm-dash
-       :ensure t)
-   #+end_src
-
-** Lines
-
-   Search for and insert lines from the current project (directory).
-
-   #+begin_src emacs-lisp
-     (use-package helm-lines
-       :ensure t
-       :bind ("M-l" . helm-lines))
-   #+end_src
-
-
 
 ** Flx + Helm
 
    #+begin_src emacs-lisp
      (use-package helm-flx
+       :disabled
        :ensure t
        :config
        (setq helm-flx-for-helm-find-files t
@@ -4114,6 +4213,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (ruby       . t)
      (shell      . t)
      (sqlite     . t)
+     (sql        . t)
      (R          . t)))
 #+end_src
 
@@ -4121,7 +4221,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 #+begin_src emacs-lisp
   (use-package ob-http :after org-mode)
-  (use-package ob-restclient :ensure t :after org-mode)
+
+  (use-package ob-restclient
+    :after org-mode
+    :ensure t
+    :quelpa
+    (ob-restclient :fetcher github :repo "alf/ob-restclient.el"))
 #+end_src
 
 ** Miscellaneous Settings
