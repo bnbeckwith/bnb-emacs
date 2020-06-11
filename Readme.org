@@ -477,9 +477,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              (if p global-abbrev-table local-abbrev-table)
              bef aft))))
 
-     (setq save-abbrevs t)
-     (setq-default abbrev-mode t)
-     (diminish 'abbrev-mode)
+     (use-package abbrev
+       :diminish
+       :config
+       (setq save-abbrevs t)
+       (setq-default abbrev-mode t))
    #+end_src
 
 ** Hippie Expand
@@ -4306,8 +4308,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     exists elsewhere.
 
     #+begin_src emacs-lisp
-      (setq global-auto-revert-mode t)
-      (diminish 'auto-revert-mode " 🔁")
+      (use-package autorevert
+        :diminish " "
+        :custom
+        (global-auto-revert-mode t))
     #+end_src
 
 *** IDO Integration
