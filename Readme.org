@@ -71,10 +71,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Performance
 
+   By utilizing elements of =use-package=, I can keep an eye on
+   troublesome packages during startup. Together, these turn on
+   reporting and set the minimum time to consider when building the
+   report.
+
    #+begin_src emacs-lisp
      (setq use-package-verbose t
+           use-package-compute-statistics t
            use-package-minimum-reported-time 0)
    #+end_src
+
+   The generated messages will be found in the =*Messsages*= buffer.
 
 * Personal Information
 
@@ -134,7 +142,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    edge. They is why that repository is listed separately above.
 
    Once the repositories are defined, it's time to bootstrap the
-   package system and `use-package` in general since I use it
+   package system and ~use-package~ in general since I use it
    everywhere.
 
    #+begin_src emacs-lisp
