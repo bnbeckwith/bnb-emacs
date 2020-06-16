@@ -2272,22 +2272,25 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    These are part of the [[https://github.com/Fuco1/dired-hacks][dired-hacks repository]].
 
-
-
    #+begin_src emacs-lisp
      (use-package dired-hacks-utils
+       :defer
        :ensure t)
 
      (use-package dired-filter
+       :defer
        :ensure t)
 
      (use-package dired-rainbow
+       :defer
        :ensure t)
 
      (use-package dired-narrow
+       :defer
        :ensure t)
 
      (use-package dired-collapse
+       :defer
        :ensure t)
    #+end_src
 
@@ -2584,11 +2587,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+begin_src emacs-lisp
       (use-package prog-fill
-  :ensure t
-  :config
-  (setq
-   prog-fill-floating-close-paren-p nil
-   prog-fill-break-method-immediate-p t))
+        :ensure t
+        :commands (prog-fill)
+        :config
+        (setq
+         prog-fill-floating-close-paren-p nil
+         prog-fill-break-method-immediate-p t))
     #+end_src
 
 *** Language Server Protocol
@@ -2602,6 +2606,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+begin_src emacs-lisp
       (use-package lsp-mode
+        :defer
         :ensure t)
     #+end_src
 
@@ -2823,12 +2828,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+begin_src emacs-lisp
       (use-package emmet-mode
         :ensure t
+        :commands (emmet-mode)
         :config
         (add-hook 'web-mode-hook 'emmet-mode)
         (add-hook 'sgml-mode-hook 'emmet-mode)
         (add-hook 'css-mode-hook 'emmet-mode))
     #+end_src
-
 
 ** Plantuml
 
@@ -3870,6 +3875,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+begin_src emacs-lisp
       (use-package org-super-agenda
+        :defer
         :ensure t
         :quelpa (org-super-agenda :fetcher github :repo "alphapapa/org-super-agenda")
         :config
@@ -4365,6 +4371,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      #+begin_src emacs-lisp
        (use-package org-board
+         :after org-mode
+         :defer
          :ensure t
          :config (global-set-key (kbd "C-c o") org-board-keymap)
          (setq org-board-capture-file "~/Documents/Personal/Org/bookmarks.org")
