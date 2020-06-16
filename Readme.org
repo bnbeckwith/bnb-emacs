@@ -180,6 +180,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (setq load-prefer-newer t)
     #+end_src
 
+*** Paradox
+
+    The paradox interface offers a few enhancements over the included
+    =package= package. It adds github stars in the package listing,
+    performs autoremoval of packages, and installs packages in parallel.
+
+    #+begin_src emacs-lisp
+      (use-package paradox
+        :ensure t
+        :delight " ፨"
+        :commands (paradox-list-packages))
+    #+end_src
+
 ** Binding Keys
 
    For binding keys, I use the =bind-key= package. Not only does it
