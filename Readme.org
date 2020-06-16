@@ -2454,8 +2454,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
   #+begin_src emacs-lisp
     (use-package paredit
-      :commands (paredit-mode)
-      :ensure t)
+      :ensure t
+      :delight " 🍐"
+      :commands (paredit-mode))
   #+end_src
 
 * Paxedit
@@ -2466,6 +2467,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   #+begin_src emacs-lisp
     (use-package paxedit
       :ensure t
+      :delight " ꁀ"
       :commands (paxedit-mode)
       :bind
       ("M-<right>" . paxedit-transpose-forward)
