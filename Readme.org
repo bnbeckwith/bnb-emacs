@@ -694,20 +694,20 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    separate frame.
 
 ** Git
-** Magit
+*** Magit
 
-    [[info:magit#Top][Magit]] is a git interface for Emacs.
+     [[info:magit#Top][Magit]] is a git interface for Emacs.
 
-    Here I set a global key for ~magit-status~. Think 'G' looks
-    like 6.
+     Here I set a global key for ~magit-status~. Think 'G' looks
+     like 6.
 
-    #+begin_src emacs-lisp
-      (use-package magit
-        :ensure t
-        :bind ("<f6>" . magit-status)
-        :config
-        (setq magit-last-seen-setup-instructions "1.4.0"))
-    #+END_SRC
+     #+begin_src emacs-lisp
+       (use-package magit
+         :ensure t
+         :bind ("<f6>" . magit-status)
+         :config
+         (setq magit-last-seen-setup-instructions "1.4.0"))
+     #+END_SRC
 
 **** Release 1.4.0
 
