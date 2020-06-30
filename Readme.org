@@ -2924,6 +2924,21 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (setq ivy-use-virtual-buffers t))
    #+END_SRC
 
+** Ivy Icons
+
+   #+begin_src emacs-lisp
+     (use-package all-the-icons-ivy
+       :ensure t
+       :after ivy-mode)
+   #+end_src
+
+   #+begin_src emacs-lisp
+     (use-package all-the-icons-ivy-rich
+       :ensure t
+       :after ivy-rich-mode
+       :init (all-the-icons-ivy-rich-mode 1))
+   #+end_src
+
 * Shells
 
   There are two useful shells in emacs: =eshell= and
