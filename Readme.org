@@ -4421,8 +4421,18 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                     ("C-c n f" . org-roam-find-file)
                     ("C-c n g" . org-roam-show-graph))
                    :map org-mode-map
-                   (("C-c n i" . org-roam-insert))))
+                   (("C-c n i" . org-roam-insert))
+                   (("C-c n I" . org-roam-insert-immediate))))
    #+end_src
+
+*** Company Org Roam
+
+    #+begin_src emacs-lisp
+      (use-package company-org-roam
+        :ensure t
+        :quelpa (company-org-roam :fetcher github :repo "org-roam/company-org-roam")
+        :config (push 'company-org-roam company-backends))
+    #+end_src
 
 ** Org QL
 
