@@ -1241,21 +1241,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (imagemagick-register-types))
    #+end_src
 
-** Schrute Mode                                                     :PENDING:
-
-   #+begin_src emacs-lisp
-     (use-package schrute
-       :delight schrute-mode
-       :defer 10
-       :quelpa
-       (schrute :fetcher github :repo "bnbeckwith/dwight-k.-schrute")
-       :config
-       (setf schrute-shortcuts-commands
-             '((avy-goto-line . (next-line previous-line))
-               (avy-goto-word-1 . (left-char right-char))))
-       (schrute-mode))
-   #+end_src
-
 ** Key frequency                                                    :PENDING:
 
    Record how often I use my keys.
@@ -1694,26 +1679,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       ;; adwaita
     #+end_src
 
-** Smart Mode Line
-
-   This package reduces the noise in the mode-line and allows me to
-   customize just the pieces that I need.
-
-   #+begin_src emacs-lisp
-     (use-package smart-mode-line
-       :ensure t
-       :init
-       (setq sml/theme 'respectful)
-       (sml/setup))
-
-     (setq bnb/sml-adjustment 3)
-     (defun bnb/sml-subtract-adjustment (width)
-       (- width bnb/sml-adjustment))
-     (add-function :filter-return
-                   (symbol-function 'sml/fill-width-available)
-                   #'bnb/sml-subtract-adjustment)
-   #+end_src
-
 ** Sky Color Clock
 
    #+begin_src emacs-lisp
@@ -2065,57 +2030,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (add-hook 'org-agenda-mode-hook 'bnb/agenda-score-goal)
    #+end_src
 
-** Calendars
-
-   #+begin_src emacs-lisp
-     (setq bnb/calfw-calendars-list nil)
-
-     (defun bnb/add-calendar (calendar)
-       (add-to-list bnb/calfw-calendars-list calendar))
-
-     (use-package sunshine
-       :ensure t
-       :commands (bnb/get-forecast-data)
-       :config
-       (defun bnb/get-forecast-data (b e)
-         (let* ((url (sunshine-make-url sunshine-location sunshine-units sunshine-appid))
-                (forecast (if (sunshine-forecast-cache-expired url)
-                              (with-current-buffer (url-retrieve-synchronously url)
-                                (goto-char (point-min))
-                                (sunshine-extract-response))
-                            (with-temp-buffer
-                              (mm-disable-multibyte)
-                              (url-cache-extract (url-cache-create-filename url))
-                              (sunshine-extract-response)))))
-           (cl-loop for day across (cdr (assoc 'list forecast)) collect
-                    (make-cfw:event
-                     :title (format "%s/%s°, %s"
-                                    (round (cdr (assoc 'min (cdr (assoc 'temp day)))))
-                                    (round (cdr (assoc 'max (cdr (assoc 'temp day)))))
-                                    (cdr (assoc 'main (elt (cdr (assoc 'weather day)) 0))))
-                     :start-date (cfw:emacs-to-calendar (seconds-to-time (cdr (assoc 'dt day)))))))))
-
-     (use-package calfw
-       :ensure t
-       :commands (bnb/calfw-calendars)
-       :config
-       (use-package calfw-cal)
-       (use-package calfw-ical)
-       (use-package calfw-org)
-       (setq bnb/calfw-calendars-list
-             (list (cfw:org-create-source "purple")
-                   (make-cfw:source :name "Weather" :data 'bnb/get-forecast-data :color "IndianRed")))
-       (defun bnb/calfw-calendars ()
-         (interactive)
-         (cfw:open-calendar-buffer
-          :contents-sources bnb/calfw-calendars-list)))
-   #+end_src
-
 ** Auto-display agenda
 
-    From
-    http://lists.gnu.org/archive/html/emacs-orgmode/2010-03/msg00367.html,
-    John Weigley shows a way to display the agenda after some period
+    [[http://lists.gnu.org/archive/html/emacs-orgmode/2010-03/msg00367.html][John Weigley shows a way]] to display the agenda after some period
     of inactivity.
 
    #+begin_src emacs-lisp
