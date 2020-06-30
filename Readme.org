@@ -418,7 +418,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      possible. The =fixup-whitespace= function will do that.
 
      #+begin_src emacs-lisp
-       (bind-key "M-\\" 'fixup-whitespace)
+       (bind-key "M-k" 'fixup-whitespace)
      #+end_src
 
 **** Scroll window up/down
