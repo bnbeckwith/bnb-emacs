@@ -457,8 +457,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     overriding the =C-x k= default, but added a =C-x C-k= alternative.
 
     #+begin_src emacs-lisp
+      (defun bnb/kill-this-buffer ()
+        "Kill the current buffer"
+        (interactive)
+        (kill-buffer (current-buffer)))
+
       (bind-keys
-       ("C-x C-k" . kill-this-buffer))
+       ("C-x C-k" . bnb/kill-this-buffer))
     #+end_src
 
 ** Minibuffer History
