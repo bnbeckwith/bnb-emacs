@@ -429,10 +429,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      #+begin_src emacs-lisp
        (defun bnb/scroll-up-1 ()
+         "Scroll up by one line."
          (interactive)
          (cua-scroll-up 1))
 
        (defun bnb/scroll-down-1 ()
+         "Scroll down by one line."
          (interactive)
          (cua-scroll-down 1))
 
@@ -634,9 +636,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                    ("q" . bnb/view/q))
        :config
        (defun bnb/view/h ()
+         "Setup a function to go backwards a character"
          (interactive)
          (forward-char -1))
        (defun bnb/view/q ()
+         "Setup a function to quit `view-mode`"
          (interactive)
          (view-mode -1)))
    #+end_src
@@ -1439,12 +1443,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
               bnb/font
               (ring-ref bnb/font-ring 0))
         (defun bnb/font-apply (font)
+          "Change the default font to FONT."
           (set-frame-font (setq bnb/font font))
           (message "Set default font to %s" bnb/font))
         (defun bnb/font-next ()
+          "Cycle the default font to the next in the ring."
           (interactive)
           (bnb/font-apply (ring-next bnb/font-ring bnb/font)))
         (defun bnb/font-prev ()
+          "Cycle the default font to the previous in the ring."
           (interactive)
           (bnb/font-apply (ring-prev bnb/font-ring bnb/font)))
         (set-frame-font bnb/font))
@@ -1591,6 +1598,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+begin_src emacs-lisp
       (defun bnb/windows-set-font ()
+        "Use Windows font selection to set the default font."
         (interactive)
         (set-face-attribute 'default nil :font (w32-select-font)))
     #+end_src
@@ -1603,6 +1611,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+begin_src emacs-lisp
       (defun bnb/change-frame-font-size (fn)
+        "Change the frame font size according to function FN."
         (let* ((font-name (frame-parameter nil 'font))
                (decomposed-font-name (x-decompose-font-name font-name))
                (font-size (string-to-number (aref decomposed-font-name 5))))
@@ -1610,10 +1619,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
           (set-frame-font (x-compose-font-name decomposed-font-name))))
 
       (defun bnb/frame-text-scale-increase ()
+        "Increase the frame font size by 1."
         (interactive)
         (bnb/change-frame-font-size '1+))
 
       (defun bnb/frame-text-scale-decrease ()
+        "Decrease the frame font size by 1."
         (interactive)
         (bnb/change-frame-font-size '1-))
 
@@ -1665,6 +1676,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (defun bnb/disable-all-themes ()
+       "Disable all enabled themes."
        (interactive)
        (mapc #'disable-theme custom-enabled-themes))
    #+end_src
@@ -1848,6 +1860,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+begin_src emacs-lisp
      (defvar bnb/really-kill-emacs nil)
      (defun bnb/kill-emacs ()
+       "Actually kill emacs."
        (interactive)
        (setq bnb/really-kill-emacs t)
        (kill-emacs))
@@ -1878,6 +1891,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (defun bnb/workweek ()
+       "Return the current workweek number."
        (interactive)
        (let* ((now (current-time))
               (weeks (string-to-number
@@ -1891,6 +1905,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
            (+ 1 weeks))))
 
      (defun bnb/workweek-string ()
+       "Convert the current workweek into a string.
+
+     The string is of the format WW##."
        (interactive)
        (concat "WW"
                (number-to-string
@@ -1898,6 +1915,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (require 'calendar)
      (defun bnb/workweek-from-gregorian (&optional date)
+       "Calculate the workweek from the Gregorian calendar."
        (let* ((date (or date (calendar-current-date)))
               (year (calendar-extract-year date))
               (fst (calendar-day-of-week (list 1 1 year)))
@@ -1926,12 +1944,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (defun bnb/vplit-last-buffer ()
+       "When splitting the frame, load the last visited buffer."
        (interactive)
        (split-window-vertically)
        (other-window 1 nil)
        (switch-to-next-buffer))
 
      (defun bnb/hsplit-last-buffer ()
+       "When splitting the frame, load the last visited buffer."
        (interactive)
        (split-window-horizontally)
        (other-window 1 nil)
@@ -1949,6 +1969,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (defun bnb/find-year-create (year)
+       "Find or create a [YEAR] in an Org journal."
        (let ((re "^\\**[ \t]+\\([12][0-9]\\{3\\}\\)")
              match)
          (org-narrow-to-subtree)
@@ -1968,6 +1989,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
            (insert (format  "** %s\n" year))))))
 
      (defun bnb/find-ww-create (ww)
+       "Find or create a [WW] (workweek) in an Org journal."
        (let ((re "^\\**[ \t]+\\WW\\([0-9]\\{2\\}\\)")
              match)
          (org-narrow-to-subtree)
@@ -1987,6 +2009,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
            (insert (format "*** WW%02d\n" ww))))))
 
      (defun bnb/insert-weekly-time-sheet ()
+       "Generated and insert a weekly time sheet generated from the default Org Agenda."
        (with-temp-buffer
          (insert
           (concat  "#+BEGIN: clocktable :maxlevel 3 :scope agenda-with-archives :block lastweek :fileskip0 t :properties (\"Score\") :indent nil \n"
@@ -1997,6 +2020,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
          (buffer-substring (point-min) (point-max))))
 
      (defun bnb/insert-weekly-clocking ()
+       "Insert the weekly clocking clocking data."
        (let ((year (number-to-string (nth 2 (calendar-gregorian-from-absolute (org-today)))))
              (ww (bnb/workweek)))
          (goto-char (point-min))
@@ -2026,6 +2050,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      ;; Add up all the scores from DONE items in the agenda files
      (defun bnb/agenda-score-goal ()
+       "Add up scores from done items.
+
+     In the agenda, this will show the number of done items and the
+     target goal from `bnb/weekly-score-goal`."
        (let* ((score ;; Add up all scores from DONE items
                (apply '+
                       (org-map-entries
@@ -2053,6 +2081,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (defun bnb/jump-to-org-agenda ()
+       "Create and jump to the bnb org agenda."
        (interactive)
        (let ((buf (get-buffer "*Org Agenda*"))
              wind)
@@ -2068,6 +2097,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
            (bnb/org-agenda-with-tip nil))))
 
      (defun bnb/idle-agenda (&optional arg)
+       "Set or cancel idle agenda timer based on [ARG]."
        (interactive "P")
        (setq bnb/iagenda
              (if arg
@@ -2090,21 +2120,26 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
              (ring-ref bnb/transparency-ring 0))
 
        (defun bnb/transparency-apply (trans)
+         "Apply the TRANS alpha value to the frame."
          (set-frame-parameter (selected-frame) 'alpha (setq bnb/transparency trans)))
 
        (defun bnb/transparency-next ()
+         "Apply the next transparency value in the ring `bnb/transparency-ring`."
          (interactive)
          (bnb/transparency-apply (ring-next bnb/transparency-ring bnb/transparency)))
 
        (defun bnb/transparency-previous ()
+         "Apply the previous transparency value in the ring `bnb/transparency-ring`."
          (interactive)
          (bnb/transparency-apply (ring-previous bnb/transparency-ring bnb/transparency)))
 
        (defun bnb/transparency-cycle ()
+         "Cycle to the next transparency setting."
          (interactive)
          (bnb/transparency-next))
 
        (defun bnb/transparency-add (active inactive)
+         "Add ACTIVE and INACTIVE transparency values to the ring."
          (interactive "nActive Transparency:\nnInactive Transparency:")
          (ring-insert+extend bnb/transparency-ring (list active inactive) t)
          (bnb/transparency-apply (list active inactive))))
@@ -2132,6 +2167,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+begin_src emacs-lisp
      (defun bnb/export-readme ()
+       "Export the tangled org setting as html.
+
+     `sanityinc-tomorrow-day` is used to style the code exports."
        (interactive)
        (let ((themes custom-enabled-themes))
          (mapc 'disable-theme themes)
@@ -2750,6 +2788,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (setq web-mode-engines-alist
              '(("handlebars" . "\\.hbs\\'")))
        (defun bnb/web-mode-hook ()
+         "Setup indentation when loading `web-mode`."
          (setq web-mode-markup-indent-offset 2
                web-mode-css-indent-offset 2
                web-mode-code-indent-offset 2))
@@ -2967,6 +3006,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (ad-activate 'ansi-term)
 
      (defun bnb/term-mode-hook ()
+       "Setup `term-mode`."
        (goto-address-mode)
        (setq-local term-buffer-maximum-size 10000))
 
@@ -3478,6 +3518,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+begin_src emacs-lisp
       (defun bnb/org-count-tasks-by-status ()
+        "Create a table entry for the tracking of task mix."
         (interactive)
         (let ((counts (make-hash-table :test 'equal))
               (today (format-time-string "%Y-%m-%d" (current-time)))
@@ -3512,6 +3553,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+begin_src emacs-lisp
       (defun bnb/add-weekly-score-table-entry ()
+        "Track my weekly scores in a table."
         (let ((score (apply
                       '+
                       (org-map-entries
@@ -3613,6 +3655,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+begin_src emacs-lisp
       (defun bnb/org-agenda-with-tip (arg)
+        "Show agenda for ARG days."
         (org-agenda-list arg)
         (let ((inhibit-read-only t)
               (pos (point)))
