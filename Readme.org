@@ -1681,6 +1681,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Sky Color Clock
 
+   This is a nice addition to any modeline. In a little block, it shows the date, time, moon phase
+
    #+begin_src emacs-lisp
      (use-package sky-color-clock
        :defer 10
@@ -1689,6 +1691,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :config
        (sky-color-clock-initialize 40)
        (setq sky-color-clock-enable-emoji-icon t)
+       (sky-color-clock-initialize-openweathermap-client
+        bnb/openweathermap-api-key
+        bnb/openweathermap-city-id)
        (push '(:eval (sky-color-clock)) (default-value 'mode-line-format)))
    #+end_src
 
