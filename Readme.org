@@ -1724,7 +1724,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :init (doom-modeline-mode t)
        :config
        (set-face-attribute 'mode-line nil :family "Fira Code" :height 100)
-       (set-face-attribute 'mode-line nil :family "Fira Code" :height 100)
+       (set-face-attribute 'mode-line-inactive nil :family "Fira Code" :height 100)
        (setq
         doom-modeline-height 0))
    #+end_src
