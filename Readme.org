@@ -1727,6 +1727,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (push '(:eval (sky-color-clock)) (default-value 'mode-line-format)))
    #+end_src
 
+** Doom Modeline
+
+   #+begin_src emacs-lisp
+     (use-package doom-modeline
+       :ensure t
+       :init (doom-modeline-mode t)
+       :config
+       (set-face-attribute 'mode-line nil :family "Fira Code" :height 100)
+       (set-face-attribute 'mode-line nil :family "Fira Code" :height 100)
+       (setq
+        doom-modeline-height 0))
+   #+end_src
+
 ** Font lock profiling
 
    Allow for profiling of font-locking.
