@@ -1673,11 +1673,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 *** Extra Themes
 
+    I like to have a few options for themes easily available. This set
+    respresents my favorite go-to combinations.
+
     #+begin_src emacs-lisp
+      (use-package minimal-theme :ensure t :defer t)
       (use-package gruvbox-theme :ensure t :defer t)
       (use-package material-theme :ensure t :defer t)
       (use-package tango-plus-theme :ensure t :defer t)
-      (use-package minimal-theme :ensure t :defer t)
       (use-package color-theme-sanityinc-tomorrow :ensure t :defer t)
       ;; dichromacy
       ;; adwaita
@@ -1783,6 +1786,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 ** Color
 *** Rainbow Mode
 
+    In order to see the colors /in the buffer/ this mode higlights
+    color words and definitions with their values.
+
     #+begin_src emacs-lisp
       (use-package rainbow-mode
         :commands (rainbow-mode)
@@ -1791,7 +1797,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 *** KureColor
 
-    Color helper
+    Color helper KureColor allows easy modifications of hue,
+    saturation and brightness.
 
     #+begin_src emacs-lisp
       (use-package kurecolor
@@ -2069,6 +2076,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+end_src
 
 ** Transparency
+
+   Using the =ring= package, these commands will cycles through transparency settings.
 
    #+begin_src emacs-lisp
      (use-package ring
