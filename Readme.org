@@ -360,11 +360,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (bind-key
        "C-c e"
        (defhydra hydra-elisp-cmds (:color blue)
-   ("b" eval-buffer "eval buffer")
-   ("e" toggle-debug-on-error "debug-on-error")
-   ("f" emacs-lisp-byte-compile-and-load "byte-compile-and-load")
-   ("r" eval-region "eval-region")
-   ("q" nil))
+         ("b" eval-buffer "eval buffer")
+         ("e" toggle-debug-on-error "debug-on-error")
+         ("f" emacs-lisp-byte-compile-and-load "byte-compile-and-load")
+         ("r" eval-region "eval-region")
+         ("q" nil))
        emacs-lisp-mode-map)
     #+end_src
 
@@ -375,14 +375,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (bind-key
        "C-h e"
        (defhydra hydra-elisp-help (:color blue)
-   ("e" view-echo-area-messages "view-echod-area-messages")
-   ("f" find-function "find-function")
-   ("k" find-function-on-key "find-function-on-key")
-   ("l" find-library "find-library")
-   ("v" find-variable "find-variable")
-   ("V" apropos-value "apropos-value")
-   ("i" info-display-manual "info-display-manual")
-   ("q" nil))
+         ("e" view-echo-area-messages "view-echod-area-messages")
+         ("f" find-function "find-function")
+         ("k" find-function-on-key "find-function-on-key")
+         ("l" find-library "find-library")
+         ("v" find-variable "find-variable")
+         ("V" apropos-value "apropos-value")
+         ("i" info-display-manual "info-display-manual")
+         ("q" nil))
        emacs-lisp-mode-map)
     #+end_src
 
@@ -473,9 +473,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    sessions.
 
    #+begin_src emacs-lisp
-     (setq savehist-additional-variables
-     '(search-ring regexp-search-ring)
-     savehist-file "~/.emacs.d/savehist")
+     (setq savehist-additional-variables '(search-ring regexp-search-ring)
+           savehist-file "~/.emacs.d/savehist")
      (savehist-mode t)
    #+end_src
 
@@ -1315,9 +1314,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+begin_src emacs-lisp
       (use-package all-the-icons-dired
-  :ensure t
-  :commands (all-the-icons-dired-mode)
-  :config (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+        :ensure t
+        :commands (all-the-icons-dired-mode)
+        :config (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
     #+end_src
 
 
