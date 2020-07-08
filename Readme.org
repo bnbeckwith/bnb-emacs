@@ -4450,6 +4450,10 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Org Roam
 
+   The best of all worlds? Org-mode and a Zettelkasten system? Yes,
+   Org-roam]] sets up a knowledge capture and organization system built
+   on the principles of a [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]] system.
+
    #+begin_src emacs-lisp
      (use-package org-roam
        :ensure t
@@ -4460,6 +4464,9 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (org-roam-directory "~/Documents/zettel")
        :bind (:map org-roam-mode-map
                    (("C-c n l" . org-roam)
+                    ("C-c n t" . org-roam-today)
+                    ("C-c n w" . org-roam-tomorrow)
+                    ("C-c n d" . org-roam-date)
                     ("C-c n f" . org-roam-find-file)
                     ("C-c n g" . org-roam-show-graph))
                    :map org-mode-map
