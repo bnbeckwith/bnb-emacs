@@ -2973,7 +2973,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+begin_src emacs-lisp
      (use-package all-the-icons-ivy-rich
        :ensure t
-       :after ivy-rich-mode
+       :after ivy-rich
        :init (all-the-icons-ivy-rich-mode 1))
    #+end_src
 
