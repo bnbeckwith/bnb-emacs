@@ -2483,6 +2483,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     (use-package projectile
       :ensure t
       :bind
+      ("C-c p" . projectile-command-map)
       ("C-x w" . hydra-projectile-other-window/body)
       ("C-c C-p" . hydra-projectile/body)
       :config
