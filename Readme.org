@@ -1376,7 +1376,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :commands filladapt-mode
        :init (setq-default filladapt-mode t)
        :hook ((text-mode . filladapt-mode)
-        (prog-mode . turn-off-filladapt-mode)))
+              (org-mode . turn-off-filladapt-mode)
+              (prog-mode . turn-off-filladapt-mode)))
    #+end_src
 
 * Style
