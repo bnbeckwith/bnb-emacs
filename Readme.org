@@ -1293,7 +1293,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        ("C-h z" . helpful-macro))
    #+end_src
 
-** All the icons                                                    :PENDING:
+** All the icons
 
    https://github.com/domtronn/all-the-icons.el
 
