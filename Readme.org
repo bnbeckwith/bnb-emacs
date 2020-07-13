@@ -3624,14 +3624,15 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    on tags in the agenda line, show the logged items for the day,
    and only show a time grid if a scheduled tasks exists.
 
-#+begin_src emacs-lisp
-  (setq org-agenda-show-inherited-tags t
-        org-agenda-log-mode-items '(clock)
-        org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2 :fileskip0 t)
-        org-agenda-block-separator "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        org-agenda-dim-blocked-tasks nil
-        org-agenda-inhibit-startup t)
-#+end_src
+   #+begin_src emacs-lisp
+     (setq org-agenda-show-inherited-tags t
+           org-agenda-log-mode-items '(clock)
+           org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2 :fileskip0 t)
+           org-agenda-block-separator "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+           org-agenda-dim-blocked-tasks nil
+           org-agenda-inhibit-startup t
+           org-agenda-breadcrumbs-separator " ❱ ")
+   #+end_src
 
 *** Views
 
@@ -3658,6 +3659,32 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+begin_src emacs-lisp
       ;; Reset everything to nil
       (setq org-agenda-custom-commands nil)
+    #+end_src
+
+    #+begin_src emacs-lisp
+      (add-to-list 'org-agenda-custom-commands
+                   '("o" "My Agenda"
+                     ((todo "TODO" (
+                                    (org-agenda-overriding-header "\n⚡ Do Today:\n⎺⎺⎺⎺⎺⎺⎺⎺⎺")
+                                    (org-agenda-remove-tags t)
+                                    (org-agenda-prefix-format " %-2i %-15b")
+                                    (org-agenda-todo-keyword-format "")
+                                    ))
+                      (agenda "" (
+                                  (org-agenda-start-day "+0d")
+                                  (org-agenda-span 5)
+                                  (org-agenda-overriding-header "⚡ Schedule:\n⎺⎺⎺⎺⎺⎺⎺⎺⎺")
+                                  (org-agenda-repeating-timestamp-show-all nil)
+                                  (org-agenda-remove-tags t)
+                                  (org-agenda-prefix-format   "  %-3i  %-15b %t%s")
+                                  (org-agenda-todo-keyword-format " ☐ ")
+                                  (org-agenda-current-time-string "⮜┈┈┈┈┈┈┈ now")
+                                  (org-agenda-scheduled-leaders '("" ""))
+                                  (org-agenda-time-grid (quote ((daily today remove-match)
+                                                                (0900 1200 1500 1800 2100)
+                                                                "      " "┈┈┈┈┈┈┈┈┈┈┈┈┈")))
+                                  ))
+                      )))
     #+end_src
 
     #+begin_src emacs-lisp
@@ -4359,26 +4386,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (add-to-list 'org-speed-commands-user
                    (cons "T" 'bnb/org-teleport))
     #+end_src
-
-*** Protocols
-**** Org-mac-protocol
-
-**** Org-board                                                      :PENDING:
-
-     Bookmarking in org.
-
-     #+begin_src emacs-lisp
-       (use-package org-board
-         :after org-mode
-         :defer
-         :ensure t
-         :config (global-set-key (kbd "C-c o") org-board-keymap)
-         (setq org-board-capture-file "~/Documents/Personal/Org/bookmarks.org")
-         (add-to-list 'org-capture-templates
-                      `("w" "catpure through org protocol" entry
-                        (file+headline ,org-board-capture-file "Unsorted")
-                        "* %?:description\n:PROPERTIES:\n:URL: %:link\n:END:\n\n Added %U")))
-     #+end_src
 
 *** Plantuml
 
