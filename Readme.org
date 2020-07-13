@@ -1249,19 +1249,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (imagemagick-register-types))
    #+end_src
 
-** Key frequency                                                    :PENDING:
-
-   Record how often I use my keys.
-
-   #+begin_src emacs-lisp
-     (use-package keyfreq
-       :disabled
-       :ensure t
-       :init
-       (keyfreq-mode 1)
-       (keyfreq-autosave-mode 1))
-   #+end_src
-
 ** PDF Tools
 
    This replaces the built-in DocView for PDF files. Find out the
