@@ -2474,7 +2474,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       ("C-c C-p" . hydra-projectile/body)
       :config
       (use-package counsel-projectile
-        :ensure t)
+        :after (projectile)
+        :ensure t
+        :bind
+        (:map projectile-command-map
+              ("s s" . counsel-projectile-rg)
+              ("p" . counsel-projectile-switch-project)))
       (when (eq system-type 'windows-nt)
         (setq projectile-indexing-method 'native))
       (setq projectile-enable-caching t
@@ -2495,14 +2500,14 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      Find File            Search/Tags          Buffers                Cache
       ------------------------------------------------------------------------------------------
-      _C-f_: file            _a_: ag                _i_: Ibuffer           _c_: cache clear
+      _C-f_: file            _r_: ag                _i_: Ibuffer           _c_: cache clear
        _ff_: file dwim       _g_: update gtags      _b_: switch to buffer  _x_: remove known project
        _fd_: file curr dir   _o_: multi-occur     _C-k_: Kill all buffers  _X_: cleanup non-existing
         _r_: recent file                                               ^^^^_z_: cache current
         _d_: dir
 
       "
-        ("a"   counsel-projectile-ag)
+        ("r"   counsel-projectile-rg)
         ("b"   projectile-switch-to-buffer)
         ("c"   projectile-invalidate-cache)
         ("d"   projectile-find-dir)
@@ -2876,8 +2881,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       ("H-y"     . counsel-yank-pop)
       ("C-x C-f" . counsel-find-file)
       ("C-c a"   . counsel-rg)
-      ("C-c p s a" . counsel-projectile-rg)
-      ("C-c p p" . counsel-projectile-switch-project)
       ("H-h f"  . counsel-describe-function)
       ("H-h v"  . counsel-describe-variable)
       ("H-h l"  . counsel-find-library)
