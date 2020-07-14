@@ -3634,7 +3634,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (setq org-agenda-show-inherited-tags t
            org-agenda-log-mode-items '(clock)
            org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2 :fileskip0 t)
-           org-agenda-block-separator "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+           ;;org-agenda-block-separator ?┄
+           org-agenda-block-separator nil
            org-agenda-dim-blocked-tasks nil
            org-agenda-inhibit-startup t
            org-agenda-breadcrumbs-separator " ❱ ")
