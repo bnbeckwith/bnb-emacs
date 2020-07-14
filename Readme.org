@@ -2038,23 +2038,29 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (defun bnb/agenda-score-goal ()
        "Add up scores from done items.
 
-     In the agenda, this will show the number of done items and the
-     target goal from `bnb/weekly-score-goal`."
+          In the agenda, this will show the number of done items and the
+          target goal from `bnb/weekly-score-goal`."
        (let* ((score ;; Add up all scores from DONE items
                (apply '+
                       (org-map-entries
                        (lambda () (string-to-number (or (org-entry-get (point) "Score") "0")))
                        "/DONE" 'agenda)))
-              (scaled-goal (* bnb/weekly-score-goal (/ (string-to-number (format-time-string "%w")) 5.0)))
+              (scaled-goal (* bnb/weekly-score-goal
+                              (/ (string-to-number (format-time-string "%w"))
+                                 5.0)))
               (face (cond ((>= score scaled-goal) 'success)
                           ((>= score (* .8 scaled-goal)) 'warning)
-                          (t 'error))))
+                          (t 'error)))
+              (goal-label (format "✧ Score Goal (%d): " scaled-goal))
+              (goal-metric (format "%d/%d\n" score bnb/weekly-score-goal))
+              (header-size (+ (string-width goal-label)
+                              (string-width goal-metric)))
+              (goal-separator (concat (make-string (- header-size 1) ?┄) "\n")))
          (insert
           (concat
-           (propertize
-            (format "Score Goal (%d): " scaled-goal) 'face 'org-agenda-structure)
-           (propertize
-            (format "%d/%d\n" score bnb/weekly-score-goal) 'face face)))))
+           (propertize goal-label 'face 'org-agenda-structure)
+           (propertize goal-metric 'face face)
+           (propertize goal-separator 'face 'org-agenda-structure)))))
 
      ;; This hook runs first in the agenda (and before it is set to read-only)
      (add-hook 'org-agenda-mode-hook 'bnb/agenda-score-goal)
