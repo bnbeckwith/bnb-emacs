@@ -3672,7 +3672,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (add-to-list 'org-agenda-custom-commands
                    '("o" "My Agenda"
                      ((todo "TODO" (
-                                    (org-agenda-overriding-header "\n⚡ Do Today:\n⎺⎺⎺⎺⎺⎺⎺⎺⎺")
+                                    (org-agenda-overriding-header "\n⚡ Do Today\n┄┄┄┄┄┄┄┄┄┄")
                                     (org-agenda-remove-tags t)
                                     (org-agenda-prefix-format " %-2i %-15b")
                                     (org-agenda-todo-keyword-format "")
@@ -3680,7 +3680,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                       (agenda "" (
                                   (org-agenda-start-day "+0d")
                                   (org-agenda-span 5)
-                                  (org-agenda-overriding-header "⚡ Schedule:\n⎺⎺⎺⎺⎺⎺⎺⎺⎺")
+                                  (org-agenda-overriding-header "⚡ Schedule\n┄┄┄┄┄┄┄┄┄┄")
                                   (org-agenda-repeating-timestamp-show-all nil)
                                   (org-agenda-remove-tags t)
                                   (org-agenda-prefix-format   "  %-3i  %-15b %t%s")
