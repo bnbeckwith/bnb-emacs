@@ -2055,7 +2055,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
               (goal-metric (format "%d/%d\n" score bnb/weekly-score-goal))
               (header-size (+ (string-width goal-label)
                               (string-width goal-metric)))
-              (goal-separator (concat (make-string (- header-size 1) ?┄) "\n")))
+              (goal-separator (concat (make-string header-size ?┄) "\n")))
          (insert
           (concat
            (propertize goal-label 'face 'org-agenda-structure)
