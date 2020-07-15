@@ -3641,6 +3641,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
            org-agenda-breadcrumbs-separator " ❱ ")
    #+end_src
 
+*** Category Icons                                                  :PENDING:
+
+    Org-mode can show category icons in some agenda views. The
+    underlying setting is just an ~alist~ of categories and the icons
+    to use.
+
+
+    #+begin_src emacs-lisp
+      (setq org-agenda-category-icon-alist
+            `(("[rR]efile" ,(list (all-the-icons-faicon "inbox")) nil nil :ascent center)
+              (".*" ,(list (all-the-icons-faicon "file")) nil nil :ascent center)))
+    #+end_src
+
 *** Views
 
     The key to knowing what work there is the agenda views. These
