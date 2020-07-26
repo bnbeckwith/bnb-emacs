@@ -2216,6 +2216,26 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (bind-key "H-0" 'bnb/hide-mode-line-mode)
    #+end_src
 
+** Org-column resizing
+
+   In order to resize the face when `org-column` mode is on, some
+   advice is in order. The face used has a set =:height= that is not
+   overridden by custom face settings.
+
+   To have a custom height, this advice prepends the list with an
+   anonymous face with a height of 0.8. This setting happens first, so
+   it wins.
+
+   #+begin_src emacs-lisp
+     (defun bnb/org-overlay-font-override (orig-fn beg end &optional txt face)
+       (let ((bnbface (cons '(:height 0.8) face)))
+           (funcall orig-fn beg end txt bnbface)))
+
+     (advice-add 'org-columns--new-overlay :around #'bnb/org-overlay-font-override)
+
+     ;(advice-remove 'org-columns--new-overlay #'bnb/org-overlay-font-override)
+   #+end_src
+
 * Company
 
   [[http://company-mode.github.io][Company Mode]] is an in-buffer completion system. To get started, I
