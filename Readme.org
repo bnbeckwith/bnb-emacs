@@ -2659,6 +2659,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+begin_src emacs-lisp
       (use-package js2-mode
+        :ensure t
         :mode "\\.js\\'"
         :init
         (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
@@ -2668,6 +2669,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+begin_src emacs-lisp
       (use-package js2-refactor
+        :ensure t
         :after js2-mode
         :functions (js2r-add-keybindings-with-prefix)
         :bind (:map js2-mode-map
@@ -2678,6 +2680,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+begin_src emacs-lisp
       (use-package xref-js2
+        :ensure t
         :after js2-mode
         :config
         (add-hook 'js2-mode-hook
@@ -2691,19 +2694,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (use-package rjsx-mode
          :mode "(components|src\\/pages)\\/.*\\.js\\'")
      #+end_src
-
-*** Company tern
-
-    #+begin_src emacs-lisp
-      (use-package company-tern
-        :after js2-mode
-        :config
-        (add-to-list 'company-backends 'company-tern)
-        (add-to-list 'tern-command "--no-port-file" 'append)
-        (add-hook 'js2-mode-hook (lambda ()
-                                   (tern-mode)
-                                   (company-mode))))
-    #+end_src
 
 ** Rust
 
