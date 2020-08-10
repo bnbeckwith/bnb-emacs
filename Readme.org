@@ -2794,6 +2794,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
        (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
        (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+       (add-to-list 'auto-mode-alist '("\\.svelte\\'" . web-mode))
        (setq web-mode-engines-alist
              '(("handlebars" . "\\.hbs\\'")))
        (defun bnb/web-mode-hook ()
