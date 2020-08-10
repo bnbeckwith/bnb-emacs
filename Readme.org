@@ -2512,6 +2512,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
             projectile-require-project-root t
             projectile-mode-line '(:eval (format " 🛠[%s]" (projectile-project-name)))
             projectile-completion-system 'default)
+      (add-to-list 'projectile-globally-ignored-directories "node_modules")
       (projectile-mode)
       (defhydra hydra-projectile-other-window (:color teal)
         "projectile-other-window"
