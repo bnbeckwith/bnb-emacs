@@ -2892,6 +2892,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (colir-compose-method 'colir-compose-soft-light))
 
     (use-package counsel
+      :ensure t
       :after ivy
       :delight " 𝖈"
       :bind
