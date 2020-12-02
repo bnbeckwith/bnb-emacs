@@ -3,7 +3,7 @@
 #+OPTIONS: html-preamble:t html-scripts:t html-style:t
 #+OPTIONS: html5-fancy:nil tex:t
 #+CREATOR: <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.7a)
-#+SETUPFILE: https://raw.githubusercontent.com/fniessen/org-html-themes/master/setup/theme-readtheorg.setup
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 #+EXPORT_FILE_NAME: index.html
 #+HTML_CONTAINER: div
 #+HTML_DOCTYPE: xhtml-strict
@@ -601,21 +601,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (add-hook 'cperl-mode-hook 'turn-on-eldoc-mode)
      (add-hook 'eshell-mode-hook 'turn-on-eldoc-mode)
    #+end_src
-
-** Encryption
-
-   [[info:epa#Top][EasyPG Assistant]] helps with integration of GnuPG.  The command
-   below turns on the automatic encryption/decryption of =*.gpg=
-   files.
-
-   #+begin_src emacs-lisp
-     (use-package epa
-       :disabled
-       :config (epa-file-enable))
-   #+end_src
-
-   It is possible that you would need to [[elisp:(customize-group%20'epg)][customize the location of
-   gpg]].
 
 ** Read-only helpers
 
