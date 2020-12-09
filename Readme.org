@@ -4413,6 +4413,45 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (setq org-plantuml-jar-path "/usr/local/Cellar/plantuml/1.2017.18/libexec/plantuml.jar")
     #+end_src
 
+** Pretty Org-mode
+
+   This collection of settings enhances the visual appeal when working
+   in org-mode.
+
+   First, some initial built-in settings to make.
+
+   #+begin_src emacs-lisp
+     (setq org-hide-leading-stars t
+           org-hide-emphasis-markers t
+           org-fontify-done-headline t
+           org-pretty-entities t)
+   #+end_src
+
+
+   Here's some fun
+   #+begin_src emacs-lisp
+     (add-hook
+      'org-mode-hook
+      (lambda ()
+        (mapc (lambda (pair) (push pair prettify-symbols-alist))
+              '(("#+BEGIN_SRC" . "†")
+               ("#+END_SRC" . "†")
+               ("#+begin_src" . "†")
+               ("#+end_src" . "†")
+               (">=" . "≥")
+               ("=>" . "⇨")))))
+   #+end_src
+
+*** Org Bullets
+
+    #+begin_src emacs-lisp
+      (use-package org-bullets
+        :custom
+        (org-bullets-bullet-list '("◉" "◊" "○" "⧫" "✸" "⬨" "⬟" "⬧" "⬢" "⬫" "⌑" "⬪" "▱"))
+        (org-ellipsis "⤵")
+        :hook (org-mode . org-bullets-mode))
+    #+end_src
+
 ** Org Repo Todo                                                    :PENDING:
 
    Make it easy to setup a =TODO.org= from within a repo. I use this
