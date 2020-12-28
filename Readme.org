@@ -4434,12 +4434,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       'org-mode-hook
       (lambda ()
         (mapc (lambda (pair) (push pair prettify-symbols-alist))
-              '(("#+BEGIN_SRC" . "†")
-               ("#+END_SRC" . "†")
-               ("#+begin_src" . "†")
-               ("#+end_src" . "†")
-               (">=" . "≥")
-               ("=>" . "⇨")))))
+              '(("#+BEGIN_SRC" . "⌈")
+                ("#+END_SRC" . "⌊")
+                ("#+begin_src" . "⌈")
+                ("#+end_src" . "⌊")
+                (">=" . "≥")
+                ("=>" . "⇨")))))
    #+end_src
 
 *** Org Bullets
@@ -4448,7 +4448,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
       (use-package org-bullets
         :custom
         (org-bullets-bullet-list '("◉" "◊" "○" "⧫" "✸" "⬨" "⬟" "⬧" "⬢" "⬫" "⌑" "⬪" "▱"))
-        (org-ellipsis "⤵")
+        (org-ellipsis "˯") ;; Options: ˯⇂↯⤵🠻🢗
         :hook (org-mode . org-bullets-mode))
     #+end_src
 
