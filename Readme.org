@@ -4133,42 +4133,42 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
 ** Babel
 
-#+begin_src emacs-lisp
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((calc       . t)
-     (C          . t)
-     (ditaa      . t)
-     (dot        . t)
-     (emacs-lisp . t)
-     (gnuplot    . t)
-     (latex      . t)
-     (maxima     . t)
-     (perl       . t)
-     (plantuml   . t)
-     (python     . t)
-     (ruby       . t)
-     (shell      . t)
-     (sqlite     . t)
-     (sql        . t)
-     (R          . t)))
-#+end_src
+   #+begin_src emacs-lisp
+     (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((calc       . t)
+        (C          . t)
+        (ditaa      . t)
+        (dot        . t)
+        (emacs-lisp . t)
+        (gnuplot    . t)
+        (latex      . t)
+        (maxima     . t)
+        (perl       . t)
+        (plantuml   . t)
+        (python     . t)
+        (ruby       . t)
+        (shell      . t)
+        (sqlite     . t)
+        (sql        . t)
+        (R          . t)))
+   #+end_src
 
 *** Extra Babel Packages
 
-#+begin_src emacs-lisp
-  (use-package ob-http :after org-mode)
+    #+begin_src emacs-lisp
+      (use-package ob-http :after org-mode)
 
-  (use-package ob-restclient
-    :after org-mode
-    :ensure t
-    :quelpa
-    (ob-restclient :fetcher github :repo "alf/ob-restclient.el")
-    :config
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     (append org-babel-load-languages '((restclient . t)))))
-#+end_src
+      (use-package ob-restclient
+        :after org-mode
+        :ensure t
+        :quelpa
+        (ob-restclient :fetcher github :repo "alf/ob-restclient.el")
+        :config
+        (org-babel-do-load-languages
+         'org-babel-load-languages
+         (append org-babel-load-languages '((restclient . t)))))
+    #+end_src
 
 ** Miscellaneous Settings
 *** Columns
