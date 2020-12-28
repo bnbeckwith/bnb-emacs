@@ -3258,6 +3258,21 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
                  (lambda () (org-display-inline-images t t))))
    #+end_src
 
+*** Additional modules
+
+    There are now some Orgmode features that are not included by
+    default. In this section, I enable them.
+
+**** Info Links
+
+     Loading the =ol-info= library provides the support for info node
+     links.
+
+     #+begin_src emacs-lisp
+       (use-package ol-info
+         :after org-mode)
+     #+end_src
+
 ** Auto mode
 
    I add gpg and _archive to the list of known org files. These two
