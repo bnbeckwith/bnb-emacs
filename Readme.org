@@ -2781,6 +2781,13 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
    #+end_src
 
+** Sass
+
+   #+begin_src emacs-lisp
+     (use-package sass-mode
+       :defer
+       :ensure t)
+   #+end_src
 ** Web Mode
 
    For all of the webish-stuff, this mode works well. Let's enable it
