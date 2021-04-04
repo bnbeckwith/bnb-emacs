@@ -1685,8 +1685,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (setq sky-color-clock-enable-emoji-icon t)
        (sky-color-clock-initialize-openweathermap-client
         bnb/openweathermap-api-key
-        bnb/openweathermap-city-id)
-       (push '(:eval (sky-color-clock)) (default-value 'mode-line-format)))
+        bnb/openweathermap-city-id))
    #+end_src
 
 ** Doom Modeline
@@ -1698,6 +1697,25 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :config
        (setq
         doom-modeline-height 0))
+   #+end_src
+
+** ⁂ Mode
+
+   Let's try ⁂-mode for an interesting mini-buffer line.
+
+   #+begin_src emacs-lisp
+     (defun bnb/smaller-sky-color ()
+       (let* ((scc (sky-color-clock))
+              (len (length scc)))
+         (add-face-text-property 0 len '(:height 80) t scc)
+         (add-face-text-property 0 len '(:justification right) t scc)
+         scc))
+
+     (use-package asterism-mode
+       :quelpa
+       (asterism-mode :fetcher gitlab :repo "lunar.studio/asterism-mode")
+       :config
+       (setq ⁂-format '((:eval (bnb/smaller-sky-color)))))
    #+end_src
 
 ** Font lock profiling
