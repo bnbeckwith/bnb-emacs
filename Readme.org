@@ -3622,11 +3622,11 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     underlying setting is just an ~alist~ of categories and the icons
     to use.
 
-
     #+begin_src emacs-lisp
       (setq org-agenda-category-icon-alist
             `(("[rR]efile" ,(list (all-the-icons-faicon "inbox")) nil nil :ascent center)
-              (".*" ,(list (all-the-icons-faicon "file")) nil nil :ascent center)))
+              ("[Pp]ersonal" ,(list (all-the-icons-faicon "tasks")) nil nil :ascent center)
+              (".*" ,(list (all-the-icons-material "tab")) nil nil :ascent center)))
     #+end_src
 
 *** Views
