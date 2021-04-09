@@ -732,23 +732,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         :hook (magit-mode-hook . magit-todos-mode))
     #+end_src
 
-*** Git timemachine                                                 :PENDING:
-
-    Loop through the history of a file with some simple keystrokes (or wheeling up and down)
-
-    #+begin_src emacs-lisp
-      (use-package git-timemachine
-        :disabled
-        :ensure t
-        :bind ("C-x C-g" . git-timemachine-toggle)
-        :config
-        (bind-keys
-         :map git-timemachine-mode-map
-         ("<M-up>" . git-timemachine-show-previous-revision)
-         ("<M-down>" . git-timemachine-show-next-revision)
-         ("<S-wheel-up>" . git-timemachine-show-previous-revision)
-         ("<S-wheel-down>" . git-timemachine-show-next-revision)))
-    #+end_src
 
 *** Smerge
 
@@ -848,7 +831,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     #+end_src
 
 
-*** Ace Isearch                                                     :PENDING:
+*** Ace Isearch
 
     Supercharge ~isearch~ to vary its behavior depending on the
     input. The ~C-'~ key let's me jump to the isearch match easily
@@ -1349,7 +1332,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        (global-set-key (kbd "H-,") 'hydra-undo-tree/body))
    #+end_src
 
-** Adaptive Fill                                                    :PENDING:
+** Adaptive Fill
 
    Try to keep any prefixed elements of the first line for paragraph
    filling.
@@ -2612,7 +2595,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         ("q" nil))))
     #+end_src
 
-*** Prog fill                                                       :PENDING:
+*** Prog fill
 
     #+begin_src emacs-lisp
       (use-package prog-fill
@@ -3633,7 +3616,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
            org-agenda-breadcrumbs-separator " ❱ ")
    #+end_src
 
-*** Category Icons                                                  :PENDING:
+*** Category Icons
 
     Org-mode can show category icons in some agenda views. The
     underlying setting is just an ~alist~ of categories and the icons
