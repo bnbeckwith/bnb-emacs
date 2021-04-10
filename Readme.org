@@ -2298,7 +2298,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    Also, there is a nice faculty to run an external command on a given
    file with =!=.
 
-** Neotree                                                          :PENDING:
+** Neotree
 
    Neotree is a file sidebar for navigation.
 
@@ -2309,19 +2309,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :bind ("H-t" . neotree-toggle)
        :config
        (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
-   #+end_src
-
-** Sunrise Commander
-
-   I always seem to need something better than =dired= when moving
-   files around. Sunrise commander seems to fit the bill nicely.
-
-   #+begin_src emacs-lisp
-     (use-package sunrise-commander
-       :defer 10
-       :quelpa
-       (sunrise-commander :fetcher github :repo "escherdragon/sunrise-commander")
-       :bind ("<f8>" . sunrise))
    #+end_src
 
 ** OSX Dictionary
