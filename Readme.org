@@ -2894,9 +2894,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
               ("M-g o" . consult-ouline)
               ("M-y" . consult-yank-pop))
        :init
-       (fset 'multi-occur #'consult-multi-occur)
-       :config
-       (consult-preview-mode))
+       (fset 'multi-occur #'consult-multi-occur))
    #+end_src
 
 ** Marginalia
