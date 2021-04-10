@@ -2887,10 +2887,19 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+begin_src emacs-lisp
      (use-package consult
        :ensure t
-       :bind (("C-c o" . consult-outline)
+       :bind (;; C-c bindings
+              ("C-c h" . consult-history)
+              ("C-c m" . consult-mode-command)
+              ("C-c b" . consult-bookmark)
+              ("C-c k" . consult-macro)
+              ("C-c o" . consult-outline)
+              ;; C-x bindings
               ("C-x b" . consult-buffer)
+              ("C-x 4 b" . consult-buffer-other-window)
+              ("C-x 5 b" . consult-buffer-other-frame)
               ("C-x r x" . consult-register)
               ("C-x r b" . consult-bookmark)
+              ;; Custom M bindings
               ("M-g o" . consult-ouline)
               ("M-y" . consult-yank-pop))
        :init
