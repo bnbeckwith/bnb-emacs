@@ -4399,6 +4399,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
     #+begin_src emacs-lisp
       (use-package org-bullets
+        :ensure t
         :custom
         (org-bullets-bullet-list '("◉" "◊" "○" "⧫" "✸" "⬨" "⬟" "⬧" "⬢" "⬫" "⌑" "⬪" "▱"))
         (org-ellipsis "˯") ;; Options: ˯⇂↯⤵🠻🢗
