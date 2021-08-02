@@ -1690,7 +1690,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (defun bnb/smaller-sky-color ()
        (let* ((scc (sky-color-clock))
               (len (length scc)))
-         (add-face-text-property 0 len '(:height 80) t scc)
+         (add-face-text-property 0 len '(:height 90) t scc)
          (add-face-text-property 0 len '(:justification right) t scc)
          scc))
 
