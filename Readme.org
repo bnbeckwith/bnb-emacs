@@ -4490,6 +4490,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :delight " 𝕫"
        :hook
        (after-init . org-roam-mode)
+       :init
+       (setq org-roam-v2-ack t)
        :custom
        (org-roam-directory "~/Documents/zettel")
        :bind (:map org-roam-mode-map
