@@ -2708,26 +2708,25 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
    #+begin_src emacs-lisp
      (use-package cargo
        :ensure t
-       :mode "\\.rs"
-       :init
-       (bind-keys :prefix-map cargo-mode-map
-                  :prefix "C-c c"
-                  ("C" . cargo-process-repeat)
-                  ("." . cargo-process-repeat)
-                  ("X" . cargo-run-example)
-                  ("c" . cargo-process-build)
-                  ("d" . cargo-process-doc)
-                  ("e" . cargo-process-bench)
-                  ("R" . cargo-process-current-test)
-                  ("f" . cargo-process-fmt)
-                  ("i" . cargo-process-init)
-                  ("n" . cargo-process-new)
-                  ("o" . cargo-process-current-file-tests)
-                  ("s" . cargo-process-search)
-                  ("u" . cargo-process-update)
-                  ("x" . cargo-process-run)
-                  ("t" . cargo-process-test)
-                  ("R" . cargo-process-test-regexp)))
+       :mode "Cargo.toml"
+       :bind-keymap ("C-c c" . cargo-mode-map)
+       :bind (:map cargo-mode-map
+                   ("C" . cargo-process-repeat)
+                   ("." . cargo-process-repeat)
+                   ("X" . cargo-run-example)
+                   ("c" . cargo-process-build)
+                   ("d" . cargo-process-doc)
+                   ("e" . cargo-process-bench)
+                   ("R" . cargo-process-current-test)
+                   ("f" . cargo-process-fmt)
+                   ("i" . cargo-process-init)
+                   ("n" . cargo-process-new)
+                   ("o" . cargo-process-current-file-tests)
+                   ("s" . cargo-process-search)
+                   ("u" . cargo-process-update)
+                   ("x" . cargo-process-run)
+                   ("t" . cargo-process-test)
+                   ("R" . cargo-process-test-regexp)))
 
      (use-package racer
        :ensure t
@@ -2763,7 +2762,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (use-package rustic
        :ensure t
-       :commands (cargo-minor-mode)
        :mode ("\\.rs" . rustic-mode)
        :config
        (bind-keys :map rustic-mode-map
@@ -2772,7 +2770,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :init
        (setq company-tooltip-align-annotations t
              rustic-format-on-save nil)
-       (add-hook 'rustic-mode-hook #'cargo-minor-mode)
        (add-hook 'rustic-mode-hook #'racer-mode)
        (add-hook 'rustic-mode-hook #'flycheck-mode)
        (add-hook 'rustic-mode-hook #'electric-pair-mode))
