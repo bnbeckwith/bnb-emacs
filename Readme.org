@@ -1393,9 +1393,12 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
         :bind ("H-f" . bnb/font-next)
         ("H-F" . bnb/font-prev)
         :config
-        (setq bnb/fontlist '("Fira Code-13" "Source Code Pro-13")
+        (defun bnb/filter-existing-fonts (fl)
+          "Filter the list for only existing fonts"
+          (seq-filter #'font-info fl))
+        (setq bnb/fontlist '( "-*-Lunar Mono-*-expanded-*-12" "-*-Lunar Mono-*-*-*-12" "Fira Code-13" "Source Code Pro-13")
               bnb/font-ring
-              (ring-convert-sequence-to-ring bnb/fontlist)
+              (ring-convert-sequence-to-ring (seq-filter #'font-info bnb/fontlist))
               bnb/font
               (ring-ref bnb/font-ring 0))
         (defun bnb/font-apply (font)
