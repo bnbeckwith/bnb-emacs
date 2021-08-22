@@ -1803,62 +1803,6 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
   This is a collection of code specific to how I use emacs. Some
   are from different websites or other Emacs users.
 
-** Exit behavior
-
-   Instead of exiting emacs, I prefer to leave it running and only
-   minimize (iconize) it. Especially since I use =server= with emacs,
-   it is advantageous to not kill my session by accident
-   (muscle-memory). This idea is from [[http://emacs-fu.blogspot.com/2009/03/windows-and-daemons.html][Emacs-Fu]].
-
-   To accomplish this, I advise the =kill-emacs= function. But first,
-   I need to have some pieces in place to perform some functionality
-   if a killing operation triggers (keystrokes, button presses,
-   etc).
-
-   I create a variable, =bnb/kill-emacs-hooks=, for functions that
-   need to run before emacs is /killed/.
-
-   #+begin_src emacs-lisp
-     (defvar bnb/kill-emacs-hooks)
-     (add-hook 'bnb/kill-emacs-hooks
-               (lambda () (if (functionp 'server-edit)(server-edit))))
-   #+end_src
-
-   In the hook above, I call the =server-edit= function to act as if
-   I am closing emacs for a file opened via the server API. This has
-   the effect of providing an illusion of opening the editor on a
-   specific file and then closing it with normal keypresses.
-
-   Next, I provide a flag and a function to set the flag if emacs is
-   to really exit. We always need an escape hatch.
-
-   #+begin_src emacs-lisp
-     (defvar bnb/really-kill-emacs nil)
-     (defun bnb/kill-emacs ()
-       "Actually kill emacs."
-       (interactive)
-       (setq bnb/really-kill-emacs t)
-       (kill-emacs))
-   #+end_src
-
-   Now that mechanism is in place, it is time to augment
-   =kill-emacs= with some advice around the function.
-
-   #+begin_src emacs-lisp
-     (defadvice kill-emacs (around bnb/pardon-emacs activate)
-       "Only kill emacs if a prefix is set"
-       (run-hooks 'bnb/kill-emacs-hooks)
-       (if bnb/really-kill-emacs
-           ad-do-it
-         (iconify-frame)))
-   #+end_src
-
-   Now, when any event triggers a call to =kill-emacs=, a small set
-   of activities happen. First, the =bnb/kill-emacs-hooks= execute
-   and perform their jobs. Next, I check the flag for /really/
-   exiting and then call the proper =kill-emacs= if true. Otherwise,
-   the flag is false and emacs is simply iconified.
-
 ** Workweeks
 
    This is vestigal content from my Intel days and this generates
