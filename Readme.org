@@ -4436,21 +4436,22 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :ensure t
        :delight " 𝕫"
        :hook
-       (after-init . org-roam-mode)
+       (after-init . org-roam-setup)
        :init
        (setq org-roam-v2-ack t)
        :custom
        (org-roam-directory "~/Documents/zettel")
-       :bind (:map org-roam-mode-map
-                   (("C-c n l" . org-roam)
-                    ("C-c n t" . org-roam-dailies-find-today)
-                    ("C-c n w" . org-roam-dailies-find-tomorrow)
-                    ("C-c n d" . org-roam-date)
-                    ("C-c n f" . org-roam-find-file)
-                    ("C-c n g" . org-roam-show-graph))
-                   :map org-mode-map
-                   (("C-c n i" . org-roam-insert))
-                   (("C-c n I" . org-roam-insert-immediate))))
+       :bind ((("C-c n i" . org-roam-node-insert)
+               ("C-c n f" . org-roam-node-find)
+               ("C-c n c" . org-roam-capture)
+               ("C-c n I" . org-roam-insert-immediate))
+              :map org-roam-mode-map
+              (("C-c n l" . org-roam)
+               ("C-c n t" . org-roam-dailies-find-today)
+               ("C-c n w" . org-roam-dailies-find-tomorrow)
+               ("C-c n d" . org-roam-date)
+               ("C-c n f" . org-roam-find-file)
+               ("C-c n g" . org-roam-show-graph))))
    #+end_src
 
 *** Company Org Roam
