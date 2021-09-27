@@ -2834,6 +2834,8 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
     (use-package selectrum-prescient
       :ensure t
       :after selectrum
+      :custom
+      (completion-styles '(flex substring partial-completion))
       :config
       (setq prescient-persist-mode t)
       (selectrum-prescient-mode t))
