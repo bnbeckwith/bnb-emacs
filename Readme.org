@@ -2169,34 +2169,52 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      ;(advice-remove 'org-columns--new-overlay #'bnb/org-overlay-font-override)
    #+end_src
 
-* Company
+* Auto-completion
 
-  [[http://company-mode.github.io][Company Mode]] is an in-buffer completion system. To get started, I
-  need to load the mode and bind some keys.
+  Let the machine help with typing!
 
-  #+begin_src emacs-lisp
-    (use-package company
-      :ensure t
-      :delight company-mode
-      :init
-      (add-hook 'after-init-hook 'global-company-mode)
-      :bind
-      ("<C-tab>" . company-complete-common-or-cycle)
-      :config
-      (bind-key "C-<tab>" 'company-complete org-mode-map)
-      (bind-keys :map company-active-map
-                 ("s-<tab>" . company-complete-common-or-cycle)
-                 ("C-n"     . company-select-next)
-                 ("C-p"     . company-select-previous))
-      ;; Turn off the auto downcasing of things
-      (setq company-dabbrev-downcase nil
-            company-show-numbers t
-            company-tooltip-align-annotations t
-            company-selection-wrap-around t
-            company-tooltip-flip-when-above t
-            company-dabbrev-code-everywhere t
-            company-dabbrev-code-ignore-case t))
-  #+end_src
+** Company
+
+   [[http://company-mode.github.io][Company Mode]] is an in-buffer completion system. To get started, I
+   need to load the mode and bind some keys.
+
+   #+begin_src emacs-lisp
+     (use-package company
+       :ensure t
+       :delight company-mode
+       :init
+       (add-hook 'after-init-hook 'global-company-mode)
+       :bind
+       (("C-<tab>" . company-complete-common-or-cycle)
+        ("C-<tab>" . company-complete-org-mode-map)
+        :map company-active-map
+        ("s-<tab>" . company-complete-common-or-cycle)
+        ("C-n"     . company-select-next)
+        ("C-p"     . company-select-previous)
+        ("M-<"     . company-select-first)
+        ("M->"     . company-select-last))
+       :config
+       ;; Turn off the auto downcasing of things
+       (setq company-dabbrev-downcase nil
+             company-show-numbers t
+             company-tooltip-align-annotations t
+             company-selection-wrap-around t
+             company-tooltip-flip-when-above t
+             company-dabbrev-code-everywhere t
+             company-dabbrev-code-ignore-case t))
+   #+end_src
+
+** Yasnippet
+
+   #+begin_src emacs-lisp
+     (use-package yasnippet
+       :ensure t
+       :hook
+       (prog-mode . yas-minor-mode)
+       (text-mode . yas-minor-mode)
+       :config
+       (yas-reload-all))
+   #+end_src
 
 * File Management
 ** Dired
