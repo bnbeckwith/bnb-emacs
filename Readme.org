@@ -2818,7 +2818,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package pollen-mode
        :ensure t
        :defer t
-       :mode (("\\.pp$" . pollen-mode)))
+       :mode (("\\.pp\\'" . pollen-mode)))
 
      (use-package company-pollen
        :defer t
@@ -3158,7 +3158,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
      (use-package org-mode
        :ensure org-plus-contrib
        :delight (org-mode "🦄" :major)
-       :mode "\\.org\\(.gpg|_archive\\)?$"
+       :mode "\\.org\\(.gpg|_archive\\)?\\'"
        :bind
        ("C-c t"  . orgtbl-mode)
        ("C-c l"  . org-store-link)
