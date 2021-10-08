@@ -1700,7 +1700,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
 
      (use-package asterism-mode
        :quelpa
-       (asterism-mode :fetcher gitlab :repo "lunar.studio/asterism-mode")
+       (asterism-mode :fetcher gitlab :repo "lunarstudio/asterism-mode")
        :config
        (setq ⁂-format '((:eval (bnb/smaller-sky-color)))))
    #+end_src
