@@ -2711,24 +2711,7 @@ the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
        :ensure t
        :mode ("Cargo.toml\\'" . (lambda () (progn  (toml-mode) (cargo-minor-mode t))))
        :hook (rust-mode . cargo-minor-mode)
-       :bind-keymap ("C-c c" . cargo-mode-map)
-       :bind (:map cargo-mode-map
-                   ("C" . cargo-process-repeat)
-                   ("." . cargo-process-repeat)
-                   ("X" . cargo-run-example)
-                   ("c" . cargo-process-build)
-                   ("d" . cargo-process-doc)
-                   ("e" . cargo-process-bench)
-                   ("R" . cargo-process-current-test)
-                   ("f" . cargo-process-fmt)
-                   ("i" . cargo-process-init)
-                   ("n" . cargo-process-new)
-                   ("o" . cargo-process-current-file-tests)
-                   ("s" . cargo-process-search)
-                   ("u" . cargo-process-update)
-                   ("x" . cargo-process-run)
-                   ("t" . cargo-process-test)
-                   ("R" . cargo-process-test-regexp)))
+       :bind-keymap ("C-c c" . cargo-mode-map))
 
      (use-package toml-mode
        :quelpa (toml-mode :fetcher github :repo "dryman/toml-mode.el")
