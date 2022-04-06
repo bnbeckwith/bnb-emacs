@@ -4211,6 +4211,12 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       (setq org-insert-heading-respect-content t)
     #+end_src
 
+    Set the indentation to the outline node level.
+
+    #+begin_src emacs-lisp
+      (setq org-adapt-indentation t)
+    #+end_src
+
 *** Properties
 
     #+begin_src emacs-lisp
