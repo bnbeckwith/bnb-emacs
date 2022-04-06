@@ -21,7 +21,7 @@ commands to initialize Emacs to my liking and the documentation for my
 choices.
 
 To clone, go to the [[http://github.com/bnbeckwith/bnb-emacs][github repository]]. For a pretty view, head over to
-the [[http://bnbeckwith.github.com/bnb-emacs][generated page]].
+the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
 * Installation
 
