@@ -1670,7 +1670,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        (let* ((scc (sky-color-clock))
               (len (length scc)))
          (add-face-text-property 0 len '(:height 90) t scc)
-         (add-face-text-property 0 len '(:justification right) t scc)
+         ;(add-face-text-property 0 len '(:justification right) t scc)
          scc))
 
      (use-package asterism-mode
