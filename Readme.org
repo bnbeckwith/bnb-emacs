@@ -2712,6 +2712,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
    #+begin_src emacs-lisp
      (use-package web-mode
        :defer
+       :mode "\\.html\\'"
        :ensure t
        :bind ("H-b" . browse-url-of-file)
        :config
@@ -2746,6 +2747,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
         :config
         (add-to-list 'imp-default-user-filters '(mhtml-mode . nil)))
     #+end_src
+
+    To use impatient mode, you'll first want to start with ~httpd-start~
+    and then navigate to [[http://localhost:8080/imp]] to see the rendered
+    buffers.
 
 *** Emmet
     [[https://github.com/smihica/emmet-mode][Emmet mode]] allows for terse description of nested elements. There
