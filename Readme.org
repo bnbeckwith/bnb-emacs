@@ -647,27 +647,6 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        (set-clipboard-coding-system 'utf-16le-dos))
    #+end_src
 
-** Vimrc generic mode
-
-   Good to have to help with my pentadactyl configuration as it is in
-   a vim-style of configuration.
-
-   #+begin_src emacs-lisp
-     (define-generic-mode 'vimrc-generic-mode
-       '()
-       '()
-       '(("^[\t ]*:?\\(!\\|ab\\|map\\|unmap\\)[^\r\n\"]*\"[^\r\n\"]*\\(\"[^\r\n\"]*\"[^\r\n\"]*\\)*$"
-    (0 font-lock-warning-face))
-   ("\\(^\\|[\t ]\\)\\(\".*\\)$"
-    (2 font-lock-comment-face))
-   ("\"\\([^\n\r\"\\]\\|\\.\\)*\""
-    (0 font-lock-string-face)))
-       '("/vimrc\\'" "\\.vim\\(rc\\)?\\'")
-       '((lambda ()
-     (modify-syntax-entry ?\" ".")))
-       "Generic mode for Vim configuration files.")
-   #+end_src
-
 ** Ediff single frame
 
    I really dislike the multi-frame mode of =ediff=.  It is confusing
