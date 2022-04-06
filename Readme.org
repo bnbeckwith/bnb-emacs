@@ -3213,17 +3213,16 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
     #+begin_src emacs-lisp
       (setq org-use-speed-commands t
             org-speed-commands
-            (quote (("0" . delete-window)
-                    ("1" . delete-other-windows)
-                    ("2" . split-window-vertically)
-                    ("3" . split-window-horizontally)
-                    ("h" . hide-other)
-                    ("s" . org-save-all-org-buffers)
-                    ("z" . org-add-note)
-                    ("N" . org-narrow-to-subtree)
-                    ("W" . widen)
-                    ("m" . org-mark-subtree)
-                    ("C" . org-global-cycle))))
+            (append org-speed-commands
+                    (quote (("BNB Additions")
+                            ("0" . delete-window)
+                            ("1" . delete-other-windows)
+                            ("2" . split-window-vertically)
+                            ("3" . split-window-horizontally)
+                            ("z" . org-add-note)
+                            ("h" . hide-other)
+                            ("." . org-save-all-org-buffers)
+                            ("/" . org-global-cycle)))))
     #+end_src
 
 ** Org TODO Configuration
