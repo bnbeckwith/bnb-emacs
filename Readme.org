@@ -4425,15 +4425,6 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
                ("C-c n g" . org-roam-show-graph))))
    #+end_src
 
-*** Company Org Roam
-
-    #+begin_src emacs-lisp
-      (use-package company-org-roam
-        :ensure t
-        :quelpa (company-org-roam :fetcher github :repo "org-roam/company-org-roam")
-        :config (push 'company-org-roam company-backends))
-    #+end_src
-
 ** Org QL
 
    #+begin_src emacs-lisp
