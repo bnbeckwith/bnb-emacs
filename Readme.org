@@ -2808,32 +2808,27 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        :ensure t)
    #+end_src
 
-* Selectrum
+* Vertico
+
+  https://github.com/minad/vertico
 
   #+begin_src emacs-lisp
-    (defun bnb/buffer-backward-kill-dwim (&optional arg)
-      (interactive "p")
-      (cond ((looking-back "/") (backward-kill-sexp))
-            (t (delete-backward-char 1))))
-
-    (use-package selectrum
+    (use-package vertico
       :ensure t
-      :bind (:map selectrum-minibuffer-map
-                  (("DEL" . #'bnb/buffer-backward-kill-dwim)))
-      :config (selectrum-mode t)
-      (setq
-       selectrum-count-style 'current/matches
-       selectrum-show-indices nil
-       file-name-shadow-properties '(invisible t)))
+      :init (vertico-mode))
 
-    (use-package selectrum-prescient
-      :ensure t
-      :after selectrum
-      :custom
-      (completion-styles '(flex substring partial-completion))
-      :config
-      (setq prescient-persist-mode t)
-      (selectrum-prescient-mode t))
+
+    ;; Configure directory extension.
+    (use-package vertico-directory
+      :after vertico
+      :ensure nil
+      ;; More convenient directory navigation commands
+      :bind (:map vertico-map
+                  ("RET" . vertico-directory-enter)
+                  ("DEL" . vertico-directory-delete-char)
+                  ("M-DEL" . vertico-directory-delete-word))
+      ;; Tidy shadowed file names
+      :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
   #+end_src
 
 ** Consult
