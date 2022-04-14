@@ -2831,6 +2831,45 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
   #+end_src
 
+** Embark
+
+   https://github.com/oantolin/embark
+
+   #+begin_src emacs-lisp
+     (use-package embark
+       :ensure t
+       :bind
+       (("C-." . embark-act)
+        ("C-;" . embark-dwim)
+        ("C-h C-b" . embark-bindings))
+       :init
+       (setq prefix-help-command #'embark-prefix-help-command)
+       :config
+       (add-to-list 'display-buffer-alist
+                    '("\\'\\*Embark Collect \\(Live\\|Comletions\\)\\*"
+                      nil
+                      (window-parameters (mode-line-format . none)))))
+
+     (use-package embark-consult
+       :ensure t
+       :after (emark consult)
+       :demand t
+       :hook
+       (embark-collect-mode . consult-preview-at-point-mode))
+   #+end_src
+
+** Orderless
+
+   https://github.com/oantolin/orderless
+
+   #+begin_src emacs-lisp
+     (use-package orderless
+       :ensure t
+       :custom
+       (completion-styles '(orderless basic))
+       (completion-category-overrides '((file (styles basic partial-completion)))))
+   #+end_src
+
 ** Consult
 
    https://github.com/minad/consult
