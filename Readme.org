@@ -233,13 +233,14 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
    #+begin_src emacs-lisp
      (setq backup-by-copying t
-     create-lockfiles nil
-     backup-directory-alist '((".*" . "~/.saves"))
-     ;; auto-save-file-name-transforms `((".*" "~/.saves" t))
-     delete-old-versions t
-     kept-new-versions 6
-     kept-old-versions 2
-     version-control t)
+           create-lockfiles nil
+           backup-directory-alist '((".*" . "~/.emacs.d/.saves"))
+           ;; auto-save-file-name-transforms `((".*" "~/.saves" t))
+           kill-buffer-delete-auto-save-files t
+           delete-old-versions t
+           kept-new-versions 6
+           kept-old-versions 2
+           version-control t)
    #+end_src
 
    Here's a quick rundown of the settings:
@@ -247,7 +248,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
    - [[elisp:(describe-variable%20'backup-by-copying)][~backup-by-copying~]] :: Use copying to create backups when ~t~
    - [[elisp:(describe-variable 'create-lockfile)][~create-lockfiles~]] :: Don't use lockfiles if ~nil~
    - [[elisp:(describe-variable%20'backup-directory-alist)][~backup-directory-alist~]] :: List of regexp/location pairs of where to backup files
-   - [[elisp:(describe-variable%20'auto-save-file-name-transforms)][~auto-save-file-name-transforms~]] :: Transform file names before autosave
+   - ~[[elisp:(describe-variable%20'backup-directory-alist)][kill-buffer-delete-auto-save-files~]] :: Killing a buffer with an auto-save file will prompt for deletion
    - [[elisp:(describe-variable%20'delete-old-versions)][~delete-old-versions~]] :: Delete excess backups silently if ~t~
    - [[elisp:(describe-variable%20'kept-new-versions)][~kept-new-versions~]] :: Number of newest versions to keep
    - [[elisp:(describe-variable%20'kept-old-versions)][~kept-old-versions~]] :: Number of oldest versions to keep
@@ -307,6 +308,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
    [[http://endlessparentheses.com/the-toggle-map-and-wizardry.html]].
 
 *** Toggle Map
+
 
     This toggle map shows the current /toggleable/ settings with
     shortcut keys for enabling. The amaranth color makes this buffer
