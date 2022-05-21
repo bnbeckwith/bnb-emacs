@@ -1330,6 +1330,20 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
               (prog-mode . turn-off-filladapt-mode)))
    #+end_src
 
+** Errors
+
+   When navigating errors (output from ~M-x compile~ for example), this
+   highlights the visited error. Although named for errors, this
+   functionality is also used for ~M-x occur~ and ~M-x rgrep~ and others.
+
+   Within the buffer full of errors or matches, ~M-g M-n/M-p~ will
+   navigate up/down visiting the errors in a separate buffer and
+   highlighting the current error or match.
+
+   #+begin_src elisp
+     (setq next-error-message-highlight t)
+   #+end_src
+
 * Style
 
   The following sections describe items that affect the visual
