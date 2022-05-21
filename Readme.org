@@ -1230,13 +1230,18 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
 ** Helpful
 
+   Using [[https://github.com/Wilfred/helpful][Helpful]] enables a better help buffer.
+
    #+begin_src emacs-lisp
      (use-package helpful
        :ensure t
        :bind
+       ("C-h K" . helpful-key)
+       ("C-h v" . helpful-variables)
        ("C-h f" . helpful-function)
        ("C-h x" . helpful-command)
-       ("C-h z" . helpful-macro))
+       ("C-h z" . helpful-macro)
+       ("C-h ." . helpful-at-point))
    #+end_src
 
 ** All the icons
@@ -1343,6 +1348,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
    #+begin_src elisp
      (setq next-error-message-highlight t)
    #+end_src
+
 
 * Style
 
