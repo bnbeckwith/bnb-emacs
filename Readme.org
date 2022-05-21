@@ -191,7 +191,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
 ** Binding Keys
 
-   For binding keys, I use the =bind-key= package. Not only does it
+   For binding keys, I use the [[https://github.com/jwiegley/use-package/blob/master/bind-key.el][bind-key]] package. Not only does it
    easily bind keys, but it does so with some nice features.
 
    #+begin_src emacs-lisp
@@ -214,6 +214,14 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
    : M-x describe-personal-keybindings
 
    This is bound to ~C-h B~ above.
+
+   As of emacs 28.1, there is a setting to group bindings into an
+   outline format. Use the following settings with ~M-x
+   describe-bindings~ or ~C-h b~.
+
+   #+begin_src emacs-lisp
+     (setq describe-bindings-outline t)
+   #+end_src
 
 ** Path
 
