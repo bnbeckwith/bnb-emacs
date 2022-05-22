@@ -1375,6 +1375,23 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
              ("Asia/Kolkata" "Bangalore")))
    #+end_src
 
+** Dictionary
+
+   To use the online dictionary at [[https://dict.org][dict.org]], set =dictionary-server=
+   accordingly. Then swap around keybindinds such that this is an easy
+   deafult, but the OSX version isn't far away.
+
+   One of the cooler features of this mode is that the [[https://dict.org][dict.org]] server
+   has Webster's 1913 dictionary.
+
+   #+begin_src emacs-lisp
+     (use-package dictionary
+       :init
+       (setq dictionary-server "dict.org")
+       :bind (("C-c d" . dictionary-search)
+              ("C-c D" . osx-dictionary-search-word-at-point)))
+   #+end_src
+
 * Style
 
   The following sections describe items that affect the visual
