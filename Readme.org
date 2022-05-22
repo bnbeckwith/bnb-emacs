@@ -1361,6 +1361,20 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
    #+end_src
 
 
+** Timezones
+
+   For ~world-clock~, it's best to define the time zones most relevant
+   to me. For compatible time zones, check [[https://en.wikipedia.org/wiki/List_of_tz_database_time_zones][this handy list]].
+
+   #+begin_src emacs-lisp
+     (setq zoneinfo-style-world-list
+           '(("America/New_York" "CBUS")
+             ("America/Los_Angeles" "San Fran")
+             ("Europe/London" "London")
+             ("Australia/Sydney" "Sydney")
+             ("Asia/Kolkata" "Bangalore")))
+   #+end_src
+
 * Style
 
   The following sections describe items that affect the visual
