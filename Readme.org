@@ -2997,8 +2997,24 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
     environment. Because this is running in Emacs, there is no need
     for a pager.
 
+    Then provide a helper functionm to turn off ~company-mode~ and add
+    some convient aliases.
+
     #+begin_src emacs-lisp
       (setenv "PAGER" "cat")
+
+      (defun bnb/setup-eshell ()
+        "Setup functions to run in the eshell hook"
+        (company-mode -1)
+        (eshell/alias "em" "emacs")
+        (eshell/alias "ll" "ls -Aloh")
+        (pcase system-type
+          ('darwin (eshell/alias "llc" "*ls -AlohG"))
+          (- (eshell/alias "llc" "*ls -AlohG --color=always"))))
+
+      (use-package eshell
+        :commands eshell
+        :hook (eshell-mode . (bnb/setup-eshell)))
     #+end_src
 
 *** Eshell Commands
@@ -3032,18 +3048,6 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
          (mapcar #'expand-file-name (eshell-flatten-list (reverse args)))))
     #+end_src
 
-    I also setup some command aliases. Here, I create a long listing,
-    =ll=, alias for =ls=, a =llc= varient with colored output, and an
-    emacs shortcut.
-
-    #+begin_src emacs-lisp
-      (with-eval-after-load "em-alias"
-        '(progn
-           (eshell/alias "em" "emacs")
-           (eshell/alias "ll" "ls -Aloh")
-           (eshell/alias "llc" "*ls -AlohG --color=always")))
-    #+end_src
-
     On a windows box, setup grep to be a cygwin version.
 
     #+begin_src emacs-lisp
@@ -3058,7 +3062,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (defun eshell/gst (&rest args)
-        (magit-status-internal (pop args) nil)
+        (magit-status-setup-buffer (pop args))
         (eshell/echo))
 
       (defun eshell/gd (&rest args)
