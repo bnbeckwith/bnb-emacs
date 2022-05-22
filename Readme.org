@@ -533,17 +533,20 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
    [[http://emacswiki.org/emacs/BookMarks]]
 
-   | Keystroke             | Action                  |
-   |-----------------------+-------------------------|
+   | Keystroke           | Action                  |
+   |---------------------+-------------------------|
    | =C-x r m=             | Set a bookmark          |
    | =C-x r b=             | Jump to a bookmark      |
    | =C-x r l=             | List your bookmarks     |
    | =M-x bookmark-delete= | Delete bookmark by name |
 
-   I will auto-save my bookmarks.
+   The settings below auto-save bookmarks, adds a fringe marker on the
+   current line when setting/jumping, and confirms bookmark deletion.
 
    #+begin_src emacs-lisp
-     (setq bookmark-save-flag t)
+     (setq bookmark-save-flag t
+           bookmark-set-fringe-mark t
+           bookmark-menu-confirm-deletion t)
    #+end_src
 
 ** Writegood Mode
