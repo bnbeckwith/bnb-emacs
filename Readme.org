@@ -1248,7 +1248,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        :ensure t
        :bind
        ("C-h K" . helpful-key)
-       ("C-h v" . helpful-variables)
+       ("C-h v" . helpful-variable)
        ("C-h f" . helpful-function)
        ("C-h x" . helpful-command)
        ("C-h z" . helpful-macro)
