@@ -2598,7 +2598,16 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
     #+begin_src emacs-lisp
       (use-package lsp-mode
         :defer
-        :ensure t)
+        :ensure t
+        :hook ((html-mode . lsp)
+               (json-mode . lsp)
+               (lisp-mode . lsp)
+               (python-mode . lsp)
+               (r-mode . lsp)
+               (racket-mode . lsp)
+               (rust-mode . lsp)
+               (sh-mode . lsp)
+               (yaml-mode . lsp)))
     #+end_src
 
 ** C++
