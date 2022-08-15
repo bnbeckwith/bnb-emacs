@@ -189,6 +189,22 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
         :commands (paradox-list-packages))
     #+end_src
 
+** Native Compilation
+
+   Emacs 28.1 introduced [[info:elisp#Native Compilation][Native Compilation]]. When this feature is
+   available, I use it to compile the packages.
+
+   There are also two settings to make the process slightly more
+   verbose and ensure that warnings and erros are bubbled up from any
+   async processes.
+
+   #+begin_src emacs-lisp
+     (if (native-comp-available-p)
+         (setq package-native-compile t
+               native-comp-verbose 1
+               native-comp-async-report-warnings-errors t))
+   #+end_src
+
 ** Binding Keys
 
    For binding keys, I use the [[https://github.com/jwiegley/use-package/blob/master/bind-key.el][bind-key]] package. Not only does it
