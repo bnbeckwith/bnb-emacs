@@ -3222,6 +3222,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        ("<f9> o" . org-clock-out)
        :config
        (bind-key "M-i" 'org-toggle-inline-images org-mode-map)
+       (bind-key "C-c ,"  'org-insert-structure-template org-mode-map)
        :hook (org-babel-after-execute . (lambda () (org-display-inline-images t t))))
    #+end_src
 
