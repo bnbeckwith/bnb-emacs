@@ -1450,6 +1450,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package ring
+        :if window-system
         :bind ("H-f" . bnb/font-next)
         ("H-F" . bnb/font-prev)
         :config
