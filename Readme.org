@@ -64,6 +64,11 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
    My current flavor of Emacs comes from:
    https://github.com/d12frosted/homebrew-emacs-plus
 
+   To install with =brew=, run the following command:
+   #+begin_src sh
+     brew install emacs-plus@28 --with-nobu417-big-sur-icon --with-imagemagick --with-native-comp
+   #+end_src
+
 ** Pending sections
 
    There are some features that I like to take on a /trial run/. These
