@@ -2736,7 +2736,6 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
                    ("C-c C-c d" . dap-hydra)
                    ("C-c C-c h" . lsp-ui-doc-glance))
        :config
-       (setq rustic-format-on-save t)
        :hook ((rustic-mode . flycheck-mode)
               (rustic-mode . electric-pair-mode)))
 
