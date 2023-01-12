@@ -1050,9 +1050,9 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
      (setq ibuffer-show-empty-filter-groups nil)
 
      (add-hook 'ibuffer-mode-hook
-               '(lambda ()
-                  (ibuffer-auto-mode 1)
-                  (ibuffer-switch-to-saved-filter-groups "Standard")))
+               #'(lambda ()
+                   (ibuffer-auto-mode 1)
+                   (ibuffer-switch-to-saved-filter-groups "Standard")))
    #+end_src
 
 *** Groups
