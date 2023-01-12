@@ -97,7 +97,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
     (setq user-full-name "Benjamin Beckwith")
   #+end_src
 
-* Local customizations (custom.el)
+* Local customizations (custom.el, username.var.el)
 
    I typically use the customize interface to generate any local
    settings such as proxies, paths, fonts, etc. that may vary from
@@ -124,6 +124,30 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
   Sometimes I'll get bad settings or cruft in that file. I now have a
   key, ~<F7>~, for easy navigation to wherever the =custom-file= points.
+
+
+** Local variables (user-login-name)
+
+    I also intend to have a generic call to an installed local file
+    that may need to behave differently from =custom.el=. This loads
+    last so that it can modify any existing setting made here to work
+    on the specific system in question.
+
+    In the code below, I add =~/.emacs.d/= to the load path and have a
+    protected call to =load-library=.  If the file exists, it gets
+    loaded, otherwise the error normally returned if the file is
+    non-existent gets ignored.
+
+    #+begin_src emacs-lisp
+      (condition-case err
+          (progn
+            (load-file (format "~/.emacs.d/%s.vars.el"  user-login-name))
+            (message "Loaded local settings file %s.vars.el" user-login-name))
+        (file-error
+         (message "Skipping %s.vars library as it does not exist." user-login-name))
+        nil)
+    #+end_src
+
 
 * Small Settings
 
