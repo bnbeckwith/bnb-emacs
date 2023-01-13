@@ -3622,12 +3622,17 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
    file, I set the max to five levels. Anything deeper than six
    levels will exhaust the depth of my thought.
 
+   The refiling system is set to =confirm= creation of parent
+   nodes. This allows me to not only refile, but create along the way
+   for faster organization.
+
    Finally, I set the filenames to be first for refiling.
 
    #+begin_src emacs-lisp
      (setq org-refile-use-cache t
            org-refile-targets '((org-agenda-files :maxlevel . 2)
                                 (nil :maxlevel . 5))
+           org-refile-allow-creating-parent-nodes 'confirm
            org-refile-use-outline-path 'file)
    #+end_src
 
