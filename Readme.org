@@ -2762,12 +2762,6 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        (lsp-ui-sideline-show-hover t)
        (lsp-ui-doc-enable nil))
 
-     (use-package cargo
-       :ensure t
-       :mode ("Cargo.toml\\'" . (lambda () (progn  (toml-mode) (cargo-minor-mode t))))
-       :hook (rust-mode . cargo-minor-mode)
-       :bind-keymap ("C-c c" . cargo-mode-map))
-
      (use-package toml-mode
        :quelpa (toml-mode :fetcher github :repo "dryman/toml-mode.el")
        :mode "\\.toml\\'")
