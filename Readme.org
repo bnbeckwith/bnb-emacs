@@ -317,7 +317,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
      (setq mac-function-modifier 'hyper
            mac-pass-command-to-system nil
            mac-right-option-modifier 'super
-           mac-right-command-modifier 'super
+           mac-right-command-modifier 'hyper
            mac-right-control-modifier 'hyper
            mac-command-modifier 'meta
            mac-control-modifier 'ctrl
