@@ -2897,6 +2897,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        :bind
        (("C-." . embark-act)
         ("C-;" . embark-dwim)
+        ("C-x ." . embark-act)
+        ("C-x ;" . embark-dwim)
         ("C-h C-b" . embark-bindings))
        :init
        (setq prefix-help-command #'embark-prefix-help-command)
