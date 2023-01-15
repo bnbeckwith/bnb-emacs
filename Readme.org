@@ -2858,6 +2858,15 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        :ensure t)
    #+end_src
 
+** Shaders
+
+#+begin_src emacs-lisp
+  (use-package shader-mode
+    :ensure t
+    :defer t)
+#+end_src
+
+
 * Vertico
 
   https://github.com/minad/vertico
