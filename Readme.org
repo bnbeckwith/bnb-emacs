@@ -731,7 +731,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
 *** Native Compilation
 
-    Emacs 28.1 introduced [[info:elisp#Native Compilation][Native Compilation]]. When this feature is
+    Emacs 28.1 introduced [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Native-Compilation.html][Native Compilation]]. When this feature is
     available, I use it to compile the packages.
 
     There are also two settings to make the process slightly more
@@ -760,7 +760,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
 *** Server
 
-    [[info:emacs#Emacs%20Server][Using Emacs as a server]] is a great way to keep the power
+    [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Emacs-Server.html][Using Emacs as a server]] is a great way to keep the power
     responsive.
 
     #+begin_src emacs-lisp
@@ -1529,9 +1529,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
     | =C-c C-w=   | Copy regexp to kill ring                   |
     | =C-c C-q=   | Quit the builder                           |
 
-    Be sure to consult the [[info:emacs#Regexps][syntax of regular expressions]] to learn more
+    Be sure to consult the [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html][syntax of regular expressions]] to learn more
     about the weird backslashing.
-
 
 
 *** Executable Scripts on save
@@ -1667,7 +1666,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 *** General Editing
 **** CUA mode
 
-     [[info:emacs#CUA%20Bindings][CUA]] has a primary feature of enabling cut, copy, paste and undo
+     [[https://www.gnu.org/software/emacs/manual/html_node/emacs/CUA-Bindings.html][CUA]] has a primary feature of enabling cut, copy, paste and undo
      shortcuts compatible with most applications (C-x, C-c,
      C-v). However, it also has interesting rectangle features and
      *that* is why I enable it. I also happen to turn off those other
@@ -1813,7 +1812,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 *** Git
 **** Magit
 
-     [[info:magit#Top][Magit]] is a git interface for Emacs.
+     [[https://magit.vc/manual/magit.html][Magit]] is a git interface for Emacs.
 
      Here I set a global key for ~magit-status~. Think 'G' looks
      like 6.
@@ -2212,7 +2211,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 ** Documents
 *** AucTeX
 
-    [[info:AUCTeX][AUCTeX Manual]]
+    [[https://www.gnu.org/software/auctex/manual/auctex/index.html][AUCTeX Manual]]
 
     Superb handling of TeX documents.
 
@@ -2253,7 +2252,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
 **** RefTeX
 
-     [[info:RefTeX][RefTeX Manual]]
+     [[https://www.gnu.org/software/auctex/manual/reftex/index.html][RefTeX Manual]]
 
      RefTeX provides navigation, easy references, easy citations and
      integrates well into AUCTeX.
@@ -2445,13 +2444,13 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 ***** Keywords
 
       The keywords that org uses in the headlines exist as sequences
-      describing the state changes. [[info:org#Workflow%20states][The sequences]] describe how you can
+      describing the state changes. [[https://orgmode.org/manual/Workflow-states.html][The sequences]] describe how you can
       cycle through the different states. However, I don't cycle through
       states and just select them. I find that is better for the large
       list of possibilities here.
 
-      The characters in =()= also
-      allow fast access to these states described [[info:org#Fast%20access%20to%20TODO%20states][here]].
+      The characters in =()= also allow fast access to these states
+      described [[https://orgmode.org/manual/Fast-access-to-TODO-states.html][here]].
 
       #+begin_src emacs-lisp
         (setq org-todo-keywords
@@ -2467,7 +2466,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
       Org uses tags on headlines for organization. I don't currently
       use them much. I organize mainly by file with a file tag
-      specified via [[info:org#In-buffer%20settings][in-buffer settings]] (=#+FILETAGS=).
+      specified via [[https://orgmode.org/manual/In_002dbuffer-Settings.html][in-buffer settings]] (=#+FILETAGS=).
 
       However, a global tag list provides a selection list for the
       tagging interface. I use 'project' as my tag to easily
@@ -2567,7 +2566,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
 **** Capture
 
-     [[info:org#Capture][Capturing]] is crucial to a task system and in this vein, org is no
+     [[https://orgmode.org/manual/Capture.html][Capturing]] is crucial to a task system and in this vein, org is no
      slouch. The capture templates define what get captures, where it
      goes, and what the user needs to type.
 
@@ -2704,7 +2703,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
 **** Refile
 
-     [[info:org#Refiling%20notes][Refiling notes]] is also spectacular with Org. That is what makes
+     [[https://orgmode.org/manual/Refiling-and-Archiving.html][Refiling notes]] is also spectacular with Org. That is what makes
      it possible for me to simply put every captured item into
      Refile.org and worry about organization later.
 
@@ -4642,7 +4641,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
     Color helper KureColor allows easy modifications of hue,
     saturation and brightness.
 
-    #+begin_src emacs-lisp
+    #+Begin_src emacs-lisp
       (use-package kurecolor
         :bind (("H-k" . kurecolor-increase-hue-by-step)
                ("H-j" . kurecolor-decrease-hue-by-step)
