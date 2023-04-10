@@ -117,13 +117,13 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
    #+begin_src emacs-lisp
      (setq custom-file "~/.emacs.d/custom.el")
      (if (file-exists-p custom-file)
-	 (load-file custom-file))
+         (load-file custom-file))
 
      (with-eval-after-load "bind-key"
        (bind-key "<f7>"
-		 (lambda ()
-		   (interactive
-		    (find-file custom-file)))))
+                 (lambda ()
+                   (interactive
+                    (find-file custom-file)))))
    #+end_src
 
    If the file doesn't exist, =Emacs= will still use the file if any
@@ -147,12 +147,12 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (condition-case err
-     (progn
-       (load-file (format "~/.emacs.d/%s.vars.el"  user-login-name))
-       (message "Loaded local settings file %s.vars.el" user-login-name))
-   (file-error
-    (message "Skipping %s.vars library as it does not exist." user-login-name))
-   nil)
+           (progn
+             (load-file (format "~/.emacs.d/%s.vars.el"  user-login-name))
+             (message "Loaded local settings file %s.vars.el" user-login-name))
+         (file-error
+          (message "Skipping %s.vars library as it does not exist." user-login-name))
+         nil)
      #+end_src
 
 
@@ -178,7 +178,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        (package-refresh-contents)
        (package-install 'use-package))
      (setq use-package-verbose t
-	   use-package-always-ensure nil)
+           use-package-always-ensure nil)
      (require 'use-package)
    #+end_src
 
@@ -216,9 +216,9 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package paradox
-	 :ensure t
-	 :delight " ፨"
-	 :commands (paradox-list-packages))
+         :ensure t
+         :delight " ፨"
+         :commands (paradox-list-packages))
      #+end_src
 
 
@@ -236,7 +236,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package hydra
-	:ensure t)
+        :ensure t)
     #+end_src
 
 *** Vertico
@@ -245,21 +245,22 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package vertico
-	:ensure t
-	:init (vertico-mode))
+        :ensure t
+        :init (vertico-mode))
 
 
       ;; Configure directory extension.
       (use-package vertico-directory
-	:after vertico
-	:ensure nil
-	;; More convenient directory navigation commands
-	:bind (:map vertico-map
-		    ("RET" . vertico-directory-enter)
-		    ("DEL" . vertico-directory-delete-char)
-		    ("M-DEL" . vertico-directory-delete-word))
-	;; Tidy shadowed file names
-	:hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+        :after vertico
+        :ensure nil
+        ;; More convenient directory navigation commands
+        :bind (:map vertico-map
+                    ("RET" . vertico-directory-enter)
+                    ("DEL" . vertico-directory-delete-char)
+                    ("M-DEL" . vertico-directory-delete-word)
+                    ("?" . minibuffer-completion-help))
+        ;; Tidy shadowed file names
+        :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
     #+end_src
 
 **** Embark
@@ -268,27 +269,27 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package embark
-	 :ensure t
-	 :bind
-	 (("C-." . embark-act)
-	  ("C-;" . embark-dwim)
-	  ("C-x ." . embark-act)
-	  ("C-x ;" . embark-dwim)
-	  ("C-h C-b" . embark-bindings))
-	 :init
-	 (setq prefix-help-command #'embark-prefix-help-command)
-	 :config
-	 (add-to-list 'display-buffer-alist
-		      '("\\'\\*Embark Collect \\(Live\\|Comletions\\)\\*"
-			nil
-			(window-parameters (mode-line-format . none)))))
+         :ensure t
+         :bind
+         (("C-." . embark-act)
+          ("C-;" . embark-dwim)
+          ("C-x ." . embark-act)
+          ("C-x ;" . embark-dwim)
+          ("C-h C-b" . embark-bindings))
+         :init
+         (setq prefix-help-command #'embark-prefix-help-command)
+         :config
+         (add-to-list 'display-buffer-alist
+                      '("\\'\\*Embark Collect \\(Live\\|Comletions\\)\\*"
+                        nil
+                        (window-parameters (mode-line-format . none)))))
 
        (use-package embark-consult
-	 :ensure t
-	 :after (emark consult)
-	 :demand t
-	 :hook
-	 (embark-collect-mode . consult-preview-at-point-mode))
+         :ensure t
+         :after (emark consult)
+         :demand t
+         :hook
+         (embark-collect-mode . consult-preview-at-point-mode))
      #+end_src
 
 **** Orderless
@@ -297,10 +298,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package orderless
-	 :ensure t
-	 :custom
-	 (completion-styles '(orderless basic))
-	 (completion-category-overrides '((file (styles basic partial-completion)))))
+         :ensure t
+         :custom
+         (completion-styles '(orderless basic))
+         (completion-category-overrides '((file (styles basic partial-completion)))))
      #+end_src
 
 **** Consult
@@ -309,24 +310,24 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package consult
-	 :ensure t
-	 :bind (;; C-c bindings
-		("C-c h" . consult-history)
-		("C-c m" . consult-mode-command)
-		("C-c b" . consult-bookmark)
-		("C-c k" . consult-macro)
-		("C-c o" . consult-outline)
-		;; C-x bindings
-		("C-x b" . consult-buffer)
-		("C-x 4 b" . consult-buffer-other-window)
-		("C-x 5 b" . consult-buffer-other-frame)
-		("C-x r x" . consult-register)
-		("C-x r b" . consult-bookmark)
-		;; Custom M bindings
-		("M-g o" . consult-ouline)
-		("M-y" . consult-yank-pop))
-	 :init
-	 (fset 'multi-occur #'consult-multi-occur))
+         :ensure t
+         :bind (;; C-c bindings
+                ("C-c h" . consult-history)
+                ("C-c m" . consult-mode-command)
+                ("C-c b" . consult-bookmark)
+                ("C-c k" . consult-macro)
+                ("C-c o" . consult-outline)
+                ;; C-x bindings
+                ("C-x b" . consult-buffer)
+                ("C-x 4 b" . consult-buffer-other-window)
+                ("C-x 5 b" . consult-buffer-other-frame)
+                ("C-x r x" . consult-register)
+                ("C-x r b" . consult-bookmark)
+                ;; Custom M bindings
+                ("M-g o" . consult-ouline)
+                ("M-y" . consult-yank-pop))
+         :init
+         (fset 'multi-occur #'consult-multi-occur))
      #+end_src
 
 **** Marginalia
@@ -335,11 +336,11 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package marginalia
-	 :ensure t
-	 :init
-	 (marginalia-mode)
-	 (setq marginalia-annotators
-	       '(marginalia-annotators-heavy marginalia-annotators-light)))
+         :ensure t
+         :init
+         (marginalia-mode)
+         (setq marginalia-annotators
+               '(marginalia-annotators-heavy marginalia-annotators-light)))
      #+end_src
 
 
@@ -353,7 +354,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package bind-key
-	:bind ("C-h B" . describe-personal-keybindings))
+        :bind ("C-h B" . describe-personal-keybindings))
     #+end_src
 
     By using ~bind-key~, you can specify the keystrokes that invoke a
@@ -394,38 +395,38 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (defmacro toggle-setting-string (setting)
-	 `(if (and (boundp ',setting) ,setting) '[x] '[_]))
+         `(if (and (boundp ',setting) ,setting) '[x] '[_]))
 
        (bind-key
-	"C-x t"
-	(defhydra hydra-toggle (:color amaranth)
-	  "
-	 _c_ column-number : %(toggle-setting-string column-number-mode)  _b_ orgtbl-mode    : %(toggle-setting-string orgtbl-mode)  _x_/_X_ trans          : %(identity bnb/transparency)
-	 _e_ debug-on-error: %(toggle-setting-string debug-on-error)  _s_ orgstruct-mode : %(toggle-setting-string orgstruct-mode)  _m_   hide mode-line : %(toggle-setting-string bnb/hide-mode-line-mode)
-	 _u_ debug-on-quit : %(toggle-setting-string debug-on-quit)  _h_ diff-hl-mode   : %(toggle-setting-string diff-hl-mode)
-	 _f_ auto-fill     : %(toggle-setting-string auto-fill-function)  _B_ battery-mode   : %(toggle-setting-string display-battery-mode)
-	 _t_ truncate-lines: %(toggle-setting-string truncate-lines)  _l_ highlight-line : %(toggle-setting-string hl-line-mode)
-	 _r_ read-only     : %(toggle-setting-string buffer-read-only)  _n_ line-numbers   : %(toggle-setting-string linum-mode)
-	 _w_ whitespace    : %(toggle-setting-string whitespace-mode)  _N_ relative lines : %(if (eq linum-format 'linum-relative) '[x] '[_])
-	 "
-	  ("c" column-number-mode nil)
-	  ("e" toggle-debug-on-error nil)
-	  ("u" toggle-debug-on-quit nil)
-	  ("f" auto-fill-mode nil)
-	  ("t" toggle-truncate-lines nil)
-	  ("r" dired-toggle-read-only nil)
-	  ("w" whitespace-mode nil)
-	  ("b" orgtbl-mode nil)
-	  ("s" orgstruct-mode nil)
-	  ("x" bnb/transparency-next nil)
-	  ("B" display-battery-mode nil)
-	  ("X" bnb/transparency-previous nil)
-	  ("h" diff-hl-mode nil)
-	  ("l" hl-line-mode nil)
-	  ("n" linum-mode nil)
-	  ("N" linum-relative-toggle nil)
-	  ("m" bnb/hide-mode-line-mode nil)
-	  ("q" nil)))
+        "C-x t"
+        (defhydra hydra-toggle (:color amaranth)
+          "
+        _c_ column-number : %(toggle-setting-string column-number-mode)  _b_ orgtbl-mode    : %(toggle-setting-string orgtbl-mode)  _x_/_X_ trans          : %(identity bnb/transparency)
+        _e_ debug-on-error: %(toggle-setting-string debug-on-error)  _s_ orgstruct-mode : %(toggle-setting-string orgstruct-mode)  _m_   hide mode-line : %(toggle-setting-string bnb/hide-mode-line-mode)
+        _u_ debug-on-quit : %(toggle-setting-string debug-on-quit)  _h_ diff-hl-mode   : %(toggle-setting-string diff-hl-mode)
+        _f_ auto-fill     : %(toggle-setting-string auto-fill-function)  _B_ battery-mode   : %(toggle-setting-string display-battery-mode)
+        _t_ truncate-lines: %(toggle-setting-string truncate-lines)  _l_ highlight-line : %(toggle-setting-string hl-line-mode)
+        _r_ read-only     : %(toggle-setting-string buffer-read-only)  _n_ line-numbers   : %(toggle-setting-string linum-mode)
+        _w_ whitespace    : %(toggle-setting-string whitespace-mode)  _N_ relative lines : %(if (eq linum-format 'linum-relative) '[x] '[_])
+        "
+          ("c" column-number-mode nil)
+          ("e" toggle-debug-on-error nil)
+          ("u" toggle-debug-on-quit nil)
+          ("f" auto-fill-mode nil)
+          ("t" toggle-truncate-lines nil)
+          ("r" dired-toggle-read-only nil)
+          ("w" whitespace-mode nil)
+          ("b" orgtbl-mode nil)
+          ("s" orgstruct-mode nil)
+          ("x" bnb/transparency-next nil)
+          ("B" display-battery-mode nil)
+          ("X" bnb/transparency-previous nil)
+          ("h" diff-hl-mode nil)
+          ("l" hl-line-mode nil)
+          ("n" linum-mode nil)
+          ("N" linum-relative-toggle nil)
+          ("m" bnb/hide-mode-line-mode nil)
+          ("q" nil)))
      #+end_src
 
 **** Elisp Maps
@@ -434,14 +435,14 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (bind-key
-	"C-c e"
-	(defhydra hydra-elisp-cmds (:color blue)
-	  ("b" eval-buffer "eval buffer")
-	  ("e" toggle-debug-on-error "debug-on-error")
-	  ("f" emacs-lisp-byte-compile-and-load "byte-compile-and-load")
-	  ("r" eval-region "eval-region")
-	  ("q" nil))
-	emacs-lisp-mode-map)
+        "C-c e"
+        (defhydra hydra-elisp-cmds (:color blue)
+          ("b" eval-buffer "eval buffer")
+          ("e" toggle-debug-on-error "debug-on-error")
+          ("f" emacs-lisp-byte-compile-and-load "byte-compile-and-load")
+          ("r" eval-region "eval-region")
+          ("q" nil))
+        emacs-lisp-mode-map)
      #+end_src
 
      There is one block for execuing items and another for looking up
@@ -449,17 +450,17 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (bind-key
-	"C-h e"
-	(defhydra hydra-elisp-help (:color blue)
-	  ("e" view-echo-area-messages "view-echod-area-messages")
-	  ("f" find-function "find-function")
-	  ("k" find-function-on-key "find-function-on-key")
-	  ("l" find-library "find-library")
-	  ("v" find-variable "find-variable")
-	  ("V" apropos-value "apropos-value")
-	  ("i" info-display-manual "info-display-manual")
-	  ("q" nil))
-	emacs-lisp-mode-map)
+        "C-h e"
+        (defhydra hydra-elisp-help (:color blue)
+          ("e" view-echo-area-messages "view-echod-area-messages")
+          ("f" find-function "find-function")
+          ("k" find-function-on-key "find-function-on-key")
+          ("l" find-library "find-library")
+          ("v" find-variable "find-variable")
+          ("V" apropos-value "apropos-value")
+          ("i" info-display-manual "info-display-manual")
+          ("q" nil))
+        emacs-lisp-mode-map)
      #+end_src
 
 **** Small bindings
@@ -477,12 +478,12 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        cleanup on save.
 
        #+begin_src emacs-lisp
-	 (use-package whitespace
-	   :ensure nil
-	   :config
-	   (setq whitespace-line-column nil)
-	   :hook (before-save . whitespace-cleanup)
-	   :delight whitespace-mode)
+         (use-package whitespace
+           :ensure nil
+           :config
+           (setq whitespace-line-column nil)
+           :hook (before-save . whitespace-cleanup)
+           :delight whitespace-mode)
        #+end_src
 
 ****** Deletion
@@ -494,7 +495,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        possible. The =fixup-whitespace= function will do that.
 
        #+begin_src emacs-lisp
-	 (bind-key "M-k" 'fixup-whitespace)
+         (bind-key "M-k" 'fixup-whitespace)
        #+end_src
 
 ***** Scroll window up/down
@@ -504,19 +505,19 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       frame).
 
       #+begin_src emacs-lisp
-	(defun bnb/scroll-up-1 ()
-	  "Scroll up by one line."
-	  (interactive)
-	  (cua-scroll-up 1))
+        (defun bnb/scroll-up-1 ()
+          "Scroll up by one line."
+          (interactive)
+          (cua-scroll-up 1))
 
-	(defun bnb/scroll-down-1 ()
-	  "Scroll down by one line."
-	  (interactive)
-	  (cua-scroll-down 1))
+        (defun bnb/scroll-down-1 ()
+          "Scroll down by one line."
+          (interactive)
+          (cua-scroll-down 1))
 
-	(bind-keys
-	 ("M-n" . bnb/scroll-up-1)
-	 ("M-p" . bnb/scroll-down-1))
+        (bind-keys
+         ("M-n" . bnb/scroll-up-1)
+         ("M-p" . bnb/scroll-down-1))
       #+end_src
 
 ***** Align Regexp
@@ -525,7 +526,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       all of that nasty text.
 
       #+begin_src emacs-lisp
-	(bind-key "C-c TAB" 'align-regexp)
+        (bind-key "C-c TAB" 'align-regexp)
       #+end_src
 
 **** Kill current buffer
@@ -536,12 +537,12 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (defun bnb/kill-this-buffer ()
-	 "Kill the current buffer"
-	 (interactive)
-	 (kill-buffer (current-buffer)))
+         "Kill the current buffer"
+         (interactive)
+         (kill-buffer (current-buffer)))
 
        (bind-keys
-	("C-x C-k" . bnb/kill-this-buffer))
+        ("C-x C-k" . bnb/kill-this-buffer))
      #+end_src
 
 
@@ -553,13 +554,13 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (setq mac-function-modifier 'hyper
-	    mac-pass-command-to-system nil
-	    mac-right-option-modifier 'super
-	    mac-right-command-modifier 'hyper
-	    mac-right-control-modifier 'hyper
-	    mac-command-modifier 'meta
-	    mac-control-modifier 'ctrl
-	    mac-option-modifier 'none)
+            mac-pass-command-to-system nil
+            mac-right-option-modifier 'super
+            mac-right-command-modifier 'hyper
+            mac-right-control-modifier 'hyper
+            mac-command-modifier 'meta
+            mac-control-modifier 'ctrl
+            mac-option-modifier 'none)
     #+end_src
 
     Note that the right =option= and =command= keys will pass through
@@ -577,25 +578,25 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       (bind-key "C-x C-i" 'bnb/ispell-word-then-abbrev)
 
       (defun bnb/ispell-word-then-abbrev (p)
-	"Call `ispell-word'. Then create an abbrev for the correction
-      made. With prefix P, create local abbrev. Otherwise, it will be
-      global."
-	(interactive "P")
-	(let ((bef (downcase (or (thing-at-point 'word) ""))) aft)
-	  (call-interactively 'ispell-word)
-	  (setq aft (downcase (or (thing-at-point 'word) "")))
-	  (unless (string= aft bef)
-	    (message "\"%s\" now expands to \"%s\" %sally"
-		     bef aft (if p "loc" "glob"))
-	    (define-abbrev
-	      (if p global-abbrev-table local-abbrev-table)
-	      bef aft))))
+        "Call `ispell-word'. Then create an abbrev for the correction
+          made. With prefix P, create local abbrev. Otherwise, it will be
+          global."
+        (interactive "P")
+        (let ((bef (downcase (or (thing-at-point 'word) ""))) aft)
+          (call-interactively 'ispell-word)
+          (setq aft (downcase (or (thing-at-point 'word) "")))
+          (unless (string= aft bef)
+            (message "\"%s\" now expands to \"%s\" %sally"
+                     bef aft (if p "loc" "glob"))
+            (define-abbrev
+              (if p global-abbrev-table local-abbrev-table)
+              bef aft))))
 
       (use-package abbrev
-	:delight " ⚆"
-	:config
-	(setq save-abbrevs t)
-	(setq-default abbrev-mode t))
+        :delight " ⚆"
+        :config
+        (setq save-abbrevs t)
+        (setq-default abbrev-mode t))
     #+end_src
 
 *** Auto-completion
@@ -609,40 +610,40 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package company
-	 :ensure t
-	 :delight company-mode
-	 :hook
-	 (after-init .  global-company-mode)
-	 :bind
-	 (("C-<tab>" . company-complete-common-or-cycle)
-	  ("C-<tab>" . company-complete-org-mode-map)
-	  :map company-active-map
-	  ("s-<tab>" . company-complete-common-or-cycle)
-	  ("C-n"     . company-select-next)
-	  ("C-p"     . company-select-previous)
-	  ("M-<"     . company-select-first)
-	  ("M->"     . company-select-last))
-	 :config
-	 ;; Turn off the auto downcasing of things
-	 (setq company-dabbrev-downcase nil
-	       company-show-numbers t
-	       company-tooltip-align-annotations t
-	       company-selection-wrap-around t
-	       company-tooltip-flip-when-above t
-	       company-dabbrev-code-everywhere t
-	       company-dabbrev-code-ignore-case t))
+         :ensure t
+         :delight company-mode
+         :hook
+         (after-init .  global-company-mode)
+         :bind
+         (("C-<tab>" . company-complete-common-or-cycle)
+          ("C-<tab>" . company-complete-org-mode-map)
+          :map company-active-map
+          ("s-<tab>" . company-complete-common-or-cycle)
+          ("C-n"     . company-select-next)
+          ("C-p"     . company-select-previous)
+          ("M-<"     . company-select-first)
+          ("M->"     . company-select-last))
+         :config
+         ;; Turn off the auto downcasing of things
+         (setq company-dabbrev-downcase nil
+               company-show-numbers t
+               company-tooltip-align-annotations t
+               company-selection-wrap-around t
+               company-tooltip-flip-when-above t
+               company-dabbrev-code-everywhere t
+               company-dabbrev-code-ignore-case t))
      #+end_src
 
 **** Yasnippet
 
      #+begin_src emacs-lisp
        (use-package yasnippet
-	 :ensure t
-	 :hook
-	 (prog-mode . yas-minor-mode)
-	 (text-mode . yas-minor-mode)
-	 :config
-	 (yas-reload-all))
+         :ensure t
+         :hook
+         (prog-mode . yas-minor-mode)
+         (text-mode . yas-minor-mode)
+         :config
+         (yas-reload-all))
      #+end_src
 
 
@@ -663,14 +664,14 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (setq backup-by-copying t
-	    create-lockfiles nil
-	    backup-directory-alist '((".*" . "~/.emacs.d/.saves"))
-	    ;; auto-save-file-name-transforms `((".*" "~/.saves" t))
-	    kill-buffer-delete-auto-save-files t
-	    delete-old-versions t
-	    kept-new-versions 6
-	    kept-old-versions 2
-	    version-control t)
+      create-lockfiles nil
+      backup-directory-alist '((".*" . "~/.emacs.d/.saves"))
+      ;; auto-save-file-name-transforms `((".*" "~/.saves" t))
+      kill-buffer-delete-auto-save-files t
+      delete-old-versions t
+      kept-new-versions 6
+      kept-old-versions 2
+      version-control t)
     #+end_src
 
     Here's a quick rundown of the settings:
@@ -702,8 +703,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (setq bookmark-save-flag t
-	    bookmark-set-fringe-mark t
-	    bookmark-menu-confirm-deletion t)
+            bookmark-set-fringe-mark t
+            bookmark-menu-confirm-deletion t)
     #+end_src
 
 *** Default File encoding
@@ -721,10 +722,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       (set-keyboard-coding-system 'utf-8)
       (set-language-environment 'utf-8)
       (setq buffer-file-coding-system 'utf-8
-	    x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+            x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
       ;; MS Windows clipboard is UTF-16LE
       (when (eq system-type 'windows-nt)
-	(set-clipboard-coding-system 'utf-16le-dos))
+        (set-clipboard-coding-system 'utf-16le-dos))
     #+end_src
 
 
@@ -739,9 +740,9 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (if (native-comp-available-p)
-	  (setq package-native-compile t
-		native-comp-verbose 1
-		native-comp-async-report-warnings-errors t))
+          (setq package-native-compile t
+                native-comp-verbose 1
+                native-comp-async-report-warnings-errors t))
     #+end_src
 
 
@@ -752,9 +753,9 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package exec-path-from-shell
-	:ensure t
-	:config
-	(exec-path-from-shell-initialize))
+        :ensure t
+        :config
+        (exec-path-from-shell-initialize))
     #+end_src
 
 *** Server
@@ -764,9 +765,9 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (when (and (or (eq system-type 'windows-nt) (eq system-type 'darwin))
-		 (not (and (boundp 'server-clients) server-clients))
-		 (not (daemonp)))
-	(server-start))
+                 (not (and (boundp 'server-clients) server-clients))
+                 (not (daemonp)))
+        (server-start))
     #+end_src
 
 *** Sounds
@@ -776,7 +777,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (setq visual-bell nil
-	    ring-bell-function `(lambda () nil))
+            ring-bell-function `(lambda () nil))
     #+end_src
 
 *** Recentf
@@ -795,11 +796,11 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (setq zoneinfo-style-world-list
-	    '(("America/New_York" "CBUS")
-	      ("America/Los_Angeles" "San Fran")
-	      ("Europe/London" "London")
-	      ("Australia/Sydney" "Sydney")
-	      ("Asia/Kolkata" "Bangalore")))
+            '(("America/New_York" "CBUS")
+              ("America/Los_Angeles" "San Fran")
+              ("Europe/London" "London")
+              ("Australia/Sydney" "Sydney")
+              ("Asia/Kolkata" "Bangalore")))
     #+end_src
 
 ** Minibuffer
@@ -827,7 +828,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (setq savehist-additional-variables '(search-ring regexp-search-ring)
-	    savehist-file "~/.emacs.d/savehist")
+            savehist-file "~/.emacs.d/savehist")
       (savehist-mode t)
     #+end_src
 
@@ -840,19 +841,19 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package ace-flyspell
-	 :ensure t
-	 :commands (ace-flyspell-setup)
-	 :bind
-	 ("H-s" . hydra-fly/body)
-	 :hook
-	 (flyspell-mode . ace-flyspell-setup)
-	 :init
-	 (defhydra hydra-fly (:color pink)
-	   ("n" flyspell-goto-next-error "Next error")
-	   ("c" ispell-word "Correct word")
-	   ("j" ace-flyspell-jump-word "Jump word")
-	   ("." ace-flyspell-dwim "dwim")
-	   ("q" nil "Quit")))
+         :ensure t
+         :commands (ace-flyspell-setup)
+         :bind
+         ("H-s" . hydra-fly/body)
+         :hook
+         (flyspell-mode . ace-flyspell-setup)
+         :init
+         (defhydra hydra-fly (:color pink)
+           ("n" flyspell-goto-next-error "Next error")
+           ("c" ispell-word "Correct word")
+           ("j" ace-flyspell-jump-word "Jump word")
+           ("." ace-flyspell-dwim "dwim")
+           ("q" nil "Quit")))
      #+end_src
 
 
@@ -864,13 +865,13 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package ace-isearch
-	 :ensure t
-	 :bind (:map isearch-mode-map
-		     ("C-'" . ace-isearch-jump-during-isearch))
-	 :delight ace-isearch-mode
-	 :config
-	 (global-ace-isearch-mode t)
-	 (setq ace-isearch-input-length 8))
+         :ensure t
+         :bind (:map isearch-mode-map
+                     ("C-'" . ace-isearch-jump-during-isearch))
+         :delight ace-isearch-mode
+         :config
+         (global-ace-isearch-mode t)
+         (setq ace-isearch-input-length 8))
      #+end_src
 
 **** Ace Link
@@ -880,10 +881,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package ace-link
-	 :ensure t
-	 :bind (:map org-mode-map
-		     ("M-o" . ace-link-org))
-	 :config (ace-link-setup-default))
+         :ensure t
+         :bind (:map org-mode-map
+                     ("M-o" . ace-link-org))
+         :config (ace-link-setup-default))
      #+end_src
 
 **** Ace Window
@@ -901,47 +902,47 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package ace-window
-	 :ensure t
-	 :bind
-	 ("H-a"    . ace-window)
-	 ("<f9> a" . ace-window)
-	 :config
-	 (setq aw-keys '(?j ?k ?l ?\; ?n ?m)
-	       aw-leading-char-style 'path
-	       aw-dispatch-always t
-	       aw-dispatch-alist
-	       '((?x aw-delete-window "Ace - Delete Window")
-		 (?c aw-swap-window   "Ace - Swap window")
-		 (?n aw-flip-window   "Ace - Flip window")
-		 (?v aw-split-window-vert "Ace - Split Vert Window")
-		 (?h aw-split-window-horz "Ace - Split Horz Window")
-		 (?m delete-other-windows "Ace - Maximize Window")
-		 (?b balance-windows)))
+   :ensure t
+   :bind
+   ("H-a"    . ace-window)
+   ("<f9> a" . ace-window)
+   :config
+   (setq aw-keys '(?j ?k ?l ?\; ?n ?m)
+         aw-leading-char-style 'path
+         aw-dispatch-always t
+         aw-dispatch-alist
+         '((?x aw-delete-window "Ace - Delete Window")
+     (?c aw-swap-window   "Ace - Swap window")
+     (?n aw-flip-window   "Ace - Flip window")
+     (?v aw-split-window-vert "Ace - Split Vert Window")
+     (?h aw-split-window-horz "Ace - Split Horz Window")
+     (?m delete-other-windows "Ace - Maximize Window")
+     (?b balance-windows)))
 
-	 (defhydra hydra-window-size (:color amaranth)
-	   "Window size"
-	   ("h" shrink-window-horizontally "shrink horizontal")
-	   ("j" shrink-window "shrink vertical")
-	   ("k" enlarge-window "enlarge vertical")
-	   ("l" enlarge-window-horizontally "enlarge horizontal")
-	   ("q" nil "quit"))
-	 (add-to-list 'aw-dispatch-alist '(?w hydra-window-size/body) t)
+   (defhydra hydra-window-size (:color amaranth)
+     "Window size"
+     ("h" shrink-window-horizontally "shrink horizontal")
+     ("j" shrink-window "shrink vertical")
+     ("k" enlarge-window "enlarge vertical")
+     ("l" enlarge-window-horizontally "enlarge horizontal")
+     ("q" nil "quit"))
+   (add-to-list 'aw-dispatch-alist '(?w hydra-window-size/body) t)
 
-	 (defhydra hydra-window-frame (:color red)
-	   "Frame"
-	   ("f" make-frame "new frame")
-	   ("x" delete-frame "delete frame")
-	   ("q" nil "quit"))
-	 (add-to-list 'aw-dispatch-alist '(?\; hydra-window-frame/body) t)
+   (defhydra hydra-window-frame (:color red)
+     "Frame"
+     ("f" make-frame "new frame")
+     ("x" delete-frame "delete frame")
+     ("q" nil "quit"))
+   (add-to-list 'aw-dispatch-alist '(?\; hydra-window-frame/body) t)
 
-	 (defhydra hydra-window-scroll (:color amaranth)
-	   "Scroll other window"
-	   ("n" scroll-other-window "scroll")
-	   ("p" scroll-other-window-down "scroll down")
-	   ("q" nil "quit"))
-	 (add-to-list 'aw-dispatch-alist '(?o hydra-window-scroll/body) t)
+   (defhydra hydra-window-scroll (:color amaranth)
+     "Scroll other window"
+     ("n" scroll-other-window "scroll")
+     ("p" scroll-other-window-down "scroll down")
+     ("q" nil "quit"))
+   (add-to-list 'aw-dispatch-alist '(?o hydra-window-scroll/body) t)
 
-	 (set-face-attribute 'aw-leading-char-face nil :height 2.0))
+   (set-face-attribute 'aw-leading-char-face nil :height 2.0))
      #+end_src
 
 **** Avy Goto
@@ -952,18 +953,18 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package avy
-	 :ensure t
-	 :bind
-	 ("H-SPC" . avy-goto-char-timer)
-	 ("H-w"   . avy-goto-word-1)
-	 ("H-c"   . avy-goto-char-2)
-	 ("H-l"   . avy-goto-line)
-	 ("H-d"   . avy-goto-word-0)
-	 ("<f9> SPC" . avy-goto-char-timer)
-	 ("C-c g" . avy-goto-word-1)
-	 ("M-g l" . avy-goto-line)
-	 ("M-g c" . avy-goto-char-2)
-	 ("M-g w" . avy-goto-word-0))
+         :ensure t
+         :bind
+         ("H-SPC" . avy-goto-char-timer)
+         ("H-w"   . avy-goto-word-1)
+         ("H-c"   . avy-goto-char-2)
+         ("H-l"   . avy-goto-line)
+         ("H-d"   . avy-goto-word-0)
+         ("<f9> SPC" . avy-goto-char-timer)
+         ("C-c g" . avy-goto-word-1)
+         ("M-g l" . avy-goto-line)
+         ("M-g c" . avy-goto-char-2)
+         ("M-g w" . avy-goto-word-0))
      #+end_src
 
      The commands begin with the normal prefix of =M-g= for the goto
@@ -980,9 +981,9 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package avy-zap
-	 :ensure t
-	 :bind ("M-z" . avy-zap-to-char-dwim)
-	 ("M-Z" . avy-zap-up-to-char-dwim))
+         :ensure t
+         :bind ("M-z" . avy-zap-to-char-dwim)
+         ("M-Z" . avy-zap-up-to-char-dwim))
      #+end_src
 
 
@@ -1007,25 +1008,25 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package view
-	:delight " 👁"
-	:init (setq view-read-only t)
-	:bind (:map view-mode-map
-		    ("n" . next-line    )
-		    ("p" . previous-line)
-		    ("j" . next-line    )
-		    ("k" . previous-line)
-		    ("l" . forward-char)
-		    ("h" . bnb/view/h)
-		    ("q" . bnb/view/q))
-	:config
-	(defun bnb/view/h ()
-	  "Setup a function to go backwards a character"
-	  (interactive)
-	  (forward-char -1))
-	(defun bnb/view/q ()
-	  "Setup a function to quit `view-mode`"
-	  (interactive)
-	  (view-mode -1)))
+        :delight " 👁"
+        :init (setq view-read-only t)
+        :bind (:map view-mode-map
+                    ("n" . next-line    )
+                    ("p" . previous-line)
+                    ("j" . next-line    )
+                    ("k" . previous-line)
+                    ("l" . forward-char)
+                    ("h" . bnb/view/h)
+                    ("q" . bnb/view/q))
+        :config
+        (defun bnb/view/h ()
+          "Setup a function to go backwards a character"
+          (interactive)
+          (forward-char -1))
+        (defun bnb/view/q ()
+          "Setup a function to quit `view-mode`"
+          (interactive)
+          (view-mode -1)))
     #+end_src
 
 
@@ -1057,28 +1058,28 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (defun bnb/jump-to-org-agenda ()
-	"Create and jump to the bnb org agenda."
-	(interactive)
-	(let ((buf (get-buffer "*Org Agenda*"))
-	      wind)
-	  (if buf
-	      (if (setq wind (get-buffer-window buf))
-		  (select-window wind)
-		(if (called-interactively-p)
-		    (progn
-		      (select-window (display-buffer buf t t))
-		      (org-fit-window-to-buffer))
-		  (with-selected-window (display-buffer buf)
-		    (org-fit-window-to-buffer))))
-	    (bnb/org-agenda-with-tip nil))))
+        "Create and jump to the bnb org agenda."
+        (interactive)
+        (let ((buf (get-buffer "*Org Agenda*"))
+              wind)
+          (if buf
+              (if (setq wind (get-buffer-window buf))
+                  (select-window wind)
+                (if (called-interactively-p)
+                    (progn
+                      (select-window (display-buffer buf t t))
+                      (org-fit-window-to-buffer))
+                  (with-selected-window (display-buffer buf)
+                    (org-fit-window-to-buffer))))
+            (bnb/org-agenda-with-tip nil))))
 
       (defun bnb/idle-agenda (&optional arg)
-	"Set or cancel idle agenda timer based on [ARG]."
-	(interactive "P")
-	(setq bnb/iagenda
-	      (if arg
-		  (cancel-timer bnb/iagenda)
-		(run-with-idle-timer 3600 t 'bnb/jump-to-org-agenda))))
+        "Set or cancel idle agenda timer based on [ARG]."
+        (interactive "P")
+        (setq bnb/iagenda
+              (if arg
+                  (cancel-timer bnb/iagenda)
+                (run-with-idle-timer 3600 t 'bnb/jump-to-org-agenda))))
     #+end_src
 
 *** Auto-indent when pasting
@@ -1087,10 +1088,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src elisp
       (dolist (command '(yank yank-pop))
-	(eval `(defadvice ,command (after indent-region activate)
-		 (and (not current-prefix-arg)
-		      (let ((mark-even-if-inactive transient-mark-mode))
-			(indent-region (region-beginning) (region-end) nil))))))
+        (eval `(defadvice ,command (after indent-region activate)
+                 (and (not current-prefix-arg)
+                      (let ((mark-even-if-inactive transient-mark-mode))
+                        (indent-region (region-beginning) (region-end) nil))))))
     #+end_src
 
 *** Better window splitting functions
@@ -1103,18 +1104,18 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (defun bnb/vplit-last-buffer ()
-	"When splitting the frame, load the last visited buffer."
-	(interactive)
-	(split-window-vertically)
-	(other-window 1 nil)
-	(switch-to-next-buffer))
+        "When splitting the frame, load the last visited buffer."
+        (interactive)
+        (split-window-vertically)
+        (other-window 1 nil)
+        (switch-to-next-buffer))
 
       (defun bnb/hsplit-last-buffer ()
-	"When splitting the frame, load the last visited buffer."
-	(interactive)
-	(split-window-horizontally)
-	(other-window 1 nil)
-	(switch-to-next-buffer))
+        "When splitting the frame, load the last visited buffer."
+        (interactive)
+        (split-window-horizontally)
+        (other-window 1 nil)
+        (switch-to-next-buffer))
 
       (bind-keys
        ("C-x 2" . bnb/vplit-last-buffer)
@@ -1131,24 +1132,24 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       (defvar-local bnb/hide-mode-line-mode nil)
       ;; Setup minor mode
       (define-minor-mode bnb/hide-mode-line-mode
-	"Minor mode to hide mode-line in current buffer"
-	:init-value nil
-	:global nil
-	:variable bnb/hide-mode-line-mode
-	:group 'editing-basics
-	(if bnb/hide-mode-line-mode
-	    (setq bnb/hide-mode-line-mode/saved-format mode-line-format
-		  mode-line-format nil)
-	  (setq mode-line-format bnb/hide-mode-line-mode/saved-format
-		bnb/hide-mode-line-mode/saved-format nil))
-	(force-mode-line-update)
-	(redraw-display)
-	(when (and (called-interactively-p 'interactive)
-		   bnb/hide-mode-line-mode)
-	  (run-with-idle-timer
-	   0 nil 'message
-	   (concat "Goodbye mode line!"
-		   "Use M-x bnb/hide-mode-line-mode to make the mode-line appear"))))
+        "Minor mode to hide mode-line in current buffer"
+        :init-value nil
+        :global nil
+        :variable bnb/hide-mode-line-mode
+        :group 'editing-basics
+        (if bnb/hide-mode-line-mode
+            (setq bnb/hide-mode-line-mode/saved-format mode-line-format
+                  mode-line-format nil)
+          (setq mode-line-format bnb/hide-mode-line-mode/saved-format
+                bnb/hide-mode-line-mode/saved-format nil))
+        (force-mode-line-update)
+        (redraw-display)
+        (when (and (called-interactively-p 'interactive)
+                   bnb/hide-mode-line-mode)
+          (run-with-idle-timer
+           0 nil 'message
+           (concat "Goodbye mode line!"
+                   "Use M-x bnb/hide-mode-line-mode to make the mode-line appear"))))
 
       ;; Bind global key
       (bind-key "H-0" 'bnb/hide-mode-line-mode)
@@ -1162,9 +1163,9 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (bind-key "<f5>"
-		(lambda ()
-		  (interactive)
-		  (find-file "~/.emacs.d/bnb-emacs/Readme.org")))
+                (lambda ()
+                  (interactive)
+                  (find-file "~/.emacs.d/bnb-emacs/Readme.org")))
     #+end_src
 
 
@@ -1180,12 +1181,12 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (defun bnb/org-overlay-font-override (orig-fn beg end &optional txt face)
-	(let ((bnbface (cons '(:height 0.8) face)))
-	  (funcall orig-fn beg end txt bnbface)))
+        (let ((bnbface (cons '(:height 0.8) face)))
+          (funcall orig-fn beg end txt bnbface)))
 
       (advice-add 'org-columns--new-overlay :around #'bnb/org-overlay-font-override)
 
-					      ;(advice-remove 'org-columns--new-overlay #'bnb/org-overlay-font-override)
+                                              ;(advice-remove 'org-columns--new-overlay #'bnb/org-overlay-font-override)
     #+end_src
 
 
@@ -1211,16 +1212,16 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (defun bnb/export-readme ()
-	"Export the tangled org setting as html.
+        "Export the tangled org setting as html.
 
-	`sanityinc-tomorrow-day` is used to style the code exports."
-	(interactive)
-	(let ((themes custom-enabled-themes))
-	  (mapc 'disable-theme themes)
-	  (load-theme 'sanityinc-tomorrow-day)
-	  (org-html-export-to-html)
-	  (disable-theme 'sanityinc-tomorrow-day)
-	  (mapcar 'load-theme (reverse themes))))
+      `sanityinc-tomorrow-day` is used to style the code exports."
+        (interactive)
+        (let ((themes custom-enabled-themes))
+          (mapc 'disable-theme themes)
+          (load-theme 'sanityinc-tomorrow-day)
+          (org-html-export-to-html)
+          (disable-theme 'sanityinc-tomorrow-day)
+          (mapcar 'load-theme (reverse themes))))
     #+end_src
 
 *** Transparency
@@ -1229,38 +1230,38 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package ring
-	:commands (bnb/transparency-apply bnb/transparency-next bnb/transparency-previous
-					  bnb/transparency-cycle bnb/transparency-add)
-	:config
-	(setq bnb/transparency-ring
-	      (ring-convert-sequence-to-ring (list '(100 100) '(100 50) '(100 10) '(95 50) '(90 50) '(85 50)))
-	      bnb/transparency
-	      (ring-ref bnb/transparency-ring 0))
+        :commands (bnb/transparency-apply bnb/transparency-next bnb/transparency-previous
+                                          bnb/transparency-cycle bnb/transparency-add)
+        :config
+        (setq bnb/transparency-ring
+              (ring-convert-sequence-to-ring (list '(100 100) '(100 50) '(100 10) '(95 50) '(90 50) '(85 50)))
+              bnb/transparency
+              (ring-ref bnb/transparency-ring 0))
 
-	(defun bnb/transparency-apply (trans)
-	  "Apply the TRANS alpha value to the frame."
-	  (set-frame-parameter (selected-frame) 'alpha (setq bnb/transparency trans)))
+        (defun bnb/transparency-apply (trans)
+          "Apply the TRANS alpha value to the frame."
+          (set-frame-parameter (selected-frame) 'alpha (setq bnb/transparency trans)))
 
-	(defun bnb/transparency-next ()
-	  "Apply the next transparency value in the ring `bnb/transparency-ring`."
-	  (interactive)
-	  (bnb/transparency-apply (ring-next bnb/transparency-ring bnb/transparency)))
+        (defun bnb/transparency-next ()
+          "Apply the next transparency value in the ring `bnb/transparency-ring`."
+          (interactive)
+          (bnb/transparency-apply (ring-next bnb/transparency-ring bnb/transparency)))
 
-	(defun bnb/transparency-previous ()
-	  "Apply the previous transparency value in the ring `bnb/transparency-ring`."
-	  (interactive)
-	  (bnb/transparency-apply (ring-previous bnb/transparency-ring bnb/transparency)))
+        (defun bnb/transparency-previous ()
+          "Apply the previous transparency value in the ring `bnb/transparency-ring`."
+          (interactive)
+          (bnb/transparency-apply (ring-previous bnb/transparency-ring bnb/transparency)))
 
-	(defun bnb/transparency-cycle ()
-	  "Cycle to the next transparency setting."
-	  (interactive)
-	  (bnb/transparency-next))
+        (defun bnb/transparency-cycle ()
+          "Cycle to the next transparency setting."
+          (interactive)
+          (bnb/transparency-next))
 
-	(defun bnb/transparency-add (active inactive)
-	  "Add ACTIVE and INACTIVE transparency values to the ring."
-	  (interactive "nActive Transparency:\nnInactive Transparency:")
-	  (ring-insert+extend bnb/transparency-ring (list active inactive) t)
-	  (bnb/transparency-apply (list active inactive))))
+        (defun bnb/transparency-add (active inactive)
+          "Add ACTIVE and INACTIVE transparency values to the ring."
+          (interactive "nActive Transparency:\nnInactive Transparency:")
+          (ring-insert+extend bnb/transparency-ring (list active inactive) t)
+          (bnb/transparency-apply (list active inactive))))
     #+end_src
 
 *** Weekly Score Goal in Org-Agenda
@@ -1284,31 +1285,31 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
       ;; Add up all the scores from DONE items in the agenda files
       (defun bnb/agenda-score-goal ()
-	"Add up scores from done items.
+        "Add up scores from done items.
 
-       In the agenda, this will show the number of done items and the
-       target goal from `bnb/weekly-score-goal`."
-	(let* ((score ;; Add up all scores from DONE items
-		(apply '+
-		       (org-map-entries
-			(lambda () (string-to-number (or (org-entry-get (point) "Score") "0")))
-			"/DONE" 'agenda)))
-	       (scaled-goal (* bnb/weekly-score-goal
-			       (/ (string-to-number (format-time-string "%w"))
-				  5.0)))
-	       (face (cond ((>= score scaled-goal) 'success)
-			   ((>= score (* .8 scaled-goal)) 'warning)
-			   (t 'error)))
-	       (goal-label (format "✧ Score Goal (%d): " scaled-goal))
-	       (goal-metric (format "%d/%d\n" score bnb/weekly-score-goal))
-	       (header-size (+ (string-width goal-label)
-			       (string-width goal-metric)))
-	       (goal-separator (concat (make-string header-size ?┄) "\n")))
-	  (insert
-	   (concat
-	    (propertize goal-label 'face 'org-agenda-structure)
-	    (propertize goal-metric 'face face)
-	    (propertize goal-separator 'face 'org-agenda-structure)))))
+           In the agenda, this will show the number of done items and the
+           target goal from `bnb/weekly-score-goal`."
+        (let* ((score ;; Add up all scores from DONE items
+                (apply '+
+                       (org-map-entries
+                        (lambda () (string-to-number (or (org-entry-get (point) "Score") "0")))
+                        "/DONE" 'agenda)))
+               (scaled-goal (* bnb/weekly-score-goal
+                               (/ (string-to-number (format-time-string "%w"))
+                                  5.0)))
+               (face (cond ((>= score scaled-goal) 'success)
+                           ((>= score (* .8 scaled-goal)) 'warning)
+                           (t 'error)))
+               (goal-label (format "✧ Score Goal (%d): " scaled-goal))
+               (goal-metric (format "%d/%d\n" score bnb/weekly-score-goal))
+               (header-size (+ (string-width goal-label)
+                               (string-width goal-metric)))
+               (goal-separator (concat (make-string header-size ?┄) "\n")))
+          (insert
+           (concat
+            (propertize goal-label 'face 'org-agenda-structure)
+            (propertize goal-metric 'face face)
+            (propertize goal-separator 'face 'org-agenda-structure)))))
 
       ;; This hook runs first in the agenda (and before it is set to read-only)
       (add-hook 'org-agenda-mode-hook 'bnb/agenda-score-goal)
@@ -1321,64 +1322,64 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (defun bnb/find-year-create (year)
-	"Find or create a [YEAR] in an Org journal."
-	(let ((re "^\\**[ \t]+\\([12][0-9]\\{3\\}\\)")
-	      match)
-	  (org-narrow-to-subtree)
-	  (goto-char (point-min))
-	  (while (and (setq match (re-search-forward re nil t))
-		      (goto-char (match-beginning 1))
-		      (< (string-to-number (match-string 1)) year)))
-	  (cond
-	   ((not match)
-	    (goto-char (point-max))
-	    (or (bolp) (newline))
-	    (insert (format  "** %s\n" year)))
-	   ((= (string-to-number (match-string 1)) year)
-	    (goto-char (point-at-bol)))
-	   (t
-	    (beginning-of-line 1)
-	    (insert (format  "** %s\n" year))))))
+        "Find or create a [YEAR] in an Org journal."
+        (let ((re "^\\**[ \t]+\\([12][0-9]\\{3\\}\\)")
+              match)
+          (org-narrow-to-subtree)
+          (goto-char (point-min))
+          (while (and (setq match (re-search-forward re nil t))
+                      (goto-char (match-beginning 1))
+                      (< (string-to-number (match-string 1)) year)))
+          (cond
+           ((not match)
+            (goto-char (point-max))
+            (or (bolp) (newline))
+            (insert (format  "** %s\n" year)))
+           ((= (string-to-number (match-string 1)) year)
+            (goto-char (point-at-bol)))
+           (t
+            (beginning-of-line 1)
+            (insert (format  "** %s\n" year))))))
 
       (defun bnb/find-ww-create (ww)
-	"Find or create a [WW] (workweek) in an Org journal."
-	(let ((re "^\\**[ \t]+\\WW\\([0-9]\\{2\\}\\)")
-	      match)
-	  (org-narrow-to-subtree)
-	  (goto-char (point-min))
-	  (while (and (setq match (re-search-forward re nil t))
-		      (goto-char (match-beginning 1))
-		      (< (string-to-number (match-string 1)) ww)))
-	  (cond
-	   ((not match)
-	    (goto-char (point-max))
-	    (or (bolp) (newline))
-	    (insert (format "*** WW%02d\n" ww)))
-	   ((= (string-to-number (match-string 1)) ww)
-	    (goto-char (point-at-bol)))
-	   (t
-	    (beginning-of-line 1)
-	    (insert (format "*** WW%02d\n" ww))))))
+        "Find or create a [WW] (workweek) in an Org journal."
+        (let ((re "^\\**[ \t]+\\WW\\([0-9]\\{2\\}\\)")
+              match)
+          (org-narrow-to-subtree)
+          (goto-char (point-min))
+          (while (and (setq match (re-search-forward re nil t))
+                      (goto-char (match-beginning 1))
+                      (< (string-to-number (match-string 1)) ww)))
+          (cond
+           ((not match)
+            (goto-char (point-max))
+            (or (bolp) (newline))
+            (insert (format "*** WW%02d\n" ww)))
+           ((= (string-to-number (match-string 1)) ww)
+            (goto-char (point-at-bol)))
+           (t
+            (beginning-of-line 1)
+            (insert (format "*** WW%02d\n" ww))))))
 
       (defun bnb/insert-weekly-time-sheet ()
-	"Generated and insert a weekly time sheet generated from the default Org Agenda."
-	(with-temp-buffer
-	  (insert
-	   (concat  "#+BEGIN: clocktable :maxlevel 3 :scope agenda-with-archives :block lastweek :fileskip0 t :properties (\"Score\") :indent nil \n"
-		    "#+TBLFM: $6='(org-clock-time% @2$4 $3..$5);%.1f::@2$2=vsum(@3$2..@>$2)\n"
-		    "#+END:\n\n"))
-	  (goto-char (point-min))
-	  (org-update-dblock)
-	  (buffer-substring (point-min) (point-max))))
+        "Generated and insert a weekly time sheet generated from the default Org Agenda."
+        (with-temp-buffer
+          (insert
+           (concat  "#+BEGIN: clocktable :maxlevel 3 :scope agenda-with-archives :block lastweek :fileskip0 t :properties (\"Score\") :indent nil \n"
+                    "#+TBLFM: $6='(org-clock-time% @2$4 $3..$5);%.1f::@2$2=vsum(@3$2..@>$2)\n"
+                    "#+END:\n\n"))
+          (goto-char (point-min))
+          (org-update-dblock)
+          (buffer-substring (point-min) (point-max))))
 
       (defun bnb/insert-weekly-clocking ()
-	"Insert the weekly clocking clocking data."
-	(let ((year (number-to-string (nth 2 (calendar-gregorian-from-absolute (org-today)))))
-	      (ww (bnb/workweek)))
-	  (goto-char (point-min))
-	  (goto-char (cdr (org-id-find "clocking")))
-	  (bnb/find-year-create (string-to-number year))
-	  (bnb/find-ww-create ww)))
+        "Insert the weekly clocking clocking data."
+        (let ((year (number-to-string (nth 2 (calendar-gregorian-from-absolute (org-today)))))
+              (ww (bnb/workweek)))
+          (goto-char (point-min))
+          (goto-char (cdr (org-id-find "clocking")))
+          (bnb/find-year-create (string-to-number year))
+          (bnb/find-ww-create ww)))
     #+end_src
 
 *** Workweeks
@@ -1388,46 +1389,46 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (defun bnb/workweek ()
-	"Return the current workweek number."
-	(interactive)
-	(let* ((now (current-time))
-	       (weeks (string-to-number
-		       (format-time-string "%W" now)))
-	       (days (time-to-day-in-year now))
-	       (daynum (string-to-number
-			(format-time-string "%w" now)))
-	       (left (% days 7)))
-	  (if (and (= 0 daynum) (= left 0))
-	      weeks
-	    (+ 1 weeks))))
+        "Return the current workweek number."
+        (interactive)
+        (let* ((now (current-time))
+               (weeks (string-to-number
+                       (format-time-string "%W" now)))
+               (days (time-to-day-in-year now))
+               (daynum (string-to-number
+                        (format-time-string "%w" now)))
+               (left (% days 7)))
+          (if (and (= 0 daynum) (= left 0))
+              weeks
+            (+ 1 weeks))))
 
       (defun bnb/workweek-string ()
-	"Convert the current workweek into a string.
+        "Convert the current workweek into a string.
 
-	The string is of the format WW##."
-	(interactive)
-	(concat "WW"
-		(number-to-string
-		 (bnb/workweek))))
+      The string is of the format WW##."
+        (interactive)
+        (concat "WW"
+                (number-to-string
+                 (bnb/workweek))))
 
       (require 'calendar)
       (defun bnb/workweek-from-gregorian (&optional date)
-	"Calculate the workweek from the Gregorian calendar."
-	(let* ((date (or date (calendar-current-date)))
-	       (year (calendar-extract-year date))
-	       (fst (calendar-day-of-week (list 1 1 year)))
-	       (x   (if (>= fst 4)1 0)))
-	  (+ x
-	     (car
-	      (calendar-iso-from-absolute
-	       (calendar-absolute-from-gregorian date))))))
+        "Calculate the workweek from the Gregorian calendar."
+        (let* ((date (or date (calendar-current-date)))
+               (year (calendar-extract-year date))
+               (fst (calendar-day-of-week (list 1 1 year)))
+               (x   (if (>= fst 4)1 0)))
+          (+ x
+             (car
+              (calendar-iso-from-absolute
+               (calendar-absolute-from-gregorian date))))))
 
       (setq calendar-week-start-day 1
-	    calendar-intermonth-text
-	    '(propertize
-	      (format "%2d"
-		      (bnb/workweek-from-gregorian (list month day year)))
-	      'font-lock-face 'font-lock-function-name-face))
+            calendar-intermonth-text
+            '(propertize
+              (format "%2d"
+                      (bnb/workweek-from-gregorian (list month day year)))
+              'font-lock-face 'font-lock-function-name-face))
 
     #+end_src
 
@@ -1458,50 +1459,50 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package multiple-cursors
-	:ensure t
-	:bind
-	("H-m"   . hydra-mc/body)
-	("C-x m" . hydra-mc/body)
-	("s-<mouse-1>" . mc/add-cursor-on-click)
-	("C-x M" . compose-mail)
-	:config
-	(defhydra hydra-mc (:hint nil)
-	  "
-	   ^Up^            ^Down^        ^Miscellaneous^
-      -----------------------------------------------------------
-      [_p_]   Next    [_n_]   Next    [_l_] Edit lines  [_x_] Arrows
-      [_P_]   Skip    [_N_]   Skip    [_a_] Mark all    [_g_] Regexp
-      [_M-p_] Unmark  [_M-n_] Unmark  [_q_] Quit"
-	  ("l"   mc/edit-lines :exit t)
-	  ("a"   mc/mark-all-like-this-dwim :exit t)
-	  ("n"   mc/mark-next-like-this)
-	  ("N"   mc/skip-to-next-like-this)
-	  ("M-n" mc/unmark-next-like-this)
-	  ("p"   mc/mark-previous-like-this)
-	  ("P"   mc/skip-to-previous-like-this)
-	  ("M-p" mc/unmark-previous-like-this)
-	  ("g"   mc/mark-all-in-region-regexp :exit t)
-	  ("r"   mc/mark-sgml-tag-pair :exit t)
-	  ("x"   mc/mark-more-like-this-extended)
-	  ("q"   nil))
-	(add-hydra-mc-funcs))
+        :ensure t
+        :bind
+        ("H-m"   . hydra-mc/body)
+        ("C-x m" . hydra-mc/body)
+        ("s-<mouse-1>" . mc/add-cursor-on-click)
+        ("C-x M" . compose-mail)
+        :config
+        (defhydra hydra-mc (:hint nil)
+          "
+         ^Up^            ^Down^        ^Miscellaneous^
+          -----------------------------------------------------------
+          [_p_]   Next    [_n_]   Next    [_l_] Edit lines  [_x_] Arrows
+          [_P_]   Skip    [_N_]   Skip    [_a_] Mark all    [_g_] Regexp
+          [_M-p_] Unmark  [_M-n_] Unmark  [_q_] Quit"
+          ("l"   mc/edit-lines :exit t)
+          ("a"   mc/mark-all-like-this-dwim :exit t)
+          ("n"   mc/mark-next-like-this)
+          ("N"   mc/skip-to-next-like-this)
+          ("M-n" mc/unmark-next-like-this)
+          ("p"   mc/mark-previous-like-this)
+          ("P"   mc/skip-to-previous-like-this)
+          ("M-p" mc/unmark-previous-like-this)
+          ("g"   mc/mark-all-in-region-regexp :exit t)
+          ("r"   mc/mark-sgml-tag-pair :exit t)
+          ("x"   mc/mark-more-like-this-extended)
+          ("q"   nil))
+        (add-hydra-mc-funcs))
 
       (defun add-hydra-mc-funcs ()
-	"Add my hydra-mc funcs to the proper whitelist"
-	(let* ((hydra-mc-funcs
-		(cl-remove-if-not
-		 'functionp
-		 (apply #'append hydra-mc/heads)))
-	       (mc-funcs-to-ignore (cl-intersection
-				    hydra-mc-funcs
-				    mc--default-cmds-to-run-once))
-	       (funcs-to-whitelist
-		(cl-mapcar
-		 (lambda (x) (intern (concat "hydra-mc/" (symbol-name x))))
-		 mc-funcs-to-ignore)))
-	  (let (value)
-	    (dolist (element funcs-to-whitelist nil)
-	      (add-to-list 'mc/cmds-to-run-once element)))))
+        "Add my hydra-mc funcs to the proper whitelist"
+        (let* ((hydra-mc-funcs
+                (cl-remove-if-not
+                 'functionp
+                 (apply #'append hydra-mc/heads)))
+               (mc-funcs-to-ignore (cl-intersection
+                                    hydra-mc-funcs
+                                    mc--default-cmds-to-run-once))
+               (funcs-to-whitelist
+                (cl-mapcar
+                 (lambda (x) (intern (concat "hydra-mc/" (symbol-name x))))
+                 mc-funcs-to-ignore)))
+          (let (value)
+            (dolist (element funcs-to-whitelist nil)
+              (add-to-list 'mc/cmds-to-run-once element)))))
     #+end_src
 
 
@@ -1539,7 +1540,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (add-hook 'after-save-hook
-		'executable-make-buffer-file-executable-if-script-p)
+                'executable-make-buffer-file-executable-if-script-p)
     #+end_src
 
 *** Auto Reverting
@@ -1560,7 +1561,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (when (fboundp 'imagemagick-register-types)
-	(imagemagick-register-types))
+        (imagemagick-register-types))
     #+end_src
 
 * Minor Modes
@@ -1573,12 +1574,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package discover-my-major
-	:ensure t
-	:bind (("C-h C-m" . discover-my-major)
-	       ("C-h C-d" . discover-my-mode)))
+        :ensure t
+        :bind (("C-h C-m" . discover-my-major)
+               ("C-h C-d" . discover-my-mode)))
     #+end_src
-
-
 
 *** Helpful
 
@@ -1586,14 +1585,14 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package helpful
-	:ensure t
-	:bind
-	("C-h K" . helpful-key)
-	("C-h v" . helpful-variable)
-	("C-h f" . helpful-function)
-	("C-h x" . helpful-command)
-	("C-h z" . helpful-macro)
-	("C-h ." . helpful-at-point))
+        :ensure t
+        :bind
+        ("C-h K" . helpful-key)
+        ("C-h v" . helpful-variable)
+        ("C-h f" . helpful-function)
+        ("C-h x" . helpful-command)
+        ("C-h z" . helpful-macro)
+        ("C-h ." . helpful-at-point))
     #+end_src
 
 *** Which Key
@@ -1607,12 +1606,12 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package which-key
-	:ensure t
-	:delight which-key-mode
-	:init
-	(which-key-mode)
-	(which-key-setup-side-window-right-bottom)
-	(setq which-key-max-description-length 60))
+        :ensure t
+        :delight which-key-mode
+        :init
+        (which-key-mode)
+        (which-key-setup-side-window-right-bottom)
+        (setq which-key-max-description-length 60))
     #+end_src
 
 *** Dictionary
@@ -1626,10 +1625,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package dictionary
-	:init
-	(setq dictionary-server "dict.org")
-	:bind (("C-c d" . dictionary-search)
-	       ("C-c D" . osx-dictionary-search-word-at-point)))
+        :init
+        (setq dictionary-server "dict.org")
+        :bind (("C-c d" . dictionary-search)
+               ("C-c D" . osx-dictionary-search-word-at-point)))
     #+end_src
 
 
@@ -1641,13 +1640,13 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package filladapt
-	:delight " ▦"
-	:ensure t
-	:commands filladapt-mode
-	:init (setq-default filladapt-mode t)
-	:hook ((text-mode . filladapt-mode)
-	       (org-mode . turn-off-filladapt-mode)
-	       (prog-mode . turn-off-filladapt-mode)))
+        :delight " ▦"
+        :ensure t
+        :commands filladapt-mode
+        :init (setq-default filladapt-mode t)
+        :hook ((text-mode . filladapt-mode)
+               (org-mode . turn-off-filladapt-mode)
+               (prog-mode . turn-off-filladapt-mode)))
     #+end_src
 
 
@@ -1658,10 +1657,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package focus
-	:ensure t
-	:bind
-	("C-c f" . focus-mode)
-	("C-c F" . focus-read-only-mode))
+        :ensure t
+        :bind
+        ("C-c f" . focus-mode)
+        ("C-c F" . focus-read-only-mode))
     #+end_src
 
 
@@ -1749,8 +1748,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package easy-kill
-	:bind ("M-w" . easy-kill)
-	:ensure t)
+        :bind ("M-w" . easy-kill)
+        :ensure t)
     #+end_src
 
 *** Undo Tree
@@ -1760,24 +1759,24 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package undo-tree
-	:delight "¬"
-	:ensure t
-	:custom
-	(undo-tree-history-directory-alist '(("." . "~/.emacs.d/.undo-tree/")))
-	(undo-tree-visualizer-timestamps t)
-	(undo-tree-visualizer-diff t)
-	:config
-	(global-undo-tree-mode)
-	(defhydra hydra-undo-tree (:color yellow :hint nil)
-	  "
-      _p_: undo _n_: redo _s_: save _l_: load  "
-	  ("p" undo-tree-undo)
-	  ("n" undo-tree-redo)
-	  ("s" undo-tree-save-history)
-	  ("l" undo-tree-load-history)
-	  ("u" undo-tree-visualize "visualize" :color blue)
-	  ("q" nil "quit" :color blue))
-	(global-set-key (kbd "H-,") 'hydra-undo-tree/body))
+        :delight "¬"
+        :ensure t
+        :custom
+        (undo-tree-history-directory-alist '(("." . "~/.emacs.d/.undo-tree/")))
+        (undo-tree-visualizer-timestamps t)
+        (undo-tree-visualizer-diff t)
+        :config
+        (global-undo-tree-mode)
+        (defhydra hydra-undo-tree (:color yellow :hint nil)
+          "
+          _p_: undo _n_: redo _s_: save _l_: load  "
+          ("p" undo-tree-undo)
+          ("n" undo-tree-redo)
+          ("s" undo-tree-save-history)
+          ("l" undo-tree-load-history)
+          ("u" undo-tree-visualize "visualize" :color blue)
+          ("q" nil "quit" :color blue))
+        (global-set-key (kbd "H-,") 'hydra-undo-tree/body))
     #+end_src
 
 *** Expand Region
@@ -1787,8 +1786,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package expand-region
-	:ensure t
-	:bind ("C-=" . er/expand-region))
+        :ensure t
+        :bind ("C-=" . er/expand-region))
     #+end_src
 
 
@@ -1800,10 +1799,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package edit-server
-	:ensure t
-	:defer 10
-	:init
-	(edit-server-start))
+        :ensure t
+        :defer 10
+        :init
+        (edit-server-start))
     #+end_src
 
     Chrome needs to have the proper extension installed there too for
@@ -1821,10 +1820,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package magit
-	 :ensure t
-	 :bind ("<f6>" . magit-status)
-	 :config
-	 (setq magit-last-seen-setup-instructions "1.4.0"))
+         :ensure t
+         :bind ("<f6>" . magit-status)
+         :config
+         (setq magit-last-seen-setup-instructions "1.4.0"))
      #+END_SRC
 
 ***** Release 1.4.0
@@ -1840,9 +1839,9 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       with git forges such as github and gitlab.
 
       #+begin_src emacs-lisp
-	(use-package forge
-	  :ensure t
-	  :commands (forge-pull))
+        (use-package forge
+          :ensure t
+          :commands (forge-pull))
       #+end_src
 
 ***** Magit Todos
@@ -1851,12 +1850,11 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       under version control.
 
       #+begin_src emacs-lisp
-	(use-package magit-todos
-	  :ensure t
-	  :after magit
-	  :hook (magit-mode . magit-todos-mode))
+        (use-package magit-todos
+          :ensure t
+          :after magit
+          :hook (magit-mode . magit-todos-mode))
       #+end_src
-
 
 **** Smerge
 
@@ -1865,20 +1863,20 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (add-hook
-	'smerge-mode-hook
-	(lambda ()
-	  (bind-key
-	   "C-c ^ h"
-	   (defhydra hydra-smerge (:color amaranth)
-	     ("a" smerge-keep-all "Keep all")
-	     ("b" smerge-keep-base "Keep base")
-	     ("m" smerge-keep-mine "Keep mine")
-	     ("o" smerge-keep-other "Keep other")
-	     ("n" smerge-next "Next conflict")
-	     ("p" smerge-previous "Previous conflict")
-	     ("r" smerge-resolve "Keep mine")
-	     ("q" nil "quit"))
-	   smerge-mode-map)))
+        'smerge-mode-hook
+        (lambda ()
+          (bind-key
+           "C-c ^ h"
+           (defhydra hydra-smerge (:color amaranth)
+             ("a" smerge-keep-all "Keep all")
+             ("b" smerge-keep-base "Keep base")
+             ("m" smerge-keep-mine "Keep mine")
+             ("o" smerge-keep-other "Keep other")
+             ("n" smerge-next "Next conflict")
+             ("p" smerge-previous "Previous conflict")
+             ("r" smerge-resolve "Keep mine")
+             ("q" nil "quit"))
+           smerge-mode-map)))
      #+end_src
 
 
@@ -1889,11 +1887,11 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package writegood-mode
-	:ensure t
-	:bind
-	("C-c g"     . writegood-mode)
-	("C-c C-g g" . writegood-grade-level)
-	("C-c C-g e" . writegood-reading-ease))
+        :ensure t
+        :bind
+        ("C-c g"     . writegood-mode)
+        ("C-c C-g g" . writegood-grade-level)
+        ("C-c C-g e" . writegood-reading-ease))
     #+end_src
 
 *** Spell Checking
@@ -1904,10 +1902,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
     #+begin_src emacs-lisp
       (cond
        ((executable-find "aspell")
-	(setq ispell-program-name (executable-find "aspell")
-	      ispell-extra-args '("--sug-mode=ultra" "--lang=en_US")))
+        (setq ispell-program-name (executable-find "aspell")
+              ispell-extra-args '("--sug-mode=ultra" "--lang=en_US")))
        (t (setq ispell-program-name nil)
-	  (message "No aspell found!")))
+          (message "No aspell found!")))
 
       (bind-key "H-$" 'ispell-word)
     #+end_src
@@ -1916,20 +1914,18 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (with-eval-after-load "flycheck-mode"
-	(flycheck-define-checker proselint
-	  "A linter for prose"
-	  :command ("proselint" source-inplace)
-	  :error-patterns
-	  ((warning line-start (file-name) ":" line ":" column ": "
-		    (id (one-or-more (not (any " "))))
-		    (message (one-or-more not-newline)
-			     (zero-or-more "\n" (any " ") (one-or-more not-newline)))
-		    line-end))
-	  :modes (text-mode markdown-mode gfm-mode org-mode))
-	(add-to-list 'flycheck-checkers 'proselint))
+        (flycheck-define-checker proselint
+          "A linter for prose"
+          :command ("proselint" source-inplace)
+          :error-patterns
+          ((warning line-start (file-name) ":" line ":" column ": "
+                    (id (one-or-more (not (any " "))))
+                    (message (one-or-more not-newline)
+                             (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+                    line-end))
+          :modes (text-mode markdown-mode gfm-mode org-mode))
+        (add-to-list 'flycheck-checkers 'proselint))
     #+end_src
-
-
 
 ** Buffers
 *** Midnight Mode
@@ -1939,8 +1935,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package midnight
-	:ensure t
-	:defer 10)
+        :ensure t
+        :defer 10)
     #+end_src
 *** IBuffer
 
@@ -1956,9 +1952,9 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       (setq ibuffer-show-empty-filter-groups nil)
 
       (add-hook 'ibuffer-mode-hook
-		#'(lambda ()
-		    (ibuffer-auto-mode 1)
-		    (ibuffer-switch-to-saved-filter-groups "Standard")))
+                #'(lambda ()
+                    (ibuffer-auto-mode 1)
+                    (ibuffer-switch-to-saved-filter-groups "Standard")))
     #+end_src
 
 **** Groups
@@ -1968,17 +1964,17 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (setq ibuffer-saved-filter-groups
-	     '(("Standard"
-		("Emacs" (or (filename . ".*bnb-emacs.*")
-			     (mode . emacs-lisp-mode)))
-		("Org" (mode . org-mode))
-		("Magit" (name . "\*magit"))
-		("Mail" (or (mode . message-mode)
-			    (mode . mail-mode)))
-		("HTML" (mode . html-mode))
-		("Help" (or (name . "\*Help\*")
-			    (name . "\*Apropos\*")
-			    (name . "\*info\*"))))))
+             '(("Standard"
+                ("Emacs" (or (filename . ".*bnb-emacs.*")
+                             (mode . emacs-lisp-mode)))
+                ("Org" (mode . org-mode))
+                ("Magit" (name . "\*magit"))
+                ("Mail" (or (mode . message-mode)
+                            (mode . mail-mode)))
+                ("HTML" (mode . html-mode))
+                ("Help" (or (name . "\*Help\*")
+                            (name . "\*Apropos\*")
+                            (name . "\*info\*"))))))
      #+end_src
 
 ***** VC Grouping
@@ -1989,10 +1985,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       view.
 
       #+begin_src emacs-lisp
-	(use-package ibuffer-vc :ensure t
-	  :bind
-	  (:map ibuffer-mode-map
-		("/ v" . ibuffer-vc-set-filter-groups-by-vc-root)))
+        (use-package ibuffer-vc :ensure t
+          :bind
+          (:map ibuffer-mode-map
+                ("/ v" . ibuffer-vc-set-filter-groups-by-vc-root)))
       #+end_src
 
 *** Unique Buffer Names
@@ -2002,18 +1998,18 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package uniquify
-	:defer 10
-	:config
-	(setq uniquify-buffer-name-style 'post-forward
-	      uniquify-separator ":"))
+        :defer 10
+        :config
+        (setq uniquify-buffer-name-style 'post-forward
+              uniquify-separator ":"))
     #+end_src
 
 *** Relative line numbers
 
     #+begin_src emacs-lisp
       (use-package linum-relative
-	:defer 10
-	:ensure t)
+        :defer 10
+        :ensure t)
     #+end_src
 
 ** Programming Language Editing
@@ -2043,9 +2039,9 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package paredit
-	:ensure t
-	:delight " 🍐"
-	:commands (paredit-mode))
+        :ensure t
+        :delight " 🍐"
+        :commands (paredit-mode))
     #+end_src
 
 *** Paxedit
@@ -2055,23 +2051,23 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package paxedit
-	:ensure t
-	:delight " ꁀ"
-	:commands (paxedit-mode)
-	:bind
-	("M-<right>" . paxedit-transpose-forward)
-	("M-<left>"  . paxedit-transpose-backward)
-	("M-<up>"    . paxedit-backward-up)
-	("M-<down>"  . paxedit-backward-end)
-	("M-b"       . paxedit-previous-symbol)
-	("M-f"       . paxedit-next-symbol)
-	("C-%"       . paxedit-copy)
-	("C-&"       . paxedit-kill)
-	("C-*"       . paxedit-delete)
-	("C-^"       . paxedit-sexp-raise)
-	("M-u"       . paxedit-symbol-change-case)
-	("C-@"       . paxedit-symbol-copy)
-	("C-#"       . paxedit-symbol-kill))
+        :ensure t
+        :delight " ꁀ"
+        :commands (paxedit-mode)
+        :bind
+        ("M-<right>" . paxedit-transpose-forward)
+        ("M-<left>"  . paxedit-transpose-backward)
+        ("M-<up>"    . paxedit-backward-up)
+        ("M-<down>"  . paxedit-backward-end)
+        ("M-b"       . paxedit-previous-symbol)
+        ("M-f"       . paxedit-next-symbol)
+        ("C-%"       . paxedit-copy)
+        ("C-&"       . paxedit-kill)
+        ("C-*"       . paxedit-delete)
+        ("C-^"       . paxedit-sexp-raise)
+        ("M-u"       . paxedit-symbol-change-case)
+        ("C-@"       . paxedit-symbol-copy)
+        ("C-#"       . paxedit-symbol-kill))
     #+end_src
 
 *** Show Paren
@@ -2106,8 +2102,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (setq dired-kill-when-opening-new-dired-buffer t
-	     dired-do-revert-buffer t
-	     dired-mark-region t)
+             dired-do-revert-buffer t
+             dired-mark-region t)
      #+end_src
 
      The first setting, =dired-kill-when-opening-new-dired-buffer= keeps
@@ -2122,56 +2118,56 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package dired-hacks-utils
-	 :defer t
-	 :ensure t)
+         :defer t
+         :ensure t)
 
        (use-package dired-filter
-	 :defer t
-	 :hook (dired-mode . dired-filter-mode)
-	 :ensure t
-	 :bind
-	 ("C-c C-d f" . dired-filter-mode)
-	 :bind-keymap
-	 ("C-c C-f" . dired-filter-map))
+         :defer t
+         :hook (dired-mode . dired-filter-mode)
+         :ensure t
+         :bind
+         ("C-c C-d f" . dired-filter-mode)
+         :bind-keymap
+         ("C-c C-f" . dired-filter-map))
 
        (use-package dired-rainbow
-	 :defer t
-	 :ensure t
-	 :config
-	 (progn
-	   (dired-rainbow-define-chmod directory "#6cb2eb" "d.*")
-	   (dired-rainbow-define html "#eb5286" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
-	   (dired-rainbow-define xml "#f2d024" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
-	   (dired-rainbow-define document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
-	   (dired-rainbow-define markdown "#ffed4a" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
-	   (dired-rainbow-define database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
-	   (dired-rainbow-define media "#de751f" ("mp3" "mp4" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac"))
-	   (dired-rainbow-define image "#f66d9b" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
-	   (dired-rainbow-define log "#c17d11" ("log"))
-	   (dired-rainbow-define shell "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
-	   (dired-rainbow-define interpreted "#38c172" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
-	   (dired-rainbow-define compiled "#4dc0b5" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
-	   (dired-rainbow-define executable "#8cc4ff" ("exe" "msi"))
-	   (dired-rainbow-define compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
-	   (dired-rainbow-define packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
-	   (dired-rainbow-define encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
-	   (dired-rainbow-define fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
-	   (dired-rainbow-define partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
-	   (dired-rainbow-define vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
-	   (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")))
+         :defer t
+         :ensure t
+         :config
+         (progn
+           (dired-rainbow-define-chmod directory "#6cb2eb" "d.*")
+           (dired-rainbow-define html "#eb5286" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
+           (dired-rainbow-define xml "#f2d024" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
+           (dired-rainbow-define document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
+           (dired-rainbow-define markdown "#ffed4a" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
+           (dired-rainbow-define database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
+           (dired-rainbow-define media "#de751f" ("mp3" "mp4" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac"))
+           (dired-rainbow-define image "#f66d9b" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
+           (dired-rainbow-define log "#c17d11" ("log"))
+           (dired-rainbow-define shell "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
+           (dired-rainbow-define interpreted "#38c172" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
+           (dired-rainbow-define compiled "#4dc0b5" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
+           (dired-rainbow-define executable "#8cc4ff" ("exe" "msi"))
+           (dired-rainbow-define compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
+           (dired-rainbow-define packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
+           (dired-rainbow-define encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
+           (dired-rainbow-define fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
+           (dired-rainbow-define partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
+           (dired-rainbow-define vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
+           (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")))
 
        (use-package dired-narrow
-	 :defer t
-	 :bind (:map dired-mode-map
-		     ("C-c C-d n" . dired-narrow-fuzzy)
-		     ("C-c C-d r" . dired-narrow-regexp))
-	 :ensure t)
+         :defer t
+         :bind (:map dired-mode-map
+                     ("C-c C-d n" . dired-narrow-fuzzy)
+                     ("C-c C-d r" . dired-narrow-regexp))
+         :ensure t)
 
        (use-package dired-collapse
-	 :defer t
-	 :bind
-	 ("C-c C-d c" . dired-collapse-mode)
-	 :ensure t)
+         :defer t
+         :bind
+         ("C-c C-d c" . dired-collapse-mode)
+         :ensure t)
      #+end_src
 
      Also, there is a nice faculty to run an external command on a given
@@ -2183,11 +2179,11 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package neotree
-	:ensure t
-	:commands (neotree)
-	:bind ("H-t" . neotree-toggle)
-	:config
-	(setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+        :ensure t
+        :commands (neotree)
+        :bind ("H-t" . neotree-toggle)
+        :config
+        (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
     #+end_src
 
 *** OSX Dictionary
@@ -2196,10 +2192,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package osx-dictionary
-	:ensure t
-	:bind
-	("C-c d" . osx-dictionary-search-word-at-point)
-	("C-c i" . osx-dictionary-search-input))
+        :ensure t
+        :bind
+        ("C-c d" . osx-dictionary-search-word-at-point)
+        ("C-c i" . osx-dictionary-search-input))
     #+end_src
 
 *** OSX Reveal
@@ -2208,8 +2204,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package reveal-in-osx-finder
-	:ensure t
-	:bind ("C-c z" . reveal-in-osx-finder))
+        :ensure t
+        :bind ("C-c z" . reveal-in-osx-finder))
     #+end_src
 
 
@@ -2222,37 +2218,37 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package tex-site
-	:defer 10
-	:ensure auctex
-	:hook ((LaTeX-mode . flyspell-mode)
-	       (LaTeX-mode . LaTeX-math-mode)
-	       (LaTeX-mode . auto-fill-mode)
-	       (LaTeX-mode . orgtbl-mode)
-	       (doc-view-mode . auto-revert-mode))
-	:config
-	(setq TeX-auto-untabify t
-	      TeX-auto-save t
-	      TeX-save-query nil
-	      TeX-parse-self t
-	      TeX-output-view-style
-	      (if (eq system-type 'windows-nt)
-		  (quote
-		   (("^pdf$" "." "SumatraPDF.exe -reuse-instance %o")
-		    ("^html?$" "." "start %o")))
-		(quote
-		 (("^pdf$" "." "evince -f %o")
-		  ("^html?$" "." "start %o"))))
-	      TeX-command-extra-options "-shell-escape"
-	      TeX-PDF-mode 1
-	      TeX-engine 'xetex)
-	(setq-default TeX-master nil)
-	(add-to-list 'org-latex-packages-alist
-		     '("" "tikz" t))
-	(add-to-list 'org-latex-packages-alist
-		     '("" "minted" t))
-	(setq org-latex-create-formula-image-program 'imagemagick)
-	(eval-after-load "preview"
-	  '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t)))
+        :defer 10
+        :ensure auctex
+        :hook ((LaTeX-mode . flyspell-mode)
+               (LaTeX-mode . LaTeX-math-mode)
+               (LaTeX-mode . auto-fill-mode)
+               (LaTeX-mode . orgtbl-mode)
+               (doc-view-mode . auto-revert-mode))
+        :config
+        (setq TeX-auto-untabify t
+              TeX-auto-save t
+              TeX-save-query nil
+              TeX-parse-self t
+              TeX-output-view-style
+              (if (eq system-type 'windows-nt)
+                  (quote
+                   (("^pdf$" "." "SumatraPDF.exe -reuse-instance %o")
+                    ("^html?$" "." "start %o")))
+                (quote
+                 (("^pdf$" "." "evince -f %o")
+                  ("^html?$" "." "start %o"))))
+              TeX-command-extra-options "-shell-escape"
+              TeX-PDF-mode 1
+              TeX-engine 'xetex)
+        (setq-default TeX-master nil)
+        (add-to-list 'org-latex-packages-alist
+                     '("" "tikz" t))
+        (add-to-list 'org-latex-packages-alist
+                     '("" "minted" t))
+        (setq org-latex-create-formula-image-program 'imagemagick)
+        (eval-after-load "preview"
+          '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t)))
     #+end_src
 
 **** RefTeX
@@ -2314,12 +2310,12 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package markdown-mode
-	:ensure t
-	:commands (markdown-mode gfm-mode)
-	:mode (("README\\.md\\'" . gfm-mode)
-	       ("\\.md\\'" . markdown-mode)
-	       ("\\.markdown\\'" . markdown-mode))
-	:init (setq markdown-command "multimarkdown"))
+        :ensure t
+        :commands (markdown-mode gfm-mode)
+        :mode (("README\\.md\\'" . gfm-mode)
+               ("\\.md\\'" . markdown-mode)
+               ("\\.markdown\\'" . markdown-mode))
+        :init (setq markdown-command "multimarkdown"))
     #+end_src
 
 *** Orgmode
@@ -2333,26 +2329,26 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package org-mode
-	 :ensure org
-	 :delight (org-mode "🦄" :major)
-	 :mode "\\.org\\(.gpg|_archive\\)?\\'"
-	 :bind
-	 ("C-c t"  . orgtbl-mode)
-	 ("C-c l"  . org-store-link)
-	 ("C-c r"  . org-capture)
-	 ("C-c b"  . org-iswitchb)
-	 ("<f12>"  . org-agenda)
-	 ("H-z"    . org-agenda)
-	 ("H-g"    . org-mac-grab-link)
-	 ("<apps>" . org-agenda)
-	 ("<f9> v" . visible-mode)
-	 ("<f9> g" . org-clock-goto)
-	 ("<f9> i" . org-clock-in)
-	 ("<f9> o" . org-clock-out)
-	 :config
-	 (bind-key "M-i" 'org-toggle-inline-images org-mode-map)
-	 (bind-key "C-c ,"  'org-insert-structure-template org-mode-map)
-	 :hook (org-babel-after-execute . (lambda () (org-display-inline-images t t))))
+         :ensure org
+         :delight (org-mode "🦄" :major)
+         :mode "\\.org\\(.gpg|_archive\\)?\\'"
+         :bind
+         ("C-c t"  . orgtbl-mode)
+         ("C-c l"  . org-store-link)
+         ("C-c r"  . org-capture)
+         ("C-c b"  . org-iswitchb)
+         ("<f12>"  . org-agenda)
+         ("H-z"    . org-agenda)
+         ("H-g"    . org-mac-grab-link)
+         ("<apps>" . org-agenda)
+         ("<f9> v" . visible-mode)
+         ("<f9> g" . org-clock-goto)
+         ("<f9> i" . org-clock-in)
+         ("<f9> o" . org-clock-out)
+         :config
+         (bind-key "M-i" 'org-toggle-inline-images org-mode-map)
+         (bind-key "C-c ,"  'org-insert-structure-template org-mode-map)
+         :hook (org-babel-after-execute . (lambda () (org-display-inline-images t t))))
      #+end_src
 
 ***** Additional modules
@@ -2366,8 +2362,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        links.
 
        #+begin_src emacs-lisp
-	 (use-package ol-info
-	   :after org-mode)
+         (use-package ol-info
+           :after org-mode)
        #+end_src
 
 **** Auto mode
@@ -2426,18 +2422,18 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       =?=. I enable this feature and add some of my own commands.
 
       #+begin_src emacs-lisp
-	(setq org-use-speed-commands t
-	      org-speed-commands
-	      (append org-speed-commands
-		      (quote (("BNB Additions")
-			      ("0" . delete-window)
-			      ("1" . delete-other-windows)
-			      ("2" . split-window-vertically)
-			      ("3" . split-window-horizontally)
-			      ("z" . org-add-note)
-			      ("h" . hide-other)
-			      ("." . org-save-all-org-buffers)
-			      ("/" . org-global-cycle)))))
+        (setq org-use-speed-commands t
+              org-speed-commands
+              (append org-speed-commands
+                      (quote (("BNB Additions")
+                              ("0" . delete-window)
+                              ("1" . delete-other-windows)
+                              ("2" . split-window-vertically)
+                              ("3" . split-window-horizontally)
+                              ("z" . org-add-note)
+                              ("h" . hide-other)
+                              ("." . org-save-all-org-buffers)
+                              ("/" . org-global-cycle)))))
       #+end_src
 
 **** Org TODO Configuration
@@ -2458,10 +2454,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       allow fast access to these states described [[info:org#Fast%20access%20to%20TODO%20states][here]].
 
       #+begin_src emacs-lisp
-	(setq org-todo-keywords
-	      (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
-		      (sequence "WAITING(w@/!)" "SOMEDAY(s!)" "|" "CANCELED(c@/!)")
-		      (sequence "CANCELED(c@/!)"))))
+        (setq org-todo-keywords
+              (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
+                      (sequence "WAITING(w@/!)" "SOMEDAY(s!)" "|" "CANCELED(c@/!)")
+                      (sequence "CANCELED(c@/!)"))))
       #+end_src
 
       I used to set [[elisp:(describe-variable 'org-todo-keyword-faces)][org-todo-keyword-faces]], but now I rely on theme
@@ -2478,7 +2474,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       differentiate simple tasks from more complex ones.
 
       #+begin_src emacs-lisp
-	(setq org-tag-alist '(("PROJECT" . ?p)))
+        (setq org-tag-alist '(("PROJECT" . ?p)))
       #+end_src
 
 ***** Mechanics
@@ -2492,8 +2488,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       changes to avoid the logging prompts.
 
       #+begin_src emacs-lisp
-	(setq org-use-fast-todo-selection t)
-	(setq org-treat-S-cursor-todo-selection-as-state-change nil)
+        (setq org-use-fast-todo-selection t)
+        (setq org-treat-S-cursor-todo-selection-as-state-change nil)
       #+end_src
 
       Upon changing the state of todo items, I can automatically
@@ -2503,30 +2499,30 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       indicates to set the flag, empty means to remove it.
 
       #+begin_src emacs-lisp
-	(setq org-todo-state-tags-triggers
-	      (quote (("CANCELED"
-		       ("CANCELED" . t))
-		      ("WAITING"
-		       ("WAITING" . t))
-		      ("SOMEDAY"
-		       ("SOMEDAY" . t))
-		      (done
-		       ("WAITING"))
-		      ("TODO"
-		       ("WAITING")
-		       ("CANCELED"))
-		      ("NEXT"
-		       ("WAITING"))
-		      ("DONE"
-		       ("WAITING")
-		       ("CANCELED")))))
+        (setq org-todo-state-tags-triggers
+              (quote (("CANCELED"
+                       ("CANCELED" . t))
+                      ("WAITING"
+                       ("WAITING" . t))
+                      ("SOMEDAY"
+                       ("SOMEDAY" . t))
+                      (done
+                       ("WAITING"))
+                      ("TODO"
+                       ("WAITING")
+                       ("CANCELED"))
+                      ("NEXT"
+                       ("WAITING"))
+                      ("DONE"
+                       ("WAITING")
+                       ("CANCELED")))))
       #+end_src
 
       Along with tags and states are priorities. I do not use task
       priorities myself so I turn them off.
 
       #+begin_src emacs-lisp
-	(setq org-enable-priority-commands nil)
+        (setq org-enable-priority-commands nil)
       #+end_src
 
 ****** Logging
@@ -2536,11 +2532,11 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        setting to set a different drawer for clocking and logs.
 
        #+begin_src emacs-lisp
-	 (setq org-log-done (quote note)
-	       org-log-redeadline (quote time)
-	       org-log-reschedule (quote time)
-	       org-log-into-drawer t
-	       org-drawers '("PROPERTIES" "LOGBOOK" "CLOCK"))
+         (setq org-log-done (quote note)
+               org-log-redeadline (quote time)
+               org-log-reschedule (quote time)
+               org-log-into-drawer t
+               org-drawers '("PROPERTIES" "LOGBOOK" "CLOCK"))
        #+end_src
 
 ****** Sub-tasks
@@ -2552,8 +2548,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        without the completion of the sub-tasks.
 
        #+begin_src emacs-lisp
-	 (setq org-enforce-todo-checkbox-dependencies t
-	       org-enforce-todo-dependencies t)
+         (setq org-enforce-todo-checkbox-dependencies t
+               org-enforce-todo-dependencies t)
        #+end_src
 
        Because of the previous enforcement of state, I can also
@@ -2562,11 +2558,11 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        are all done.
 
        #+begin_src emacs-lisp
-	 (defun org-summary-todo (n-done n-not-done)
-	   "Switch entry to DONE when all sub-entries are done, to TODO otherwise."
-	   (let (org-log-done org-log-states)
-	     (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
-	 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+         (defun org-summary-todo (n-done n-not-done)
+           "Switch entry to DONE when all sub-entries are done, to TODO otherwise."
+           (let (org-log-done org-log-states)
+             (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+         (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
        #+end_src
 
 **** Capture
@@ -2577,25 +2573,25 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (setq org-capture-templates
-	     '(("t" "Todo" entry
-		(file "~/Documents/Org/Refile.org")
-		"* TODO %?\n  %U\n%^{Score}p" :clock-in t :clock-resume t)
-	       ("r" "todo (Remember location)" entry
-		(file "~/Documents/Org/Refile.org")
-		"* TODO %?\n  %U\n  %a" :clock-in t :clock-resume t)
-	       ("n" "Note" entry
-		(file "~/Documents/Org/Refile.org")
-		"* %?                                                                            :NOTE:\n  %U\n  %a\n  :CLOCK:\n  :END:")
-	       ("c" "Capture current TODO mix in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Burndown")
-		"%(bnb/org-count-tasks-by-status)")
-	       ("s" "Capture Weekly Score in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Scores")
-		"%(bnb/add-weekly-score-table-entry)")
-	       ("e" "Capture Weekly time in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Minutes")
-		"%(bnb/org-time-logged-table-entry)")
-	       ("u" "Url" entry (file "~/Documents/Org/Refile.org")
-		"* TODO %?\n  %U\n\n  %(org-mac-chrome-get-frontmost-url)")
-	       ("m" "Mail" entry (file "~/Documents/Org/Refile.org")
-		"* TODO %?\n  %U\n\n  %(org-mac-message-get-links \"s\")")))
+             '(("t" "Todo" entry
+                (file "~/Documents/Org/Refile.org")
+                "* TODO %?\n  %U\n%^{Score}p" :clock-in t :clock-resume t)
+               ("r" "todo (Remember location)" entry
+                (file "~/Documents/Org/Refile.org")
+                "* TODO %?\n  %U\n  %a" :clock-in t :clock-resume t)
+               ("n" "Note" entry
+                (file "~/Documents/Org/Refile.org")
+                "* %?                                                                            :NOTE:\n  %U\n  %a\n  :CLOCK:\n  :END:")
+               ("c" "Capture current TODO mix in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Burndown")
+                "%(bnb/org-count-tasks-by-status)")
+               ("s" "Capture Weekly Score in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Scores")
+                "%(bnb/add-weekly-score-table-entry)")
+               ("e" "Capture Weekly time in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Minutes")
+                "%(bnb/org-time-logged-table-entry)")
+               ("u" "Url" entry (file "~/Documents/Org/Refile.org")
+                "* TODO %?\n  %U\n\n  %(org-mac-chrome-get-frontmost-url)")
+               ("m" "Mail" entry (file "~/Documents/Org/Refile.org")
+                "* TODO %?\n  %U\n\n  %(org-mac-message-get-links \"s\")")))
      #+end_src
 
      There are five main capture templates here. The first two store a
@@ -2622,34 +2618,34 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       task amount and mix at a glance.
 
       #+begin_src emacs-lisp
-	(defun bnb/org-count-tasks-by-status ()
-	  "Create a table entry for the tracking of task mix."
-	  (interactive)
-	  (let ((counts (make-hash-table :test 'equal))
-		(today (format-time-string "%Y-%m-%d" (current-time)))
-		values output)
-	    (org-map-entries
-	     (lambda ()
-	       (let ((status (elt (org-heading-components) 2)))
-		 (when status
-		   (puthash status (1+ (or (gethash status counts) 0)) counts))))
-	     "-HOME"
-	     'agenda)
-	    (setq values (mapcar (lambda (x)
-				   (or (gethash x counts) 0))
-				 '("DONE" "TODO" "WAITING" "CANCELLED" "SOMEDAY")))
-	    (setq output
-		  (concat "| " today " | "
-			  (mapconcat 'number-to-string values " | ")
-			  " | "
-			  (number-to-string (apply '+ values))
-			  " | "
-			  (number-to-string
-			   (round (/ (* 100.0 (car values)) (apply '+ values))))
-			  "% |"))
-	    (if (called-interactively-p 'any)
-		(insert output)
-	      output)))
+        (defun bnb/org-count-tasks-by-status ()
+          "Create a table entry for the tracking of task mix."
+          (interactive)
+          (let ((counts (make-hash-table :test 'equal))
+                (today (format-time-string "%Y-%m-%d" (current-time)))
+                values output)
+            (org-map-entries
+             (lambda ()
+               (let ((status (elt (org-heading-components) 2)))
+                 (when status
+                   (puthash status (1+ (or (gethash status counts) 0)) counts))))
+             "-HOME"
+             'agenda)
+            (setq values (mapcar (lambda (x)
+                                   (or (gethash x counts) 0))
+                                 '("DONE" "TODO" "WAITING" "CANCELLED" "SOMEDAY")))
+            (setq output
+                  (concat "| " today " | "
+                          (mapconcat 'number-to-string values " | ")
+                          " | "
+                          (number-to-string (apply '+ values))
+                          " | "
+                          (number-to-string
+                           (round (/ (* 100.0 (car values)) (apply '+ values))))
+                          "% |"))
+            (if (called-interactively-p 'any)
+                (insert output)
+              output)))
       #+end_src
 
       I also have a helper function to get the score of done tasks
@@ -2657,53 +2653,53 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       year and workweek number.
 
       #+begin_src emacs-lisp
-	(defun bnb/add-weekly-score-table-entry ()
-	  "Track my weekly scores in a table."
-	  (let ((score (apply
-			'+
-			(org-map-entries
-			 (lambda ()
-			   (string-to-number (or (org-entry-get (point) "Score") "0")))
-			 "/DONE"
-			 'agenda)))
-		(year (format-time-string "%Y" (current-time)))
-		(ww (number-to-string (bnb/workweek))))
-	    (format "| %s | %s | %s |" year ww score)))
+        (defun bnb/add-weekly-score-table-entry ()
+          "Track my weekly scores in a table."
+          (let ((score (apply
+                        '+
+                        (org-map-entries
+                         (lambda ()
+                           (string-to-number (or (org-entry-get (point) "Score") "0")))
+                         "/DONE"
+                         'agenda)))
+                (year (format-time-string "%Y" (current-time)))
+                (ww (number-to-string (bnb/workweek))))
+            (format "| %s | %s | %s |" year ww score)))
       #+end_src
 
 
       How about the hours logged last week? Let's give that a go.
 
       #+begin_src emacs-lisp
-	(defun bnb/org-time-logged-table-entry (&optional additional-weeks)
-	  "Insert table of minutes per category.
-	  Optionally provide ADDITIONAL-WEEKS to get more history"
-	  (interactive "P")
-	  (unless additional-weeks (setq additional-weeks 0))
-	  (let* ((minh (make-hash-table :test 'equal))
-		 (now (decode-time))
-		 (start (encode-time 0 0 0 (- (nth 3 now) (nth 6 now) (* 7 (or additional-weeks 1))) (nth 4 now) (nth 5 now)))
-		 (today (format-time-string "%Y-%m-%d" (current-time))))
-	    ;; Collect minutes clocked per category
-	    (org-map-entries
-	     (lambda ()
-	       (let ((category (org-entry-get-with-inheritance "CATEGORY" t))
-		     (minutes (org-clock-sum-current-item start)))
-		 (puthash category (+ minutes
-				      (or (gethash category minh) 0)) minh)))
-	     "LEVEL=1"
-	     'agenda)
-	    ;; Print out table lines
-	    (let ((rows nil))
-	      (maphash
-	       (lambda (k v)
-		 (when (> v 0)
-		   (setq rows
-			 (cons (format "| %s | %s | %d |" today k v) rows))))
-	       minh)
-	      (if (called-interactively-p 'any)
-		  (insert (mapconcat 'identity rows "\n"))
-		(mapconcat 'identity rows "\n")))))
+        (defun bnb/org-time-logged-table-entry (&optional additional-weeks)
+          "Insert table of minutes per category.
+          Optionally provide ADDITIONAL-WEEKS to get more history"
+          (interactive "P")
+          (unless additional-weeks (setq additional-weeks 0))
+          (let* ((minh (make-hash-table :test 'equal))
+                 (now (decode-time))
+                 (start (encode-time 0 0 0 (- (nth 3 now) (nth 6 now) (* 7 (or additional-weeks 1))) (nth 4 now) (nth 5 now)))
+                 (today (format-time-string "%Y-%m-%d" (current-time))))
+            ;; Collect minutes clocked per category
+            (org-map-entries
+             (lambda ()
+               (let ((category (org-entry-get-with-inheritance "CATEGORY" t))
+                     (minutes (org-clock-sum-current-item start)))
+                 (puthash category (+ minutes
+                                      (or (gethash category minh) 0)) minh)))
+             "LEVEL=1"
+             'agenda)
+            ;; Print out table lines
+            (let ((rows nil))
+              (maphash
+               (lambda (k v)
+                 (when (> v 0)
+                   (setq rows
+                         (cons (format "| %s | %s | %d |" today k v) rows))))
+               minh)
+              (if (called-interactively-p 'any)
+                  (insert (mapconcat 'identity rows "\n"))
+                (mapconcat 'identity rows "\n")))))
       #+end_src
 
 **** Refile
@@ -2728,10 +2724,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (setq org-refile-use-cache t
-	     org-refile-targets '((org-agenda-files :maxlevel . 2)
-				  (nil :maxlevel . 5))
-	     org-refile-allow-creating-parent-nodes 'confirm
-	     org-refile-use-outline-path 'file)
+             org-refile-targets '((org-agenda-files :maxlevel . 2)
+                                  (nil :maxlevel . 5))
+             org-refile-allow-creating-parent-nodes 'confirm
+             org-refile-use-outline-path 'file)
      #+end_src
 
 **** Agenda
@@ -2746,13 +2742,13 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (setq org-agenda-show-inherited-tags t
-	     org-agenda-log-mode-items '(clock)
-	     org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2 :fileskip0 t)
-	     ;;org-agenda-block-separator ?┄
-	     org-agenda-block-separator nil
-	     org-agenda-dim-blocked-tasks nil
-	     org-agenda-inhibit-startup t
-	     org-agenda-breadcrumbs-separator " ❱ ")
+             org-agenda-log-mode-items '(clock)
+             org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2 :fileskip0 t)
+             ;;org-agenda-block-separator ?┄
+             org-agenda-block-separator nil
+             org-agenda-dim-blocked-tasks nil
+             org-agenda-inhibit-startup t
+             org-agenda-breadcrumbs-separator " ❱ ")
      #+end_src
 
 ***** Category Icons
@@ -2762,11 +2758,11 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       to use.
 
       #+begin_src emacs-lisp
-	(with-eval-after-load "all-the-icons"
-	  (setq org-agenda-category-icon-alist
-		`(("[rR]efile" ,(list (all-the-icons-faicon "inbox")) nil nil :ascent center)
-		  ("[Pp]ersonal" ,(list (all-the-icons-faicon "tasks")) nil nil :ascent center)
-		  (".*" ,(list (all-the-icons-material "tab")) nil nil :ascent center))))
+        (with-eval-after-load "all-the-icons"
+          (setq org-agenda-category-icon-alist
+                `(("[rR]efile" ,(list (all-the-icons-faicon "inbox")) nil nil :ascent center)
+                  ("[Pp]ersonal" ,(list (all-the-icons-faicon "tasks")) nil nil :ascent center)
+                  (".*" ,(list (all-the-icons-material "tab")) nil nil :ascent center))))
       #+end_src
 
 ***** Views
@@ -2780,290 +2776,290 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       display a note with agenda.
 
       #+begin_src emacs-lisp
-	(defun bnb/org-agenda-with-tip (arg)
-	  "Show agenda for ARG days."
-	  (org-agenda-list arg)
-	  (let ((inhibit-read-only t)
-		(pos (point)))
-	    (goto-char (point-max))
-	    (goto-char pos)))
+        (defun bnb/org-agenda-with-tip (arg)
+          "Show agenda for ARG days."
+          (org-agenda-list arg)
+          (let ((inhibit-read-only t)
+                (pos (point)))
+            (goto-char (point-max))
+            (goto-char pos)))
       #+end_src
 
       WIP from: https://github.com/fniessen/emacs-leuven/blob/master/org-custom-agenda-views.el
 
       #+begin_src emacs-lisp
-	;; Reset everything to nil
-	(setq org-agenda-custom-commands nil)
+        ;; Reset everything to nil
+        (setq org-agenda-custom-commands nil)
       #+end_src
 
       #+begin_src emacs-lisp
-	(add-to-list 'org-agenda-custom-commands
-		     '("o" "My Agenda"
-		       ((todo "TODO" (
-				      (org-agenda-overriding-header "\n⚡ Do Today\n┄┄┄┄┄┄┄┄┄┄")
-				      (org-agenda-remove-tags t)
-				      (org-agenda-prefix-format " %-2i %-15b")
-				      (org-agenda-todo-keyword-format "")
-				      ))
-			(agenda "" (
-				    (org-agenda-start-day "+0d")
-				    (org-agenda-span 5)
-				    (org-agenda-overriding-header "⚡ Schedule\n┄┄┄┄┄┄┄┄┄┄")
-				    (org-agenda-repeating-timestamp-show-all nil)
-				    (org-agenda-remove-tags t)
-				    (org-agenda-prefix-format   "  %-3i  %-15b %t%s")
-				    (org-agenda-todo-keyword-format " ☐ ")
-				    (org-agenda-current-time-string "⮜┈┈┈┈┈┈┈ now")
-				    (org-agenda-scheduled-leaders '("" ""))
-				    (org-agenda-time-grid (quote ((daily today remove-match)
-								  (0900 1200 1500 1800 2100)
-								  "      " "┈┈┈┈┈┈┈┈┈┈┈┈┈")))
-				    ))
-			)))
+        (add-to-list 'org-agenda-custom-commands
+                     '("o" "My Agenda"
+                       ((todo "TODO" (
+                                      (org-agenda-overriding-header "\n⚡ Do Today\n┄┄┄┄┄┄┄┄┄┄")
+                                      (org-agenda-remove-tags t)
+                                      (org-agenda-prefix-format " %-2i %-15b")
+                                      (org-agenda-todo-keyword-format "")
+                                      ))
+                        (agenda "" (
+                                    (org-agenda-start-day "+0d")
+                                    (org-agenda-span 5)
+                                    (org-agenda-overriding-header "⚡ Schedule\n┄┄┄┄┄┄┄┄┄┄")
+                                    (org-agenda-repeating-timestamp-show-all nil)
+                                    (org-agenda-remove-tags t)
+                                    (org-agenda-prefix-format   "  %-3i  %-15b %t%s")
+                                    (org-agenda-todo-keyword-format " ☐ ")
+                                    (org-agenda-current-time-string "⮜┈┈┈┈┈┈┈ now")
+                                    (org-agenda-scheduled-leaders '("" ""))
+                                    (org-agenda-time-grid (quote ((daily today remove-match)
+                                                                  (0900 1200 1500 1800 2100)
+                                                                  "      " "┈┈┈┈┈┈┈┈┈┈┈┈┈")))
+                                    ))
+                        )))
       #+end_src
 
       #+begin_src emacs-lisp
-	(add-to-list 'org-agenda-custom-commands
-		     '("b" "Agenda" bnb/org-agenda-with-tip))
+        (add-to-list 'org-agenda-custom-commands
+                     '("b" "Agenda" bnb/org-agenda-with-tip))
       #+end_src
 
       #+begin_src emacs-lisp
-	(add-to-list 'org-agenda-custom-commands
-		     '("c" . "COLLECT...") t)
+        (add-to-list 'org-agenda-custom-commands
+                     '("c" . "COLLECT...") t)
       #+end_src
 
       #+begin_src emacs-lisp
-	(add-to-list 'org-agenda-custom-commands
-		     '("cb" "CollectBox"
-		       ((alltodo ""))))
+        (add-to-list 'org-agenda-custom-commands
+                     '("cb" "CollectBox"
+                       ((alltodo ""))))
       #+end_src
 
       #+begin_src emacs-lisp
-	(add-to-list 'org-agenda-custom-commands
-		     '("f" . "FOCUS...") t)
+        (add-to-list 'org-agenda-custom-commands
+                     '("f" . "FOCUS...") t)
       #+end_src
 
       #+begin_src emacs-lisp
-	(add-to-list 'org-agenda-custom-commands
-		     `("f." "Today"
-		       ((agenda ""
-				((org-agenda-entry-types '(:timestamp :sexp))
-				 (org-agenda-overriding-header
-				  (concat "CALENDAR Today"
-					  (format-time-string "%a %d" (current-time))))
-				 (org-agenda-span 'day)))
-			(tags-todo "LEVEL=1+REFILE"
-				   ((org-agenda-overriding-header "COLLECTBOX (Unscheduled)")))
-			(tags-todo "DEADLINE=\"<+0d>\""
-				   ((org-agenda-overriding-header "DUE TODAY")
-				    (org-agenda-skip-function
-				     '(org-agenda-skip-entry-if 'notedeadline))
-				    (org-agenda-sorting-strategy '(priority-down))))
-			(tags-todo "DEADLINE<\"<+0d>\""
-				   ((org-agenda-overriding-header "OVERDUE")
-				    (org-agenda-skip-function
-				     '(org-agenda-skip-entry-if 'notedeadline))
-				    (org-agenda-sorting-strategy '(priority-down))))
-			(agenda ""
-				((org-agenda-entry-types '(:scheduled))
-				 (org-agenda-overriding-header "SCHEDULED")
-				 (org-agenda-skip-function
-				  '(org-agenda-skip-entry-if 'todo 'done))
-				 (org-agenda-sorting-strategy
-				  '(priority-down time-down))
-				 (org-agenda-span 'day)
-				 (org-agenda-start-on-weekday nil)
-				 (org-agenda-time-grid nil)))
-			(todo "DONE"
-			      ((org-agenda-overriding-header "COMPLETED"))))
-		       ((org-agenda-format-date "")
-			(org-agenda-start-with-clockreport-mode nil))) t)
-      #+end_src
-
-
-      #+begin_src emacs-lisp
-	(add-to-list 'org-agenda-custom-commands
-		     '("fh" "Hotlist"
-		       ((tags-todo "DEADLINE<\"<+0d>\""
-				   ((org-agenda-overriding-header "OVERDUE")))
-			(tags-todo "DEADLINE>=\"<+0d>\"+DEADLINE<=\"<+1w>\""
-				   ((org-agenda-overriding-header "DUE IN NEXT 7 DAYS")))
-			(tags-todo "DEADLINE=\"\"+FLAGGED|DEADLINE>\"<+1w>\"+FLAGGED"
-				   ((org-agenda-overriding-header "FLAGGED"))))
-		       ((org-agenda-todo-ignore-scheduled 'future)))  t)
-      #+end_src
-
-      #+begin_src emacs-lisp
-	(add-to-list 'org-agenda-custom-commands
-		     '("r" . "REVIEW...") t)
-
-	(add-to-list 'org-agenda-custom-commands
-		     '("ra" . "All Tasks...") t)
-      #+end_src
-
-      #+begin_src emacs-lisp
-	(add-to-list 'org-agenda-custom-commands
-		     '("rad" "All Tasks (grouped by Due Date)"
-		       ((tags-todo "DEADLINE<\"<+0d>\""
-				   ((org-agenda-overriding-header "OVERDUE")
-				    (org-agenda-skip-function
-				     '(org-agenda-skip-entry-if 'notdeadline))))
-			(tags-todo "DEADLINE=\"<+0d>\""
-				   ((org-agenda-overriding-header "DUE TODAY")
-				    (org-agenda-skip-function
-				     '(org-agenda-skip-entry-if 'notdeadline))))
-			(tags-todo "DEADLINE=\"<+1d>\""
-				   ((org-agenda-overriding-header "DUE TOMORROW")
-				    (org-agenda-skip-function
-				     '(org-agenda-skip-entry-if 'notdeadline))))
-			(tags-todo "DEADLINE>\"<+1d>\"+DEADLINE<=\"<+7d>\""
-				   ((org-agenda-overriding-header "DUE WITHIN A WEEK")
-				    (org-agenda-skip-function
-				     '(org-agenda-skip-entry-if 'notdeadline))))
-			(tags-todo "DEADLINE>\"<+7d>\"+DEADLINE<=\"<+28d>\""
-				   ((org-agenda-overriding-header "DUE WITHIN A MONTH")
-				    (org-agenda-skip-function
-				     '(org-agenda-skip-entry-if 'notdeadline))))
-			(tags-todo "DEADLINE>\"<+28d>\""
-				   ((org-agenda-overriding-header "DUE LATER")
-				    (org-agenda-skip-function
-				     '(org-agenda-skip-entry-if 'notdeadline))))
-			(tags-todo "TODO={WAIT}"
-				   ((org-agenda-overriding-header "WAITING FOR")
-				    (org-agenda-skip-function
-				     '(org-agenda-skip-entry-if 'deadline))))
-			(todo ""
-			      ((org-agenda-overriding-header "WAITING FOR")
-			       (org-agenda-skip-function
-				'(org-agenda-skip-entry-if 'deadline)))))
-		       ((org-agenda-sorting-strategy '(priority-down))
-			(org-agenda-write-buffer-name "All Tasks (grouped by Due Date)"))
-		       "~/Documents/Org/all-tasks-by-due-date.pdf") t)
+        (add-to-list 'org-agenda-custom-commands
+                     `("f." "Today"
+                       ((agenda ""
+                                ((org-agenda-entry-types '(:timestamp :sexp))
+                                 (org-agenda-overriding-header
+                                  (concat "CALENDAR Today"
+                                          (format-time-string "%a %d" (current-time))))
+                                 (org-agenda-span 'day)))
+                        (tags-todo "LEVEL=1+REFILE"
+                                   ((org-agenda-overriding-header "COLLECTBOX (Unscheduled)")))
+                        (tags-todo "DEADLINE=\"<+0d>\""
+                                   ((org-agenda-overriding-header "DUE TODAY")
+                                    (org-agenda-skip-function
+                                     '(org-agenda-skip-entry-if 'notedeadline))
+                                    (org-agenda-sorting-strategy '(priority-down))))
+                        (tags-todo "DEADLINE<\"<+0d>\""
+                                   ((org-agenda-overriding-header "OVERDUE")
+                                    (org-agenda-skip-function
+                                     '(org-agenda-skip-entry-if 'notedeadline))
+                                    (org-agenda-sorting-strategy '(priority-down))))
+                        (agenda ""
+                                ((org-agenda-entry-types '(:scheduled))
+                                 (org-agenda-overriding-header "SCHEDULED")
+                                 (org-agenda-skip-function
+                                  '(org-agenda-skip-entry-if 'todo 'done))
+                                 (org-agenda-sorting-strategy
+                                  '(priority-down time-down))
+                                 (org-agenda-span 'day)
+                                 (org-agenda-start-on-weekday nil)
+                                 (org-agenda-time-grid nil)))
+                        (todo "DONE"
+                              ((org-agenda-overriding-header "COMPLETED"))))
+                       ((org-agenda-format-date "")
+                        (org-agenda-start-with-clockreport-mode nil))) t)
       #+end_src
 
 
       #+begin_src emacs-lisp
-	(add-to-list 'org-agenda-custom-commands
-		     '("ra1" "All Tasks with a due date"
-		       ((alltodo ""))
-		       ((org-agenda-overriding-header "All Tasks (sorted by Due Date)")
-			(org-agenda-skip-function
-			 '(org-agenda-skip-entry-if 'notdeadline))
-			(org-agenda-sorting-strategy '(deadline-up)))) t)
+        (add-to-list 'org-agenda-custom-commands
+                     '("fh" "Hotlist"
+                       ((tags-todo "DEADLINE<\"<+0d>\""
+                                   ((org-agenda-overriding-header "OVERDUE")))
+                        (tags-todo "DEADLINE>=\"<+0d>\"+DEADLINE<=\"<+1w>\""
+                                   ((org-agenda-overriding-header "DUE IN NEXT 7 DAYS")))
+                        (tags-todo "DEADLINE=\"\"+FLAGGED|DEADLINE>\"<+1w>\"+FLAGGED"
+                                   ((org-agenda-overriding-header "FLAGGED"))))
+                       ((org-agenda-todo-ignore-scheduled 'future)))  t)
       #+end_src
 
       #+begin_src emacs-lisp
-	(add-to-list 'org-agenda-custom-commands
-		     '("rag" "Grouped Tasks")
-		     ())
+        (add-to-list 'org-agenda-custom-commands
+                     '("r" . "REVIEW...") t)
+
+        (add-to-list 'org-agenda-custom-commands
+                     '("ra" . "All Tasks...") t)
       #+end_src
 
       #+begin_src emacs-lisp
-	(add-to-list 'org-agenda-custom-commands
-		     '("rt" . "Timesheet...") t)
+        (add-to-list 'org-agenda-custom-commands
+                     '("rad" "All Tasks (grouped by Due Date)"
+                       ((tags-todo "DEADLINE<\"<+0d>\""
+                                   ((org-agenda-overriding-header "OVERDUE")
+                                    (org-agenda-skip-function
+                                     '(org-agenda-skip-entry-if 'notdeadline))))
+                        (tags-todo "DEADLINE=\"<+0d>\""
+                                   ((org-agenda-overriding-header "DUE TODAY")
+                                    (org-agenda-skip-function
+                                     '(org-agenda-skip-entry-if 'notdeadline))))
+                        (tags-todo "DEADLINE=\"<+1d>\""
+                                   ((org-agenda-overriding-header "DUE TOMORROW")
+                                    (org-agenda-skip-function
+                                     '(org-agenda-skip-entry-if 'notdeadline))))
+                        (tags-todo "DEADLINE>\"<+1d>\"+DEADLINE<=\"<+7d>\""
+                                   ((org-agenda-overriding-header "DUE WITHIN A WEEK")
+                                    (org-agenda-skip-function
+                                     '(org-agenda-skip-entry-if 'notdeadline))))
+                        (tags-todo "DEADLINE>\"<+7d>\"+DEADLINE<=\"<+28d>\""
+                                   ((org-agenda-overriding-header "DUE WITHIN A MONTH")
+                                    (org-agenda-skip-function
+                                     '(org-agenda-skip-entry-if 'notdeadline))))
+                        (tags-todo "DEADLINE>\"<+28d>\""
+                                   ((org-agenda-overriding-header "DUE LATER")
+                                    (org-agenda-skip-function
+                                     '(org-agenda-skip-entry-if 'notdeadline))))
+                        (tags-todo "TODO={WAIT}"
+                                   ((org-agenda-overriding-header "WAITING FOR")
+                                    (org-agenda-skip-function
+                                     '(org-agenda-skip-entry-if 'deadline))))
+                        (todo ""
+                              ((org-agenda-overriding-header "WAITING FOR")
+                               (org-agenda-skip-function
+                                '(org-agenda-skip-entry-if 'deadline)))))
+                       ((org-agenda-sorting-strategy '(priority-down))
+                        (org-agenda-write-buffer-name "All Tasks (grouped by Due Date)"))
+                       "~/Documents/Org/all-tasks-by-due-date.pdf") t)
+      #+end_src
+
+
+      #+begin_src emacs-lisp
+        (add-to-list 'org-agenda-custom-commands
+                     '("ra1" "All Tasks with a due date"
+                       ((alltodo ""))
+                       ((org-agenda-overriding-header "All Tasks (sorted by Due Date)")
+                        (org-agenda-skip-function
+                         '(org-agenda-skip-entry-if 'notdeadline))
+                        (org-agenda-sorting-strategy '(deadline-up)))) t)
       #+end_src
 
       #+begin_src emacs-lisp
-	;; Show what happened today.
-	(add-to-list 'org-agenda-custom-commands
-		     '("rtd" "Daily Timesheet"
-		       ((agenda ""))
-		       ((org-agenda-log-mode-items '(clock closed))
-			(org-agenda-overriding-header "DAILY TIMESHEET")
-			(org-agenda-show-log 'clockcheck)
-			(org-agenda-span 'day)
-			(org-agenda-start-with-clockreport-mode t)
-			(org-agenda-time-grid nil))) t)
-
-	;; Show what happened this week.
-	(add-to-list 'org-agenda-custom-commands
-		     '("rtw" "Weekly Timesheet"
-		       ((agenda ""))
-		       (
-			;; (org-agenda-format-date "")
-			(org-agenda-overriding-header "WEEKLY TIMESHEET")
-			(org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
-			(org-agenda-span 'week)
-			(org-agenda-start-on-weekday 1)
-			(org-agenda-start-with-clockreport-mode t)
-			(org-agenda-time-grid nil))) t)
+        (add-to-list 'org-agenda-custom-commands
+                     '("rag" "Grouped Tasks")
+                     ())
       #+end_src
 
       #+begin_src emacs-lisp
-	(add-to-list 'org-agenda-custom-commands
-		     '("rc" . "Calendar...") t)
-
-	(add-to-list 'org-agenda-custom-commands
-		     '("rc7" "Events and appointments for 7 days"
-		       ((agenda ""))
-		       ((org-agenda-entry-types '(:timestamp :sexp))
-			;; (org-agenda-overriding-header "Calendar for 7 days")
-			(org-agenda-span 'week)
-			(org-agenda-format-date "\n%a %d")
-			;; (org-agenda-date-weekend ... new face ...)
-			(org-agenda-time-grid nil))) t)
+        (add-to-list 'org-agenda-custom-commands
+                     '("rt" . "Timesheet...") t)
       #+end_src
 
       #+begin_src emacs-lisp
-	(add-to-list 'org-agenda-custom-commands
-		     '("rw" "Weekly review"
-		       ((tags "CATEGORY={@REFILE}&LEVEL<=2"
-			      ((org-agenda-overriding-header "NEW TASKS")))
-			(agenda ""
-				((org-agenda-clockreport-mode t)
-				 (org-agenda-format-date
-				  (concat "\n"
-					  "%Y-%m-%d" " %a "
-					  (make-string (window-width) ?_)))
-				 (org-agenda-overriding-header "PAST WEEK")
-				 (org-agenda-prefix-format " %?-11t %i %-12:c% s")
-				 (org-agenda-show-log 'clockcheck)
-				 (org-agenda-span 7)
-				 (org-agenda-start-day "-1w")
-				 (org-deadline-warning-days 0)))
-			(agenda ""
-				((org-agenda-overriding-header "NEXT MONTH")
-				 (org-agenda-span 'month)
-				 (org-agenda-start-day "+0d")
-				 (org-deadline-warning-days 0)))
-			(todo "PROJECT"
-			      ((org-agenda-overriding-header "PROJECT LIST")))
-			(todo "DONE|PROJECTDONE"
-			      ((org-agenda-overriding-header
-				"Candidates to be archived"))))))
+        ;; Show what happened today.
+        (add-to-list 'org-agenda-custom-commands
+                     '("rtd" "Daily Timesheet"
+                       ((agenda ""))
+                       ((org-agenda-log-mode-items '(clock closed))
+                        (org-agenda-overriding-header "DAILY TIMESHEET")
+                        (org-agenda-show-log 'clockcheck)
+                        (org-agenda-span 'day)
+                        (org-agenda-start-with-clockreport-mode t)
+                        (org-agenda-time-grid nil))) t)
+
+        ;; Show what happened this week.
+        (add-to-list 'org-agenda-custom-commands
+                     '("rtw" "Weekly Timesheet"
+                       ((agenda ""))
+                       (
+                        ;; (org-agenda-format-date "")
+                        (org-agenda-overriding-header "WEEKLY TIMESHEET")
+                        (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
+                        (org-agenda-span 'week)
+                        (org-agenda-start-on-weekday 1)
+                        (org-agenda-start-with-clockreport-mode t)
+                        (org-agenda-time-grid nil))) t)
       #+end_src
 
       #+begin_src emacs-lisp
-	(use-package org-super-agenda
-	  :defer
-	  :ensure t
-	  :quelpa (org-super-agenda :fetcher github :repo "alphapapa/org-super-agenda")
-	  :config
-	  (org-super-agenda-mode t)
-	  (add-to-list 'org-agenda-custom-commands
-		       '("rag" "Grouped Tasks"
-			 ((todo "" ((org-super-agenda-groups
-				     '((:name "All Tasks" :auto-category t))))))))
-	  (add-to-list 'org-agenda-custom-commands
-		       '("f1" "Score 1 Tasks"
-			 ((tags "+Score=1" ((org-super-agenda-groups
-					     '((:name "Score 1 Tasks" :auto-category t))))))))
-	  (add-to-list 'org-agenda-custom-commands
-		       '("f2" "Score 2 Tasks"
-			 ((tags "+Score=2" ((org-super-agenda-groups
-					     '((:name "Score 1 Tasks" :auto-category t))))))))
-	  (add-to-list 'org-agenda-custom-commands
-		       '("f3" "Score 3 Tasks"
-			 ((tags "+Score=3" ((org-super-agenda-groups
-					     '((:name "Score 1 Tasks" :auto-category t))))))))
-	  (add-to-list 'org-agenda-custom-commands
-		       '("f5" "Score 5 Tasks"
-			 ((tags "+Score=5" ((org-super-agenda-groups
-					     '((:name "Score 1 Tasks" :auto-category t))))))))
-	  (add-to-list 'org-agenda-custom-commands
-		       '("f8" "Score 8 Tasks"
-			 ((tags "+Score=8" ((org-super-agenda-groups
-					     '((:name "Score 1 Tasks" :auto-category t)))))))))
+        (add-to-list 'org-agenda-custom-commands
+                     '("rc" . "Calendar...") t)
+
+        (add-to-list 'org-agenda-custom-commands
+                     '("rc7" "Events and appointments for 7 days"
+                       ((agenda ""))
+                       ((org-agenda-entry-types '(:timestamp :sexp))
+                        ;; (org-agenda-overriding-header "Calendar for 7 days")
+                        (org-agenda-span 'week)
+                        (org-agenda-format-date "\n%a %d")
+                        ;; (org-agenda-date-weekend ... new face ...)
+                        (org-agenda-time-grid nil))) t)
+      #+end_src
+
+      #+begin_src emacs-lisp
+        (add-to-list 'org-agenda-custom-commands
+                     '("rw" "Weekly review"
+                       ((tags "CATEGORY={@REFILE}&LEVEL<=2"
+                              ((org-agenda-overriding-header "NEW TASKS")))
+                        (agenda ""
+                                ((org-agenda-clockreport-mode t)
+                                 (org-agenda-format-date
+                                  (concat "\n"
+                                          "%Y-%m-%d" " %a "
+                                          (make-string (window-width) ?_)))
+                                 (org-agenda-overriding-header "PAST WEEK")
+                                 (org-agenda-prefix-format " %?-11t %i %-12:c% s")
+                                 (org-agenda-show-log 'clockcheck)
+                                 (org-agenda-span 7)
+                                 (org-agenda-start-day "-1w")
+                                 (org-deadline-warning-days 0)))
+                        (agenda ""
+                                ((org-agenda-overriding-header "NEXT MONTH")
+                                 (org-agenda-span 'month)
+                                 (org-agenda-start-day "+0d")
+                                 (org-deadline-warning-days 0)))
+                        (todo "PROJECT"
+                              ((org-agenda-overriding-header "PROJECT LIST")))
+                        (todo "DONE|PROJECTDONE"
+                              ((org-agenda-overriding-header
+                                "Candidates to be archived"))))))
+      #+end_src
+
+      #+begin_src emacs-lisp
+        (use-package org-super-agenda
+          :defer
+          :ensure t
+          :quelpa (org-super-agenda :fetcher github :repo "alphapapa/org-super-agenda")
+          :config
+          (org-super-agenda-mode t)
+          (add-to-list 'org-agenda-custom-commands
+                       '("rag" "Grouped Tasks"
+                         ((todo "" ((org-super-agenda-groups
+                                     '((:name "All Tasks" :auto-category t))))))))
+          (add-to-list 'org-agenda-custom-commands
+                       '("f1" "Score 1 Tasks"
+                         ((tags "+Score=1" ((org-super-agenda-groups
+                                             '((:name "Score 1 Tasks" :auto-category t))))))))
+          (add-to-list 'org-agenda-custom-commands
+                       '("f2" "Score 2 Tasks"
+                         ((tags "+Score=2" ((org-super-agenda-groups
+                                             '((:name "Score 1 Tasks" :auto-category t))))))))
+          (add-to-list 'org-agenda-custom-commands
+                       '("f3" "Score 3 Tasks"
+                         ((tags "+Score=3" ((org-super-agenda-groups
+                                             '((:name "Score 1 Tasks" :auto-category t))))))))
+          (add-to-list 'org-agenda-custom-commands
+                       '("f5" "Score 5 Tasks"
+                         ((tags "+Score=5" ((org-super-agenda-groups
+                                             '((:name "Score 1 Tasks" :auto-category t))))))))
+          (add-to-list 'org-agenda-custom-commands
+                       '("f8" "Score 8 Tasks"
+                         ((tags "+Score=8" ((org-super-agenda-groups
+                                             '((:name "Score 1 Tasks" :auto-category t)))))))))
       #+end_src
 
       Phew! That is a lot of lisp! It is easiest to describe each view
@@ -3096,21 +3092,21 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       For HTML, I just want to inline the links to images.
 
       #+begin_src emacs-lisp
-	(setq org-export-html-inline-images t)
+        (setq org-export-html-inline-images t)
       #+end_src
 
       I also used to suppress the postamble with
       =org-export-html-postamble=.
 
       #+begin_src emacs-lisp
-	(setq org-html-postamble nil)
+        (setq org-html-postamble nil)
       #+end_src
 
       I'll use the /fancy/ HTML5 export by default.
 
       #+begin_src emacs-lisp
-	(setq org-html-doctype "html5"
-	      org-html-html5-fancy t)
+        (setq org-html-doctype "html5"
+              org-html-html5-fancy t)
       #+end_src
 
       I like to have striped tables in email, but this is terribly
@@ -3120,13 +3116,13 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       instances.
 
       #+begin_src emacs-lisp
-	(setq org-html-table-row-tags
-	      (cons '(cond (top-row-p "<tr class=\"tr-top\">")
-			   (bottom-row-p "<tr class=\"tr-bottom\">")
-			   (t (if (= (mod row-number 2) 1)
-				  "<tr class=\"tr-odd\">"
-				"<tr class=\"tr-even\">")))
-		    "</tr>"))
+        (setq org-html-table-row-tags
+              (cons '(cond (top-row-p "<tr class=\"tr-top\">")
+                           (bottom-row-p "<tr class=\"tr-bottom\">")
+                           (t (if (= (mod row-number 2) 1)
+                                  "<tr class=\"tr-odd\">"
+                                "<tr class=\"tr-even\">")))
+                    "</tr>"))
       #+end_src
 
 ***** LaTeX
@@ -3136,15 +3132,15 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       backend.
 
       #+begin_src emacs-lisp
-	(setq org-export-latex-listings 'minted
-	      org-export-latex-custom-lang-environments
-	      '((emacs-lisp "common-lispcode"))
-	      org-export-latex-minted-options '()
-	      org-highlight-latex-and-related '(latex script entities)
-	      org-latex-to-pdf-process
-	      '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-		"xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-		"xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+        (setq org-export-latex-listings 'minted
+              org-export-latex-custom-lang-environments
+              '((emacs-lisp "common-lispcode"))
+              org-export-latex-minted-options '()
+              org-highlight-latex-and-related '(latex script entities)
+              org-latex-to-pdf-process
+              '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+                "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+                "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
       #+end_src
 
 
@@ -3155,8 +3151,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       I add exporters for github-flavored markdown and tufte html.
 
       #+begin_src emacs-lisp
-	(use-package ox-gfm :defer 10)
-	(use-package ox-tufte :defer 10)
+        (use-package ox-gfm :defer 10)
+        (use-package ox-tufte :defer 10)
       #+end_src
 
 ***** EPUB
@@ -3164,7 +3160,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       E-readers may be a thing that sticks around.
 
       #+begin_src emacs-lisp
-	(use-package ox-epub :after org-mode)
+        (use-package ox-epub :after org-mode)
       #+end_src
 
 **** Clocking
@@ -3180,7 +3176,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
      #+begin_src emacs-lisp
        (org-clock-persistence-insinuate)
        (setq org-clock-history-length 28
-	     org-clock-in-resume t)
+             org-clock-in-resume t)
      #+end_src
 
      Behavior of the clock can change to accommodate other needs. I
@@ -3190,8 +3186,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (setq org-clock-into-drawer "CLOCK"
-	     org-clock-out-remove-zero-time-clocks t
-	     org-clock-out-when-done t)
+             org-clock-out-remove-zero-time-clocks t
+             org-clock-out-when-done t)
      #+end_src
 
      Two settings help resolve most clock issues that I have
@@ -3201,7 +3197,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (setq org-clock-persist 'history
-	     org-clock-auto-clock-resolution 'when-no-clock-is-running)
+             org-clock-auto-clock-resolution 'when-no-clock-is-running)
      #+end_src
 
      Two final settings regarding clocking setup how I change and view
@@ -3211,7 +3207,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (setq org-clock-report-include-clocking-task t
-	     org-time-stamp-rounding-minutes '(1 15))
+             org-time-stamp-rounding-minutes '(1 15))
      #+end_src
 
 **** Modules
@@ -3220,20 +3216,20 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (setq org-modules
-	     '(org-bbdb
-	       org-bibtex
-	       org-crypt
-	       org-gnus
-	       org-id
-	       org-info
-	       org-jsinfo
-	       org-habit
-	       org-inlinetask
-	       org-irc
-	       org-plot
-	       org-protocol
-	       org-bookmark
-	       org-calc))
+             '(org-bbdb
+               org-bibtex
+               org-crypt
+               org-gnus
+               org-id
+               org-info
+               org-jsinfo
+               org-habit
+               org-inlinetask
+               org-irc
+               org-plot
+               org-protocol
+               org-bookmark
+               org-calc))
      #+end_src
 
 ***** Habit
@@ -3245,56 +3241,62 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       My one setting blow sets a width for the graph in Agenda View.
 
       #+begin_src emacs-lisp
-	(setq org-habit-graph-column 50)
+        (setq org-habit-graph-column 50)
       #+end_src
 
 **** Babel
 
      #+begin_src emacs-lisp
        (org-babel-do-load-languages
-	'org-babel-load-languages
-	'((calc       . t)
-	  (C          . t)
-	  (ditaa      . t)
-	  (dot        . t)
-	  (emacs-lisp . t)
-	  (gnuplot    . t)
-	  (latex      . t)
-	  (maxima     . t)
-	  (perl       . t)
-	  (plantuml   . t)
-	  (python     . t)
-	  (ruby       . t)
-	  (shell      . t)
-	  (sqlite     . t)
-	  (sql        . t)
-	  (R          . t)))
+        'org-babel-load-languages
+        '((calc       . t)
+          (C          . t)
+          (ditaa      . t)
+          (dot        . t)
+          (emacs-lisp . t)
+          (gnuplot    . t)
+          (latex      . t)
+          (maxima     . t)
+          (perl       . t)
+          (plantuml   . t)
+          (python     . t)
+          (ruby       . t)
+          (shell      . t)
+          (sqlite     . t)
+          (sql        . t)
+          (R          . t)))
      #+end_src
 
 ***** Extra Babel Packages
 
       #+begin_src emacs-lisp
-	(use-package ob-http :after org-mode)
+        (use-package ob-http :after org-mode)
 
-	(use-package ob-restclient
-	  :after org-mode
-	  :ensure t
-	  :quelpa
-	  (ob-restclient :fetcher github :repo "alf/ob-restclient.el")
-	  :config
-	  (org-babel-do-load-languages
-	   'org-babel-load-languages
-	   (append org-babel-load-languages '((restclient . t)))))
+        (use-package ob-restclient
+          :after org-mode
+          :ensure t
+          :quelpa
+          (ob-restclient :fetcher github :repo "alf/ob-restclient.el")
+          :config
+          (org-babel-do-load-languages
+           'org-babel-load-languages
+           (append org-babel-load-languages '((restclient . t)))))
       #+end_src
 
 **** Miscellaneous Settings
-***** Columns
+***** Auto-revert mode
 
-      The default columns are as follows.
+      If the org files are under DVCS like git, then the edits may
+      happen while open in emacs.
+
+      This is a global setting, but most useful for the org files that
+      exists elsewhere.
 
       #+begin_src emacs-lisp
-	(setq org-columns-default-format
-	      "%80ITEM(Task) %5Score{+} %10Effort(Effort){:} %10CLOCKSUM")
+        (use-package autorevert
+          :diminish " "
+          :custom
+          (global-auto-revert-mode t))
       #+end_src
 
 ***** Automatically save org files
@@ -3304,7 +3306,50 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       save at the top of every hour to be sure.
 
       #+begin_src emacs-lisp
-	(run-at-time "00:59" 3600 'org-save-all-org-buffers)
+        (run-at-time "00:59" 3600 'org-save-all-org-buffers)
+      #+end_src
+
+***** Columns
+
+      The default columns are as follows.
+
+      #+begin_src emacs-lisp
+        (setq
+         org-columns-default-format
+         "%80ITEM(Task) %5Score{+} %10Effort(Effort){:} %10CLOCKSUM")
+      #+end_src
+
+***** Display settings
+
+      There are a collection of settings that define how the
+      headlines, subtrees, and notes render.
+
+      For the headline stars, there are two settings of note. I am
+      explicit that I do *not* want only odd levels. I also like to
+      hide the leading stars.
+
+      #+begin_src emacs-lisp
+        (setq org-odd-levels-only nil
+              org-hide-leading-stars nil)
+      #+end_src
+
+      Cycling the headline states can produce different views of the
+      files. I like this to be as compact as possible, so I try to
+      squash the lines between the collapsed trees. There is also a
+      flag to open a file collapsed. This I like too -- I get a
+      compact view of the file and can jump to a relevant section with
+      =C-c C-j=.
+
+      #+begin_src emacs-lisp
+        (setq org-cycle-separator-lines 0
+              org-startup-folded 'content)
+      #+end_src
+
+      When using SRC-blocks, org can provide highlighting native to
+      the SRC type. Note that this may slow down some files.
+
+      #+begin_src emacs-lisp
+        (setq org-src-fontify-natively t)
       #+end_src
 
 ***** File Applications
@@ -3314,11 +3359,11 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       set to default rely on the OS to supply a program.
 
       #+begin_src emacs-lisp
-	(setq org-file-apps
-	      '((auto-mode . emacs)
-		("\\.x?html?\\'" . default)
-		("\\.pdf\\'" . default)
-		("\\.mm\\'" . default)))
+        (setq org-file-apps
+              '((auto-mode . emacs)
+                ("\\.x?html?\\'" . default)
+                ("\\.pdf\\'" . default)
+                ("\\.mm\\'" . default)))
       #+end_src
 
 ***** Goto Interface
@@ -3331,7 +3376,60 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       and forth with the default and =outline-path-completion= setting.
 
       #+begin_src emacs-lisp
-	(setq org-goto-interface 'outline-path)
+        (setq org-goto-interface 'outline-path)
+      #+end_src
+
+***** IDO Integration
+
+      IDO integrates well into orgmode. Anytime completion is
+      necessary, I like to use the IDO mechanics.
+
+      The =outline-path-completion= may conflict with IDO, so then it
+      is best to have it not use IDO in this case.
+
+      #+begin_src emacs-lisp
+        (setq org-completion-use-ido t
+              org-outline-path-complete-in-steps nil)
+      #+end_src
+
+***** Insertion
+
+      I define when org should leave a blank line before an
+      item. In my case it is headings and plain list items.
+
+      #+begin_src emacs-lisp
+        (setq org-blank-before-new-entry '((heading)
+                                           (plain-list-item)))
+      #+end_src
+
+      Also, when inserting a new heading, do so after the current
+      subtree.
+
+      #+begin_src emacs-lisp
+        (setq org-insert-heading-respect-content t)
+      #+end_src
+
+      Set the indentation to the outline node level.
+
+      #+begin_src emacs-lisp
+        (setq org-adapt-indentation t)
+      #+end_src
+
+***** Plantuml
+
+      Setup the path for orgmode to find the jar needed.
+
+      #+begin_src emacs-lisp
+        (setq org-plantuml-jar-path "/usr/local/Cellar/plantuml/1.2017.18/libexec/plantuml.jar")
+      #+end_src
+
+***** Properties
+
+      #+begin_src emacs-lisp
+        (setq org-global-properties
+              '(("STYLE_ALL"  . "habit")
+                ("Effort_ALL" . "0:10 0:30 1:00 2:00 3:00 4:00")
+                ("Score_ALL"  . "1 2 3 5 8")))
       #+end_src
 
 ***** Special Control Keys
@@ -3350,101 +3448,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       headline text, it kills the tags.
 
       #+begin_src emacs-lisp
-	(setq org-special-ctrl-a/e t
-	      org-special-ctrl-k t)
-      #+end_src
-
-***** Auto-revert mode
-
-      If the org files are under DVCS like git, then the edits may
-      happen while open in emacs.
-
-      This is a global setting, but most useful for the org files that
-      exists elsewhere.
-
-      #+begin_src emacs-lisp
-	(use-package autorevert
-	  :diminish " "
-	  :custom
-	  (global-auto-revert-mode t))
-      #+end_src
-
-***** IDO Integration
-
-      IDO integrates well into orgmode. Anytime completion is
-      necessary, I like to use the IDO mechanics.
-
-      The =outline-path-completion= may conflict with IDO, so then it
-      is best to have it not use IDO in this case.
-
-      #+begin_src emacs-lisp
-	(setq org-completion-use-ido t
-	      org-outline-path-complete-in-steps nil)
-      #+end_src
-
-***** Display settings
-
-      There are a collection of settings that define how the
-      headlines, subtrees, and notes render.
-
-      For the headline stars, there are two settings of note. I am
-      explicit that I do *not* want only odd levels. I also like to
-      hide the leading stars.
-
-      #+begin_src emacs-lisp
-	(setq org-odd-levels-only nil
-	      org-hide-leading-stars nil)
-      #+end_src
-
-      Cycling the headline states can produce different views of the
-      files. I like this to be as compact as possible, so I try to
-      squash the lines between the collapsed trees. There is also a
-      flag to open a file collapsed. This I like too -- I get a
-      compact view of the file and can jump to a relevant section with
-      =C-c C-j=.
-
-      #+begin_src emacs-lisp
-	(setq org-cycle-separator-lines 0
-	      org-startup-folded 'content)
-      #+end_src
-
-      When using SRC-blocks, org can provide highlighting native to
-      the SRC type. Note that this may slow down some files.
-
-      #+begin_src emacs-lisp
-	(setq org-src-fontify-natively t)
-      #+end_src
-
-***** Insertion
-
-      I define when org should leave a blank line before an
-      item. In my case it is headings and plain list items.
-
-      #+begin_src emacs-lisp
-	(setq org-blank-before-new-entry '((heading)
-					   (plain-list-item)))
-      #+end_src
-
-      Also, when inserting a new heading, do so after the current
-      subtree.
-
-      #+begin_src emacs-lisp
-	(setq org-insert-heading-respect-content t)
-      #+end_src
-
-      Set the indentation to the outline node level.
-
-      #+begin_src emacs-lisp
-	(setq org-adapt-indentation t)
-      #+end_src
-
-***** Properties
-
-      #+begin_src emacs-lisp
-	(setq org-global-properties
-	      '(("STYLE_ALL"  . "habit")
-		("Effort_ALL" . "0:10 0:30 1:00 2:00 3:00 4:00")
-		("Score_ALL"  . "1 2 3 5 8")))
+        (setq org-special-ctrl-a/e t
+              org-special-ctrl-k t)
       #+end_src
 
 ***** Teleport
@@ -3458,82 +3463,74 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       target. With a prefix argument, it will preceed the target.
 
       #+begin_src emacs-lisp
-	(defun bnb/org-teleport (&optional arg)
-	  "Teleport the current heading to after a headline selected with avy.
-	    With a prefix ARG move the headline to before the selected
-	    headline. With a numeric prefix, set the headline level. If ARG
-	    is positive, move after, and if negative, move before."
-	  (interactive "P")
-	  ;; Kill current headline
-	  (org-mark-subtree)
-	  (kill-region (region-beginning) (region-end))
-	  ;; Jump to a visible headline
-	  (avy-with avy-goto-line (avy--generic-jump "^\\*+" nil avy-style))
-	  (cond
-	   ;; Move before  and change headline level
-	   ((and (numberp arg) (> 0 arg))
-	    (save-excursion
-	      (yank))
-	    ;; arg is what we want, second is what we have
-	    ;; if n is positive, we need to demote (increase level)
-	    (let ((n (- (abs arg) (car (org-heading-components)))))
-	      (cl-loop for i from 1 to (abs n)
-		       do
-		       (if (> 0 n)
-			   (org-promote-subtree)
-			 (org-demote-subtree)))))
-	   ;; Move after and change level
-	   ((and (numberp arg) (< 0 arg))
-	    (org-mark-subtree)
-	    (goto-char (region-end))
-	    (when (eobp) (insert "\n"))
-	    (save-excursion
-	      (yank))
-	    ;; n is what we want and second is what we have
-	    ;; if n is positive, we need to demote
-	    (let ((n (- (abs arg) (car (org-heading-components)))))
-	      (cl-loop for i from 1 to (abs n)
-		       do
-		       (if (> 0 n) (org-promote-subtree)
-			 (org-demote-subtree)))))
+        (defun bnb/org-teleport (&optional arg)
+          "Teleport the current heading to after a headline selected with avy.
+            With a prefix ARG move the headline to before the selected
+            headline. With a numeric prefix, set the headline level. If ARG
+            is positive, move after, and if negative, move before."
+          (interactive "P")
+          ;; Kill current headline
+          (org-mark-subtree)
+          (kill-region (region-beginning) (region-end))
+          ;; Jump to a visible headline
+          (avy-with avy-goto-line (avy--generic-jump "^\\*+" nil avy-style))
+          (cond
+           ;; Move before  and change headline level
+           ((and (numberp arg) (> 0 arg))
+            (save-excursion
+              (yank))
+            ;; arg is what we want, second is what we have
+            ;; if n is positive, we need to demote (increase level)
+            (let ((n (- (abs arg) (car (org-heading-components)))))
+              (cl-loop for i from 1 to (abs n)
+                       do
+                       (if (> 0 n)
+                           (org-promote-subtree)
+                         (org-demote-subtree)))))
+           ;; Move after and change level
+           ((and (numberp arg) (< 0 arg))
+            (org-mark-subtree)
+            (goto-char (region-end))
+            (when (eobp) (insert "\n"))
+            (save-excursion
+              (yank))
+            ;; n is what we want and second is what we have
+            ;; if n is positive, we need to demote
+            (let ((n (- (abs arg) (car (org-heading-components)))))
+              (cl-loop for i from 1 to (abs n)
+                       do
+                       (if (> 0 n) (org-promote-subtree)
+                         (org-demote-subtree)))))
 
-	   ;; move to before selection
-	   ((equal arg '(4))
-	    (save-excursion
-	      (yank)))
-	   ;; move to after selection
-	   (t
-	    (org-mark-subtree)
-	    (goto-char (region-end))
-	    (when (eobp) (insert "\n"))
-	    (save-excursion
-	      (yank))))
-	  (outline-hide-leaves))
+           ;; move to before selection
+           ((equal arg '(4))
+            (save-excursion
+              (yank)))
+           ;; move to after selection
+           (t
+            (org-mark-subtree)
+            (goto-char (region-end))
+            (when (eobp) (insert "\n"))
+            (save-excursion
+              (yank))))
+          (outline-hide-leaves))
       #+end_src
 
       #+begin_src emacs-lisp
-	(add-to-list 'org-speed-commands
-		     (cons "k" (lambda ()
-				 (org-mark-subtree)
-				 (kill-region
-				  (region-beginning)
-				  (region-end)))))
+        (add-to-list 'org-speed-commands
+                     (cons "k" (lambda ()
+                                 (org-mark-subtree)
+                                 (kill-region
+                                  (region-beginning)
+                                  (region-end)))))
 
-	(add-to-list 'org-speed-commands
-		     (cons "q" (lambda ()
-				 (avy-with avy-goto-line
-					   (avy--generic-jump "^\\*+" nil avy-style)))))
+        (add-to-list 'org-speed-commands
+                     (cons "q" (lambda ()
+                                 (avy-with avy-goto-line
+                                           (avy--generic-jump "^\\*+" nil avy-style)))))
 
-	(add-to-list 'org-speed-commands
-		     (cons "T" 'bnb/org-teleport))
-      #+end_src
-
-***** Plantuml
-
-      Setup the path for orgmode to find the jar needed.
-
-      #+begin_src emacs-lisp
-	(setq org-plantuml-jar-path "/usr/local/Cellar/plantuml/1.2017.18/libexec/plantuml.jar")
+        (add-to-list 'org-speed-commands
+                     (cons "T" 'bnb/org-teleport))
       #+end_src
 
 **** Pretty Org-mode
@@ -3545,35 +3542,35 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (setq org-hide-leading-stars t
-	     org-hide-emphasis-markers t
-	     org-fontify-done-headline t
-	     org-pretty-entities t)
+             org-hide-emphasis-markers t
+             org-fontify-done-headline t
+             org-pretty-entities t)
      #+end_src
 
 
      Here's some fun
      #+begin_src emacs-lisp
        (add-hook
-	'org-mode-hook
-	(lambda ()
-	  (mapc (lambda (pair) (push pair prettify-symbols-alist))
-		'(("#+BEGIN_SRC" . "⌈")
-		  ("#+END_SRC" . "⌊")
-		  ("#+begin_src" . "⌈")
-		  ("#+end_src" . "⌊")
-		  (">=" . "≥")
-		  ("=>" . "⇨")))))
+        'org-mode-hook
+        (lambda ()
+          (mapc (lambda (pair) (push pair prettify-symbols-alist))
+                '(("#+BEGIN_SRC" . "⌈")
+                  ("#+END_SRC" . "⌊")
+                  ("#+begin_src" . "⌈")
+                  ("#+end_src" . "⌊")
+                  (">=" . "≥")
+                  ("=>" . "⇨")))))
      #+end_src
 
 ***** Org Bullets
 
       #+begin_src emacs-lisp
-	(use-package org-bullets
-	  :ensure t
-	  :custom
-	  (org-bullets-bullet-list '("◉" "◊" "○" "⧫" "✸" "⬨" "⬟" "⬧" "⬢" "⬫" "⌑" "⬪" "▱"))
-	  (org-ellipsis "˯") ;; Options: ˯⇂↯⤵🠻🢗
-	  :hook (org-mode . org-bullets-mode))
+        (use-package org-bullets
+          :ensure t
+          :custom
+          (org-bullets-bullet-list '("◉" "◊" "○" "⧫" "✸" "⬨" "⬟" "⬧" "⬢" "⬫" "⌑" "⬪" "▱"))
+          (org-ellipsis "˯") ;; Options: ˯⇂↯⤵🠻🢗
+          :hook (org-mode . org-bullets-mode))
       #+end_src
 
 **** Org Repo Todo                                                  :PENDING:
@@ -3583,22 +3580,22 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package org-repo-todo
-	 :ensure t
-	 :bind ("s-;" . ort/capture-todo)
-	 ("s-'" . ort/capture-checkitem)
-	 ("s-`" . ort/goto-todos))
+         :ensure t
+         :bind ("s-;" . ort/capture-todo)
+         ("s-'" . ort/capture-checkitem)
+         ("s-`" . ort/goto-todos))
      #+end_src
 
 **** Org Ref
 
      #+begin_src emacs-lisp
        (use-package org-ref
-	 :defer 10
-	 :config
-	 (setq org-ref-notes-directory "~/Documents/Personal/Org/Biblio/"
-	       org-ref-bibliography-notes "~/Documents/Personal/Org/Biblio/index.org"
-	       org-ref-default-bibliography '("~/Documents/Personal/Org/Biblio/index.bib")
-	       org-ref-pdf-directory "~/Documents/Personal/Org/Biblio/lib"))
+         :defer 10
+         :config
+         (setq org-ref-notes-directory "~/Documents/Personal/Org/Biblio/"
+               org-ref-bibliography-notes "~/Documents/Personal/Org/Biblio/index.org"
+               org-ref-default-bibliography '("~/Documents/Personal/Org/Biblio/index.bib")
+               org-ref-pdf-directory "~/Documents/Personal/Org/Biblio/lib"))
      #+end_src
 
 **** Org Noter
@@ -3606,8 +3603,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package org-noter
-	 :ensure t
-	 :bind ("H-n" . org-noter))
+         :ensure t
+         :bind ("H-n" . org-noter))
      #+end_src
 
 **** Org Roam
@@ -3618,37 +3615,37 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package org-roam
-	 :ensure t
-	 :delight " 𝕫"
-	 :hook
-	 (after-init . org-roam-setup)
-	 :init
-	 (setq org-roam-v2-ack t)
-	 :custom
-	 (org-roam-directory "~/Documents/zettel")
-	 :bind ((("C-c n i" . org-roam-node-insert)
-		 ("C-c n f" . org-roam-node-find)
-		 ("C-c n c" . org-roam-capture)
-		 ("C-c n I" . org-roam-insert-immediate))
-		:map org-roam-mode-map
-		(("C-c n l" . org-roam)
-		 ("C-c n t" . org-roam-dailies-find-today)
-		 ("C-c n w" . org-roam-dailies-find-tomorrow)
-		 ("C-c n d" . org-roam-date)
-		 ("C-c n f" . org-roam-find-file)
-		 ("C-c n g" . org-roam-show-graph))))
+         :ensure t
+         :delight " 𝕫"
+         :hook
+         (after-init . org-roam-setup)
+         :init
+         (setq org-roam-v2-ack t)
+         :custom
+         (org-roam-directory "~/Documents/zettel")
+         :bind ((("C-c n i" . org-roam-node-insert)
+                 ("C-c n f" . org-roam-node-find)
+                 ("C-c n c" . org-roam-capture)
+                 ("C-c n I" . org-roam-insert-immediate))
+                :map org-roam-mode-map
+                (("C-c n l" . org-roam)
+                 ("C-c n t" . org-roam-dailies-find-today)
+                 ("C-c n w" . org-roam-dailies-find-tomorrow)
+                 ("C-c n d" . org-roam-date)
+                 ("C-c n f" . org-roam-find-file)
+                 ("C-c n g" . org-roam-show-graph))))
      #+end_src
 
 **** Org QL
 
      #+begin_src emacs-lisp
        (use-package org-ql
-	 :ensure t
-	 :quelpa (org-ql :fetcher github :repo "alphapapa/org-ql")
-	 :commands (org-ql-search)
-	 :config (progn
-		   (require 'org-habit))
-	 :ensure t)
+         :ensure t
+         :quelpa (org-ql :fetcher github :repo "alphapapa/org-ql")
+         :commands (org-ql-search)
+         :config (progn
+                   (require 'org-habit))
+         :ensure t)
      #+end_src
 
 
@@ -3659,30 +3656,30 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (defcustom bnb/homebrew-prefix ""
-	"Prefix to use for an alternative path to homebrew items"
-	:type 'string
-	:group 'bnb)
+        "Prefix to use for an alternative path to homebrew items"
+        :type 'string
+        :group 'bnb)
 
       (setenv "PKG_CONFIG_PATH"
-	      (let ((hbp bnb/homebrew-prefix))
-		(setq pdf-info-epdfinfo-program (concat hbp "/usr/local/bin/epdfinfo"))
-		(mapconcat 'identity
-			   (list (concat hbp "/usr/local/Cellar/libffi/3.2.1/lib/pkgconfig")
-				 (concat hbp "/usr/local/Cellar/zlib/1.2.8/lib/pkgconfig")
-				 (concat hbp "/usr/local/lib/pkgconfig")
-				 "/opt/X11/lib/pkgconfig")
-			   ":")))
+              (let ((hbp bnb/homebrew-prefix))
+                (setq pdf-info-epdfinfo-program (concat hbp "/usr/local/bin/epdfinfo"))
+                (mapconcat 'identity
+                           (list (concat hbp "/usr/local/Cellar/libffi/3.2.1/lib/pkgconfig")
+                                 (concat hbp "/usr/local/Cellar/zlib/1.2.8/lib/pkgconfig")
+                                 (concat hbp "/usr/local/lib/pkgconfig")
+                                 "/opt/X11/lib/pkgconfig")
+                           ":")))
 
       (use-package pdf-tools
-	:defer t
-	:ensure t
-	:hook (pdf-view-mode .
-			     (lambda ()
-			       (nlinum-mode 0)))
-	:config
-	(custom-set-variables '(pdf-tools-handle-upgrades nil))
-	(setq-default pdf-view-display-size 'fit-page)
-	(pdf-loader-install))
+        :defer t
+        :ensure t
+        :hook (pdf-view-mode .
+                             (lambda ()
+                               (nlinum-mode 0)))
+        :config
+        (custom-set-variables '(pdf-tools-handle-upgrades nil))
+        (setq-default pdf-view-display-size 'fit-page)
+        (pdf-loader-install))
     #+end_src
 
 ** Miscellaneous
@@ -3692,18 +3689,18 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package calc
-	:commands (calc)
-	:init
-	(setq math-additional-units
-	      '((GiB "1024 * MiB" "Giga Byte")
-		(MiB "1024 * KiB" "Mega Byte")
-		(KiB "1024 * B"   "Kilo Byte")
-		(B   nil          "Byte")
-		(Gib "1024 * Mib" "Giga bit")
-		(Mib "1024 * Kib" "Mega bit")
-		(Kib "1024 * b"   "Kilo bit")
-		(b   nil          "bit")
-		)))
+        :commands (calc)
+        :init
+        (setq math-additional-units
+              '((GiB "1024 * MiB" "Giga Byte")
+                (MiB "1024 * KiB" "Mega Byte")
+                (KiB "1024 * B"   "Kilo Byte")
+                (B   nil          "Byte")
+                (Gib "1024 * Mib" "Giga bit")
+                (Mib "1024 * Kib" "Mega bit")
+                (Kib "1024 * b"   "Kilo bit")
+                (b   nil          "bit")
+                )))
     #+end_src
 
 
@@ -3721,9 +3718,9 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
      #+begin_src emacs-lisp
        (require 'ansi-color)
        (defun colorize-compilation-buffer ()
-   (toggle-read-only)
-   (ansi-color-apply-on-region compilation-filter-start (point))
-   (toggle-read-only))
+         (toggle-read-only)
+         (ansi-color-apply-on-region compilation-filter-start (point))
+         (toggle-read-only))
        (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
      #+end_src
 
@@ -3747,10 +3744,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package impatient-mode
-   :ensure t
-   :mode "\\.html\\'"
-   :config
-   (add-to-list 'imp-default-user-filters '(mhtml-mode . nil)))
+         :ensure t
+         :mode "\\.html\\'"
+         :config
+         (add-to-list 'imp-default-user-filters '(mhtml-mode . nil)))
      #+end_src
 
      To use impatient mode, you'll first want to start with ~httpd-start~
@@ -3763,11 +3760,11 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package emmet-mode
-   :ensure t
-   :commands (emmet-mode)
-   :hook ((web-mode . emmet-mode)
-    (sgml-mode . emmet-mode)
-    (css-mode . emmet-mode)))
+         :ensure t
+         :commands (emmet-mode)
+         :hook ((web-mode . emmet-mode)
+                (sgml-mode . emmet-mode)
+                (css-mode . emmet-mode)))
      #+end_src
 
 *** Javascript
@@ -3784,39 +3781,39 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package js2-mode
-   :ensure t
-   :mode "\\.js\\'"
-   :hook (js2-mode . #'js2-imenu-extras-mode)
-   :config
-   (setq js2-basic-offset 2))
+         :ensure t
+         :mode "\\.js\\'"
+         :hook (js2-mode . #'js2-imenu-extras-mode)
+         :config
+         (setq js2-basic-offset 2))
      #+end_src
 
      #+begin_src emacs-lisp
        (use-package js2-refactor
-   :ensure t
-   :after js2-mode
-   :functions (js2r-add-keybindings-with-prefix)
-   :bind (:map js2-mode-map
-	 ("C-k" . js2r-kill))
-   :config
-   (js2r-add-keybindings-with-prefix "C-c C-r"))
+         :ensure t
+         :after js2-mode
+         :functions (js2r-add-keybindings-with-prefix)
+         :bind (:map js2-mode-map
+                     ("C-k" . js2r-kill))
+         :config
+         (js2r-add-keybindings-with-prefix "C-c C-r"))
      #+end_src
 
      #+begin_src emacs-lisp
        (use-package xref-js2
-   :ensure t
-   :after js2-mode
-   :hook
-   (js2-mode .
-       (lambda ()
-	 (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
+         :ensure t
+         :after js2-mode
+         :hook
+         (js2-mode .
+                   (lambda ()
+                     (add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
      #+end_src
 
 ***** React Style JSX
 
       #+begin_src emacs-lisp
-  (use-package rjsx-mode
-    :mode "(components|src\\/pages)\\/.*\\.js\\'")
+        (use-package rjsx-mode
+          :mode "(components|src\\/pages)\\/.*\\.js\\'")
       #+end_src
 
 *** Plantuml
@@ -3825,129 +3822,127 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package plantuml-mode
-  :defer
-  :ensure t)
+        :defer
+        :ensure t)
     #+end_src
 
 *** Pollen
 
     #+begin_src emacs-lisp
       (use-package pollen-mode
-  :ensure t
-  :defer t
-  :mode (("\\.pp\\'" . pollen-mode)))
+        :ensure t
+        :defer t
+        :mode (("\\.pp\\'" . pollen-mode)))
 
       (use-package company-pollen
-  :defer t
-  :ensure t)
+        :defer t
+        :ensure t)
     #+end_src
 
 *** Rust
 
     #+begin_src emacs-lisp
       (use-package rustic
-  :ensure t
-  :bind (:map rustic-mode-map
-	("C-c C-c j" . lsp-ui-imenu)
-	("C-c C-c f" . lst-find-references)
-	("C-c C-c l" . flycheck-list-errors)
-	("C-c C-c a" . lsp-execute-code-action)
-	("C-c C-c n" . lsp-rename)
-	("C-c C-c q" . lsp-workspace-restart)
-	("C-c C-c Q" . lsp-workspace-shutdown)
-	("C-c C-c s" . lsp-rust-analyzer-status)
-	("C-c C-c e" . lsp-rust-analyzer-expand-macro)
-	("C-c C-c d" . dap-hydra)
-	("C-c C-c h" . lsp-ui-doc-glance))
-  :config
-  :hook ((rustic-mode . flycheck-mode)
-	 (rustic-mode . electric-pair-mode)))
+        :ensure t
+        :bind (:map rustic-mode-map
+                    ("C-c C-c j" . lsp-ui-imenu)
+                    ("C-c C-c f" . lst-find-references)
+                    ("C-c C-c l" . flycheck-list-errors)
+                    ("C-c C-c a" . lsp-execute-code-action)
+                    ("C-c C-c n" . lsp-rename)
+                    ("C-c C-c q" . lsp-workspace-restart)
+                    ("C-c C-c Q" . lsp-workspace-shutdown)
+                    ("C-c C-c s" . lsp-rust-analyzer-status)
+                    ("C-c C-c e" . lsp-rust-analyzer-expand-macro)
+                    ("C-c C-c d" . dap-hydra)
+                    ("C-c C-c h" . lsp-ui-doc-glance))
+        :config
+        :hook ((rustic-mode . flycheck-mode)
+               (rustic-mode . electric-pair-mode)))
 
       (defun bnb/rustic-mode-hook ()
-  (when buffer-file-name
-    (setq-local buffer-save-without-query t)))
+        (when buffer-file-name
+          (setq-local buffer-save-without-query t)))
 
       (use-package lsp-mode
-  :ensure t
-  :commands lsp
-  :custom
-  (lsp-rust-analyzer-cargo-watch-command "clippy")
-  (lsp-edoc-render-all t)
-  (lsp-idle-delay 0.6)
-  (lsp-rust-analyzer-server-display-inlay-hints t)
-  :hook
-  (lsp-mode . lsp-ui-mode))
+        :ensure t
+        :commands lsp
+        :custom
+        (lsp-rust-analyzer-cargo-watch-command "clippy")
+        (lsp-edoc-render-all t)
+        (lsp-idle-delay 0.6)
+        (lsp-rust-analyzer-server-display-inlay-hints t)
+        :hook
+        (lsp-mode . lsp-ui-mode))
 
       (use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode
-  :custom
-  (lsp-ui-peek-always-show t)
-  (lsp-ui-sideline-show-hover t)
-  (lsp-ui-doc-enable nil))
+        :ensure t
+        :commands lsp-ui-mode
+        :custom
+        (lsp-ui-peek-always-show t)
+        (lsp-ui-sideline-show-hover t)
+        (lsp-ui-doc-enable nil))
 
       (use-package toml-mode
-  :quelpa (toml-mode :fetcher github :repo "dryman/toml-mode.el")
-  :mode "\\.toml\\'")
+        :quelpa (toml-mode :fetcher github :repo "dryman/toml-mode.el")
+        :mode "\\.toml\\'")
     #+end_src
 
 *** Sass
 
     #+begin_src emacs-lisp
       (use-package sass-mode
-  :defer
-  :ensure t)
+        :defer
+        :ensure t)
     #+end_src
 *** Shaders
 
     #+begin_src emacs-lisp
       (use-package shader-mode
-  :ensure t
-  :defer t)
+        :ensure t
+        :defer t)
     #+end_src
-
-
 
 *** Utilities
 **** Flycheck
 
      #+begin_src emacs-lisp
        (use-package flycheck
-   :ensure t
-   :defer 10
-		 ;:init (global-flycheck-mode)
-   :config
-   (bind-key "H-!"
-       (defhydra hydra-toggle (:color amaranth)
-	 "
-   _c_ Check buffer      _x_ Explain error
-   _n_ Next error        _h_ Show error
-   _p_ Previous error
-   _l_ Show all errors   _s_ Select syntax checker
-   _C_ Clear errors      _?_ Describe syntax checker
-   "
-	 ("c" flycheck-buffer)
-	 ("n" flycheck-next-error)
-	 ("p" flycheck-previous-error)
-	 ("l" flycheck-list-errors)
-	 ("C" flycheck-clear-errors)
-	 ("x" flycheck-explain-error-at-point)
-	 ("h" flycheck-display-error-at-point)
-	 ("s" flycheck-select-checker)
-	 ("?" flycheck-describe-checker)
-	 ("q" nil))))
+         :ensure t
+         :defer 10
+                                               ;:init (global-flycheck-mode)
+         :config
+         (bind-key "H-!"
+                   (defhydra hydra-toggle (:color amaranth)
+                     "
+       _c_ Check buffer      _x_ Explain error
+       _n_ Next error        _h_ Show error
+       _p_ Previous error
+       _l_ Show all errors   _s_ Select syntax checker
+       _C_ Clear errors      _?_ Describe syntax checker
+       "
+                     ("c" flycheck-buffer)
+                     ("n" flycheck-next-error)
+                     ("p" flycheck-previous-error)
+                     ("l" flycheck-list-errors)
+                     ("C" flycheck-clear-errors)
+                     ("x" flycheck-explain-error-at-point)
+                     ("h" flycheck-display-error-at-point)
+                     ("s" flycheck-select-checker)
+                     ("?" flycheck-describe-checker)
+                     ("q" nil))))
      #+end_src
 
 **** Prog fill
 
      #+begin_src emacs-lisp
        (use-package prog-fill
-   :ensure t
-   :commands (prog-fill)
-   :config
-   (setq
-    prog-fill-floating-close-paren-p nil
-    prog-fill-break-method-immediate-p t))
+         :ensure t
+         :commands (prog-fill)
+         :config
+         (setq
+          prog-fill-floating-close-paren-p nil
+          prog-fill-break-method-immediate-p t))
      #+end_src
 
 **** Language Server Protocol
@@ -3961,17 +3956,17 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package lsp-mode
-   :defer
-   :ensure t
-   :hook ((html-mode . lsp)
-    (json-mode . lsp)
-    (lisp-mode . lsp)
-    (python-mode . lsp)
-    (r-mode . lsp)
-    (racket-mode . lsp)
-    (rust-mode . lsp)
-    (sh-mode . lsp)
-    (yaml-mode . lsp)))
+         :defer
+         :ensure t
+         :hook ((html-mode . lsp)
+                (json-mode . lsp)
+                (lisp-mode . lsp)
+                (python-mode . lsp)
+                (r-mode . lsp)
+                (racket-mode . lsp)
+                (rust-mode . lsp)
+                (sh-mode . lsp)
+                (yaml-mode . lsp)))
      #+end_src
 
 **** Smart Tabs
@@ -3988,12 +3983,12 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package smart-tabs-mode
-	 :defer 10
-	 :ensure t
-	 :init
-	 (setq-default indent-tabs-mode nil)
-	 (smart-tabs-insinuate 'c 'cperl 'c++)
-	 (setq-default tab-width 2))
+         :defer 10
+         :ensure t
+         :init
+         (setq-default indent-tabs-mode nil)
+         (smart-tabs-insinuate 'c 'cperl 'c++)
+         (setq-default tab-width 2))
      #+end_src
 
 ***** Notes
@@ -4008,26 +4003,26 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package web-mode
-	:defer
-	:mode "\\.html\\'"
-	:ensure t
-	:bind ("H-b" . browse-url-of-file)
-	:config
-	(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-	(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-	(add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
-	(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-	(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-	(add-to-list 'auto-mode-alist '("\\.svelte\\'" . web-mode))
-	(setq web-mode-engines-alist
-	      '(("handlebars" . "\\.hbs\\'")))
-	(defun bnb/web-mode-hook ()
-	  "Setup indentation when loading `web-mode`."
-	  (setq web-mode-markup-indent-offset 2
-		web-mode-css-indent-offset 2
-		web-mode-code-indent-offset 2))
-	:hook
-	(web-mode . bnb/web-mode-hook))
+        :defer
+        :mode "\\.html\\'"
+        :ensure t
+        :bind ("H-b" . browse-url-of-file)
+        :config
+        (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.svelte\\'" . web-mode))
+        (setq web-mode-engines-alist
+              '(("handlebars" . "\\.hbs\\'")))
+        (defun bnb/web-mode-hook ()
+          "Setup indentation when loading `web-mode`."
+          (setq web-mode-markup-indent-offset 2
+                web-mode-css-indent-offset 2
+                web-mode-code-indent-offset 2))
+        :hook
+        (web-mode . bnb/web-mode-hook))
     #+end_src
 
 
@@ -4047,30 +4042,30 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (defadvice term-sentinel (around bnb/advise-term-sentinel (proc msg))
-	(if (memq (process-status proc) '(signal exit))
-	    (let ((buffer (process-buffer proc)))
-	      ad-do-it
-	      (kill-buffer buffer))
-	  ad-do-it))
+        (if (memq (process-status proc) '(signal exit))
+            (let ((buffer (process-buffer proc)))
+              ad-do-it
+              (kill-buffer buffer))
+          ad-do-it))
       (ad-activate 'term-sentinel)
 
       (defadvice ansi-term (before force-zsh)
-	(interactive (list "/bin/zsh")))
+        (interactive (list "/bin/zsh")))
       (ad-activate 'ansi-term)
 
       (defun bnb/term-mode-hook ()
-	"Setup `term-mode`."
-	(goto-address-mode)
-	(setq-local term-buffer-maximum-size 10000))
+        "Setup `term-mode`."
+        (goto-address-mode)
+        (setq-local term-buffer-maximum-size 10000))
 
       (add-hook 'term-mode-hook 'bnb/term-mode-hook)
 
       (defalias 'zsh 'ansi-term)
 
       (setq ansi-term-color-vector
-	    [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white]
-	    ansi-color-faces-vector
-	    [default bold shadow italic underline bold bold-italic bold])
+            [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white]
+            ansi-color-faces-vector
+            [default bold shadow italic underline bold bold-italic bold])
     #+end_src
 
 *** Eshell
@@ -4093,17 +4088,17 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        (setenv "PAGER" "cat")
 
        (defun bnb/setup-eshell ()
-	 "Setup functions to run in the eshell hook"
-	 (company-mode -1)
-	 (eshell/alias "em" "emacs")
-	 (eshell/alias "ll" "ls -Aloh")
-	 (pcase system-type
-	   ('darwin (eshell/alias "llc" "*ls -AlohG"))
-	   (- (eshell/alias "llc" "*ls -AlohG --color=always"))))
+         "Setup functions to run in the eshell hook"
+         (company-mode -1)
+         (eshell/alias "em" "emacs")
+         (eshell/alias "ll" "ls -Aloh")
+         (pcase system-type
+           ('darwin (eshell/alias "llc" "*ls -AlohG"))
+           (- (eshell/alias "llc" "*ls -AlohG --color=always"))))
 
        (use-package eshell
-	 :commands eshell
-	 :hook (eshell-mode . (bnb/setup-eshell)))
+         :commands eshell
+         :hook (eshell-mode . (bnb/setup-eshell)))
      #+end_src
 
 **** Eshell Commands
@@ -4113,16 +4108,16 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (defun eshell/emacs (&rest args)
-	 "Open a file in emacs the natural way"
-	 (if (null args)
-	     ;; If emacs is called by itself, then just go to emacs directly
-	     (bury-buffer)
-	   ;; If opening multiple files with a directory name, e.g.
-	   ;; > emacs bar/bar.txt foo.txt
-	   ;; then the names must be expanded to complete file paths.
-	   ;; Otherwise, find-file will look in the current directory which
-	   ;; would fail for 'foo.txt' in the example above.
-	   (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
+         "Open a file in emacs the natural way"
+         (if (null args)
+             ;; If emacs is called by itself, then just go to emacs directly
+             (bury-buffer)
+           ;; If opening multiple files with a directory name, e.g.
+           ;; > emacs bar/bar.txt foo.txt
+           ;; then the names must be expanded to complete file paths.
+           ;; Otherwise, find-file will look in the current directory which
+           ;; would fail for 'foo.txt' in the example above.
+           (mapc #'find-file (mapcar #'expand-file-name (eshell-flatten-list (reverse args))))))
      #+end_src
 
      One can also keep the shell active and open files in the other
@@ -4130,20 +4125,20 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (defun eshell/emo (&rest args)
-	 (mapc
-	  (lambda (f)
-	    (save-selected-window
-	      (find-file-other-window f)))
-	  (mapcar #'expand-file-name (eshell-flatten-list (reverse args)))))
+         (mapc
+          (lambda (f)
+            (save-selected-window
+              (find-file-other-window f)))
+          (mapcar #'expand-file-name (eshell-flatten-list (reverse args)))))
      #+end_src
 
      On a windows box, setup grep to be a cygwin version.
 
      #+begin_src emacs-lisp
        (when (eq system-type 'windows-nt)
-	 (with-eval-after-load "eshell"
-	   (defun eshell/grep (&rest args)
-	     (eshell-grep "c:/cygwin/bin/grep.exe" args t))))
+         (with-eval-after-load "eshell"
+           (defun eshell/grep (&rest args)
+             (eshell-grep "c:/cygwin/bin/grep.exe" args t))))
      #+end_src
 
 
@@ -4151,16 +4146,16 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (defun eshell/gst (&rest args)
-	 (magit-status-setup-buffer (pop args))
-	 (eshell/echo))
+         (magit-status-setup-buffer (pop args))
+         (eshell/echo))
 
        (defun eshell/gd (&rest args)
-	 (magit-diff-unstaged)
-	 (eshell/echo))
+         (magit-diff-unstaged)
+         (eshell/echo))
 
        (defun eshell/gds (&rest args)
-	 (magit-diff-staged)
-	 (eshell/echo))
+         (magit-diff-staged)
+         (eshell/echo))
      #+end_src
 
 
@@ -4190,9 +4185,9 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package all-the-icons
-	:ensure t
-	:commands (all-the-icons-material all-the-icons-faicon)
-	:defer 10)
+        :ensure t
+        :commands (all-the-icons-material all-the-icons-faicon)
+        :defer 10)
     #+end_src
 
 **** All the icons Dired
@@ -4202,13 +4197,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package all-the-icons-dired
-	 :ensure t
-	 :commands (all-the-icons-dired-mode)
-	 :hook (dired-mode . all-the-icons-dired-mode))
+         :ensure t
+         :commands (all-the-icons-dired-mode)
+         :hook (dired-mode . all-the-icons-dired-mode))
      #+end_src
-
-
-
 
 * Style
 
@@ -4252,154 +4244,154 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package ring
-  :if window-system
-  :bind ("H-f" . bnb/font-next)
-  ("H-F" . bnb/font-prev)
-  :config
-  (defun bnb/filter-existing-fonts (fl)
-    "Filter the list for only existing fonts"
-    (seq-filter #'font-info fl))
-  (setq bnb/fontlist '("-*-Lunar Mono-*-expanded-*-12" "-*-Lunar Mono-*-*-*-12" "Fira Code-13" "Source Code Pro-13")
-	bnb/font-ring
-	(ring-convert-sequence-to-ring (seq-filter #'font-info bnb/fontlist))
-	bnb/font
-	(ring-ref bnb/font-ring 0))
-  (defun bnb/font-apply (font)
-    "Change the default font to FONT."
-    (set-frame-font (setq bnb/font font))
-    (message "Set default font to %s" bnb/font))
-  (defun bnb/font-next ()
-    "Cycle the default font to the next in the ring."
-    (interactive)
-    (bnb/font-apply (ring-next bnb/font-ring bnb/font)))
-  (defun bnb/font-prev ()
-    "Cycle the default font to the previous in the ring."
-    (interactive)
-    (bnb/font-apply (ring-prev bnb/font-ring bnb/font)))
-  (set-frame-font bnb/font))
+        :if window-system
+        :bind ("H-f" . bnb/font-next)
+        ("H-F" . bnb/font-prev)
+        :config
+        (defun bnb/filter-existing-fonts (fl)
+          "Filter the list for only existing fonts"
+          (seq-filter #'font-info fl))
+        (setq bnb/fontlist '("-*-Lunar Mono-*-expanded-*-12" "-*-Lunar Mono-*-*-*-12" "Fira Code-13" "Source Code Pro-13")
+              bnb/font-ring
+              (ring-convert-sequence-to-ring (seq-filter #'font-info bnb/fontlist))
+              bnb/font
+              (ring-ref bnb/font-ring 0))
+        (defun bnb/font-apply (font)
+          "Change the default font to FONT."
+          (set-frame-font (setq bnb/font font))
+          (message "Set default font to %s" bnb/font))
+        (defun bnb/font-next ()
+          "Cycle the default font to the next in the ring."
+          (interactive)
+          (bnb/font-apply (ring-next bnb/font-ring bnb/font)))
+        (defun bnb/font-prev ()
+          "Cycle the default font to the previous in the ring."
+          (interactive)
+          (bnb/font-apply (ring-prev bnb/font-ring bnb/font)))
+        (set-frame-font bnb/font))
 
       (defconst fira-code-font-lock-keywords-alist
-  (mapcar (lambda (regex-char-pair)
-      `(,(car regex-char-pair)
-	(0 (prog1 ()
-       (compose-region (match-beginning 1)
-	   (match-end 1)
-	   ;; The first argument to concat is a string containing a literal tab
-	   ,(concat "	" (list (decode-char 'ucs (cadr regex-char-pair)))))))))
-    '(("\\(www\\)"                   #Xe100)
-      ("[^/]\\(\\*\\*\\)[^/]"        #Xe101)
-      ("\\(\\*\\*\\*\\)"             #Xe102)
-      ("\\(\\*\\*/\\)"               #Xe103)
-      ("\\(\\*>\\)"                  #Xe104)
-      ("[^*]\\(\\*/\\)"              #Xe105)
-      ("\\(\\\\\\\\\\)"              #Xe106)
-      ("\\(\\\\\\\\\\\\\\)"          #Xe107)
-      ("\\({-\\)"                    #Xe108)
-      ("\\(\\[\\]\\)"                #Xe109)
-      ("\\(::\\)"                    #Xe10a)
-      ("\\(:::\\)"                   #Xe10b)
-      ("[^=]\\(:=\\)"                #Xe10c)
-      ("\\(!!\\)"                    #Xe10d)
-      ("\\(!=\\)"                    #Xe10e)
-      ("\\(!==\\)"                   #Xe10f)
-      ("\\(-}\\)"                    #Xe110)
-      ("\\(--\\)"                    #Xe111)
-      ("\\(---\\)"                   #Xe112)
-      ("\\(-->\\)"                   #Xe113)
-      ("[^-]\\(->\\)"                #Xe114)
-      ("\\(->>\\)"                   #Xe115)
-      ("\\(-<\\)"                    #Xe116)
-      ("\\(-<<\\)"                   #Xe117)
-      ("\\(-~\\)"                    #Xe118)
-      ("\\(#{\\)"                    #Xe119)
-      ("\\(#\\[\\)"                  #Xe11a)
-      ("\\(##\\)"                    #Xe11b)
-      ("\\(###\\)"                   #Xe11c)
-      ("\\(####\\)"                  #Xe11d)
-      ("\\(#(\\)"                    #Xe11e)
-      ("\\(#\\?\\)"                  #Xe11f)
-      ("\\(#_\\)"                    #Xe120)
-      ("\\(#_(\\)"                   #Xe121)
-      ("\\(\\.-\\)"                  #Xe122)
-      ("\\(\\.=\\)"                  #Xe123)
-      ("\\(\\.\\.\\)"                #Xe124)
-      ("\\(\\.\\.<\\)"               #Xe125)
-      ("\\(\\.\\.\\.\\)"             #Xe126)
-      ("\\(\\?=\\)"                  #Xe127)
-      ("\\(\\?\\?\\)"                #Xe128)
-      ("\\(;;\\)"                    #Xe129)
-      ("\\(/\\*\\)"                  #Xe12a)
-      ("\\(/\\*\\*\\)"               #Xe12b)
-      ("\\(/=\\)"                    #Xe12c)
-      ("\\(/==\\)"                   #Xe12d)
-      ("\\(/>\\)"                    #Xe12e)
-      ("\\(//\\)"                    #Xe12f)
-      ("\\(///\\)"                   #Xe130)
-      ("\\(&&\\)"                    #Xe131)
-      ("\\(||\\)"                    #Xe132)
-      ("\\(||=\\)"                   #Xe133)
-      ("[^|]\\(|=\\)"                #Xe134)
-      ("\\(|>\\)"                    #Xe135)
-      ("\\(\\^=\\)"                  #Xe136)
-      ("\\(\\$>\\)"                  #Xe137)
-      ("\\(\\+\\+\\)"                #Xe138)
-      ("\\(\\+\\+\\+\\)"             #Xe139)
-      ("\\(\\+>\\)"                  #Xe13a)
-      ("\\(=:=\\)"                   #Xe13b)
-      ("[^!/]\\(==\\)[^>]"           #Xe13c)
-      ("\\(===\\)"                   #Xe13d)
-      ("\\(==>\\)"                   #Xe13e)
-      ("[^=]\\(=>\\)"                #Xe13f)
-      ("\\(=>>\\)"                   #Xe140)
-      ("\\(<=\\)"                    #Xe141)
-      ("\\(=<<\\)"                   #Xe142)
-      ("\\(=/=\\)"                   #Xe143)
-      ("\\(>-\\)"                    #Xe144)
-      ("\\(>=\\)"                    #Xe145)
-      ("\\(>=>\\)"                   #Xe146)
-      ("[^-=]\\(>>\\)"               #Xe147)
-      ("\\(>>-\\)"                   #Xe148)
-      ("\\(>>=\\)"                   #Xe149)
-      ("\\(>>>\\)"                   #Xe14a)
-      ("\\(<\\*\\)"                  #Xe14b)
-      ("\\(<\\*>\\)"                 #Xe14c)
-      ("\\(<|\\)"                    #Xe14d)
-      ("\\(<|>\\)"                   #Xe14e)
-      ("\\(<\\$\\)"                  #Xe14f)
-      ("\\(<\\$>\\)"                 #Xe150)
-      ("\\(<!--\\)"                  #Xe151)
-      ("\\(<-\\)"                    #Xe152)
-      ("\\(<--\\)"                   #Xe153)
-      ("\\(<->\\)"                   #Xe154)
-      ("\\(<\\+\\)"                  #Xe155)
-      ("\\(<\\+>\\)"                 #Xe156)
-      ("\\(<=\\)"                    #Xe157)
-      ("\\(<==\\)"                   #Xe158)
-      ("\\(<=>\\)"                   #Xe159)
-      ("\\(<=<\\)"                   #Xe15a)
-      ("\\(<>\\)"                    #Xe15b)
-      ("[^-=]\\(<<\\)"               #Xe15c)
-      ("\\(<<-\\)"                   #Xe15d)
-      ("\\(<<=\\)"                   #Xe15e)
-      ("\\(<<<\\)"                   #Xe15f)
-      ("\\(<~\\)"                    #Xe160)
-      ("\\(<~~\\)"                   #Xe161)
-      ("\\(</\\)"                    #Xe162)
-      ("\\(</>\\)"                   #Xe163)
-      ("\\(~@\\)"                    #Xe164)
-      ("\\(~-\\)"                    #Xe165)
-      ("\\(~=\\)"                    #Xe166)
-      ("\\(~>\\)"                    #Xe167)
-      ("[^<]\\(~~\\)"                #Xe168)
-      ("\\(~~>\\)"                   #Xe169)
-      ("\\(%%\\)"                    #Xe16a)
-      ;; ("\\(x\\)"                   #Xe16b) This ended up being hard to do properly so i'm leaving it out.
-      ("[^:=]\\(:\\)[^:=]"           #Xe16c)
-      ("[^\\+<>]\\(\\+\\)[^\\+<>]"   #Xe16d)
-      ("[^\\*/<>]\\(\\*\\)[^\\*/<>]" #Xe16f))))
+        (mapcar (lambda (regex-char-pair)
+                  `(,(car regex-char-pair)
+                    (0 (prog1 ()
+                         (compose-region (match-beginning 1)
+                                         (match-end 1)
+                                         ;; The first argument to concat is a string containing a literal tab
+                                         ,(concat "	" (list (decode-char 'ucs (cadr regex-char-pair)))))))))
+                '(("\\(www\\)"                   #Xe100)
+                  ("[^/]\\(\\*\\*\\)[^/]"        #Xe101)
+                  ("\\(\\*\\*\\*\\)"             #Xe102)
+                  ("\\(\\*\\*/\\)"               #Xe103)
+                  ("\\(\\*>\\)"                  #Xe104)
+                  ("[^*]\\(\\*/\\)"              #Xe105)
+                  ("\\(\\\\\\\\\\)"              #Xe106)
+                  ("\\(\\\\\\\\\\\\\\)"          #Xe107)
+                  ("\\({-\\)"                    #Xe108)
+                  ("\\(\\[\\]\\)"                #Xe109)
+                  ("\\(::\\)"                    #Xe10a)
+                  ("\\(:::\\)"                   #Xe10b)
+                  ("[^=]\\(:=\\)"                #Xe10c)
+                  ("\\(!!\\)"                    #Xe10d)
+                  ("\\(!=\\)"                    #Xe10e)
+                  ("\\(!==\\)"                   #Xe10f)
+                  ("\\(-}\\)"                    #Xe110)
+                  ("\\(--\\)"                    #Xe111)
+                  ("\\(---\\)"                   #Xe112)
+                  ("\\(-->\\)"                   #Xe113)
+                  ("[^-]\\(->\\)"                #Xe114)
+                  ("\\(->>\\)"                   #Xe115)
+                  ("\\(-<\\)"                    #Xe116)
+                  ("\\(-<<\\)"                   #Xe117)
+                  ("\\(-~\\)"                    #Xe118)
+                  ("\\(#{\\)"                    #Xe119)
+                  ("\\(#\\[\\)"                  #Xe11a)
+                  ("\\(##\\)"                    #Xe11b)
+                  ("\\(###\\)"                   #Xe11c)
+                  ("\\(####\\)"                  #Xe11d)
+                  ("\\(#(\\)"                    #Xe11e)
+                  ("\\(#\\?\\)"                  #Xe11f)
+                  ("\\(#_\\)"                    #Xe120)
+                  ("\\(#_(\\)"                   #Xe121)
+                  ("\\(\\.-\\)"                  #Xe122)
+                  ("\\(\\.=\\)"                  #Xe123)
+                  ("\\(\\.\\.\\)"                #Xe124)
+                  ("\\(\\.\\.<\\)"               #Xe125)
+                  ("\\(\\.\\.\\.\\)"             #Xe126)
+                  ("\\(\\?=\\)"                  #Xe127)
+                  ("\\(\\?\\?\\)"                #Xe128)
+                  ("\\(;;\\)"                    #Xe129)
+                  ("\\(/\\*\\)"                  #Xe12a)
+                  ("\\(/\\*\\*\\)"               #Xe12b)
+                  ("\\(/=\\)"                    #Xe12c)
+                  ("\\(/==\\)"                   #Xe12d)
+                  ("\\(/>\\)"                    #Xe12e)
+                  ("\\(//\\)"                    #Xe12f)
+                  ("\\(///\\)"                   #Xe130)
+                  ("\\(&&\\)"                    #Xe131)
+                  ("\\(||\\)"                    #Xe132)
+                  ("\\(||=\\)"                   #Xe133)
+                  ("[^|]\\(|=\\)"                #Xe134)
+                  ("\\(|>\\)"                    #Xe135)
+                  ("\\(\\^=\\)"                  #Xe136)
+                  ("\\(\\$>\\)"                  #Xe137)
+                  ("\\(\\+\\+\\)"                #Xe138)
+                  ("\\(\\+\\+\\+\\)"             #Xe139)
+                  ("\\(\\+>\\)"                  #Xe13a)
+                  ("\\(=:=\\)"                   #Xe13b)
+                  ("[^!/]\\(==\\)[^>]"           #Xe13c)
+                  ("\\(===\\)"                   #Xe13d)
+                  ("\\(==>\\)"                   #Xe13e)
+                  ("[^=]\\(=>\\)"                #Xe13f)
+                  ("\\(=>>\\)"                   #Xe140)
+                  ("\\(<=\\)"                    #Xe141)
+                  ("\\(=<<\\)"                   #Xe142)
+                  ("\\(=/=\\)"                   #Xe143)
+                  ("\\(>-\\)"                    #Xe144)
+                  ("\\(>=\\)"                    #Xe145)
+                  ("\\(>=>\\)"                   #Xe146)
+                  ("[^-=]\\(>>\\)"               #Xe147)
+                  ("\\(>>-\\)"                   #Xe148)
+                  ("\\(>>=\\)"                   #Xe149)
+                  ("\\(>>>\\)"                   #Xe14a)
+                  ("\\(<\\*\\)"                  #Xe14b)
+                  ("\\(<\\*>\\)"                 #Xe14c)
+                  ("\\(<|\\)"                    #Xe14d)
+                  ("\\(<|>\\)"                   #Xe14e)
+                  ("\\(<\\$\\)"                  #Xe14f)
+                  ("\\(<\\$>\\)"                 #Xe150)
+                  ("\\(<!--\\)"                  #Xe151)
+                  ("\\(<-\\)"                    #Xe152)
+                  ("\\(<--\\)"                   #Xe153)
+                  ("\\(<->\\)"                   #Xe154)
+                  ("\\(<\\+\\)"                  #Xe155)
+                  ("\\(<\\+>\\)"                 #Xe156)
+                  ("\\(<=\\)"                    #Xe157)
+                  ("\\(<==\\)"                   #Xe158)
+                  ("\\(<=>\\)"                   #Xe159)
+                  ("\\(<=<\\)"                   #Xe15a)
+                  ("\\(<>\\)"                    #Xe15b)
+                  ("[^-=]\\(<<\\)"               #Xe15c)
+                  ("\\(<<-\\)"                   #Xe15d)
+                  ("\\(<<=\\)"                   #Xe15e)
+                  ("\\(<<<\\)"                   #Xe15f)
+                  ("\\(<~\\)"                    #Xe160)
+                  ("\\(<~~\\)"                   #Xe161)
+                  ("\\(</\\)"                    #Xe162)
+                  ("\\(</>\\)"                   #Xe163)
+                  ("\\(~@\\)"                    #Xe164)
+                  ("\\(~-\\)"                    #Xe165)
+                  ("\\(~=\\)"                    #Xe166)
+                  ("\\(~>\\)"                    #Xe167)
+                  ("[^<]\\(~~\\)"                #Xe168)
+                  ("\\(~~>\\)"                   #Xe169)
+                  ("\\(%%\\)"                    #Xe16a)
+                  ;; ("\\(x\\)"                   #Xe16b) This ended up being hard to do properly so i'm leaving it out.
+                  ("[^:=]\\(:\\)[^:=]"           #Xe16c)
+                  ("[^\\+<>]\\(\\+\\)[^\\+<>]"   #Xe16d)
+                  ("[^\\*/<>]\\(\\*\\)[^\\*/<>]" #Xe16f))))
 
       (defun add-fira-code-symbol-keywords ()
-  (font-lock-add-keywords nil fira-code-font-lock-keywords-alist))
+        (font-lock-add-keywords nil fira-code-font-lock-keywords-alist))
 
       ;;(add-fira-code-symbol-keywords)
     #+end_src
@@ -4410,19 +4402,19 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
      #+begin_src emacs-lisp
        (use-package unicode-fonts
-   :ensure t
-   :defer 10
-   :init
-   (unicode-fonts-setup))
+         :ensure t
+         :defer 10
+         :init
+         (unicode-fonts-setup))
      #+end_src
 
 *** Trying out fonts on Windows
 
     #+begin_src emacs-lisp
       (defun bnb/windows-set-font ()
-  "Use Windows font selection to set the default font."
-  (interactive)
-  (set-face-attribute 'default nil :font (w32-select-font)))
+        "Use Windows font selection to set the default font."
+        (interactive)
+        (set-face-attribute 'default nil :font (w32-select-font)))
     #+end_src
 
 *** Dynamic Font sizes
@@ -4433,22 +4425,22 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (defun bnb/change-frame-font-size (fn)
-  "Change the frame font size according to function FN."
-  (let* ((font-name (frame-parameter nil 'font))
-	 (decomposed-font-name (x-decompose-font-name font-name))
-	 (font-size (string-to-number (aref decomposed-font-name 5))))
-    (aset decomposed-font-name 5 (int-to-string (funcall fn font-size)))
-    (set-frame-font (x-compose-font-name decomposed-font-name))))
+        "Change the frame font size according to function FN."
+        (let* ((font-name (frame-parameter nil 'font))
+               (decomposed-font-name (x-decompose-font-name font-name))
+               (font-size (string-to-number (aref decomposed-font-name 5))))
+          (aset decomposed-font-name 5 (int-to-string (funcall fn font-size)))
+          (set-frame-font (x-compose-font-name decomposed-font-name))))
 
       (defun bnb/frame-text-scale-increase ()
-  "Increase the frame font size by 1."
-  (interactive)
-  (bnb/change-frame-font-size '1+))
+        "Increase the frame font size by 1."
+        (interactive)
+        (bnb/change-frame-font-size '1+))
 
       (defun bnb/frame-text-scale-decrease ()
-  "Decrease the frame font size by 1."
-  (interactive)
-  (bnb/change-frame-font-size '1-))
+        "Decrease the frame font size by 1."
+        (interactive)
+        (bnb/change-frame-font-size '1-))
 
       (bind-keys
        ("C-+" . text-scale-increase)
@@ -4533,8 +4525,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        (sky-color-clock-initialize 40)
        (setq sky-color-clock-enable-emoji-icon t)
        (sky-color-clock-initialize-openweathermap-client
-  bnb/openweathermap-api-key
-  bnb/openweathermap-city-id))
+        bnb/openweathermap-api-key
+        bnb/openweathermap-city-id))
    #+end_src
 
 ** Doom Modeline
@@ -4545,7 +4537,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        :init (doom-modeline-mode t)
        :config
        (setq
-  doom-modeline-height 0))
+        doom-modeline-height 0))
    #+end_src
 
 ** ⁂ Mode
@@ -4555,10 +4547,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
    #+begin_src emacs-lisp
      (defun bnb/smaller-sky-color ()
        (let* ((scc (sky-color-clock))
-	(len (length scc)))
-   (add-face-text-property 0 len '(:height 90) t scc)
-   ;(add-face-text-property 0 len '(:justification right) t scc)
-   scc))
+              (len (length scc)))
+         (add-face-text-property 0 len '(:height 90) t scc)
+                                             ;(add-face-text-property 0 len '(:justification right) t scc)
+         scc))
 
      (use-package asterism-mode
        :quelpa
@@ -4574,8 +4566,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
    #+begin_src emacs-lisp
      (use-package font-lock-profiler
        :commands (font-lock-profiler-start
-      font-lock-profiler-buffer
-      font-lock-profiler-region))
+                  font-lock-profiler-buffer
+                  font-lock-profiler-region))
    #+end_src
 
 ** Pretty Symbols
@@ -4590,7 +4582,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
        :config
        (global-pretty-mode t)
        (pretty-activate-groups
-  '(:sub-and-superscripts :greek :arithmetic-nary)))
+        '(:sub-and-superscripts :greek :arithmetic-nary)))
    #+end_src
 
 *** Prettify symbols mode
@@ -4602,35 +4594,35 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package prog-mode ; Contains pretty-symbols-mode
-  :config
-  (setq prettify-symbols-unprettify-at-point 'right-edge)
-  (global-prettify-symbols-mode t)
-  :hook
-  (python-mode .
-   (lambda ()
-     (mapc (lambda (pair) (push pair prettify-symbols-alist))
-     '(;; Syntax
-       ("def" .      ?ℱ)
-       ("not" .      ?❗)
-       ("in" .       ?∈)
-       ("not in" .   ?∉)
-       ("return" .   ?⟼)
-       ("yield" .    ?⟻)
-       ("for" .      ?∀)
-       ;; Base Types
-       ("int" .      ?ℤ)
-       ("float" .    ?ℝ)
-       ("str" .      ?𝕊)
-       ("True" .     ?𝕋)
-       ("False" .    ?𝔽)
-       ;; Mypy
-       ("Dict" .     ?𝔇)
-       ("List" .     ?ℒ)
-       ("Tuple" .    ?⨂)
-       ("Set" .      ?Ω)
-       ("Iterable" . ?𝔊)
-       ("Any" .      ?❔)
-       ("Union" .    ?∪))))))
+        :config
+        (setq prettify-symbols-unprettify-at-point 'right-edge)
+        (global-prettify-symbols-mode t)
+        :hook
+        (python-mode .
+                     (lambda ()
+                       (mapc (lambda (pair) (push pair prettify-symbols-alist))
+                             '(;; Syntax
+                               ("def" .      ?ℱ)
+                               ("not" .      ?❗)
+                               ("in" .       ?∈)
+                               ("not in" .   ?∉)
+                               ("return" .   ?⟼)
+                               ("yield" .    ?⟻)
+                               ("for" .      ?∀)
+                               ;; Base Types
+                               ("int" .      ?ℤ)
+                               ("float" .    ?ℝ)
+                               ("str" .      ?𝕊)
+                               ("True" .     ?𝕋)
+                               ("False" .    ?𝔽)
+                               ;; Mypy
+                               ("Dict" .     ?𝔇)
+                               ("List" .     ?ℒ)
+                               ("Tuple" .    ?⨂)
+                               ("Set" .      ?Ω)
+                               ("Iterable" . ?𝔊)
+                               ("Any" .      ?❔)
+                               ("Union" .    ?∪))))))
     #+end_src
 
 ** Color
@@ -4641,8 +4633,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package rainbow-mode
-  :commands (rainbow-mode)
-  :ensure t)
+        :commands (rainbow-mode)
+        :ensure t)
     #+end_src
 
 *** KureColor
@@ -4652,13 +4644,13 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (use-package kurecolor
-	:bind (("H-k" . kurecolor-increase-hue-by-step)
-	       ("H-j" . kurecolor-decrease-hue-by-step)
-	       ("s-k" . kurecolor-increase-saturation-by-step)
-	       ("s-j" . kurecolor-decrease-saturation-by-step)
-	       ("s-l" . kurecolor-increase-brightness-by-step)
-	       ("s-h" . kurecolor-decrease-brightness-by-step))
-	:ensure t)
+        :bind (("H-k" . kurecolor-increase-hue-by-step)
+               ("H-j" . kurecolor-decrease-hue-by-step)
+               ("s-k" . kurecolor-increase-saturation-by-step)
+               ("s-j" . kurecolor-decrease-saturation-by-step)
+               ("s-l" . kurecolor-increase-brightness-by-step)
+               ("s-h" . kurecolor-decrease-brightness-by-step))
+        :ensure t)
     #+end_src
 
 
@@ -4689,10 +4681,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
    #+begin_src emacs-lisp
      (condition-case err
-   (progn
-     (load-file (format "~/.emacs.d/%s.el"  user-login-name))
-     (message "Loaded local settings file %s.el" user-login-name))
+         (progn
+           (load-file (format "~/.emacs.d/%s.el"  user-login-name))
+           (message "Loaded local settings file %s.el" user-login-name))
        (file-error
-  (message "Skipping %s library as it does not exist." user-login-name))
+        (message "Skipping %s library as it does not exist." user-login-name))
        nil)
    #+end_src
