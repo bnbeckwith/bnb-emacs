@@ -3597,6 +3597,28 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
           :hook (org-mode . org-bullets-mode))
       #+end_src
 
+**** Org-AI
+
+     As much as I find this to be ridiculous, interacting with AI via
+     Emacs is likely the one true way. [[https://github.com/rksm/org-ai][Org-ai]] provides a natrual
+     interface for real humans.
+
+     #+begin_src emacs-lisp
+       (use-package org-ai
+         :ensure t
+         :commands (org-ai-mode
+                    org-ai-global-mode)
+         :init
+         (add-hook 'org-mode-hook #'org-ai-mode) ; enable org-ai in org-mode
+         (org-ai-global-mode) ; installs global keybindings on C-c M-a
+         :config
+         (setq org-ai-default-chat-model "gpt-3.5-turbo"))
+     #+end_src
+
+     This adds the ability to have =#+begin/end_ai= blocks to have a
+     "conversation" with ChatGPT or DALL⋅E. Be sure to set
+     ~org-ai-openai-api-token~ to your API token before using.
+
 **** Org Repo Todo                                                  :PENDING:
 
      Make it easy to setup a =TODO.org= from within a repo. I use this
