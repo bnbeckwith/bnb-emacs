@@ -3782,7 +3782,6 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
       (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
       (add-hook 'emacs-lisp-mode-hook 'paxedit-mode)
       (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-      (add-hook 'emacs-lisp-mode-hook 'lsp-mode)
     #+end_src
 
 *** HTML
