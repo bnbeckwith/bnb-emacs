@@ -1842,6 +1842,26 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
         :config (citar-org-roam-mode))
     #+end_src
 
+*** Tree Sitter
+
+    Introduced in emacs 29, [[https://tree-sitter.github.io/tree-sitter/][tree sitter]] transforms code into a
+    concrete syntax tree.  [[https://www.masteringemacs.org/article/how-to-get-started-tree-sitter][Read up on how to get started with tree-sitter]]
+
+**** Treesit Auto
+
+     Automatically install treesit grammars
+
+     #+begin_src emacs-lisp
+       (use-package treesit-auto
+         :ensure t
+         :custom
+         (treesit-auto-install 'prompt)
+         :config
+         (treesit-auto-add-to-auto-mode-alist 'all)
+         (global-treesit-auto-mode))
+     #+end_src
+
+
 ** Version Control
 *** Git
 **** Magit
