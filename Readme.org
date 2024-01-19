@@ -3268,6 +3268,15 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
            (append org-babel-load-languages '((restclient . t)))))
       #+end_src
 
+***** Customization
+
+      Python needs to find the right one, so I hard code what babel
+      should use for execution.
+
+      #+begin_src emacs-lisp
+        (setq org-babel-python-command "python3")
+      #+end_src
+
 **** Miscellaneous Settings
 ***** Auto-revert mode
 
