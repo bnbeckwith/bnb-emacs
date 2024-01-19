@@ -69,8 +69,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     To install with =brew=, run the following command:
     #+begin_src sh
-      brew install emacs-plus@28 --with-nobu417-big-sur-icon --with-imagemagick --with-native-comp
+      brew install emacs-plus@29 --with-nobu417-big-sur-icon --with-imagemagick --with-native-comp
     #+end_src
+
+    Notes: [[https://www.masteringemacs.org/article/whats-new-in-emacs-29-1][What's new in 29.1]]
 
 *** Pending sections
 
