@@ -2093,6 +2093,7 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     #+begin_src emacs-lisp
       (show-paren-mode t)
+      (setq show-paren-context-when-offscreen 'overlay)
     #+end_src
 
 ** Organization
