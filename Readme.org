@@ -3941,8 +3941,10 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
                     ("C-c C-c h" . lsp-ui-doc-glance))
         :config
         (lsp-rust-analyzer-cargo-watch-command "clippy")
-        (lsp-rust-analyzer-server-display-inlay-hints t)
+        (lsp-inlay-hint-enable t)
+        (rustic-indent-offset 2)
         :hook ((rustic-mode . flycheck-mode)
+               (rustic-mode . lsp-inlay-hints-mode)
                (rustic-mode . electric-pair-mode)))
 
       (defun bnb/rustic-mode-hook ()
