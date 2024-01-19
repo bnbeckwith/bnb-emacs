@@ -1811,6 +1811,37 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
     the installation to be complete.
 
 
+*** Citar (Bibtex completions)
+
+    https://github.com/emacs-citar/citar
+
+    #+begin_src emacs-lisp
+      (use-package citar
+        :ensure t
+        :custom
+        (citar-bibliography bnb/biblio)
+        (org-cite-global-bibliography bnb/biblio)
+        (org-cite-insert-processor 'citar)
+        (org-cite-follow-processor 'citar)
+        (org-cite-activate-processor 'citar)
+        :hook
+        (LaTeX-mode . citar-capf-setup)
+        (org-mode . citar-capf-setup))
+
+      (use-package citar-embark
+        :ensure t
+        :after citar embark
+        :no-require
+        :config (citar-embark-mode)
+        :custom
+        (citar-at-point-function 'embark-act))
+
+      (use-package citar-org-roam
+        :ensure t
+        :after (citar org-roam)
+        :config (citar-org-roam-mode))
+    #+end_src
+
 ** Version Control
 *** Git
 **** Magit
