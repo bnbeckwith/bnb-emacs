@@ -3046,39 +3046,6 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
                                 "Candidates to be archived"))))))
       #+end_src
 
-      #+begin_src emacs-lisp
-        (use-package org-super-agenda
-          :defer
-          :ensure t
-          :quelpa (org-super-agenda :fetcher github :repo "alphapapa/org-super-agenda")
-          :config
-          (org-super-agenda-mode t)
-          (add-to-list 'org-agenda-custom-commands
-                       '("rag" "Grouped Tasks"
-                         ((todo "" ((org-super-agenda-groups
-                                     '((:name "All Tasks" :auto-category t))))))))
-          (add-to-list 'org-agenda-custom-commands
-                       '("f1" "Score 1 Tasks"
-                         ((tags "+Score=1" ((org-super-agenda-groups
-                                             '((:name "Score 1 Tasks" :auto-category t))))))))
-          (add-to-list 'org-agenda-custom-commands
-                       '("f2" "Score 2 Tasks"
-                         ((tags "+Score=2" ((org-super-agenda-groups
-                                             '((:name "Score 1 Tasks" :auto-category t))))))))
-          (add-to-list 'org-agenda-custom-commands
-                       '("f3" "Score 3 Tasks"
-                         ((tags "+Score=3" ((org-super-agenda-groups
-                                             '((:name "Score 1 Tasks" :auto-category t))))))))
-          (add-to-list 'org-agenda-custom-commands
-                       '("f5" "Score 5 Tasks"
-                         ((tags "+Score=5" ((org-super-agenda-groups
-                                             '((:name "Score 1 Tasks" :auto-category t))))))))
-          (add-to-list 'org-agenda-custom-commands
-                       '("f8" "Score 8 Tasks"
-                         ((tags "+Score=8" ((org-super-agenda-groups
-                                             '((:name "Score 1 Tasks" :auto-category t)))))))))
-      #+end_src
-
       Phew! That is a lot of lisp! It is easiest to describe each view
       by the key that triggers it.
 
