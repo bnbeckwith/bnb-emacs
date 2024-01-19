@@ -320,7 +320,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
                 ("C-x r b" . consult-bookmark)
                 ;; Custom M bindings
                 ("M-g o" . consult-ouline)
-                ("M-y" . consult-yank-pop))
+                ("M-y" . consult-yank-pop)
+                ("M-i" . consult-imenu))
          :init
          (fset 'multi-occur #'consult-multi-occur))
      #+end_src
