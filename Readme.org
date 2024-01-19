@@ -799,6 +799,15 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
               ("Asia/Kolkata" "Bangalore")))
     #+end_src
 
+*** Isearch
+
+    Folding quotes will allow isearch to find /similar/ characters to
+    the ones being searched for.
+
+    #+begin_src emacs-lisp
+      ;; New in Emacs 29
+      (setq isearch-fold-quotes-mode t)
+    #+end_src
 ** Minibuffer
 *** Delight
 
