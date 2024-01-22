@@ -3,7 +3,7 @@
 #+OPTIONS: html-preamble:t html-scripts:t html-style:t
 #+OPTIONS: html5-fancy:nil tex:t
 #+CREATOR: <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.7a)
-#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+#+SETUPFILE: ./org-html-themes/org/theme-readtheorg-local.setup
 #+EXPORT_FILE_NAME: index.html
 #+HTML_CONTAINER: div
 #+HTML_DOCTYPE: xhtml-strict
