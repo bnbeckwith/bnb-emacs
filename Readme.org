@@ -163,6 +163,10 @@
     There is also the [[elisp:(elpaca-log)][elpaca log]] that can show loading times.
 
 * Preamble
+
+  This sections houses the settings that need to be made up front and
+  support subsuquent package installation and activiation.
+
 ** Personal Information
 
    The full name is used for email messages.
