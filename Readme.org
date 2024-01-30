@@ -343,7 +343,15 @@
     #+end_src
 
 * Settings
+
+  The sections here contain mostly settings that configure keymaps,
+  command launchers, built-in features, and other details for
+  day-to-day life.
+  
 ** Keys
+
+   These sections contain setting related to keys and keymaps.
+   
 *** Binding Keys
 
     For binding keys, I use the [[https://github.com/jwiegley/use-package/blob/master/bind-key.el][bind-key]] package. Not only does it
@@ -548,6 +556,9 @@
 
 ** Command Launchers
 
+   This section holds the settings for my two main command launchers:
+   hydra and vertico.
+   
 *** Hydra
 
     Sometimes it is useful to go into a /command mode/ that lets you
@@ -666,6 +677,9 @@
      #+end_src
 
 ** Expansion
+
+   This section defines interations with completion systems.
+   
 *** Abbrev
 
     The following block is courtesy of [[http://endlessparentheses.com/ispell-and-abbrev-the-perfect-auto-correct.html][Endless Parentheses]].
@@ -756,6 +770,10 @@
 
 
 ** Built-in Features
+
+   Emacs comes with some nice batteries. This section configures my
+   favorites.
+   
 *** Backups
 
     Sensible backup settings from [[https://www.emacswiki.org/emacs/BackupDirectory]]
@@ -912,6 +930,9 @@
     #+end_src
     
 ** Minibuffer
+
+   This section holds any =minibuffer= settings.
+   
 *** Minibuffer History
 
     Let's get rid of duplicates in the minibuffer history.
@@ -931,6 +952,10 @@
     #+end_src
 
 ** Movement
+
+   Getting around takes a little tweaking. This section holds the
+   details on how movement is defined for me.
+   
 *** Ace Utilities
 **** Ace Flyspell
 
@@ -1536,6 +1561,10 @@
     #+end_src
 
 ** Editing
+
+   Similar to movement, editing happens /every day/, so I use a few
+   customizations to make it nice.
+   
 *** Ediff single frame
 
     I really dislike the multi-frame mode of =ediff=.  It is confusing
@@ -1656,6 +1685,10 @@
 
 
 ** Images
+
+   Emacs does a good job with images, so any particular preferences
+   are handled in this section.
+   
 *** ImageMagick
 
     Register file types if we can.
