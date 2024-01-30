@@ -222,23 +222,32 @@
 
 ** Early Initialization
 
-   In order to speed up emacs initializtion, there are a few tweaks that we can make.
+   There are a few optimizations to make so that emacs can get
+   initialized quickly. First, setup the garbage collector to have a
+   default value of 16mb and a initializtion time value of
+   =most-positive-fixnum=.
+
+   This prevents garbage collection from pausing evaluation during
+   startup. After startup, I leverage the hook to reset the
+   optimizations down to their default values.
+
+   The next setting stores [[help:file-name-handler-alist][file-name-handler-alist]] and then sets it to
+   =nil=. By doing this, there is no automatic handler evalutation
+   happening during startup. This setting goes back to its original
+   value post startup.
+
+   Finally, user interface elements are hidden early to have a nice
+   streamlined interface.
 
    #+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el" :exports code :results silent
-     (defvar default-gc-cons-threshold 16777216 ; 16mb
+     (defvar default-gc-cons-threshold 16777216; 16mb
        "my default desired value of `gc-cons-threshold'
      during normal emacs operations.")
 
      ;; make garbage collector less invasive
      (setq
-      gc-cons-threshold
-      most-positive-fixnum
+      gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
-
-     ;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
-     (push '(menu-bar-lines . 0) default-frame-alist)
-     (push '(tool-bar-lines . 0) default-frame-alist)
-     (push '(vertical-scroll-bars) default-frame-alist)
 
      (setq
       default-file-name-handler-alist
@@ -256,8 +265,17 @@
 
         ;; delete no longer necessary startup variable
         (makunbound 'default-file-name-handler-alist)))
+
+     ;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
+     (push '(menu-bar-lines . 0) default-frame-alist)
+     (push '(tool-bar-lines . 0) default-frame-alist)
+     (push '(vertical-scroll-bars) default-frame-alist)
+
    #+end_src
 
+   The block above is written to [[file+emacs:~/.emacs.d/early-init.el][~/.emacs.d/early-init.el]] and
+   automatically evaluated first by emacs.
+   
 ** Libraries
 
 *** Dash
