@@ -159,6 +159,8 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
 
     The generated messages will be found in the =*Messsages*= buffer.
 
+    There is also the [[elisp:(elpaca-log)][elpaca log]] that can show loading times.
+
 * Preamble
 ** Personal Information
 
