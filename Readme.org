@@ -183,7 +183,8 @@
     only some details to differ.
 
     I like to set the custom file explicitly. Mine resides in the
-    =~/.emacs.d/= directory. This code block loads it if it exists.
+    [[file+emacs:~/.emacs.d/][~/.emacs.d/]] directory. This code block sets the file name and
+    loads it if it exists.
 
     #+begin_src emacs-lisp
       (setq custom-file "~/.emacs.d/custom.el")
@@ -191,11 +192,11 @@
           (load-file custom-file))
     #+end_src
 
-   If the file doesn't exist, =Emacs= will still use the file if any
-   changes are made through the /custom interface/.
-
-   Sometimes I'll get bad settings or cruft in that file. I now have a
-   key, ~<F7>~, for easy navigation to wherever the =custom-file= points.
+    If the file doesn't exist, =Emacs= will still use the file if any
+    changes are made through the /custom interface/.
+   
+    Sometimes I'll get bad settings or cruft in that file. I now have a
+    key, ~<F7>~, for easy navigation to wherever the =custom-file= points.
 
 *** Local variables (user-login-name)
 
