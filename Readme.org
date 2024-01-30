@@ -323,7 +323,9 @@
 
 *** Seq
 
-    Magit needs an updated =seq=, so we can install it here.
+    [[*Magit][Magit]] needs an updated [[https://elpa.gnu.org/packages/seq.html][seq]], so we can install it here. Note that
+    the functions below unload the library if already loaded, and then
+    does the correct install.
 
     #+begin_src emacs-lisp
           ;;; Take care of the seq dependency
