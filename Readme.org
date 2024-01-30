@@ -102,6 +102,31 @@ the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
    This section has specific notes that are relevant to my emacs setup
    in general and this document in particular.
 
+*** Elpaca
+
+    A newer package manager, [[https://github.com/progfolio/elpaca][Elpaca]] seeks to be a preferred drop-in
+    replacement for the built-in =package.el= manager. For the
+    configuration above, I use the standard installation boilerplate
+    and enable [[help:use-package][use-package]] support.
+
+    This is the quick cheat sheet of commands:
+    | Operation                             | UI (keys apply in elpaca-ui-mode) | completing-read interface commands               |
+    |---------------------------------------+-----------------------------------+--------------------------------------------------|
+    | Finding Packages                      | =M-x elpaca-manager=                | [[help:elpaca-try][elpaca-try]]                                       |
+    | Trying Packages (for current session) | =i x=                               | [[help:elpaca-try][elpaca-try]]                                       |
+    | Fetching Package Updates              | =f x=                               | [[help:elpaca-fetch][elpaca-fetch]] or [[help:elpaca-fetch-all][elpaca-fetch-all]]                 |
+    | Merging Updates                       | =u x=                               | [[help:elpaca-merge][elpaca-merge]] or [[help:elpaca-merge-all][elpaca-merge-all]]                 |
+    | Pulling Updates*                      | =C-u u x=                           | =C-u M-x elpaca-merge= or =C-u M-x elpaca-merge-all= |
+    | Rebuilding Packages                   | =r x=                               | [[help:elpaca-rebuild][elpaca-rebuild]]                                   |
+    | Deleting Packages                     | =d x=                               | [[help:elpaca-delete][elpaca-delete]]                                    |
+    | View Package Logs                     | =l= filters log to current package  | [[help:elpaca-log][elpaca-log]]                                       |
+    | View Package Statuses                 | =t= show most recent log entries    | [[help:elpaca-status][elpaca-status]]                                    |
+    | Visit Package Repository Directory    | =v=                                 | [[help:elpaca-visit][elpaca-visit]]                                     |
+    | Visit Package Build Directory         | =C-u v=                             | =C-u M-x elpaca-visit=                             |
+    | Browse Package Website                | =b=                                 | [[help:elpaca-browse][elpaca-browse]]                                    |
+
+    There is also a [[https://github.com/progfolio/elpaca/blob/master/doc/manual.md][helpful manual]].
+   
 *** Emacs Build
 
     My current flavor of Emacs comes from:
