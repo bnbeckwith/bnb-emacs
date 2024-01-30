@@ -294,12 +294,16 @@
 *** Delight
 
     The mode line can get pretty busy showing all of the package
-    names. ~delight~ helps tone it down by removing some packages from
+    names. [[https://www.gnu.org/software/emacs/manual/html_node/use-package/Delight.html][Delight]] helps tone it down by removing some packages from
     showing up, or changing their name to something shorter.
 
-   #+begin_src emacs-lisp
-     (use-package delight :ensure t)
-   #+end_src
+    In =use-package= delcarations, I use the =:delight= keyword to set a
+    string to represent the package. It is also possible to provide
+    elisp for evaluation.
+
+    #+begin_src emacs-lisp
+      (use-package delight :ensure t)
+    #+end_src
 
 *** Hydra
 
