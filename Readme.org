@@ -278,7 +278,13 @@
    
 ** Libraries
 
+   This section hosts early loading of libraries required by
+   subsequent packages.
+
 *** Dash
+
+    The modern list library, [[https://github.com/magnars/dash.el][Dash]], provides a set of common list
+    manipulation functions (all prepended with '-', hence the name).
     
     #+begin_src emacs-lisp
       (use-package dash
