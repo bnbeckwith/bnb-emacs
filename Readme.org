@@ -308,7 +308,7 @@
 *** Hydra
 
     Sometimes it is useful to go into a /command mode/ that lets you
-    quickly do a few different actions. Hydra does that and more.
+    quickly do a few different actions. [[https://github.com/abo-abo/hydra][Hydra]] does that and more.
 
     By defining specific /hydras/, you can group together commands with
     documentation. Think of it as a mini-control-panel. I include it
