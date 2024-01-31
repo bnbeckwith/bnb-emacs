@@ -1691,7 +1691,9 @@
    
 *** ImageMagick
 
-    Register file types if we can.
+    Register image file types that can be handled by ImageMagick. Note
+    that Emacs needs to be compiled with ImageMagick support for this
+    to do anything.
 
     #+begin_src emacs-lisp
       (elpaca nil
