@@ -402,23 +402,23 @@
 
      What are these settings?
 
-     | Switch                    | Description                                  |
+     | Function                  | Description                                  |
      |---------------------------+----------------------------------------------|
-     | column-number-mode        | Toggle column number display in the modeline |
-     | toggle-debug-on-error     | Enter debugger on error                      |
-     | toggle-debug-on-quit      | Enter debugger on =C-g=                        |
-     | auto-fill-mode            | Automatic line breaking                      |
-     | toggle-truncate-lines     | Truncate long lines in the buffer            |
-     | dired-toggle-read-only    | Read-only mode                               |
-     | whitespace-mode           | Whitespace visualization                     |
-     | orgtbl-mode               | Use org table minor mode (non-org buffers)   |
-     | bnb/transparency-next     | Cycle forward through transparency settings  |
-     | bnb/transparency-previous | Cycle backward through transparency settings |
-     | display-battery-mode      | Show battery info in modeline                |
-     | hl-line-mode              | Highlight current line                       |
-     | linum-mode                | Absolute ine numbers                         |
-     | linum-relative-toggle     | Relative line numbers                        |
-     | bnb/hide-mode-line-mode   | Toggle mode line                             |
+     | [[help:column-number-mode][column-number-mode]]        | Toggle column number display in the modeline |
+     | [[help:toggle-debug-on-error][toggle-debug-on-error]]     | Enter debugger on error                      |
+     | [[help:toggle-debug-on-quit][toggle-debug-on-quit]]      | Enter debugger on =C-g=                        |
+     | [[help:auto-fill-mode][auto-fill-mode]]            | Automatic line breaking                      |
+     | [[help:toggle-truncate-lines][toggle-truncate-lines]]     | Truncate long lines in the buffer            |
+     | [[help:dired-toggle-read-only][dired-toggle-read-only]]    | Read-only mode                               |
+     | [[help:whitespace-mode][whitespace-mode]]           | Whitespace visualization                     |
+     | [[help:orgtbl-mode][orgtbl-mode]]               | Use org table minor mode (non-org buffers)   |
+     | [[help:bnb/transparency-next][bnb/transparency-next]]     | Cycle forward through transparency settings  |
+     | [[help:bnb/transparency-previous][bnb/transparency-previous]] | Cycle backward through transparency settings |
+     | [[help:display-battery-mode][display-battery-mode]]      | Show battery info in modeline                |
+     | [[help:hl-line-mode][hl-line-mode]]              | Highlight current line                       |
+     | [[help:linum-mode][linum-mode]]                | Absolute ine numbers                         |
+     | [[help:linum-relative-toggle][linum-relative-toggle]]     | Relative line numbers                        |
+     | [[help:bnb/hide-mode-line-mode][bnb/hide-mode-line-mode]]   | Toggle mode line                             |
      
      #+begin_src emacs-lisp
        (defmacro toggle-setting-string (setting)
