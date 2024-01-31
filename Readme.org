@@ -399,26 +399,27 @@
      shortcut keys for enabling. The amaranth color makes this buffer
      stay around until I press =q=.
 
-
      What are these settings?
-
-     | Function                  | Description                                  |
-     |---------------------------+----------------------------------------------|
-     | [[help:column-number-mode][column-number-mode]]        | Toggle column number display in the modeline |
-     | [[help:toggle-debug-on-error][toggle-debug-on-error]]     | Enter debugger on error                      |
-     | [[help:toggle-debug-on-quit][toggle-debug-on-quit]]      | Enter debugger on =C-g=                        |
-     | [[help:auto-fill-mode][auto-fill-mode]]            | Automatic line breaking                      |
-     | [[help:toggle-truncate-lines][toggle-truncate-lines]]     | Truncate long lines in the buffer            |
-     | [[help:dired-toggle-read-only][dired-toggle-read-only]]    | Read-only mode                               |
-     | [[help:whitespace-mode][whitespace-mode]]           | Whitespace visualization                     |
-     | [[help:orgtbl-mode][orgtbl-mode]]               | Use org table minor mode (non-org buffers)   |
-     | [[help:bnb/transparency-next][bnb/transparency-next]]     | Cycle forward through transparency settings  |
-     | [[help:bnb/transparency-previous][bnb/transparency-previous]] | Cycle backward through transparency settings |
-     | [[help:display-battery-mode][display-battery-mode]]      | Show battery info in modeline                |
-     | [[help:hl-line-mode][hl-line-mode]]              | Highlight current line                       |
-     | [[help:linum-mode][linum-mode]]                | Absolute ine numbers                         |
-     | [[help:linum-relative-toggle][linum-relative-toggle]]     | Relative line numbers                        |
-     | [[help:bnb/hide-mode-line-mode][bnb/hide-mode-line-mode]]   | Toggle mode line                             |
+     
+     #+CAPTION: Toggle Map Functions
+     #+LABEL: tbl:toggle-map
+     | Key | Function                  | Description                                  |
+     |-----+---------------------------+----------------------------------------------|
+     | =c=   | [[help:column-number-mode][column-number-mode]]        | Toggle column number display in the modeline |
+     | =e=   | [[help:toggle-debug-on-error][toggle-debug-on-error]]     | Enter debugger on error                      |
+     | =u=   | [[help:toggle-debug-on-quit][toggle-debug-on-quit]]      | Enter debugger on =C-g=                        |
+     | =f=   | [[help:auto-fill-mode][auto-fill-mode]]            | Automatic line breaking                      |
+     | =t=   | [[help:toggle-truncate-lines][toggle-truncate-lines]]     | Truncate long lines in the buffer            |
+     | =r=   | [[help:dired-toggle-read-only][dired-toggle-read-only]]    | Read-only mode                               |
+     | =w=   | [[help:whitespace-mode][whitespace-mode]]           | Whitespace visualization                     |
+     | =b=   | [[help:orgtbl-mode][orgtbl-mode]]               | Use org table minor mode (non-org buffers)   |
+     | =x=   | [[help:bnb/transparency-next][bnb/transparency-next]]     | Cycle forward through transparency settings  |
+     | =X=   | [[help:bnb/transparency-previous][bnb/transparency-previous]] | Cycle backward through transparency settings |
+     | =B=   | [[help:display-battery-mode][display-battery-mode]]      | Show battery info in modeline                |
+     | =l=   | [[help:hl-line-mode][hl-line-mode]]              | Highlight current line                       |
+     | =n=   | [[help:linum-mode][linum-mode]]                | Absolute ine numbers                         |
+     | =N=   | [[help:linum-relative-toggle][linum-relative-toggle]]     | Relative line numbers                        |
+     | =m=   | [[help:bnb/hide-mode-line-mode][bnb/hide-mode-line-mode]]   | Toggle mode line                             |
      
      #+begin_src emacs-lisp
        (defmacro toggle-setting-string (setting)
