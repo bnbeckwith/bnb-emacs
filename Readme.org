@@ -565,22 +565,21 @@
           ("C-x C-k" . bnb/kill-this-buffer)))
      #+end_src
 
-
 *** Super keys
 
     I like to be able to use the command (or super or hyper) keys for
     shortcuts. I need to take care to not interfere with the built-in
-    shortcuts or my bindings will not work.
+    operating system shortcuts or my bindings will not work.
 
     #+begin_src emacs-lisp
       (setq mac-function-modifier 'hyper
-      mac-pass-command-to-system nil
-      mac-right-option-modifier 'super
-      mac-right-command-modifier 'hyper
-      mac-right-control-modifier 'hyper
-      mac-command-modifier 'meta
-      mac-control-modifier 'ctrl
-      mac-option-modifier 'none)
+            mac-pass-command-to-system nil
+            mac-right-option-modifier 'super
+            mac-right-command-modifier 'hyper
+            mac-right-control-modifier 'hyper
+            mac-command-modifier 'meta
+            mac-control-modifier 'ctrl
+            mac-option-modifier 'none)
     #+end_src
 
     Note that the right =option= and =command= keys will pass through to
