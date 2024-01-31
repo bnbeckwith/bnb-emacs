@@ -485,14 +485,19 @@
      There is one block for execuing items and another for looking up
      specific =elisp= help.
 
+**** Whitespace
+
+     This mode (used in the keymap above) toggles a mode that shows
+     the different whitespace in a buffer.
+     
      #+begin_src emacs-lisp
        (use-package whitespace
          :elpaca nil
          :ensure nil
+         :commands (whitespace-mode)
          :custom
          (whitespace-line-column nil)
-         ; :hook (before-save . whitespace-cleanup)
-         :delight whitespace-mode)
+         :delight " 🟂")
      #+end_src
 
 ****** Deletion
