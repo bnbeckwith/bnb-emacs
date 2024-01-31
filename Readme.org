@@ -134,7 +134,7 @@
     https://github.com/d12frosted/homebrew-emacs-plus
 
     To install with =brew=, run the following command:
-    #+begin_src sh :tangle no
+    #+begin_src sh :tangle no :eval no
       brew install emacs-plus@29 --with-nobu417-big-sur-icon --with-imagemagick --with-native-comp
     #+end_src
 
