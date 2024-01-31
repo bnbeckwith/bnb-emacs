@@ -607,32 +607,40 @@
     keybinding commands.
 
 *** Vertico
-    
-    https://github.com/minad/vertico
 
+    Or [[https://github.com/minad/vertico][VERTical Interactive COmpletion]], is my preferred completion
+    interface.
+    
     #+begin_src emacs-lisp
       (use-package vertico
         :ensure t
         :config (vertico-mode))
-
-      ;; Configure directory extension.
-      (use-package vertico-directory
-        :after vertico
-        :ensure nil
-        :elpaca nil
-        ;; More convenient directory navigation commands
-        :bind (:map vertico-map
-                    ("RET" . vertico-directory-enter)
-                    ("DEL" . vertico-directory-delete-char)
-                    ("M-DEL" . vertico-directory-delete-word)
-                    ("?" . minibuffer-completion-help))
-        ;; Tidy shadowed file names
-        :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
     #+end_src
+
+**** Vertico Directory
+
+     The [[https://github.com/minad/vertico/blob/main/extensions/vertico-directory.el][directory]] extension navigates directories like =Ido=.
+     
+     #+begin_src emacs-lisp
+       ;; Configure directory extension.
+       (use-package vertico-directory
+         :after vertico
+         :ensure nil
+         :elpaca nil
+         ;; More convenient directory navigation commands
+         :bind (:map vertico-map
+                     ("RET"   . vertico-directory-enter)
+                     ("DEL"   . vertico-directory-delete-char)
+                     ("M-DEL" . vertico-directory-delete-word)
+                     ("?"     . minibuffer-completion-help))
+         ;; Tidy shadowed file names
+         :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
+     #+end_src
 
 **** Embark
      
-     https://github.com/oantolin/embark
+     The [[https://github.com/oantolin/embark][embark]] package helps find actions relevant to what is near
+     the point.  With =C-.=, a menu pops up with actions to choose from.
 
      #+begin_src emacs-lisp
        (use-package embark
@@ -660,7 +668,9 @@
 
 **** Orderless
      
-     https://github.com/oantolin/orderless
+     Easy completion is possible with [[https://github.com/oantolin/orderless][Orderless.]] This completion
+     framework lets users utilize matching elements separated by
+     spaces.
 
      #+begin_src emacs-lisp
        (use-package orderless
@@ -670,9 +680,23 @@
          (completion-category-overrides '((file (styles basic partial-completion)))))
      #+end_src
 
+     Within the matching framework, a few /dispatchers/ can modify the
+     subsequent matchers. The following table summarizes these
+     elements.
+
+     | Character | Effect                            |
+     |-----------+-----------------------------------|
+     | =!=         | Does /not/ match following literal  |
+     | =,=         | Matches initial characters        |
+     | ===         | Forces a literal match            |
+     | =~=         | Uses the flex matching            |
+     | =%=         | Matches while ignoring diacritics |
+
 **** Consult
 
-     https://github.com/minad/consult
+     Rounding out the completion helpers, [[https://github.com/minad/consult][Consult]] provides specific
+     functions that help complete actions or find elements. The
+     bindings are supplied below.
 
      #+begin_src emacs-lisp
        (use-package consult
@@ -684,26 +708,61 @@
                 ("C-c k" . consult-macro)
                 ("C-c o" . consult-outline)
                 ;; C-x bindings
-                ("C-x b" . consult-buffer)
+                ("C-x b"   . consult-buffer)
                 ("C-x 4 b" . consult-buffer-other-window)
                 ("C-x 5 b" . consult-buffer-other-frame)
                 ("C-x r x" . consult-register)
                 ("C-x r b" . consult-bookmark)
                 ;; Custom M bindings
                 ("M-g o" . consult-ouline)
-                ("M-y" . consult-yank-pop)
-                ("M-i" . consult-imenu))
+                ("M-y"   . consult-yank-pop)
+                ("M-i"   . consult-imenu))
+         :configure
+         (defvar bnb/org-agendas
+           (list :name "Org Agenda Files"
+                 :category 'file
+                 :narrow   ?a
+                 :face     'consult-file
+                 :history  'file-name-history
+                 :action   #'consult--file-action
+                 :items    #'org-agenda-files))
+         (add-to-list 'consult-buffer-sources 'bnb/org-agendas 'append)
          :init
          (fset 'multi-occur #'consult-multi-occur))
      #+end_src
 
+     One of the more interesting feaures is virtual buffers. When
+     viewing buffers, recent files, bookmarks, and similar, the
+     interface shows the buffer as you are selecting so that you can
+     have the right file context for the line you are selecting.
+
+     The [[help:consult-buffer][consult-buffer]] command is powerful and has specific key
+     sequences that can narrow the buffer list in useful ways.  These
+     are summarized in the following list.
+
+     - =b <SPC>= :: buffers
+     - =<SPC>= :: hidden buffers
+     - =* <SPC>= :: modified buffers
+     - =f <SPC>= :: files
+     - =r <SPC>= :: file registers
+     - =m <SPC>= :: bookmarks
+     - =p <SPC>= :: project
+
+
+     In the code block above, I add one more, =a <SPC>= that will show
+     the available [[help:org-agenda-files][org-agenda-files]] for easy selection.
+     
 **** Marginalia
 
-     https://github.com/minad/marginalia
+     The great thing about vertical completion is the extra horizontal
+     space. [[https://github.com/minad/marginalia][Marginalia]] makes use of this extra space by providing
+     relevant extra information about each element on the line.
 
      #+begin_src emacs-lisp
        (use-package marginalia
          :ensure t
+         :bind (:map minibuffer-local-map
+                     ("M-A" . marginalia-cycle))
          :config
          (marginalia-mode)
          (setq marginalia-annotators
@@ -1344,7 +1403,8 @@
         (let ((bnbface (cons '(:height 0.8) face)))
           (funcall orig-fn beg end txt bnbface)))
 
-      (advice-add 'org-columns--new-overlay :around #'bnb/org-overlay-font-override)
+      (with-eval-after-load 'org
+        (advice-add 'org-columns--new-overlay :around #'bnb/org-overlay-font-override))
       ;(advice-remove 'org-columns--new-overlay #'bnb/org-overlay-font-override)
     #+end_src
 
