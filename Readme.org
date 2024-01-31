@@ -2591,11 +2591,10 @@
     The one feature I cannot do without. Let's set up some basics.
 
     #+begin_src emacs-lisp
-      (use-package org-mode
-        :elpaca nil
-        :ensure org
+      (use-package org
+        :ensure t
         :delight (org-mode "🦄" :major)
-        :mode "\\.org\\(.gpg|_archive\\)?\\'"
+        :mode ("\\.org\\(_archive\\)?\\'" . org-mode)
         :bind
         ("C-c t"  . orgtbl-mode)
         ("C-c l"  . org-store-link)
