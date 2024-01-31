@@ -539,7 +539,7 @@
 
 ***** Align Regexp
 
-      When selecting a region, a quick trip to ~align-regexp~ can align
+      When selecting a region, a quick trip to [[help:align-regexp][align-regexp]] can align
       all of that nasty text.
 
       #+begin_src emacs-lisp
@@ -550,7 +550,7 @@
 
 **** Kill current buffer
 
-     Another great tip from [[http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/][Pragmatic Emacs]], use ~kill-this-buffer~ to
+     Another great tip from [[http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/][Pragmatic Emacs]], use [[help:kill-this-buffer][kill-this-buffer]] to
      kill the current buffer instead of asking which one.  I'm not
      overriding the =C-x k= default, but added a =C-x C-k= alternative.
 
