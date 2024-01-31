@@ -390,7 +390,7 @@
 
 *** Personal Keymaps
 
-    These are inspired from
+    The following settings are inspired from
     [[http://endlessparentheses.com/the-toggle-map-and-wizardry.html]].
 
 **** Toggle Map
@@ -399,6 +399,27 @@
      shortcut keys for enabling. The amaranth color makes this buffer
      stay around until I press =q=.
 
+
+     What are these settings?
+
+     | Switch                    | Description                                  |
+     |---------------------------+----------------------------------------------|
+     | column-number-mode        | Toggle column number display in the modeline |
+     | toggle-debug-on-error     | Enter debugger on error                      |
+     | toggle-debug-on-quit      | Enter debugger on =C-g=                        |
+     | auto-fill-mode            | Automatic line breaking                      |
+     | toggle-truncate-lines     | Truncate long lines in the buffer            |
+     | dired-toggle-read-only    | Read-only mode                               |
+     | whitespace-mode           | Whitespace visualization                     |
+     | orgtbl-mode               | Use org table minor mode (non-org buffers)   |
+     | bnb/transparency-next     | Cycle forward through transparency settings  |
+     | bnb/transparency-previous | Cycle backward through transparency settings |
+     | display-battery-mode      | Show battery info in modeline                |
+     | hl-line-mode              | Highlight current line                       |
+     | linum-mode                | Absolute ine numbers                         |
+     | linum-relative-toggle     | Relative line numbers                        |
+     | bnb/hide-mode-line-mode   | Toggle mode line                             |
+     
      #+begin_src emacs-lisp
        (defmacro toggle-setting-string (setting)
          `(if (and (boundp ',setting) ,setting) '[x] '[_]))
@@ -424,11 +445,9 @@
             ("r" dired-toggle-read-only nil)
             ("w" whitespace-mode nil)
             ("b" orgtbl-mode nil)
-            ("s" orgstruct-mode nil)
             ("x" bnb/transparency-next nil)
             ("B" display-battery-mode nil)
             ("X" bnb/transparency-previous nil)
-            ("h" diff-hl-mode nil)
             ("l" hl-line-mode nil)
             ("n" linum-mode nil)
             ("N" linum-relative-toggle nil)
