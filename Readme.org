@@ -717,7 +717,7 @@
                 ("M-g o" . consult-ouline)
                 ("M-y"   . consult-yank-pop)
                 ("M-i"   . consult-imenu))
-         :configure
+         :config
          (defvar bnb/org-agendas
            (list :name "Org Agenda Files"
                  :category 'file
@@ -771,11 +771,13 @@
 
 ** Expansion
 
-   This section defines interations with completion systems.
+   This section defines interations with text expansion systems.
    
 *** Abbrev
 
-    The following block is courtesy of [[http://endlessparentheses.com/ispell-and-abbrev-the-perfect-auto-correct.html][Endless Parentheses]].
+    The following block is courtesy of [[http://endlessparentheses.com/ispell-and-abbrev-the-perfect-auto-correct.html][Endless Parentheses]]. For
+    regular misspellings, we can do [[help:ispell][ispell]] and then make an
+    abbreviation for future corrections.
 
     #+begin_src emacs-lisp
       (defun bnb/ispell-word-then-abbrev (p)
@@ -815,11 +817,10 @@
        (use-package company
          :ensure t
          :delight company-mode
-         :hook
-         (after-init .  global-company-mode)
+         :init
+         (global-company-mode)
          :bind
          (("C-<tab>" . company-complete-common-or-cycle)
-          ("C-<tab>" . company-complete-org-mode-map)
           :map company-active-map
           ("s-<tab>" . company-complete-common-or-cycle)
           ("C-n"     . company-select-next)
@@ -837,8 +838,11 @@
          (company-dabbrev-code-ignore-case t))
      #+end_src
 
-**** Yasnippet
+**** Yasnippet                                                      :PENDING:
 
+     Text expansion makes sense in many programming modes. [[https://joaotavora.github.io/yasnippet/index.html][Yasnippet]]
+     comes in handy by providing a minor mode for easy expansions.
+     
      #+begin_src emacs-lisp
        (use-package yasnippet
          :ensure t
@@ -850,6 +854,13 @@
          (yas-reload-all))
      #+end_src
 
+     I also load a collection of [[https://github.com/AndreaCrotti/yasnippet-snippets][yasnippet snippets]] so I don't have to
+     maintain my own.
+     
+     #+begin_src emacs-lisp
+       (use-package yasnippet-snippets
+         :ensure t)
+     #+end_src
 
 **** Hippie Expand
 
@@ -860,7 +871,6 @@
        (elpaca nil
          (bind-key "M-/" 'hippie-expand))
      #+end_src
-
 
 ** Built-in Features
 
