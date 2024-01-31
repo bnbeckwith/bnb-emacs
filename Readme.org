@@ -460,6 +460,15 @@
 
      Here are some nice-to-have features when in /elisp-mode/.
 
+     #+CAPTION: Elisp Map Functions
+     #+LABEL: tbl:elisp-map
+     | Key | Function                         | Description                 |
+     |-----+----------------------------------+-----------------------------|
+     | =b=   | [[help:eval-buffer][eval-buffer]]                      | Evaluate entire buffer      |
+     | =e=   | [[help:toggle-debug-on-error][toggle-debug-on-error]]            | Start the debugger on error |
+     | =f=   | [[help:emacs-lisp-byte-compile-and-load][emacs-lisp-byte-compile-and-load]] | Byte compile then load file |
+     | =r=   | [[help:eval-region][eval-region]]                      | Evaluate region             |
+     
      #+begin_src emacs-lisp
        (elpaca nil
          (bind-key
