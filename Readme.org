@@ -364,8 +364,9 @@
     #+end_src
 
     By using ~bind-key~, you can specify the keystrokes that invoke a
-    command. This is regular behavior that you can already achieve in
-    Emacs and will result in a global binding.
+    command. In the example above, we bind functions to the global key
+    map. Note that in later settings, there are also examples of
+    mapping keys within local keymaps.
 
     If you also want to override any possible minor-mode bindings of
     the same keys, you can use ~bind-key*~ instead.
