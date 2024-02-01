@@ -1246,8 +1246,9 @@
 
 *** Read-only helpers
 
-    For read-only files, look at them in =view-mode= which will enable
-    vi-style navigation.
+    For read-only files, look at them in [[help:view-mode][view-mode]] which will enable
+    vi-style navigation. In this mode, kill commands will save text,
+    but not remove it.
 
     #+begin_src emacs-lisp
       (use-package view
