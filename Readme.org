@@ -1473,7 +1473,11 @@
 
 *** Transparency
 
-    Using the =ring= package, these commands will cycles through transparency settings.
+    Using the =ring= package, these commands will cycles through
+    transparency settings.
+
+    The transparency ring variable holds cells that determing the
+    focused and unfocused opacity settings in terms of percentage.
 
     #+begin_src emacs-lisp
       (use-package ring
