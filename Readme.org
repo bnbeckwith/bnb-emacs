@@ -895,14 +895,14 @@
 
     Here's a quick rundown of the settings:
 
-    - [[elisp:(describe-variable 'backup-by-copying)][~backup-by-copying~]] :: Use copying to create backups when ~t~
-    - [[elisp:(describe-variable 'create-lockfile)][~create-lockfiles~]] :: Don't use lockfiles if ~nil~
-    - [[elisp:(describe-variable 'backup-directory-alist)][~backup-directory-alist~]] :: List of regexp/location pairs of where to backup files
-    - ~[[elisp:(describe-variable 'backup-directory-alist)][kill-buffer-delete-auto-save-files~]] :: Killing a buffer with an auto-save file will prompt for deletion
-    - [[elisp:(describe-variable 'delete-old-versions)][~delete-old-versions~]] :: Delete excess backups silently if ~t~
-    - [[elisp:(describe-variable 'kept-new-versions)][~kept-new-versions~]] :: Number of newest versions to keep
-    - [[elisp:(describe-variable 'kept-old-versions)][~kept-old-versions~]] :: Number of oldest versions to keep
-    - [[elisp:(describe-variable 'version-control)][~version-control~]] :: When ~t~, make numeric backup versions always
+    - [[help:backup-by-copying][~backup-by-copying~]] :: Use copying to create backups when ~t~
+    - [[help:create-lockfile][~create-lockfiles~]] :: Don't use lockfiles if ~nil~
+    - [[help:backup-directory-alist][~backup-directory-alist~]] :: List of regexp/location pairs of where to backup files
+    - [[help:backup-directory-alist][~kill-buffer-delete-auto-save-files~]] :: Killing a buffer with an auto-save file will prompt for deletion
+    - [[help:delete-old-versions][~delete-old-versions~]] :: Delete excess backups silently if ~t~
+    - [[help:kept-new-versions][~kept-new-versions~]] :: Number of newest versions to keep
+    - [[help:kept-old-versions][~kept-old-versions~]] :: Number of oldest versions to keep
+    - [[help:version-control][~version-control~]] :: When ~t~, make numeric backup versions always
 
 *** Bookmarks
 
