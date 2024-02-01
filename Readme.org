@@ -1001,13 +1001,13 @@
 
 *** Recentf
 
-    I enable emacs remembering recently open files.
+    I enable emacs remembering recently open files. For my setup, this
+    feeds into the candidates for [[*Consult][Consult]].
 
     #+begin_src emacs-lisp
       (elpaca nil
         (recentf-mode t))
     #+end_src
-
 
 *** Timezones
 
