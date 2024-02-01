@@ -1109,7 +1109,7 @@
 **** Ace Link
 
      In modes with links, use =o= to jump to links. Map =M-o= to do the
-     same in ~org-mode~.
+     same in [[*Orgmode][Orgmode]].
 
      #+begin_src emacs-lisp
        (use-package ace-link
@@ -1120,7 +1120,7 @@
 
 **** Ace Window
 
-     Instead of =C-x o= traversal, =ace-window= mode provides numbers
+     Instead of =C-x o= traversal, =ace-window= provides numbers
      for quick window access
 
      Set the keys to something other than the default numbers. Note
@@ -1135,7 +1135,7 @@
        (use-package ace-window
          :ensure t
          :bind
-         ("H-a"    . ace-window)
+         ("H-SPC"    . ace-window)
          ("<f9> a" . ace-window)
          :custom
          (aw-keys '(?j ?k ?l ?\; ?n ?m))
@@ -1182,23 +1182,34 @@
 
 **** Avy Goto
 
-     It is time to make some shortcuts for jumping to see if they make
-     sense for me.  The interesting feature that I can use is that
-     these highlight text an all shown buffers.
+     Navigating to the right spot in a buffer can be done in an easy
+     fashion with [[https://github.com/abo-abo/avy][Avy]]. The collection of /goto/ functions yield a
+     variety of methods to select where to place the point.
+
+     In the set of mappings below, it's easy to see the /thing/ you are
+     targeting (word, char, line), and how you are targeting it. The
+     how is the suffix.
+
+     A suffix of =1= means you will input one character to show the
+     candidates. A suffix of =0= will list all candidates without an
+     initial selection. A suffix of =2= means you'll input two
+     characters before showing candidates. Finally, a suffix of =timer=
+     will accept several characters and then show the candidates after
+     an elapsed timer.
 
      #+begin_src emacs-lisp
        (use-package avy
          :ensure t
          :bind
-         ("H-SPC" . avy-goto-char-timer)
+         ("H-." . avy-goto-char-timer)
          ("H-w"   . avy-goto-word-1)
-         ("H-c"   . avy-goto-char-2)
+         ("H-/"   . avy-goto-char-2)
          ("H-l"   . avy-goto-line)
          ("H-d"   . avy-goto-word-0)
-         ("<f9> SPC" . avy-goto-char-timer)
+         ("<f9> ." . avy-goto-char-timer)
          ("C-c g" . avy-goto-word-1)
          ("M-g l" . avy-goto-line)
-         ("M-g c" . avy-goto-char-2)
+         ("M-g ." . avy-goto-char-2)
          ("M-g w" . avy-goto-word-0))
      #+end_src
 
@@ -1206,13 +1217,10 @@
      commands and use l,c and w for lines, characters and words
      respectively.
 
-     The char version I use here is the two-element version. For
-     single character jumping, I have the Ace Isearch mode below that
-     will facilitate quick jumping.
-
 **** Avy Zap
 
-     Zap to char using avy.
+     Zap to char using avy. This is just what is sounds like. You kill
+     everything from point to the selected character.
 
      #+begin_src emacs-lisp
        (use-package avy-zap
