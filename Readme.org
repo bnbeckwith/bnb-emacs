@@ -1061,9 +1061,14 @@
    details on how movement is defined for me.
    
 *** Ace Utilities
+
+    The Ace (and subsequent Avy) packages aid in jumping the cursor to
+    the right place in the buffer.
+    
 **** Ace Flyspell
 
-     Turn on [[https://github.com/cute-jumper/ace-flyspell][ace-flyspell]] when flyspell is enabled.
+     Turn on [[https://github.com/cute-jumper/ace-flyspell][ace-flyspell]] when flyspell is enabled. This mode helps
+     jump between the errors (misspellings) discovered by flyspell.
 
      #+begin_src emacs-lisp
        (use-package ace-flyspell
