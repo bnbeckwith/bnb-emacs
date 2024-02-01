@@ -1780,15 +1780,14 @@
 
     | Key Binding | Meaning                                    |
     |-------------+--------------------------------------------|
-    | =C-c TAB=   | Switch syntax                              |
-    | =C-c C-e=   | Sub-expression mode (show matching groups) |
-    | =C-c C-s/r= | Search forward/backward                    |
-    | =C-c C-w=   | Copy regexp to kill ring                   |
-    | =C-c C-q=   | Quit the builder                           |
+    | =C-c TAB=     | Switch syntax                              |
+    | =C-c C-e=     | Sub-expression mode (show matching groups) |
+    | =C-c C-s/r=   | Search forward/backward                    |
+    | =C-c C-w=     | Copy regexp to kill ring                   |
+    | =C-c C-q=     | Quit the builder                           |
 
     Be sure to consult the [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Regexps.html][syntax of regular expressions]] to learn more
     about the weird backslashing.
-
 
 *** Executable Scripts on save
 
