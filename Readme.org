@@ -1791,7 +1791,8 @@
 
 *** Executable Scripts on save
 
-    Taken from: http://mbork.pl/2015-01-10_A_few_random_Emacs_tips
+    Taken from http://mbork.pl/2015-01-10_A_few_random_Emacs_tips,
+    this setting makes a file executable if it's a script.
 
     #+begin_src emacs-lisp
       (add-hook 'after-save-hook
