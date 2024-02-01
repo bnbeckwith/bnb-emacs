@@ -1528,7 +1528,7 @@
     agenda.
 
     If I am on track for the given day (at or above the scaled goal),
-    all is green.  Otherwise, I get a warning type formatting above 80%
+    all is green. Otherwise, I get a warning type formatting above 80%
     and error type formatting under.
 
     #+begin_src emacs-lisp
