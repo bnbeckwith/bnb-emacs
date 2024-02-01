@@ -1011,7 +1011,7 @@
 
 *** Timezones
 
-    For ~world-clock~, it's best to define the time zones most relevant
+    For [[help:world-clock][world-clock]], it's best to define the time zones most relevant
     to me. For compatible time zones, check [[https://en.wikipedia.org/wiki/List_of_tz_database_time_zones][this handy list]].
 
     #+begin_src emacs-lisp
