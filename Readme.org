@@ -1828,23 +1828,19 @@
     #+end_src
 
 * Minor Modes
+
+  The minor modes can be used in a variety of situations to enhance
+  the editing experience overall.
+
 ** Reference
-*** Discover my mode
 
-    If you ever wanted to know what keybindings were active in the
-    current buffer for the current mode, then it is now just a keypress
-    away.
-
-    #+begin_src emacs-lisp
-      (use-package discover-my-major
-        :ensure t
-        :bind (("C-h C-m" . discover-my-major)
-               ("C-h C-d" . discover-my-mode)))
-    #+end_src
-
+   These modes help present reference material.
+   
 *** Helpful
 
-    Using [[https://github.com/Wilfred/helpful][Helpful]] enables a better help buffer.
+    Using [[https://github.com/Wilfred/helpful][Helpful]] enables a better help buffer by providing a more
+    organized screen with contextual information and linked
+    references.
 
     #+begin_src emacs-lisp
       (use-package helpful
@@ -1875,7 +1871,8 @@
         :init
         (which-key-mode)
         (which-key-setup-side-window-right-bottom)
-        (setq which-key-max-description-length 60))
+        :custom
+        (which-key-max-description-length 60))
     #+end_src
 
 *** Dictionary
