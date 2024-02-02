@@ -20,7 +20,7 @@
 
   This document tangles (in literate programming style) the necessary
   commands to initialize Emacs to my liking and the documentation for my
-  choices.
+  choices. 
 
   To clone, go to the [[http://github.com/bnbeckwith/bnb-emacs][github repository]]. For a pretty view, head over to
   the [[http://bnbeckwith.com/bnb-emacs/][generated page]].  
@@ -640,7 +640,7 @@
 **** Embark
      
      The [[https://github.com/oantolin/embark][embark]] package helps find actions relevant to what is near
-     the point.  With =C-.=, a menu pops up with actions to choose from.
+     the point. With =C-.=, a menu pops up with actions to choose from.
 
      #+begin_src emacs-lisp
        (use-package embark
@@ -1277,7 +1277,7 @@
 *** Scroll Screen Position
 
     This is one of those cool finds for a problem I mostly knew that I
-    had. I often hit =C-v= by accident and lose my place.  With the
+    had. I often hit =C-v= by accident and lose my place. With the
     following setting, =M-v= completely undoes the scroll leaving the
     cursor back in the original position.
 
@@ -2221,9 +2221,14 @@
     #+end_src
 
 ** Checking
+
+   Authors can always use that little bit of extra help to ensure the
+   prose is right from the beginning.
+
 *** Writegood Mode
 
-    This mode installs through the ELPA system.
+    To avoid weaslewords, passive voice, and accidental duplicates,
+    employ [[https://github.com/bnbeckwith/writegood-mode][Writegood]].
 
     #+begin_src emacs-lisp
       (use-package writegood-mode
@@ -2253,6 +2258,12 @@
 
 *** Proselint
 
+    To get a complete, robust analysis of writing, [[https://github.com/amperser/proselint][Proselint]] can be
+    configured to work as a checker for flycheck.
+
+    Note that the executable needs to be installed on the system and
+    is not automatically provided.
+    
     #+begin_src emacs-lisp
       (with-eval-after-load "flycheck-mode"
         (flycheck-define-checker proselint
