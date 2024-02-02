@@ -2280,10 +2280,15 @@
     #+end_src
 
 ** Buffers
+
+   Handling buffers is central to an effective Emacs experience. This
+   section adds in the tools to make management easy.
+   
 *** Midnight Mode
 
-    This mode looks at midnight and kills any inactive buffers. By
-    default, /inactive/ means is any buffer untouched for three days.
+    This mode looks at midnight and kills any inactive buffers
+    (keeping things tidy). By default, /inactive/ means is any buffer
+    untouched for three days.
 
     #+begin_src emacs-lisp
       (use-package midnight
@@ -2293,21 +2298,24 @@
     
 *** IBuffer
 
-    Use ~ibuffer~ instead of ~list-buffers~ for buffer management. The
+    Use [[help:ibuffer][ibuffer]] instead of [[help:list-buffers][list-buffers]] for buffer management. The
     most visible difference being the coloring that ~ibuffer~ uses.
 
     I also squash any empty groups from being displayed and add hooks
     to automatically set the filter groups and update contents.
 
     #+begin_src emacs-lisp
-      (elpaca nil
-        (bind-key "C-x C-b" 'ibuffer)
-        (setq ibuffer-show-empty-filter-groups nil)
-
-        (add-hook 'ibuffer-mode-hook
-                  #'(lambda ()
-                      (ibuffer-auto-mode 1)
-                      (ibuffer-switch-to-saved-filter-groups "Standard"))))
+      (use-package ibuffer
+        :elpaca nil
+        :ensure nil
+        :bind
+        ("C-x C-b" . ibuffer)
+        :custom
+        (ibuffer-show-empty-filter-groups nil)
+        :hook
+        (ibuffer-mode . (lambda ()
+                          (ibuffer-auto-mode 1)
+                          (ibuffer-switch-to-saved-filter-groups "Standard"))))
     #+end_src
 
 **** Groups
@@ -2332,8 +2340,8 @@
 
 ***** VC Grouping
 
-      The ~ibuffer-vc~ package provides groups according to version
-      control sets. Here I setup a small keybinding to get to the
+      The [[https://github.com/purcell/ibuffer-vc][ibuffer-vc]] Package provides groups according to version
+      control sets. Here I setup a small keybinding (=/ v=) to get to the
       filtered vc groups.  The keys =/ R= will go back to the standard
       view.
 
@@ -2342,13 +2350,14 @@
           :ensure t
           :bind
           (:map ibuffer-mode-map
-                ("/ v" . ibuffer-vc-set-filter-groups-by-vc-root)))
+                ("/ ;" . ibuffer-vc-set-filter-groups-by-vc-root)))
       #+end_src
 
 *** Unique Buffer Names
 
     When editing files with the same name, but different location, a
-    unique identifier (based on path) is preferred over a number.
+    unique identifier (based on path) is preferred over a number. The
+    format below shows the buffername as =<filename>:<parent directory>=.
 
     #+begin_src emacs-lisp
       (use-package uniquify
@@ -2357,14 +2366,6 @@
         :config
         (setq uniquify-buffer-name-style 'post-forward
               uniquify-separator ":"))
-    #+end_src
-
-*** Relative line numbers
-
-    #+begin_src emacs-lisp
-      (use-package linum-relative
-        :defer 10
-        :ensure t)
     #+end_src
 
 ** Development
