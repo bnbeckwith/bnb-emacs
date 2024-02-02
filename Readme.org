@@ -2159,64 +2159,66 @@
 
 
 ** Version Control
-*** Git
-**** Magit
 
-     [[https://magit.vc/manual/magit.html][Magit]] is a git interface for Emacs.
+   Emacs is fantastic for interfacing with version control
+   systems. For git, it may have the best interface.
 
-     Here I set a global key for ~magit-status~. Think 'G' looks like 6.
+*** Magit
+
+    [[https://magit.vc/manual/magit.html][Magit]] is a git interface for Emacs.
+
+    Here I set a global key for ~magit-status~. Think 'G' looks like 6.
+
+    #+begin_src emacs-lisp
+      (use-package magit
+        :ensure t
+        :bind ("<f6>" . magit-status)
+        :custom
+        (magit-last-seen-setup-instructions "1.4.0"))
+    #+END_SRC
+
+**** Release 1.4.0
+
+     This magit release warns about auto-revert of buffers.  This is
+     turned on by default and I will keep that setting.  To turn off
+     the magit warning, I set =magit-last-seen-setup-instructions= to
+     1.4.0 as shown above.
+
+**** Forge
+
+     Git is different than [[https://github.com][Github]] and [[https://gitlab.com][Gitlab]]. [[https://magit.vc/manual/forge/index.html#Top][Forge]] provides the right
+     interface to work with both of these forges.
 
      #+begin_src emacs-lisp
-       ;; You could embed this code directly in the reicpe, I just abstracted it into a function.
-       (use-package magit
+       (use-package forge
+         :after magit
          :ensure t
-         :bind ("<f6>" . magit-status)
-         :config
-         (setq magit-last-seen-setup-instructions "1.4.0"))
-     #+END_SRC
-
-***** Release 1.4.0
-
-      This magit release warns about auto-revert of buffers.  This is
-      turned on by default and I will keep that setting.  To turn off
-      the magit warning, I set =magit-last-seen-setup-instructions= to
-      1.4.0 as shown above.
-
-***** Forge
-
-      [[https://magit.vc/manual/forge/index.html#Top][Forge]] is the replacement for magithub. It uses `ghub` to work
-      with git forges such as github and gitlab.
-
-      #+begin_src emacs-lisp
-        (use-package forge
-          :after magit
-          :ensure t
-          :commands (forge-pull))
-      #+end_src
-
-**** Smerge
-
-     Somewhere along the line, =smerge= was added. To facilitate editing
-     merge conflicts, this hydra helps me do the work.
-
-     #+begin_src emacs-lisp
-       (elpaca nil
-         (add-hook
-          'smerge-mode-hook
-          (lambda ()
-            (bind-key
-             "C-c ^ h"
-             (defhydra hydra-smerge (:color amaranth)
-               ("a" smerge-keep-all "Keep all")
-               ("b" smerge-keep-base "Keep base")
-               ("m" smerge-keep-mine "Keep mine")
-               ("o" smerge-keep-other "Keep other")
-               ("n" smerge-next "Next conflict")
-               ("p" smerge-previous "Previous conflict")
-               ("r" smerge-resolve "Keep mine")
-               ("q" nil "quit"))
-             smerge-mode-map))))
+         :commands (forge-pull))
      #+end_src
+
+*** Smerge
+
+    Somewhere along the line, =smerge= was added to native version
+    control support. To facilitate editing merge conflicts, this hydra
+    helps me do the work.
+
+    #+begin_src emacs-lisp
+      (use-package smerge
+        :ensure nil
+        :elpaca nil
+        :bind
+        (:map smerge-mode-map ("C-c ^ h" . hydra-smerge/body))
+        :init
+        (defhydra hydra-smerge (:color amaranth)
+          ("a" smerge-keep-all "Keep all")
+          ("b" smerge-keep-base "Keep base")
+          ("m" smerge-keep-mine "Keep mine")
+          ("o" smerge-keep-other "Keep other")
+          ("n" smerge-next "Next conflict")
+          ("p" smerge-previous "Previous conflict")
+          ("r" smerge-resolve "Keep mine")
+          ("q" nil "quit")))
+    #+end_src
 
 ** Checking
 *** Writegood Mode
