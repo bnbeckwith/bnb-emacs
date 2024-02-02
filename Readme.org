@@ -1893,14 +1893,22 @@
     #+end_src
 
 ** Editing
-*** Adaptive Fill
 
+   This section covers minor modes that personalize and improve the
+   editing experience.
+   
+*** Adaptive Fill                                                   :PENDING:
+
+    Update: Turning this off for now to see if I really use it for
+    just text modes.
+    
     Try to keep any prefixed elements of the first line for paragraph
     filling.
 
     #+begin_src emacs-lisp
       (use-package filladapt
         :delight " ▦"
+        :disabled t
         :ensure t
         :commands filladapt-mode
         :init (setq-default filladapt-mode t)
