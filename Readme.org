@@ -1931,83 +1931,80 @@
         ("C-c F" . focus-read-only-mode))
     #+end_src
 
-*** General Editing
-**** CUA mode
+*** Common User Access mode
 
-     [[https://www.gnu.org/software/emacs/manual/html_node/emacs/CUA-Bindings.html][CUA]] has a primary feature of enabling cut, copy, paste and undo
-     shortcuts compatible with most applications (C-x, C-c,
-     C-v). However, it also has interesting rectangle features and
-     *that* is why I enable it. I also happen to turn off those other
-     bindings and prefer the emacs defaults.
+    [[https://www.gnu.org/software/emacs/manual/html_node/emacs/CUA-Bindings.html][CUA]] has a primary feature of enabling cut, copy, paste and undo
+    shortcuts compatible with most applications, but I leave that part
+    disabled and prefer the normal emacs bindings.
 
-     #+begin_src emacs-lisp
-       (elpaca nil
-         (progn
-           (cua-mode t)
-           (setq cua-enable-cua-keys nil)))
-     #+end_src
+    What I do enjoy about CUA are the rectangle restures and *that* is
+    why I enable it.
 
-***** Bindings
+    #+begin_src emacs-lisp
+      (elpaca nil
+        (progn
+          (cua-mode t)
+          (setq cua-enable-cua-keys nil)))
+    #+end_src
 
-      There are two main binding types: [[CUA Rectangles]] and [[CUA Global Mark]].
+    There are two main binding types: [[CUA Rectangles]] and [[CUA Global Mark]].
 
-****** CUA Rectangles
+***** CUA Rectangles
 
-       These take place with an active rectangle. To start/cancel a
-       rectangle use =C-RET=.
+      These take place with an active rectangle. To start/cancel a
+      rectangle use =C-RET=.
 
-       | Keys             | Function                                                              |
-       |------------------+-----------------------------------------------------------------------|
-       | M-<arrow>        | Move rectangle overlay                                                |
-       | C-SPACE          | Activate region bounded by rectangle                                  |
-       |------------------+-----------------------------------------------------------------------|
-       | M-a              | Align all words at the left edge                                      |
-       | M-b              | Fill rectangle with blanks (tabs and spaces)                          |
-       | M-c              | Closes the rectangle by removing left edge blanks                     |
-       | M-f              | Fills the rectangle with a single character (prompt)                  |
-       | M-i              | Increases number found on each line of rectangle                      |
-       | M-k              | Kills the rectangle as normal multi-line kill                         |
-       | M-l              | Downcases the rectangle                                               |
-       | M-m              | Copies the rectangle for normal multi-line paste                      |
-       | M-n              | Fills each line with increasing numbers (prompt)                      |
-       | M-o              | Opens the rect by moving hilighted text right and filling with blanks |
-       | M-p              | Toggles virtual straight rectangle edges                              |
-       | M-P              | Inserts tabs and spaces to make real straight edges                   |
-       | M-q              | Performs text filling on the rectangle                                |
-       | M-q              | Performs text filling on the rectangle                                |
-       | M-r              | Replaces REGEXP (prompt) by STRING (prompt) in rectangle              |
-       | M-R              | Reverse the lines in the rectangle                                    |
-       | M-s              | Fills each line of the rectangle with the same STRING (prompt)        |
-       | M-t              | Performs text fill of the rectangle with TEXT (prompt)                |
-       | M-u              | Upcases the rectangle                                                 |
-       | M-<Vertical Bar> | Runs shell command on rectangle                                       |
-       | M-'              | Restricts rectangle to lines with CHAR (prompt) at left column        |
-       | M-/              | Restricts rectangle to lines matching REGEXP (prompt)                 |
-       | C-?              | Shows a brief list of the above commands.                             |
-       |------------------+-----------------------------------------------------------------------|
-       | M-C-<UP/DOWN>    | Scrolls the lines INSIDE the rectangle up/down                        |
+      | Keys          | Function                                                              |
+      |---------------+-----------------------------------------------------------------------|
+      | =M-<arrow>=     | Move rectangle overlay                                                |
+      | =C-<SPACE>=     | Activate region bounded by rectangle                                  |
+      |---------------+-----------------------------------------------------------------------|
+      | =M-a=           | Align all words at the left edge                                      |
+      | =M-b=           | Fill rectangle with blanks (tabs and spaces)                          |
+      | =M-c=           | Closes the rectangle by removing left edge blanks                     |
+      | =M-f=           | Fills the rectangle with a single character (prompt)                  |
+      | =M-i=           | Increases number found on each line of rectangle                      |
+      | =M-k=           | Kills the rectangle as normal multi-line kill                         |
+      | =M-l=           | Downcases the rectangle                                               |
+      | =M-m=           | Copies the rectangle for normal multi-line paste                      |
+      | =M-n=           | Fills each line with increasing numbers (prompt)                      |
+      | =M-o=           | Opens the rect by moving hilighted text right and filling with blanks |
+      | =M-p=           | Toggles virtual straight rectangle edges                              |
+      | =M-P=           | Inserts tabs and spaces to make real straight edges                   |
+      | =M-q=           | Performs text filling on the rectangle                                |
+      | =M-q=           | Performs text filling on the rectangle                                |
+      | =M-r=           | Replaces REGEXP (prompt) by STRING (prompt) in rectangle              |
+      | =M-R=           | Reverse the lines in the rectangle                                    |
+      | =M-s=           | Fills each line of the rectangle with the same STRING (prompt)        |
+      | =M-t=           | Performs text fill of the rectangle with TEXT (prompt)                |
+      | =M-u=           | Upcases the rectangle                                                 |
+      | =M-<VBar>=      | Runs shell command on rectangle                                       |
+      | =M-'=           | Restricts rectangle to lines with CHAR (prompt) at left column        |
+      | =M-/=           | Restricts rectangle to lines matching REGEXP (prompt)                 |
+      | =C-?=           | Shows a brief list of the above commands.                             |
+      |---------------+-----------------------------------------------------------------------|
+      | =M-C-<UP/DOWN>= | Scrolls the lines INSIDE the rectangle up/down                        |
 
-****** CUA Global Mark
+***** CUA Global Mark
 
-       The global mark feature enables a target the receives any
-       typed/copied/killed text from any buffer (even the current
-       one).
+      The global mark feature enables a target the receives any
+      typed/copied/killed text from any buffer (even the current
+      one).
 
-       | Key           | function                                                                                                            |
-       |---------------+---------------------------------------------------------------------------------------------------------------------|
-       | <ch>          | All characters (including newlines) you type are inserted at the global mark!                                       |
-       | C-x           | If you cut a region or rectangle, it is automatically inserted at the global mark, and the global mark is advanced. |
-       | C-c           | If you copy a region or rectangle, it is immediately inserted  at the global mark, and the global mark is advanced. |
-       | C-v           | Copies a single character to the global mark.                                                                       |
-       | C-d           | Moves (i.e. deletes and inserts) a single character to the global mark.                                             |
-       | backspace     | deletes the character before the global mark                                                                        |
-       | delete        | deletes the character after the global mark.                                                                        |
-       |---------------+---------------------------------------------------------------------------------------------------------------------|
-       | S-C-space     | Jumps to and cancels the global mark.                                                                               |
-       | C-u S-C-space | Cancels the global mark (stays in current buffer).                                                                  |
-       |---------------+---------------------------------------------------------------------------------------------------------------------|
-       | TAB           | Indents the current line or rectangle to the column of the global mark.                                             |
-
+      | Key           | function                                                                                                            |
+      |---------------+---------------------------------------------------------------------------------------------------------------------|
+      | =<ch>=          | All characters (including newlines) you type are inserted at the global mark!                                       |
+      | =C-x=           | If you cut a region or rectangle, it is automatically inserted at the global mark, and the global mark is advanced. |
+      | =C-c=           | If you copy a region or rectangle, it is immediately inserted  at the global mark, and the global mark is advanced. |
+      | =C-v=           | Copies a single character to the global mark.                                                                       |
+      | =C-d=           | Moves (i.e. deletes and inserts) a single character to the global mark.                                             |
+      | =<BACKSPACE>=   | deletes the character before the global mark                                                                        |
+      | =<DELETE>=      | deletes the character after the global mark.                                                                        |
+      |---------------+---------------------------------------------------------------------------------------------------------------------|
+      | =S-C-space=     | Jumps to and cancels the global mark.                                                                               |
+      | =C-u S-C-space= | Cancels the global mark (stays in current buffer).                                                                  |
+      |---------------+---------------------------------------------------------------------------------------------------------------------|
+      | =<TAB>=         | Indents the current line or rectangle to the column of the global mark.                                             |
 
 *** Easy Kill
 
@@ -2021,37 +2018,72 @@
         :ensure t)
     #+end_src
 
-*** Undo Tree
+    The way the binding works is as a prefix key that also tries a
+    default "kill" and replaces [[help:kill-ring-save][kill-ring-save]]. The thing at point is
+    saved to the kill ring. The following table shows the details.
 
-    It's time to give undo-tree another try. The following hydra makes
-    repeated undo/redo easier.
+    | Key   | Saves at point                        |
+    |-------+---------------------------------------|
+    | =M-w w= | word                                  |
+    | =M-w s= | sexp                                  |
+    | =M-w l= | list                                  |
+    | =M-w d= | defun                                 |
+    | =M-w D= | defun name                            |
+    | =M-w f= | filename                              |
+    | =M-w b= | buffer file name or default directory |
+
+    There are also modifiers to treat how the saved text is handled.
+
+    | Modifier   | Effect                            |
+    |------------+-----------------------------------|
+    | =@=          | append to previous kill           |
+    | =C-w=        | kill selection                    |
+    | =+=, =-=, =1..9= | expand/shrink selection           |
+    | =0=          | shrink selection to initial size  |
+    | =<SPC>=      | cycle through =easy-kill-alist=     |
+    | =C-<SPC>=    | turn selection into active region |
+    | =C-g=        | abort                             |
+    | =?=          | help                              |
+    
+*** Vundo                                                           :PENDING:
+
+    I like to have undo navigation. [[https://github.com/casouri/vundo][Vundo]] gives a nice mini interface
+    (git-style) to move around undo history.
 
     #+begin_src emacs-lisp
-      (use-package undo-tree
-        :delight "¬"
-        :defer t
-        :ensure t
+      (use-package vundo
+        :bind
+        ("C-x u" . vundo)
         :custom
-        (undo-tree-history-directory-alist '(("." . "~/.emacs.d/.undo-tree/")))
-        (undo-tree-visualizer-timestamps t)
-        (undo-tree-visualizer-diff t)
-        :config
-        (global-undo-tree-mode)
-        (defhydra hydra-undo-tree (:color yellow :hint nil)
-          "
-      _p_: undo _n_: redo _s_: save _l_: load  "
-          ("p" undo-tree-undo)
-          ("n" undo-tree-redo)
-          ("s" undo-tree-save-history)
-          ("l" undo-tree-load-history)
-          ("u" undo-tree-visualize "visualize" :color blue)
-          ("q" nil "quit" :color blue))
-        (global-set-key (kbd "H-,") 'hydra-undo-tree/body))
+        (vundo-glyph-alist vundo-unicode-symbols))
     #+end_src
+
+    When in the undo mode, some keys help with navigation.
+
+    | Key | Effect                               |
+    |-----+--------------------------------------|
+    | =f=   | go forward                           |
+    | =b=   | go backward                          |
+    |-----+--------------------------------------|
+    | =n=   | go to the node below at branch point |
+    | =p=   | go to the node above                 |
+    |-----+--------------------------------------|
+    | =a=   | go back to last branch               |
+    | =e=   | go to the end of the branch          |
+    | =l=   | go to last saved node                |
+    | =r=   | go to next saved node                |
+    |-----+--------------------------------------|
+    | =m=   | mark current node for diff           |
+    | =u=   | unmark marked node                   |
+    | =d=   | show a diff                          |
+    |-----+--------------------------------------|
+    | =q=   | quit (=C-g= also works)                |
+    
 
 *** Expand Region
 
-    Nice way to expand selections to semantic regions. Read more on
+    Easily one of my favorite packages, this is a nice way to expand
+    selections to semantic regions. Read more on
     [[https://github.com/magnars/expand-region.el]].
 
     #+begin_src emacs-lisp
@@ -2060,30 +2092,17 @@
         :bind ("C-=" . er/expand-region))
     #+end_src
 
-*** Edit Server
-
-    The edit server talks to Chrome and uses emacs to edit any text
-    areas. I start this server here.
-
-    #+begin_src emacs-lisp
-      (use-package edit-server
-        :ensure t
-        :defer 10
-        :init
-        (edit-server-start))
-    #+end_src
-
-    Chrome needs to have the proper extension installed there too for
-    the installation to be complete.
-
 *** Citar (Bibtex completions)
 
-    https://github.com/emacs-citar/citar
-
+    For getting completions from bibliographic data, [[https://github.com/emacs-citar/citar][Citar]] links
+    things together.
+    
     #+begin_src emacs-lisp
       (use-package citar
         :commands (citar-capf-setup)
         :ensure t
+        :bind
+        (:map org-mode-map ("C-c b" . #'org-cite-insert))
         :custom
         (citar-bibliography bnb/biblio)
         (org-cite-global-bibliography bnb/biblio)
@@ -2105,7 +2124,16 @@
       (use-package citar-org-roam
         :ensure t
         :after (citar org-roam)
-        :config (citar-org-roam-mode))
+        :config
+        (add-to-list 'org-roam-capture-templates
+                     ("n" "Literature note" plain
+                      "%?"
+                      :target
+                      (file+head
+                       "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
+                       "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+created: %U\n#+last_modified: %U\n\n")
+                      :unnarrowed t))
+        (citar-org-roam-mode))
     #+end_src
 
 *** Tree Sitter
