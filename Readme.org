@@ -904,26 +904,6 @@
     - [[help:kept-old-versions][~kept-old-versions~]] :: Number of oldest versions to keep
     - [[help:version-control][~version-control~]] :: When ~t~, make numeric backup versions always
 
-*** Bookmarks
-
-    [[http://emacswiki.org/emacs/BookMarks]]
-
-    | Keystroke           | Action                  |
-    |---------------------+-------------------------|
-    | =C-x r m=             | Set a bookmark          |
-    | =C-x r b=             | Jump to a bookmark      |
-    | =C-x r l=             | List your bookmarks     |
-    | =M-x bookmark-delete= | Delete bookmark by name |
-
-    The settings below auto-save bookmarks, adds a fringe marker on the
-    current line when setting/jumping, and confirms bookmark deletion.
-
-    #+begin_src emacs-lisp
-      (setq bookmark-save-flag t
-            bookmark-set-fringe-mark t
-            bookmark-menu-confirm-deletion t)
-    #+end_src
-
 *** Default File encoding
 
     I like to have the files be =utf-8= by default. Do
@@ -2501,6 +2481,30 @@
     #+end_src
     
 ** Organization
+
+   There are a couple of built-in features that help with
+   organization. (Outside of org-mode, that is)
+   
+*** Bookmarks
+
+    [[http://emacswiki.org/emacs/BookMarks]]
+
+    | Keystroke           | Action                  |
+    |---------------------+-------------------------|
+    | =C-x r m=             | Set a bookmark          |
+    | =C-x r b=             | Jump to a bookmark      |
+    | =C-x r l=             | List your bookmarks     |
+    | =M-x bookmark-delete= | Delete bookmark by name |
+
+    The settings below auto-save bookmarks, adds a fringe marker on the
+    current line when setting/jumping, and confirms bookmark deletion.
+
+    #+begin_src emacs-lisp
+      (setq bookmark-save-flag t
+            bookmark-set-fringe-mark t
+            bookmark-menu-confirm-deletion t)
+    #+end_src
+
 *** Project
 
     The built-in emacs package =project= replaces the projectile
