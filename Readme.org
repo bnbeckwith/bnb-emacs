@@ -2369,19 +2369,33 @@
     #+end_src
 
 ** Development
+
+   The minor modes for development deal mainly with parenthenses and
+   structured editing.
+
 *** Check parens on save
 
+    This check has saved me from a broken configuration file many
+    times. I highly recommend.
+    
     #+begin_src emacs-lisp
       (add-hook 'after-save-hook  'check-parens nil t)
     #+end_src
 
 *** Eldoc
+
     While developing, documentation is nice to have handy and
     automatic.
 
     #+begin_src emacs-lisp
-      (add-hook 'cperl-mode-hook 'turn-on-eldoc-mode)
-      (add-hook 'eshell-mode-hook 'turn-on-eldoc-mode)
+      (use-package eldoc
+        :elpaca nil
+        :hook
+        (prog-mode . turn-on-eldoc-mode)
+        (ielm-mode . turn-on-eldoc-mode)
+        :custom (eldoc-documentation-strategy eldoc-documentation-compose-eagerly)
+        :config
+        (eldoc-add-command-completions "paredit-"))
     #+end_src
 
 *** LSP
@@ -2437,6 +2451,9 @@
       (use-package paredit
         :ensure t
         :delight " 🍐"
+        :hook
+        (emacs-lisp-mode . paxedit-mode)
+        (clojure-mode . paxedit-mode)
         :commands (paredit-mode))
     #+end_src
 
@@ -2449,32 +2466,40 @@
       (use-package paxedit
         :ensure t
         :delight " ꁀ"
-        :commands (paxedit-mode)
+        :hook
+        (emacs-lisp-mode . paxedit-mode)
+        (clojure-mode . paxedit-mode)
         :bind
-        ("M-<right>" . paxedit-transpose-forward)
-        ("M-<left>"  . paxedit-transpose-backward)
-        ("M-<up>"    . paxedit-backward-up)
-        ("M-<down>"  . paxedit-backward-end)
-        ("M-b"       . paxedit-previous-symbol)
-        ("M-f"       . paxedit-next-symbol)
-        ("C-%"       . paxedit-copy)
-        ("C-&"       . paxedit-kill)
-        ("C-*"       . paxedit-delete)
-        ("C-^"       . paxedit-sexp-raise)
-        ("M-u"       . paxedit-symbol-change-case)
-        ("C-@"       . paxedit-symbol-copy)
-        ("C-#"       . paxedit-symbol-kill))
+        (:map paxedit-mode-map
+              ("M-<right>" . paxedit-transpose-forward)
+              ("M-<left>"  . paxedit-transpose-backward)
+              ("M-<up>"    . paxedit-backward-up)
+              ("M-<down>"  . paxedit-backward-end)
+              ("M-b"       . paxedit-previous-symbol)
+              ("M-f"       . paxedit-next-symbol)
+              ("C-%"       . paxedit-copy)
+              ("C-&"       . paxedit-kill)
+              ("C-*"       . paxedit-delete)
+              ("C-^"       . paxedit-sexp-raise)
+              ("M-u"       . paxedit-symbol-change-case)
+              ("C-@"       . paxedit-symbol-copy)
+              ("C-#"       . paxedit-symbol-kill)))
     #+end_src
 
-*** Show Paren
+*** Rainbow Delimiters
 
-    For any lisp development, the following is nice to have.
+    In deeply nested structures (I'm looking at you lisp),
+    automatically coloring the matching delimiter can speed up
+    understanding and refactoring.
 
+    For a lighter-weight alternative, check out [[help:show-paren-mode][show-paren-mode]].
+    
     #+begin_src emacs-lisp
-      (show-paren-mode t)
-      (setq show-paren-context-when-offscreen 'overlay)
+      (use-package rainbow-delimiters
+        :ensure t
+        :hook (prog-mode . rainbow-delimiters-mode))
     #+end_src
-
+    
 ** Organization
 *** Project
 
