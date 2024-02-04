@@ -2544,6 +2544,10 @@
     | =C-x p e= | Eshell in project      |
 
 * Major Modes
+
+  This section holds the details for major modes. These are interfaces
+  in their own right. 
+
 ** File Management
 *** Dired
 **** Basic Settings
