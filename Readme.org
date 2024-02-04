@@ -1872,6 +1872,18 @@
                ("C-c D" . osx-dictionary-search-word-at-point)))
     #+end_src
 
+*** OSX Dictionary
+
+    Search ~Dictionary.app~ from the comfort of an Emacs buffer.
+
+    #+begin_src emacs-lisp
+      (use-package osx-dictionary
+        :ensure t
+        :bind
+        ("C-c d" . osx-dictionary-search-word-at-point)
+        ("C-c i" . osx-dictionary-search-input))
+    #+end_src
+
 ** Editing
 
    This section covers minor modes that personalize and improve the
@@ -2348,6 +2360,18 @@
               uniquify-separator ":"))
     #+end_src
 
+*** OSX Reveal
+
+    For file-backed buffers, reveal the file in OSX finder with this
+    binding.
+
+    #+begin_src emacs-lisp
+      (use-package reveal-in-osx-finder
+        :ensure t
+        :bind ("C-c z" . reveal-in-osx-finder))
+    #+end_src
+
+
 ** Development
 
    The minor modes for development deal mainly with parenthenses and
@@ -2612,29 +2636,6 @@
         :config
         (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
     #+end_src
-
-*** OSX Dictionary
-
-    Search ~Dictionary.app~ from the comfort of an Emacs buffer.
-
-    #+begin_src emacs-lisp
-      (use-package osx-dictionary
-        :ensure t
-        :bind
-        ("C-c d" . osx-dictionary-search-word-at-point)
-        ("C-c i" . osx-dictionary-search-input))
-    #+end_src
-
-*** OSX Reveal
-
-    Show files in finder.
-
-    #+begin_src emacs-lisp
-      (use-package reveal-in-osx-finder
-        :ensure t
-        :bind ("C-c z" . reveal-in-osx-finder))
-    #+end_src
-
 
 ** Documents
 *** AucTeX
