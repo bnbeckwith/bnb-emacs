@@ -2549,9 +2549,20 @@
   in their own right. 
 
 ** File Management
+
+   Finding files in the minibuffer is easy with the completion
+   frameworks above, but Emacs also functions very well as a fully
+   fledged file manager.
+
 *** Dired
+
+    The built-in directory editor, [[help:dired][dired]], can be customized to a great
+    degree. The following sections walk us through my particular
+    preferences.
+    
 **** Basic Settings
-     First, some basic dired settings.
+     
+     First, add the basic dired settings.
 
      #+begin_src emacs-lisp
        (setq dired-kill-when-opening-new-dired-buffer t
@@ -2559,78 +2570,116 @@
              dired-mark-region t)
      #+end_src
 
-     The first setting, =dired-kill-when-opening-new-dired-buffer= keeps
+     The first setting, [[help:dired-kill-when-opening-new-dired-buffer][dired-kill-when-opening-new-dired-buffer]] keeps
      =dired= from littering little visited folder buffers along the way.
 
      To automatically revert buffers upon detected changes,
-     =dired-do-revert-buffer= is set to ~t~.
+     [[help:dired-do-revert-buffer][dired-do-revert-buffer]] is set to ~t~.
 
-     Marking commands can now act on regions with =dired-mark-region=
+     Marking commands can now act on regions with [[help:dired-mark-region][dired-mark-region]]
      set to ~t~. 
 
 **** Hacks
+
      These are part of the [[https://github.com/Fuco1/dired-hacks][dired-hacks repository]].
 
      #+begin_src emacs-lisp
        (use-package dired-hacks-utils
          :defer t
          :ensure t)
-
-       (use-package dired-filter
-         :defer t
-         :hook (dired-mode . dired-filter-mode)
-         :ensure t
-         :bind
-         ("C-c C-d f" . dired-filter-mode)
-         :bind-keymap
-         ("C-c C-f" . dired-filter-map))
-
-       (use-package dired-rainbow
-         :defer t
-         :ensure t
-         :config
-         (progn
-           (dired-rainbow-define-chmod directory "#6cb2eb" "d.*")
-           (dired-rainbow-define html "#eb5286" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
-           (dired-rainbow-define xml "#f2d024" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
-           (dired-rainbow-define document "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
-           (dired-rainbow-define markdown "#ffed4a" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
-           (dired-rainbow-define database "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
-           (dired-rainbow-define media "#de751f" ("mp3" "mp4" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac"))
-           (dired-rainbow-define image "#f66d9b" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
-           (dired-rainbow-define log "#c17d11" ("log"))
-           (dired-rainbow-define shell "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
-           (dired-rainbow-define interpreted "#38c172" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
-           (dired-rainbow-define compiled "#4dc0b5" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
-           (dired-rainbow-define executable "#8cc4ff" ("exe" "msi"))
-           (dired-rainbow-define compressed "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
-           (dired-rainbow-define packaged "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
-           (dired-rainbow-define encrypted "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
-           (dired-rainbow-define fonts "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
-           (dired-rainbow-define partition "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
-           (dired-rainbow-define vc "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
-           (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")))
-
-       (use-package dired-narrow
-         :defer t
-         :bind (:map dired-mode-map
-                     ("C-c C-d n" . dired-narrow-fuzzy)
-                     ("C-c C-d r" . dired-narrow-regexp))
-         :ensure t)
-
-       (use-package dired-collapse
-         :defer t
-         :bind
-         ("C-c C-d c" . dired-collapse-mode)
-         :ensure t)
      #+end_src
 
+***** Filter mode
+     
+      This first package provides [[help:dired-filter-mode][dired-filter-mode]] giving some very
+      handy ways to filter the view. Enable it with =C-c C-d f= and then
+      get to the commands with =C-c C-f=.
+     
+      #+begin_src emacs-lisp
+         (use-package dired-filter
+           :defer t
+           :hook (dired-mode . dired-filter-mode)
+           :ensure t
+           :bind
+           ("C-c C-d f" . dired-filter-mode)
+           :bind-keymap
+           ("C-c C-f" . dired-filter-map))
+      #+end_src
+
+***** Colorized Files
+      
+      This next addition colorizes files in dired accorting to type or
+      the =chmod= bits.
+     
+      #+begin_src emacs-lisp
+        (use-package dired-rainbow
+          :ensure t
+          :config
+          (progn
+            (dired-rainbow-define html        "#eb5286" ("css" "less" "sass" "scss" "htm" "html" "jhtm" "mht" "eml" "mustache" "xhtml"))
+            (dired-rainbow-define xml         "#f2d024" ("xml" "xsd" "xsl" "xslt" "wsdl" "bib" "json" "msg" "pgn" "rss" "yaml" "yml" "rdata"))
+            (dired-rainbow-define document    "#9561e2" ("docm" "doc" "docx" "odb" "odt" "pdb" "pdf" "ps" "rtf" "djvu" "epub" "odp" "ppt" "pptx"))
+            (dired-rainbow-define markdown    "#ffed4a" ("org" "etx" "info" "markdown" "md" "mkd" "nfo" "pod" "rst" "tex" "textfile" "txt"))
+            (dired-rainbow-define database    "#6574cd" ("xlsx" "xls" "csv" "accdb" "db" "mdb" "sqlite" "nc"))
+            (dired-rainbow-define media       "#de751f" ("mp3" "mp4" "MP3" "MP4" "avi" "mpeg" "mpg" "flv" "ogg" "mov" "mid" "midi" "wav" "aiff" "flac"))
+            (dired-rainbow-define image       "#f66d9b" ("tiff" "tif" "cdr" "gif" "ico" "jpeg" "jpg" "png" "psd" "eps" "svg"))
+            (dired-rainbow-define log         "#c17d11" ("log"))
+            (dired-rainbow-define shell       "#f6993f" ("awk" "bash" "bat" "sed" "sh" "zsh" "vim"))
+            (dired-rainbow-define interpreted "#38c172" ("py" "ipynb" "rb" "pl" "t" "msql" "mysql" "pgsql" "sql" "r" "clj" "cljs" "scala" "js"))
+            (dired-rainbow-define compiled    "#4dc0b5" ("asm" "cl" "lisp" "el" "c" "h" "c++" "h++" "hpp" "hxx" "m" "cc" "cs" "cp" "cpp" "go" "f" "for" "ftn" "f90" "f95" "f03" "f08" "s" "rs" "hi" "hs" "pyc" ".java"))
+            (dired-rainbow-define executable  "#8cc4ff" ("exe" "msi"))
+            (dired-rainbow-define compressed  "#51d88a" ("7z" "zip" "bz2" "tgz" "txz" "gz" "xz" "z" "Z" "jar" "war" "ear" "rar" "sar" "xpi" "apk" "xz" "tar"))
+            (dired-rainbow-define packaged    "#faad63" ("deb" "rpm" "apk" "jad" "jar" "cab" "pak" "pk3" "vdf" "vpk" "bsp"))
+            (dired-rainbow-define encrypted   "#ffed4a" ("gpg" "pgp" "asc" "bfe" "enc" "signature" "sig" "p12" "pem"))
+            (dired-rainbow-define fonts       "#6cb2eb" ("afm" "fon" "fnt" "pfb" "pfm" "ttf" "otf"))
+            (dired-rainbow-define partition   "#e3342f" ("dmg" "iso" "bin" "nrg" "qcow" "toast" "vcd" "vmdk" "bak"))
+            (dired-rainbow-define vc          "#0074d9" ("git" "gitignore" "gitattributes" "gitmodules"))
+            (dired-rainbow-define-chmod executable-unix "#38c172" "-.*x.*")
+            (dired-rainbow-define-chmod directory       "#6cb2eb" "d.*")))
+       #+end_src
+
+***** Narrowing
+      
+      Instead of [[*Filter mode][filter mode]], we can use two functions to narrow the
+      =dired= buffer to only the matches. The flavors of filterring are
+      /fuzzy/ or /regexp/.
+      
+     #+begin_src emacs-lisp
+        (use-package dired-narrow
+          :defer t
+          :bind (:map dired-mode-map
+                      ("C-c C-d n" . dired-narrow-fuzzy)
+                      ("C-c C-d r" . dired-narrow-regexp))
+          :ensure t)
+      #+end_src
+
+***** Collapsing directories
+
+      In the case of deep folder structures without any intermediate
+      files (files only in the leaves), this mode helps collapse the
+      view to be easier to navigate.
+
+      Per the documentation, this will be especially useful in
+      directories such as =~/.config/foo/config=.
+      
+     #+begin_src emacs-lisp
+        (use-package dired-collapse
+          :defer t
+          :bind
+          ("C-c C-d c" . dired-collapse-mode)
+          :ensure t)
+     #+end_src
+
+***** External Commands     
+     
      Also, there is a nice faculty to run an external command on a given
      file with ==!==.
 
 *** Neotree
 
-    Neotree is a file sidebar for navigation.
+    Neotree is a file sidebar for navigation.  Dired has a superior
+    interface for interacting with files, but =Neotree= offers the tree
+    stucture view for the times you need to see the whole folder tree.
 
     #+begin_src emacs-lisp
       (use-package neotree
