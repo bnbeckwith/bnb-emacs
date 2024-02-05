@@ -127,7 +127,15 @@
     | Browse Package Website                | =b=                                 | [[help:elpaca-browse][elpaca-browse]]                                    |
 
     There is also a [[https://github.com/progfolio/elpaca/blob/master/doc/manual.md][helpful manual]].
-   
+
+    
+    To see how the startup time has imporoved, let's store when we
+    start evaluating these settings.
+    
+    #+begin_src emacs-lisp
+      (setq bnb/start-time (float-time))
+    #+end_src
+    
 *** Emacs Build
 
     My current flavor of Emacs comes from:
@@ -5211,8 +5219,9 @@
    This message prints when Elpaca loading is complete
    
    #+begin_src emacs-lisp
+     (message "README EVALUATION DURATION: %3.2f seconds" (- (float-time) bnb/start-time))
      (elpaca nil
-       (message "LOADING COMPLETE: %s" (emacs-init-time)))
+       (message "ELPACA LOADING COMPLETE: %s" (emacs-init-time)))
    #+end_src
 
    The local variables here setup a save hook (just in this buffer)
