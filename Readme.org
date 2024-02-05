@@ -2405,7 +2405,7 @@
         :hook
         (prog-mode . turn-on-eldoc-mode)
         (ielm-mode . turn-on-eldoc-mode)
-        :custom (eldoc-documentation-strategy eldoc-documentation-compose-eagerly)
+        :custom (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
         :config
         (eldoc-add-command-completions "paredit-"))
     #+end_src
@@ -3545,7 +3545,6 @@
             (todo "DONE|PROJECTDONE"
                   ((org-agenda-overriding-header
                     "Candidates to be archived"))))))
-        (message "ORG AGENDA MENUS DONE: %s" (emacs-init-time))
       #+end_src
       
       Phew! That is a lot of lisp! It is easiest to describe each view
@@ -3671,7 +3670,6 @@
          (org-clock-persistence-insinuate)
          (setq org-clock-history-length 28
      	  org-clock-in-resume t))
-       (message "ORG CLOCK PERSISTENCE DONE: %s" (emacs-init-time))
      #+end_src
 
      Behavior of the clock can change to accommodate other needs. I
