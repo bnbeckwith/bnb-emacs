@@ -2816,6 +2816,7 @@
         ("C-c t"  . orgtbl-mode)
         ("C-c l"  . org-store-link)
         ("C-c r"  . org-capture)
+        ("C-c a"  . org-agenda)
         ("<f12>"  . org-agenda)
         ("H-z"    . org-agenda)
         ("<apps>" . org-agenda)
@@ -2827,7 +2828,8 @@
               ("C-c ," . org-insert-structure-template)
               ("C-c ," . org-insert-structure-template)
               ("M-o"   . ace-link-org))
-        :hook (org-babel-after-execute . (lambda () (org-display-inline-images t t))))
+        :hook
+        (org-babel-after-execute . (lambda () (org-display-inline-images t t))))
     #+end_src
 
     This block installs [[https://orgmode.org/][org-mode]] along with some bindings.
@@ -2896,7 +2898,12 @@
                          ("z" . org-add-note)
                          ("h" . hide-other)
                          ("." . org-save-all-org-buffers)
-                         ("/" . org-global-cycle)))))
+                         ("/" . org-global-cycle)
+                         ("k" . #'(lambda ()
+                                     (org-mark-subtree)
+                                     (kill-region
+                                      (region-beginning)
+                                      (region-end))))))))
      #+end_src
 
 **** Org Configuration
@@ -3031,25 +3038,30 @@
      goes, and what the user needs to type.
 
      #+begin_src emacs-lisp
+       ;; Files
+       (setq org-default-notes-file "~/Documents/Org/Inbox.org"
+             bnb/weekly-reports-file "~/Documents/Org/WeeklyReports.org")
+
+       ;; Default templates
        (setq org-capture-templates
-             '(("t" "Todo" entry
-                (file "~/Documents/Org/Refile.org")
+             `(("t" "Todo" entry
+                (file ,org-default-notes-file)
                 "* TODO %?\n  %U\n%^{Score}p" :clock-in t :clock-resume t)
                ("r" "todo (Remember location)" entry
-                (file "~/Documents/Org/Refile.org")
+                (file org-default-notes-file)
                 "* TODO %?\n  %U\n  %a" :clock-in t :clock-resume t)
                ("n" "Note" entry
-                (file "~/Documents/Org/Refile.org")
+                (file org-default-notes-file)
                 "* %?                                                                            :NOTE:\n  %U\n  %a\n  :CLOCK:\n  :END:")
-               ("c" "Capture current TODO mix in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Burndown")
+               ("c" "Capture current TODO mix in table" table-line (file+headline ,bnb/weekly-reports-file "Burndown")
                 "%(bnb/org-count-tasks-by-status)")
-               ("s" "Capture Weekly Score in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Scores")
+               ("s" "Capture Weekly Score in table" table-line (file+headline ,bnb/weekly-reports-file "Scores")
                 "%(bnb/add-weekly-score-table-entry)")
-               ("e" "Capture Weekly time in table" table-line (file+headline "~/Documents/Org/WeeklyReports.org" "Minutes")
+               ("e" "Capture Weekly time in table" table-line (file+headline ,bnb/weekly-reports-file "Minutes")
                 "%(bnb/org-time-logged-table-entry)")
-               ("u" "Url" entry (file "~/Documents/Org/Refile.org")
+               ("u" "Url" entry (file ,org-default-notes-file)
                 "* TODO %?\n  %U\n\n  %(org-mac-chrome-get-frontmost-url)")
-               ("m" "Mail" entry (file "~/Documents/Org/Refile.org")
+               ("m" "Mail" entry (file ,org-default-notes-file)
                 "* TODO %?\n  %U\n\n  %(org-mac-message-get-links \"s\")")))
      #+end_src
 
@@ -3223,7 +3235,7 @@
       tasks. [[help:org-agenda-custom-commands][org-agenda-custom-commands]] defines which views are
       available by default.
 
-      WIP from: https://github.com/fniessen/emacs-leuven/blob/master/org-custom-agenda-views.el
+      Adapted from [[https://github.com/fniessen/emacs-leuven/blob/master/lisp/org-leuven-agenda-views.txt][org-leuven-agenda-views.txt]].
 
       #+begin_src emacs-lisp
         ;; Reset everything to nil
@@ -3231,271 +3243,450 @@
       #+end_src
       
       #+begin_src emacs-lisp
-        (add-to-list
-         'org-agenda-custom-commands
-         '("o" "My Agenda"
-           ((todo "TODO"
-                  ((org-agenda-overriding-header "\n⚡ Do Today\n┄┄┄┄┄┄┄┄┄┄")
-                   (org-agenda-remove-tags t)
-                   (org-agenda-prefix-format " %-2i %-15b")
-                   (org-agenda-todo-keyword-format "")))
-            (agenda ""
-                    ((org-agenda-start-day "+0d")
-                     (org-agenda-span 5)
-                     (org-agenda-overriding-header "⚡ Schedule\n┄┄┄┄┄┄┄┄┄┄")
-                     (org-agenda-repeating-timestamp-show-all nil)
+        (with-eval-after-load 'org
+          (add-to-list
+           'org-agenda-custom-commands
+           '("o" "My Agenda"
+             ((todo "TODO"
+                    ((org-agenda-overriding-header "\n⚡ Do Today\n┄┄┄┄┄┄┄┄┄┄")
                      (org-agenda-remove-tags t)
-                     (org-agenda-prefix-format   "  %-3i  %-15b %t%s")
-                     (org-agenda-todo-keyword-format " ☐ ")
-                     (org-agenda-current-time-string "⮜┈┈┈┈┈┈┈ now")
-                     (org-agenda-scheduled-leaders '("" ""))
-                     (org-agenda-time-grid (quote ((daily today remove-match)
-                                                   (0900 1200 1500 1800 2100)
-                                                   "      " "┈┈┈┈┈┈┈┈┈┈┈┈┈"))))))))
+                     (org-agenda-prefix-format " %-2i %-15b")
+                     (org-agenda-todo-keyword-format "")))
+              (agenda ""
+                      ((org-agenda-start-day "+0d")
+                       (org-agenda-span 5)
+                       (org-agenda-overriding-header "⚡ Schedule\n┄┄┄┄┄┄┄┄┄┄")
+                       (org-agenda-repeating-timestamp-show-all nil)
+                       (org-agenda-remove-tags t)
+                       (org-agenda-prefix-format   "  %-3i  %-15b %t%s")
+                       (org-agenda-todo-keyword-format " ☐ ")
+                       (org-agenda-current-time-string "⮜┈┈┈┈┈┈┈ now")
+                       (org-agenda-scheduled-leaders '("" ""))
+                       (org-agenda-time-grid (quote ((daily today remove-match)
+                                                     (0900 1200 1500 1800 2100)
+                                                     "      " "┈┈┈┈┈┈┈┈┈┈┈┈┈")))))))))
       #+end_src
 
-      #+begin_src emacs-lisp
-        (add-to-list
-         'org-agenda-custom-commands
-         '("c" . "COLLECT...") t)
-      #+end_src
-      
-      #+begin_src emacs-lisp
-        (add-to-list
-         'org-agenda-custom-commands
-         '("cb" "CollectBox"
-           ((alltodo ""))))
-      #+end_src
-      
-      #+begin_src emacs-lisp
-        (add-to-list
-         'org-agenda-custom-commands
-         '("f" . "FOCUS...") t)
-      #+end_src
-      
-      #+begin_src emacs-lisp
-        (add-to-list
-         'org-agenda-custom-commands
-         `("f." "Today"
-           ((agenda ""
-                    ((org-agenda-entry-types '(:timestamp :sexp))
-                     (org-agenda-overriding-header
-                      (concat "CALENDAR Today"
-                              (format-time-string "%a %d" (current-time))))
-                     (org-agenda-span 'day)))
-            (tags-todo "LEVEL=1+REFILE"
-                       ((org-agenda-overriding-header "COLLECTBOX (Unscheduled)")))
-            (tags-todo "DEADLINE=\"<+0d>\""
-                       ((org-agenda-overriding-header "DUE TODAY")
+****** Process
+
+       In the /process/ section, the goal is to take the incoming items
+       and process them.  There is a menu key, =p=, that will open up
+       the different views.
+       
+       #+begin_src emacs-lisp
+         (with-eval-after-load 'org
+           (add-to-list
+            'org-agenda-custom-commands
+            '("p" . "PROCESS...") t))
+       #+end_src
+
+       The first view (=pp=) shows the contents of the inbox file (set
+       via [[help:org-default-notes-file][org-default-notes-file]]).
+       
+       #+begin_src emacs-lisp
+         (with-eval-after-load 'org
+           (add-to-list
+            'org-agenda-custom-commands
+            `("pp" "Inbox" alltodo ""
+              ((org-agenda-files (list ,org-default-notes-file)))) t))
+       #+end_src
+
+       The next view is very similar to the first, but grabs anything
+       tagged =inbox=. In my setup, my default notes file does have a
+       filetag of =inbox=, so all of those will also show up in this view.
+
+       The nice part is that I can have other agenda files with
+       inboxes that need addressed This helps them stay in the
+       forefront of processing.
+       
+       #+begin_src emacs-lisp
+         (with-eval-after-load 'org
+           (add-to-list
+            'org-agenda-custom-commands
+            '("pi" "All TODOs in Inboxen" tags-todo "inbox"
+              ((org-agenda-overriding-header "List of all TODO tasks in Inbox")
+               (org-agenda-sorting-strategy '(priority-down)))) t))
+       #+end_src
+
+       I try to put effort estimates on all of my tasks. As part of
+       processing, the =pe= view lists tasks without effort. Typically I
+       then edit with [[help:org-columns][org-columns]] (=C-c C-x C-c=).
+
+       In the column view, navigating to the effort column and hitting
+       the right number will set the effort to one of the predefined
+       settings (found in [[help:org-global-properties][org-global-properties]]).
+       
+       #+begin_src emacs-lisp
+         (with-eval-after-load 'org
+           (add-to-list
+            'org-agenda-custom-commands
+            '("pe" "No Estimates" tags-todo "EFFORT<>{.}"
+              ((org-agenda-overriding-header "Lacking ESTIMATES")
+               (org-agenda-sorting-strategy '(priority-down)))) t))
+       #+end_src
+
+       This view (reachable via =ps=) is similar to the previous one,
+       only it finds tasks without scores. This helps me process them
+       in the same way -- ensure everthing that /can/ have a score,
+       does.
+       
+       #+begin_src emacs-lisp
+         (with-eval-after-load 'org
+           (add-to-list
+            'org-agenda-custom-commands
+            '("ps" "No Score" tags-todo "SCORE<>{.}"
+              ((org-agenda-overriding-header "Lacking SCORE")
+               (org-agenda-sorting-strategy '(priority-down)))) t))
+       #+end_src
+
+       Finally, this view shows the items tagged =someday=. As process
+       goes, this could be part of review, but I like it better as a
+       processing step.
+       
+       #+begin_src emacs-lisp
+         (with-eval-after-load 'org
+           (add-to-list
+            'org-agenda-custom-commands
+            '("pd" "Somday items" tags-todo "SOMEDAY"
+              ((org-agenda-overriding-header "SOMEDAY tasks")
+               (org-agenda-sorting-strategy '(priority-down)))) t))
+       #+end_src
+
+****** Focus
+
+       The /focus/ section builds up views to help focus on tasks. The
+       dispatcher starts with an =f=.
+       
+       #+begin_src emacs-lisp
+           (with-eval-after-load 'org
+             (add-to-list
+              'org-agenda-custom-commands
+              '("f" . "FOCUS...") t))
+       #+end_src
+
+       The /today/ focus view unfolds like a compass guiding through the
+       day's tasks, presenting a constellation of sections aimed at
+       pinpointing the most crucial endeavors to tackle next.
+
+       In the calendar section, a mosaic of diary entries and
+       timestamps for today awaits exploration, offering a glimpse
+       into the rhythm of the day.
+
+       The inbox section beckons with its array of unscheduled
+       top-level items, each a potential gem awaiting processing. Here
+       lie tasks in need of scheduling, refining, or simply bringing
+       to completion.
+
+       For those with deadlines looming, the due today and overdue
+       sections serve as a stark reminder, listing tasks teetering on
+       the edge of time. They demand attention, beckoning to be
+       brought to fruition.
+
+       Meanwhile, the scheduled section offers a glimpse into the near
+       future, showcasing the tasks slated for today, like eager
+       performers awaiting their cue.
+
+       Lastly, the completed section stands as a testament to
+       progress, a growing archive of triumphs marked by tasks
+       conquered. As the week unfolds, this section burgeons,
+       reflecting the journey traversed and milestones achieved.
+
+       #+begin_src emacs-lisp
+         (with-eval-after-load 'org
+           (add-to-list
+            'org-agenda-custom-commands
+            `("f." "Today"
+              ((agenda ""
+                       ((org-agenda-entry-types '(:timestamp :sexp))
+                        (org-agenda-overriding-header
+                         (concat "CALENDAR Today "
+                                 (format-time-string "%a %d" (current-time))))
+                        (org-agenda-span 'day)))
+               (tags-todo "LEVEL=1+inbox"
+                          ((org-agenda-overriding-header "INBOX (Unscheduled)")))
+               (tags-todo "DEADLINE<\"<+1d>\"+DEADLINE>\"<-1d>\""
+                          ((org-agenda-overriding-header "DUE TODAY")
+                           (org-agenda-skip-function
+                            '(org-agenda-skip-entry-if 'notdeadline))
+                           (org-agenda-sorting-strategy '(priority-down))))
+               (tags-todo "DEADLINE<\"<today>\""
+                          ((org-agenda-overriding-header "OVERDUE")
+                           (org-agenda-skip-function
+                            '(org-agenda-skip-entry-if 'notdeadline))
+                           (org-agenda-sorting-strategy '(priority-down))))
+               (agenda ""
+                       ((org-agenda-entry-types '(:scheduled))
+                        (org-agenda-overriding-header "SCHEDULED")
                         (org-agenda-skip-function
-                         '(org-agenda-skip-entry-if 'notedeadline))
-                        (org-agenda-sorting-strategy '(priority-down))))
-            (tags-todo "DEADLINE<\"<+0d>\""
-                       ((org-agenda-overriding-header "OVERDUE")
-                        (org-agenda-skip-function
-                         '(org-agenda-skip-entry-if 'notedeadline))
-                        (org-agenda-sorting-strategy '(priority-down))))
-            (agenda ""
-                    ((org-agenda-entry-types '(:scheduled))
-                     (org-agenda-overriding-header "SCHEDULED")
-                     (org-agenda-skip-function
-                      '(org-agenda-skip-entry-if 'todo 'done))
-                     (org-agenda-sorting-strategy
-                      '(priority-down time-down))
-                     (org-agenda-span 'day)
-                     (org-agenda-start-on-weekday nil)
-                     (org-agenda-time-grid nil)))
-            (todo "DONE"
-                  ((org-agenda-overriding-header "COMPLETED"))))
-           ((org-agenda-format-date "")
-            (org-agenda-start-with-clockreport-mode nil))) t)
-      #+end_src
+                         '(org-agenda-skip-entry-if 'todo 'done))
+                        (org-agenda-sorting-strategy
+                         '(priority-down time-down))
+                        (org-agenda-span 'day)
+                        (org-agenda-start-on-weekday nil)))
+               (todo "DONE"
+                     ((org-agenda-overriding-header "COMPLETED"))))
+              ((org-agenda-format-date "")
+               (org-agenda-start-with-clockreport-mode nil))) t))
+       #+end_src
 
+       The hotlist keeps a focus on tasks that may be heating up. This
+       has three sections: overdue tasks, ones due within a week, and
+       anything marked FLAGGED.
+       
+       #+begin_src emacs-lisp
+         (with-eval-after-load 'org
+           (add-to-list
+            'org-agenda-custom-commands
+            '("fh" "Hotlist"
+              ((tags-todo "DEADLINE<\"<+0d>\""
+                          ((org-agenda-overriding-header "OVERDUE")))
+               (tags-todo "DEADLINE>=\"<+0d>\"+DEADLINE<=\"<+1w>\""
+                          ((org-agenda-overriding-header "DUE IN NEXT 7 DAYS")))
+               (tags-todo "DEADLINE=\"\"+FLAGGED|DEADLINE>\"<+1w>\"+FLAGGED"
+                          ((org-agenda-overriding-header "FLAGGED"))))
+              ((org-agenda-todo-ignore-scheduled 'future)
+               (org-agenda-sorting-strategy '(deadline-up)))) t))
+       #+end_src
 
-      #+begin_src emacs-lisp
-        (add-to-list
-         'org-agenda-custom-commands
-         '("fh" "Hotlist"
-           ((tags-todo "DEADLINE<\"<+0d>\""
-                       ((org-agenda-overriding-header "OVERDUE")))
-            (tags-todo "DEADLINE>=\"<+0d>\"+DEADLINE<=\"<+1w>\""
-                       ((org-agenda-overriding-header "DUE IN NEXT 7 DAYS")))
-            (tags-todo "DEADLINE=\"\"+FLAGGED|DEADLINE>\"<+1w>\"+FLAGGED"
-                       ((org-agenda-overriding-header "FLAGGED"))))
-           ((org-agenda-todo-ignore-scheduled 'future)))  t)
-      #+end_src
+       Finally the /Hot & Fast/ view assembles tasks into three
+       sections: overdue, take less then 1 hour, or a score of 1.
+       
+       #+begin_src emacs-lisp
+         (with-eval-after-load 'org
+           (add-to-list
+            'org-agenda-custom-commands
+            '("ff" "Hot & Fast"
+              ((tags-todo "DEADLINE<\"<+0d>\""
+                          ((org-agenda-overriding-header "OVERDUE")))
+               (tags-todo "Effort={.}+Effort<\"1:00\""
+                          ((org-agenda-overriding-header "QUICK")))
+               (tags-todo "SCORE=1"
+                          ((org-agenda-overriding-header "EASY"))))) t))
+       #+end_src
+
+****** Review
+
+       After processing incoming items and focusing on some work,
+       there is the step of reviewing to ensure that progress is being
+       made in the right spots.
+
+       The set of views start on the =r= key.
+       
+       #+begin_src emacs-lisp
+         (with-eval-after-load 'org
+           (add-to-list
+            'org-agenda-custom-commands
+            '("r" . "REVIEW...") t))
+       #+end_src
+
+       On a weekly basis, the view (=rw=) prvides a look back and look
+       forward for all tasks.
+
+       #+begin_src emacs-lisp
+         (with-eval-after-load 'org
+           (add-to-list
+            'org-agenda-custom-commands
+            '("rw" "Weekly review"
+              ((tags "{INBOX}&LEVEL<=2"
+                     ((org-agenda-overriding-header "NEW TASKS")))
+               (agenda ""
+                       ((org-agenda-clockreport-mode t)
+                        (org-agenda-format-date
+                         (concat "\n"
+                                 "%Y-%m-%d" " %a "
+                                 (make-string (window-width) ?_)))
+                        (org-agenda-overriding-header "PAST WEEK")
+                        (org-agenda-prefix-format " %?-11t %i %-12:c% s")
+                        (org-agenda-show-log 'clockcheck)
+                        (org-agenda-span 7)
+                        (org-agenda-start-day "-1w")
+                        (org-deadline-warning-days 0)))
+               (agenda ""
+                       ((org-agenda-overriding-header "NEXT MONTH")
+                        (org-agenda-span 'month)
+                        (org-agenda-start-day "+0d")
+                        (org-deadline-warning-days 0)))
+               (todo "PROJECT"
+                     ((org-agenda-overriding-header "PROJECT LIST")))
+               (todo "DONE|PROJECTDONE"
+                     ((org-agenda-overriding-header
+                       "Candidates to be archived"))))) t))
+       #+end_src
+
+******* All Tasks
+        
+        The first review section is for all tasks and launchable via
+        =ra=.
+       
+        #+begin_src emacs-lisp
+          (with-eval-after-load 'org
+            (add-to-list
+             'org-agenda-custom-commands
+             '("ra" . "All Tasks...") t))
+        #+end_src
+
+        The first view lists tasks grouped by due dates.  The sections
+        of this view list tasks that are overdue, due today, due
+        tomorrow, due within a week, due within a month, due later,
+        waiting for, and tasks without a due date.
+
+        #+begin_src emacs-lisp
+          (with-eval-after-load 'org
+            (add-to-list
+             'org-agenda-custom-commands
+             '("rad" "All Tasks (grouped by Due Date)"
+               ((tags-todo "DEADLINE<\"<+0d>\""
+                           ((org-agenda-overriding-header "OVERDUE")
+                            (org-agenda-skip-function
+                             '(org-agenda-skip-entry-if 'notdeadline))))
+                (tags-todo "DEADLINE=\"<+0d>\""
+                           ((org-agenda-overriding-header "DUE TODAY")
+                            (org-agenda-skip-function
+                             '(org-agenda-skip-entry-if 'notdeadline))))
+                (tags-todo "DEADLINE=\"<+1d>\""
+                           ((org-agenda-overriding-header "DUE TOMORROW")
+                            (org-agenda-skip-function
+                             '(org-agenda-skip-entry-if 'notdeadline))))
+                (tags-todo "DEADLINE>\"<+1d>\"+DEADLINE<=\"<+7d>\""
+                           ((org-agenda-overriding-header "DUE WITHIN A WEEK")
+                            (org-agenda-skip-function
+                             '(org-agenda-skip-entry-if 'notdeadline))))
+                (tags-todo "DEADLINE>\"<+7d>\"+DEADLINE<=\"<+28d>\""
+                           ((org-agenda-overriding-header "DUE WITHIN A MONTH")
+                            (org-agenda-skip-function
+                             '(org-agenda-skip-entry-if 'notdeadline))))
+                (tags-todo "DEADLINE>\"<+28d>\""
+                           ((org-agenda-overriding-header "DUE LATER")
+                            (org-agenda-skip-function
+                             '(org-agenda-skip-entry-if 'notdeadline))))
+                (tags-todo "TODO={WAIT}"
+                           ((org-agenda-overriding-header "WAITING FOR")
+                            (org-agenda-skip-function
+                             '(org-agenda-skip-entry-if 'deadline))))
+                (todo ""
+                      ((org-agenda-overriding-header "NO DUE DATE")
+                       (org-agenda-skip-function
+                        '(org-agenda-skip-entry-if 'deadline)))))
+               ((org-agenda-sorting-strategy '(priority-down))
+                (org-agenda-write-buffer-name "All Tasks (grouped by Due Date)"))
+               "~/Documents/Org/all-tasks-by-due-date.pdf") t))
+        #+end_src
+
+        Hitting =ra1= lists all tasks (with a due date) by due date.
+       
+        #+begin_src emacs-lisp
+          (with-eval-after-load 'org
+            (add-to-list
+             'org-agenda-custom-commands
+             '("ra1" "All Tasks with a due date" alltodo ""
+               ((org-agenda-overriding-header "All Tasks (sorted by Due Date)")
+                (org-agenda-skip-function
+                 '(org-agenda-skip-entry-if 'notdeadline))
+                (org-agenda-sorting-strategy '(deadline-up)))) t))
+        #+end_src
+
+        
+        
+        #+begin_src emacs-lisp
+          (defconst bnb/org-completed-date-regexp
+            (concat " \\("
+                    "CLOSED: \\[%Y-%m-%d"
+                    "\\|"
+                    "- State \"\\(DONE\\)\" * from .* \\[%Y-%m-%d"
+                    "\\|"
+                    "- State .* ->  *\"\\(DONE\\)\" * \\[%Y-%m-%d"
+                    "\\) ")
+            "Matches any completion time stamp.")
+
+          (defun current-time-ndays-ago (n)
+            "Return the current time minus N days."
+            (time-subtract (current-time) (days-to-time n)))
+
+          (with-eval-after-load 'org
+            (add-to-list
+             'org-agenda-custom-commands
+             `("rac" "Completed view"
+               ((todo "TODO|DONE"
+                      ((org-agenda-overriding-header
+                        (format "YESTERDAY [%s]" (format-time-string "%a %d" (current-time-ndays-ago 1))))
+                       (org-agenda-skip-function
+                        '(org-agenda-skip-entry-if
+                          'notregexp
+                          (format-time-string bnb/org-completed-date-regexp (current-time-ndays-ago 1))))
+                       (org-agenda-sorting-strategy '(priority-down))))
+                (todo "TODO|DONE"
+                      ((org-agenda-overriding-header
+                        (format "2 DAYS AGO [%s]" (format-time-string "%a %d" (current-time-ndays-ago 2))))
+                       (org-agenda-skip-function
+                        '(org-agenda-skip-entry-if
+                          'notregexp
+                          (format-time-string bnb/org-completed-date-regexp (current-time-ndays-ago 2))))
+                       (org-agenda-sorting-strategy '(priority-down))))
+                (todo "TODO|DONE"
+                      ((org-agenda-overriding-header
+                        (format "3 DAYS AGO [%s]" (format-time-string "%a %d" (current-time-ndays-ago 3))))
+                       (org-agenda-skip-function
+                        '(org-agenda-skip-entry-if
+                          'notregexp
+                          (format-time-string bnb/org-completed-date-regexp (current-time-ndays-ago 3))))
+                       (org-agenda-sorting-strategy '(priority-down)))))
+               ((org-agenda-format-date "")
+                (org-agenda-start-with-clockreport-mode nil)))))
+        #+end_src
+         
+         
+******* Timesheets       
+
+        As part of a review, timesheets (reachable at =rt=) illustrate
+        where the time went.
+        
+        #+begin_src emacs-lisp
+          (with-eval-after-load 'org
+            (add-to-list
+             'org-agenda-custom-commands
+             '("rt" . "Timesheet...") t))
+        #+end_src
+ 
+        The first timesheet is a daily one that includes the logged
+        tasks and a clockreport.
+       
+        #+begin_src emacs-lisp
+          (with-eval-after-load 'org
+            ;; Show what happened today.
+            (add-to-list
+             'org-agenda-custom-commands
+             '("rtd" "Daily Timesheet" agenda ""
+               ((org-agenda-log-mode-items '(clock closed))
+                (org-agenda-overriding-header "DAY TIMESHEET")
+                (org-agenda-show-log '(clock closed clockcheck))
+                (org-agenda-span 'day)
+                (org-agenda-start-with-clockreport-mode t)
+                (org-agenda-start-with-log-mode t)
+                (org-agenda-time-grid nil))) t))
+        #+end_src
+
+        Naturally, the level up from a daily timesheet is a weekly
+        timesheet (reachable via =rtw=).
+        
+        #+begin_src emacs-lisp
+          (with-eval-after-load 'org
+            ;; Show what happened this week.
+            (add-to-list
+             'org-agenda-custom-commands
+             '("rtw" "Weekly Timesheet" agenda ""
+               (
+                ;; (org-agenda-format-date "")
+                (org-agenda-overriding-header "WEEKLY TIMESHEET")
+                (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
+                (org-agenda-span 'week)
+                (org-agenda-log-mode-items '(closed clock))
+                (org-agenda-show-log '(closed clock))
+                (org-agenda-start-on-weekday 1)
+                (org-agenda-start-with-clockreport-mode t)
+                (org-agenda-start-with-log-mode t)
+                (org-agenda-time-grid '(weekly)))) t))
+        #+end_src
       
-      #+begin_src emacs-lisp
-        (add-to-list
-         'org-agenda-custom-commands
-         '("r" . "REVIEW...") t)
-
-        (add-to-list
-         'org-agenda-custom-commands
-         '("ra" . "All Tasks...") t)
-      #+end_src
-      
-      #+begin_src emacs-lisp
-        (add-to-list
-         'org-agenda-custom-commands
-         '("rad" "All Tasks (grouped by Due Date)"
-           ((tags-todo "DEADLINE<\"<+0d>\""
-                       ((org-agenda-overriding-header "OVERDUE")
-                        (org-agenda-skip-function
-                         '(org-agenda-skip-entry-if 'notdeadline))))
-            (tags-todo "DEADLINE=\"<+0d>\""
-                       ((org-agenda-overriding-header "DUE TODAY")
-                        (org-agenda-skip-function
-                         '(org-agenda-skip-entry-if 'notdeadline))))
-            (tags-todo "DEADLINE=\"<+1d>\""
-                       ((org-agenda-overriding-header "DUE TOMORROW")
-                        (org-agenda-skip-function
-                         '(org-agenda-skip-entry-if 'notdeadline))))
-            (tags-todo "DEADLINE>\"<+1d>\"+DEADLINE<=\"<+7d>\""
-                       ((org-agenda-overriding-header "DUE WITHIN A WEEK")
-                        (org-agenda-skip-function
-                         '(org-agenda-skip-entry-if 'notdeadline))))
-            (tags-todo "DEADLINE>\"<+7d>\"+DEADLINE<=\"<+28d>\""
-                       ((org-agenda-overriding-header "DUE WITHIN A MONTH")
-                        (org-agenda-skip-function
-                         '(org-agenda-skip-entry-if 'notdeadline))))
-            (tags-todo "DEADLINE>\"<+28d>\""
-                       ((org-agenda-overriding-header "DUE LATER")
-                        (org-agenda-skip-function
-                         '(org-agenda-skip-entry-if 'notdeadline))))
-            (tags-todo "TODO={WAIT}"
-                       ((org-agenda-overriding-header "WAITING FOR")
-                        (org-agenda-skip-function
-                         '(org-agenda-skip-entry-if 'deadline))))
-            (todo ""
-                  ((org-agenda-overriding-header "WAITING FOR")
-                   (org-agenda-skip-function
-                    '(org-agenda-skip-entry-if 'deadline)))))
-           ((org-agenda-sorting-strategy '(priority-down))
-            (org-agenda-write-buffer-name "All Tasks (grouped by Due Date)"))
-           "~/Documents/Org/all-tasks-by-due-date.pdf") t)
-      #+end_src
-
-      #+begin_src emacs-lisp
-        (add-to-list
-         'org-agenda-custom-commands
-         '("ra1" "All Tasks with a due date"
-           ((alltodo ""))
-           ((org-agenda-overriding-header "All Tasks (sorted by Due Date)")
-            (org-agenda-skip-function
-             '(org-agenda-skip-entry-if 'notdeadline))
-            (org-agenda-sorting-strategy '(deadline-up)))) t)
-      #+end_src
-      
-      #+begin_src emacs-lisp
-        (add-to-list
-         'org-agenda-custom-commands
-         '("rag" "Grouped Tasks")
-         ())
-      #+end_src
-      
-      #+begin_src emacs-lisp
-        (add-to-list
-         'org-agenda-custom-commands
-         '("rt" . "Timesheet...") t)
-      #+end_src
-      
-      #+begin_src emacs-lisp
-        ;; Show what happened today.
-        (add-to-list
-         'org-agenda-custom-commands
-         '("rtd" "Daily Timesheet"
-           ((agenda ""))
-           ((org-agenda-log-mode-items '(clock closed))
-            (org-agenda-overriding-header "DAILY TIMESHEET")
-            (org-agenda-show-log 'clockcheck)
-            (org-agenda-span 'day)
-            (org-agenda-start-with-clockreport-mode t)
-            (org-agenda-time-grid nil))) t)
-
-        ;; Show what happened this week.
-        (add-to-list
-         'org-agenda-custom-commands
-         '("rtw" "Weekly Timesheet"
-           ((agenda ""))
-           (
-            ;; (org-agenda-format-date "")
-            (org-agenda-overriding-header "WEEKLY TIMESHEET")
-            (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
-            (org-agenda-span 'week)
-            (org-agenda-start-on-weekday 1)
-            (org-agenda-start-with-clockreport-mode t)
-            (org-agenda-time-grid nil))) t)
-      #+end_src
-
-      #+begin_src emacs-lisp
-        (add-to-list
-         'org-agenda-custom-commands
-         '("rc" . "Calendar...") t)
-
-        (add-to-list
-         'org-agenda-custom-commands
-         '("rc7" "Events and appointments for 7 days"
-           ((agenda ""))
-           ((org-agenda-entry-types '(:timestamp :sexp))
-            ;; (org-agenda-overriding-header "Calendar for 7 days")
-            (org-agenda-span 'week)
-            (org-agenda-format-date "\n%a %d")
-            ;; (org-agenda-date-weekend ... new face ...)
-            (org-agenda-time-grid nil))) t)
-      #+end_src
-
-      #+begin_src emacs-lisp
-        (add-to-list
-         'org-agenda-custom-commands
-         '("rw" "Weekly review"
-           ((tags "CATEGORY={@REFILE}&LEVEL<=2"
-                  ((org-agenda-overriding-header "NEW TASKS")))
-            (agenda ""
-                    ((org-agenda-clockreport-mode t)
-                     (org-agenda-format-date
-                      (concat "\n"
-                              "%Y-%m-%d" " %a "
-                              (make-string (window-width) ?_)))
-                     (org-agenda-overriding-header "PAST WEEK")
-                     (org-agenda-prefix-format " %?-11t %i %-12:c% s")
-                     (org-agenda-show-log 'clockcheck)
-                     (org-agenda-span 7)
-                     (org-agenda-start-day "-1w")
-                     (org-deadline-warning-days 0)))
-            (agenda ""
-                    ((org-agenda-overriding-header "NEXT MONTH")
-                     (org-agenda-span 'month)
-                     (org-agenda-start-day "+0d")
-                     (org-deadline-warning-days 0)))
-            (todo "PROJECT"
-                  ((org-agenda-overriding-header "PROJECT LIST")))
-            (todo "DONE|PROJECTDONE"
-                  ((org-agenda-overriding-header
-                    "Candidates to be archived"))))))
-      #+end_src
-      
-      Phew! That is a lot of lisp! It is easiest to describe each view
-      by the key that triggers it.
-      
-      - =a= Agenda with tip (keystroke tip)
-      - =w= Tasks waiting on something
-      - =r= Refile New notes and tasks
-      - =n= Next
-        Any task with the NEXT tag
-        - =A= Tasks ready for Archive
-        - =u= Upcoming tasks
-          Scheduled or due in the next week.
-          - =U= Unscheduled tasks
-          - =P= Printable agenda
-            Formats tasks at the top with upcoming items below.
-            - =S= Scoreless tasks
-            Use this to get the scoreless tasks and edit in column mode
-            - =h= Habits
-            - =#= Stuck projects
-            - =z= Agenda with Personal Files
-            - =c= Select default clocking task
-
 **** Export
 
      THe following sections configue global export settings that make
@@ -3509,8 +3700,7 @@
         (setq org-export-html-inline-images t)
       #+end_src
 
-      I also used to suppress the postamble with
-      =org-export-html-postamble=.
+      I suppress the postamble with [[help:org-export-html-postamble][org-export-html-postamble]].
 
       #+begin_src emacs-lisp
         (setq org-html-postamble nil)
@@ -3520,14 +3710,14 @@
 
       #+begin_src emacs-lisp
         (setq org-html-doctype "html5"
-      	org-html-html5-fancy t)
+              org-html-html5-fancy t)
       #+end_src
 
-      I like to have striped tables in email, but this is terribly
-      difficult due to cruddy CSS support. Luckily,
-      =org-html-table-row-tags= saves the day and assigns the right
-      classes to the table rows with a little bit of help. Now styling
-      can be done in CSS-reduced instances.
+      Striped tables are nice in email, but this is terribly difficult
+      due to cruddy CSS support. Luckily, [[help:org-html-table-row-tags][org-html-table-row-tags]]
+      saves the day and assigns the right classes to the table rows
+      with a little bit of help. This makes styling correct in
+      CSS-reduced instances.
 
       #+begin_src emacs-lisp
         (setq org-html-table-row-tags
@@ -3542,7 +3732,7 @@
 ***** LaTeX
 
       For \LaTeX, I want to convert fragments to images, and use
-      minted for any source blocks. I also want to have =xelatex= as the
+      [[https://ctan.org/pkg/minted?lang=en][minted]] for any source blocks. I also want to have [[https://en.wikipedia.org/wiki/XeTeX][XeTeX]] as the
       backend.
 
       #+begin_src emacs-lisp
@@ -3558,11 +3748,9 @@
       #+end_src
 
 
-      Also, I want to enable some of the other contributed
-      exporters. To do this, simply require the files necessary that
-      are not on by default.
-
-      I add exporters for github-flavored markdown and tufte html.
+      Other contributed org-mode exporters require activiation to show
+      up in the export menus. I use exporters for github-flavored
+      markdown and tufte html.
 
       #+begin_src emacs-lisp
         (use-package ox-gfm
@@ -3573,7 +3761,7 @@
           :ensure t)
       #+end_src
 
-***** EPUB
+***** EPUB                                                          :PENDING:
 
       E-readers may be a thing that sticks around.
 
@@ -3586,8 +3774,7 @@
 **** Clocking
 
      I have found clocking to be useful in understanding where my time
-     goes. And Org makes this easy, fast and painless to do. So very
-     nice.
+     goes. And Org makes this easy, fast, and painless to do.
 
      The clock has some general settings around persistence (resuming
      clocks), history length and resuming a task after clocking in
@@ -3597,7 +3784,7 @@
        (elpaca nil
          (org-clock-persistence-insinuate)
          (setq org-clock-history-length 28
-     	  org-clock-in-resume t))
+               org-clock-in-resume t))
      #+end_src
 
      Behavior of the clock can change to accommodate other needs. I
@@ -3621,10 +3808,10 @@
              org-clock-auto-clock-resolution 'when-no-clock-is-running)
      #+end_src
 
-     Two final settings regarding clocking setup how I change and view
-     the clocks. I want any clock reports to include the currently
-     clocked task as well. And for clock editing, I change to 15
-     minute increments.
+     Two final settings regarding clocking configure how I change and
+     view the clocks. I want any clock reports to include the
+     currently clocked task as well. And for clock editing, I change
+     to 15 minute increments.
 
      #+begin_src emacs-lisp
        (setq org-clock-report-include-clocking-task t
@@ -3633,7 +3820,9 @@
 
 **** Modules
      
-     Org-modules allow for specific functionality within org-mode.
+     Org-modules allow for specific functionality within
+     org-mode. These modules (plugins) activate by adding them to the
+     list of [[help:org-modules][org-modules]].
 
      #+begin_src emacs-lisp
        (with-eval-after-load 'org
@@ -3673,11 +3862,22 @@
       use of protocols. A popular usage is accepting bookmarks from
       browsers. [[info:org#Protocols][Read more about it in the manual]].
       
-***** Org bookmark
+***** Bookmarks
 
-***** Org calc      
-
+      The org linking system is powerful in the way it can connect to
+      many part of Emacs. This module enables links to any stored
+      bookmark.
+      
 **** Babel
+
+     Babel is some serious magic for Org files. It enables tangled
+     code blocks (this file), notebook-style interactive documents,
+     delarative diagrams, and nicely-formatted examples.
+
+     Each code block can have a different language and be edited
+     remotely in a properly mode'd buffer.
+
+     This is the list of languages I like to have enabled for use.
      
      #+begin_src emacs-lisp
        (elpaca nil
@@ -3703,7 +3903,8 @@
 
 ***** Extra Babel Packages
 
-      A couple of more items.
+      These two packages assist with making HTTP requets. They can act
+      like an alternative to Postman.
       
       #+begin_src emacs-lisp
         (use-package ob-http :after org-mode
@@ -3720,14 +3921,17 @@
 
 ***** Customization
 
-      Python needs to find the right one, so I hard code what babel
-      should use for execution.
+      Python needs to find the right executable, so I hard code what babel
+      should use for a command.
 
       #+begin_src emacs-lisp
         (setq org-babel-python-command "python3")
       #+end_src
 
 **** Miscellaneous Settings
+
+     This section holds important small preferences for Org.
+     
 ***** Auto-revert mode
 
       If the org files are under DVCS like git, then the edits may
@@ -3758,7 +3962,9 @@
 
 ***** Columns
 
-      The default columns are as follows.
+      The default columns are as follows. In English, it shows the
+      item (or task), the score, the effort estimate, and the current
+      clock sum (time already spent).
 
       #+begin_src emacs-lisp
         (setq
@@ -3809,8 +4015,8 @@
         (setq org-file-apps
               '((auto-mode . emacs)
                 ("\\.x?html?\\'" . default)
-                ("\\.pdf\\'" . default)
-                ("\\.mm\\'" . default)))
+                ("\\.pdf\\'"     . default)
+                ("\\.mm\\'"      . default)))
       #+end_src
 
 ***** Goto Interface
@@ -3873,6 +4079,10 @@
 
 ***** Properties
 
+      Here I add my global properties. The appendix =_ALL= indicates to
+      the system that these are the values avaialble for completion
+      for each of these properties.
+
       #+begin_src emacs-lisp
         (setq org-global-properties
               '(("STYLE_ALL"  . "habit")
@@ -3882,8 +4092,8 @@
 
 ***** Special Control Keys
 
-      Orgmode has a different idea of some of the default emacs
-      commands to make it easier to work with the structures involved.
+      Org has a different idea of some of the default emacs commands
+      to make it easier to work with the structures involved.
 
       For =C-a= or =C-e= within a headline, it will only try to navigate
       the headline text the first time. Additional keypresses will
@@ -3900,108 +4110,28 @@
               org-special-ctrl-k t)
       #+end_src
 
-***** Teleport
-
-      From [[http://kitchingroup.cheme.cmu.edu/blog/2016/03/18/Org-teleport-headlines/][the Kitchin Group]], I can have a nice /teleport/ function for
-      org sections. Using a speed command on the current headline
-      kills it and then presents avy-style markers to select the
-      insertion point.
-      
-      By default the teleported headline will be inserted after the
-      target. With a prefix argument, it will preceed the target.
-
-      #+begin_src emacs-lisp
-        (defun bnb/org-teleport (&optional arg)
-          "Teleport the current heading to after a headline selected with avy.
-            With a prefix ARG move the headline to before the selected
-            headline. With a numeric prefix, set the headline level. If ARG
-            is positive, move after, and if negative, move before."
-          (interactive "P")
-          ;; Kill current headline
-          (org-mark-subtree)
-          (kill-region (region-beginning) (region-end))
-          ;; Jump to a visible headline
-          (avy-with avy-goto-line (avy--generic-jump "^\\*+" nil avy-style))
-          (cond
-           ;; Move before  and change headline level
-           ((and (numberp arg) (> 0 arg))
-            (save-excursion
-              (yank))
-            ;; arg is what we want, second is what we have
-            ;; if n is positive, we need to demote (increase level)
-            (let ((n (- (abs arg) (car (org-heading-components)))))
-              (cl-loop for i from 1 to (abs n)
-                       do
-                       (if (> 0 n)
-                           (org-promote-subtree)
-                         (org-demote-subtree)))))
-           ;; Move after and change level
-           ((and (numberp arg) (< 0 arg))
-            (org-mark-subtree)
-            (goto-char (region-end))
-            (when (eobp) (insert "\n"))
-            (save-excursion
-              (yank))
-            ;; n is what we want and second is what we have
-            ;; if n is positive, we need to demote
-            (let ((n (- (abs arg) (car (org-heading-components)))))
-              (cl-loop for i from 1 to (abs n)
-                       do
-                       (if (> 0 n) (org-promote-subtree)
-                         (org-demote-subtree)))))
-
-           ;; move to before selection
-           ((equal arg '(4))
-            (save-excursion
-              (yank)))
-           ;; move to after selection
-           (t
-            (org-mark-subtree)
-            (goto-char (region-end))
-            (when (eobp) (insert "\n"))
-            (save-excursion
-              (yank))))
-          (outline-hide-leaves))
-      #+end_src
-
-      #+begin_src emacs-lisp
-        (with-eval-after-load 'org
-          (progn
-            (add-to-list
-             'org-speed-commands
-             (cons "k" (lambda ()
-                         (org-mark-subtree)
-                         (kill-region
-                          (region-beginning)
-                          (region-end)))))
-
-            (add-to-list
-             'org-speed-commands
-             (cons "q" (lambda ()
-                         (avy-with avy-goto-line
-                           (avy--generic-jump "^\\*+" nil avy-style)))))
-
-            (add-to-list
-             'org-speed-commands
-             (cons "T" 'bnb/org-teleport))))
-      #+end_src
-
 **** Pretty Org-mode
 
      This collection of settings enhances the visual appeal when
      working in org-mode.
 
-     First, some initial built-in settings to make.
+     First, some initial built-in settings to make.This block styles
+     the headlines to hide the stars, and fontify them. The next
+     setting hides emphasis markers on words. And finally, entities
+     are drawn with UTF-8 characters.
 
      #+begin_src emacs-lisp
        (setq org-hide-leading-stars t
-             org-hide-emphasis-markers t
              org-fontify-done-headline t
+             org-hide-emphasis-markers t
              org-pretty-entities t)
      #+end_src
 
+     Using [[*Prettify symbols mode][Prettify]], I add these symbols to make the structure of
+     org-mode files cleaner to read. In the list, the strings on the
+     left are replaced by the elements on the right. Moving a cursor
+     over the symbols will show them in their original form.
 
-     Here's some fun
      #+begin_src emacs-lisp
        (add-hook
         'org-mode-hook
@@ -4016,7 +4146,11 @@
      #+end_src
 
 ***** Org Bullets
-      Bullet shapes do a better job conveying depth then just position/depth of stars.
+      
+      Bullet shapes do a better job conveying depth then just
+      position/depth of stars. This snippet loads the package and sets
+      the list of bullets to use.
+      
       #+begin_src emacs-lisp
         (use-package org-bullets
           :ensure t
@@ -4037,8 +4171,9 @@
          :ensure t
          :commands (org-ai-mode
                     org-ai-global-mode)
+         :hook
+         (org-mode . org-ai-mode)
          :init
-         ;; (add-hook 'org-mode-hook #'org-ai-mode) ; enable org-ai in org-mode
          (org-ai-global-mode) ; installs global keybindings on C-c M-a
          :config
          (setq org-ai-default-chat-model "gpt-3.5-turbo"))
@@ -4046,12 +4181,12 @@
 
      This adds the ability to have =#+begin/end_ai= blocks to have a
      "conversation" with ChatGPT or DALL⋅E. Be sure to set
-     ~org-ai-openai-api-token~ to your API token before using.
+     [[help:org-ai-openai-api-token][org-ai-openai-api-token]] to your API token before using.
 
 **** Org Repo Todo                                                  :PENDING:
 
      Make it easy to setup a =TODO.org= from within a repo. I use this
-     to capture thoughts while coding
+     to capture thoughts while coding.
 
      #+begin_src emacs-lisp
        (use-package org-repo-todo
@@ -4075,7 +4210,9 @@
      #+end_src
 
 **** Org Noter
-     [[https://github.com/weirdNox/org-noter][Taking notes in a PDF]] is a useful trick. =org-noter= lets me do just that.
+
+     [[https://github.com/weirdNox/org-noter][Taking notes in a PDF]] is a useful trick. =org-noter= lets me do
+     just that.
 
      #+begin_src emacs-lisp
        (use-package org-noter
@@ -4087,7 +4224,7 @@
 
      The best of all worlds? Org-mode and a Zettelkasten system? Yes,
      [[https://www.orgroam.com/][Org-roam]] sets up a knowledge capture and organization system
-     built on the principles of a [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]] system.
+     built on the principles of [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]].
 
      #+begin_src emacs-lisp
        (use-package org-roam
@@ -4098,40 +4235,73 @@
          :init
          (setq org-roam-v2-ack t)
          :custom
-         (org-roam-directory (file-truename "~/Documents/zettel/"))
-         :bind (("C-c n f" . org-roam-node-find)
-                ("C-c n r" . org-roam-node-random)
-                ("C-c n g" . org-roam-graph)
-                ("C-c n c" . org-roam-capture)
-                ("C-c n j" . org-roam-dailies-capture-today)
-                (:map org-mode-map
-                      (("C-c n l" . org-roam-buffer-toggle)
-                       ("C-c n a" . org-roam-alias-add)
-                       ("C-c n i" . org-roam-node-insert)
-                       ("C-c n I" . org-roam-insert-immediate)))
-                (:map org-roam-mode-map
-                      (("C-c n l" . org-roam)
-                       ("C-c n t" . org-roam-dailies-find-today)
-                       ("C-c n w" . org-roam-dailies-find-tomorrow)
-                       ("C-c n d" . org-roam-date)
-                       ("C-c n f" . org-roam-find-file)
-                       ("C-c n g" . org-roam-show-graph)))))
+         (org-roam-directory (file-truename "~/Documents/Org/zettel/"))
+         :bind
+         (("C-c n f" . org-roam-node-find)
+          ("C-c n r" . org-roam-node-random)
+          ("C-c n g" . org-roam-graph)
+          ("C-c n c" . org-roam-capture)
+          ("C-c n j" . org-roam-dailies-capture-today)
+          (:map org-mode-map
+                (("C-c n l" . org-roam-buffer-toggle)
+                 ("C-c n a" . org-roam-alias-add)
+                 ("C-c n i" . org-roam-node-insert)
+                 ("C-c n I" . org-roam-insert-immediate)))
+          (:map org-roam-mode-map
+                (("C-c n l" . org-roam)
+                 ("C-c n t" . org-roam-dailies-find-today)
+                 ("C-c n w" . org-roam-dailies-find-tomorrow)
+                 ("C-c n d" . org-roam-date)
+                 ("C-c n f" . org-roam-find-file)
+                 ("C-c n g" . org-roam-show-graph)))))
      #+end_src
 
-**** Org QL
+**** Org QL                                                         :PENDING:
 
-     Use the query language for org.
+     The Org Query Language helps walk through a builder interface to
+     find, filter, and sort org entries.
+
      #+begin_src emacs-lisp
        (use-package org-ql
-         :commands (org-ql-search)
-         :config (require 'org-habit)
+         :commands (org-ql-search org-ql-view-sidebar)
+         :bind
+         ("C-c q s" . org-ql-search)
+         ("C-c q b" . org-ql-view-sidebar)
+         ("C-c q v" . org-ql-view)
+         ("C-c q t" . org-ql-sparse-tree)
+         ("C-c q r" . org-ql-view-recent-items)
+         (:map org-mode
+               ("C-c q f" . org-ql-find))
          :ensure t)
      #+end_src
 
+     This package is built on a library of searching functions, so it
+     also has some neat tricks like easily specifying agenda views and
+     building code blocks.
+
+     For example, to get a link to a dynamic list of pending items (in
+     this file), click on this: [[org-ql-search:tags:PENDING]].
+     
 *** PDF Tools
 
     This replaces the built-in DocView for PDF files. Find out the
-    details [[https://github.com/politza/pdf-tools][on the repo]].
+    details [[https://pdftools.wiki/][on the wiki]].
+
+    The part that I like over DocView is the ability to add
+    annotations. They all live on =C-c C-a=.
+
+    | Key       | Action                   |
+    |-----------+--------------------------|
+    | =C-c C-a D= | delete annotation        |
+    | =C-c C-a a= | attachment dired         |
+    | =C-c C-a h= | add highlight            |
+    | =C-c C-a l= | list annotations         |
+    | =C-c C-a m= | add markup               |
+    | =C-c C-a o= | add strikeout annotation |
+    | =C-c C-a s= | add squiggly annotation  |
+    | =C-c C-a t= | add text annotation      |
+    | =C-c C-a u= | add underline annotation |
+
 
     #+begin_src emacs-lisp
       (defcustom bnb/homebrew-prefix ""
