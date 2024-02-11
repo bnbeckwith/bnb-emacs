@@ -4355,7 +4355,27 @@
                 )))
     #+end_src
 
+*** Dashboard
 
+    Instead of the normal "splash" screen, show a [[https://github.com/emacs-dashboard/emacs-dashboard][dashboard]] instead.
+
+    #+begin_src emacs-lisp
+      (use-package dashboard
+        :ensure t
+        :hook
+        (elpaca-after-init . #'dashboard-insert-startupify-lists)
+        (elpaca-after-init . #'dashboard-initialize)
+        :custom
+        (dashboard-set-file-icons t)
+        (dashboard-set-heading-icons t)
+        :config
+        (dashboard-modify-heading-icons
+         '((recents   . "file")
+           (agenda    . "calendar")
+           (bookmarks . "book")
+           (registers . "clippy")))
+        (dashboard-setup-startup-hook))
+    #+end_src
 
 ** Programming Languages
 *** C++
@@ -4805,7 +4825,7 @@
     #+begin_src emacs-lisp
       (use-package all-the-icons
         :ensure t
-        :commands (all-the-icons-material all-the-icons-faicon)
+        :commands (all-the-icons-material all-the-icons-faicon all-the-icons-octicon)
         :config
         (setq org-agenda-category-icon-alist
               `(("[rR]efile" ,(list (all-the-icons-faicon "inbox")) nil nil :ascent center)
