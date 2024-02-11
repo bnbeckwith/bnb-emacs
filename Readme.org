@@ -345,7 +345,7 @@
                              elpaca--pre-built-steps elpaca-build-steps))
                 (list '+elpaca-unload-seq 'elpaca--activate-package)))
 
-      (use-package seq :elpaca `(seq :build ,(+elpaca-seq-build-steps)))
+      (use-package seq :ensure `(seq :build ,(+elpaca-seq-build-steps)))
       ;;; Wait for this to be processed before packages that depend on it
       (elpaca-wait)
     #+end_src
@@ -500,7 +500,6 @@
      
      #+begin_src emacs-lisp
        (use-package whitespace
-         :elpaca nil
          :ensure nil
          :commands (whitespace-mode)
          :custom
@@ -634,7 +633,6 @@
        (use-package vertico-directory
          :after vertico
          :ensure nil
-         :elpaca nil
          ;; More convenient directory navigation commands
          :bind (:map vertico-map
                      ("RET"   . vertico-directory-enter)
@@ -804,7 +802,7 @@
               bef aft))))
 
       (use-package abbrev
-        :elpaca nil
+        :ensure nil
         :delight " ⚆"
         :bind (("C-x C-i" . bnb/ispell-word-then-abbrev))
         :config
@@ -1240,7 +1238,7 @@
 
     #+begin_src emacs-lisp
       (use-package view
-        :elpaca nil
+        :ensure nil
         :delight " 👁"
         :init (setq view-read-only t)
         :bind (:map view-mode-map
@@ -1469,7 +1467,7 @@
 
     #+begin_src emacs-lisp
       (use-package ring
-        :elpaca nil
+        :ensure nil
         :commands (bnb/transparency-apply bnb/transparency-next bnb/transparency-previous
                                           bnb/transparency-cycle bnb/transparency-add)
         :config
@@ -2205,7 +2203,6 @@
     #+begin_src emacs-lisp
       (use-package smerge
         :ensure nil
-        :elpaca nil
         :bind
         (:map smerge-mode-map ("C-c ^ h" . hydra-smerge/body))
         :init
@@ -2292,7 +2289,7 @@
 
     #+begin_src emacs-lisp
       (use-package midnight
-        :elpaca nil
+        :ensure nil
         :defer 10)
     #+end_src
     
@@ -2306,7 +2303,6 @@
 
     #+begin_src emacs-lisp
       (use-package ibuffer
-        :elpaca nil
         :ensure nil
         :bind
         ("C-x C-b" . ibuffer)
@@ -2361,7 +2357,7 @@
 
     #+begin_src emacs-lisp
       (use-package uniquify
-        :elpaca nil
+        :ensure nil
         :defer 10
         :config
         (setq uniquify-buffer-name-style 'post-forward
@@ -2401,7 +2397,7 @@
 
     #+begin_src emacs-lisp
       (use-package eldoc
-        :elpaca nil
+        :ensure nil
         :hook
         (prog-mode . turn-on-eldoc-mode)
         (ielm-mode . turn-on-eldoc-mode)
@@ -2717,10 +2713,9 @@
       (use-package auctex
         :defer t
         :after org
-        :elpaca (auctex :pre-build (("./autogen.sh")
+        :ensure (auctex :pre-build (("./autogen.sh")
                                     ("./configure" "--without-texmf-dir" "--with-lispdir=.")
                                     ("make")))
-        :ensure t
         :mode (("\\.tex\\'" . LaTeX-mode)
                ("\\.tex\\.erb\\'" . LaTeX-mode)
                ("\\.etx\\'" . LaTeX-mode))
@@ -3716,9 +3711,7 @@
 
         (use-package ob-restclient
           :after org-mode
-          :ensure t
-          :elpaca
-          (ob-restclient :host github :repo "alf/ob-restclient.el")
+          :ensure (ob-restclient :host github :repo "alf/ob-restclient.el")
           :config
           (org-babel-do-load-languages
            'org-babel-load-languages
@@ -3745,7 +3738,7 @@
 
       #+begin_src emacs-lisp
         (use-package autorevert
-          :elpaca nil
+          :ensure nil
           :defer 10
           :diminish " "
           :custom
@@ -4168,13 +4161,17 @@
     #+end_src
 
 ** Miscellaneous
+
+   This sections holds configuration details for some of the
+   uncategorized major modes.
+   
 *** Calc
 
     Working in computer land, I add these additional units to ~calc~.
 
     #+begin_src emacs-lisp
       (use-package calc
-        :elpaca nil
+        :ensure nil
         :commands (calc)
         :init
         (setq math-additional-units
@@ -4203,7 +4200,7 @@
 
      #+begin_src emacs-lisp
        (use-package ansi-color
-         :elpaca nil
+         :ensure nil
          :hook ((compliation-filter . colorize-compilation-buffer))
          :config
          (defun colorize-compilation-buffer ()
@@ -4360,8 +4357,7 @@
           (setq-local buffer-save-without-query t)))
 
       (use-package toml-mode
-        :ensure t
-        :elpaca (toml-mode :host github :repo "dryman/toml-mode.el")
+        :ensure (toml-mode :host github :repo "dryman/toml-mode.el")
         :mode "\\.toml\\'")
     #+end_src
 
@@ -4551,7 +4547,7 @@
            (- (eshell/alias "llc" "*ls -AlohG --color=always"))))
 
        (use-package eshell
-         :elpaca nil
+         :ensure nil
          :commands eshell
          :hook (eshell-mode . (bnb/setup-eshell)))
      #+end_src
@@ -4983,7 +4979,7 @@
    #+begin_src emacs-lisp
      (use-package sky-color-clock
        :defer 10
-       :elpaca
+       :ensure
        (sky-color-clock :host github :repo "zk-phi/sky-color-clock")
        :config
        (sky-color-clock-initialize 40)
@@ -5011,8 +5007,7 @@
    #+begin_src emacs-lisp
      (use-package asterism-mode
        :after sky-color-clock
-       :ensure t
-       :elpaca
+       :ensure
        (asterism-mode :host gitlab :repo "lunar.studio/asterism-mode")
        :init
        (defun bnb/smaller-sky-color ()
@@ -5061,7 +5056,7 @@
 
     #+begin_src emacs-lisp
       (use-package prog-mode ; Contains pretty-symbols-mode
-        :elpaca nil
+        :ensure nil
         :defer
         :config
         (setq prettify-symbols-unprettify-at-point 'right-edge)
