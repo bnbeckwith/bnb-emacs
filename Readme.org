@@ -4323,7 +4323,6 @@
       (use-package pdf-tools
         :defer t
         :ensure t
-        :hook (pdf-view-mode . (lambda () (nlinum-mode 0)))
         :config
         (custom-set-variables '(pdf-tools-handle-upgrades nil))
         (setq-default pdf-view-display-size 'fit-page)
