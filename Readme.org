@@ -4409,14 +4409,14 @@
         (elpaca-after-init . #'dashboard-initialize)
         :custom
         (dashboard-set-file-icons t)
-        (dashboard-icon-type 'all-the-icons)
+        (dashboard-icon-type 'nerd-icons)
         (dashboard-set-heading-icons t)
         :config
         (dashboard-modify-heading-icons
-         '((recents   . "file-text")
-           (agenda    . "calendar")
-           (bookmarks . "book")
-           (registers . "clippy")))
+         '((recents   . "nf-oct-pin")      ;; 
+           (agenda    . "nf-oct-goal")     ;; 
+           (bookmarks . "nf-oct-bookmark") ;; 
+           (registers . "nf-oct-rows")))   ;; 
         (dashboard-setup-startup-hook))
     #+end_src
 
@@ -4782,33 +4782,74 @@
 
 
 ** Visual
-*** All the icons
 
-    https://github.com/domtronn/all-the-icons.el
+   This section contains settings and packages relevant to visual
+   elements. The theming of emacs is in [[*Style][the style section]].
+   
+*** Nerd Icons
+
+    The set of [[https://github.com/rainstormstudio/nerd-icons.el][nerd icons]] depends on an installed compatible font, but
+    there are [[https://www.nerdfonts.com/font-downloads][many alternatives]]. Because it is font-based, this will
+    work graphically and in the terminal.
+
+    Be sure to run [[elisp:(nerd-icons-install-fonts)][nerd-icons-install-fonts]] for this to work well.
 
     #+begin_src emacs-lisp
-      (use-package all-the-icons
-        :ensure t
-        :commands (all-the-icons-material all-the-icons-faicon all-the-icons-octicon)
-        :config
-        (setq org-agenda-category-icon-alist
-              `(("[rR]efile" ,(list (all-the-icons-faicon "inbox")) nil nil :ascent center)
-                ("[Pp]ersonal" ,(list (all-the-icons-faicon "tasks")) nil nil :ascent center)
-                (".*" ,(list (all-the-icons-material "tab")) nil nil :ascent center))))
+      (use-package nerd-icons
+        :ensure t)
     #+end_src
 
-**** All the icons Dired
+**** Icons in Corfu
 
-     Dired can also make use of pretty icons. Because of this
-     integration, ~sunrise-commander~ also gets some nice icons.
+     [[https://github.com/LuigiPiucco/nerd-icons-corfu?tab=readme-ov-file][This package]] adds icons to th [[*Corfu][Corfu]] completion list.
+     
+     #+begin_src emacs-lisp
+       (use-package nerd-icons-corfu
+         :after corfu
+         :ensure t
+         :config
+         (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter))
+     #+end_src
+     
+**** Icons in dired
+
+     Setup [[*Dired][dired]] to [[https://github.com/rainstormstudio/nerd-icons-dired][use icons]] next to the file names.
 
      #+begin_src emacs-lisp
-       (use-package all-the-icons-dired
+       (use-package nerd-icons-dired
          :ensure t
-         :commands (all-the-icons-dired-mode)
-         :hook (dired-mode . all-the-icons-dired-mode))
+         :hook
+         (dired-mode . nerd-icons-dired-mode))
      #+end_src
 
+**** Icons in Ibuffer
+
+     Add [[https://github.com/seagle0128/nerd-icons-ibuffer][icons]] to [[*IBuffer][ibuffer]].
+
+     #+begin_src emacs-lisp
+       (use-package nerd-icons-ibuffer
+         :ensure t
+         :custom
+         (nerd-icons-ibuffer-human-readable-size t)
+         :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
+     #+end_src
+
+**** Icons in completion
+     
+     [[https://github.com/rainstormstudio/nerd-icons-completion][Use icons]] in the completion systems.
+
+     #+begin_src emacs-lisp
+       (use-package nerd-icons-completion
+         :ensure t
+         :after marginalia
+         :hook
+         (marginalia-mode . nerd-icons-completion-marginalia-setup)
+         :init
+         (nerd-icons-completion-mode))
+     #+end_src
+
+     
+     
 * Style
 
   The following sections describe items that affect the visual
