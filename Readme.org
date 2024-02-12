@@ -4610,7 +4610,7 @@
 
     I also snuck in [[https://toml.io/en/][TOML]] support for the Cargo.toml files.
     
-*** Statistics (R)
+*** Emacs Speaks Statistics (ESS)
 
     For my data crunching tasks, I use R and [[https://ess.r-project.org/][ESS]] (emacs speaks
     statistics) provides an interface (repl) for developing analysis
@@ -4619,6 +4619,9 @@
     #+begin_src emacs-lisp
       (use-package ess
         :ensure t
+        :commands (R)
+        :custom
+        (ess-default-style 'Rstudio-)
         :init (require 'ess-site))
     #+end_src
     
