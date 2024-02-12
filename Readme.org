@@ -4213,12 +4213,12 @@
          :ensure t
          :commands (org-ai-mode
                     org-ai-global-mode)
-         :hook
-         (org-mode . org-ai-mode)
          :init
          (org-ai-global-mode) ; installs global keybindings on C-c M-a
+         :custom
+         (org-ai-default-chat-model "gpt-3.5-turbo")
          :config
-         (setq org-ai-default-chat-model "gpt-3.5-turbo"))
+         (org-ai-install-yasnippets))
      #+end_src
 
      This adds the ability to have =#+begin/end_ai= blocks to have a
