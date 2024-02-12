@@ -4643,42 +4643,31 @@
    
 *** Ansi Term
 
-    Some of the following settings were stolen from
-    [[https://ogbe.net/emacsconfig.html]].
-
     These settings close =ansi-term= when I exit the shell. They also
     default to just launching =zsh= instead of asking me
     (preferred). Then it closes by setting up a hook to ensure some
     nice functionality in the terminal mode window.
 
     #+begin_src emacs-lisp
-      (defadvice term-sentinel (around bnb/advise-term-sentinel (proc msg))
-        (if (memq (process-status proc) '(signal exit))
-            (let ((buffer (process-buffer proc)))
-              ad-do-it
-              (kill-buffer buffer))
-          ad-do-it))
-      (ad-activate 'term-sentinel)
-
-      (defadvice ansi-term (before force-zsh)
-        (interactive (list "/bin/zsh")))
-      (ad-activate 'ansi-term)
-
       (defun bnb/term-mode-hook ()
         "Setup `term-mode`."
         (goto-address-mode)
         (setq-local term-buffer-maximum-size 10000))
 
-      (add-hook 'term-mode-hook 'bnb/term-mode-hook)
-
-      (defalias 'zsh 'ansi-term)
-
-      (setq ansi-term-color-vector
-            [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white]
-            ansi-color-faces-vector
-            [default bold shadow italic underline bold bold-italic bold])
+      (use-package term
+        :ensure nil
+        :hook (term-mode . bnb/term-mode-hook)
+        :init
+        (defalias 'zsh 'ansi-term)
+        :custom
+        (ansi-term-color-vector  [term term-color-black term-color-red term-color-green term-color-yellow term-color-blue term-color-magenta term-color-cyan term-color-white])
+        (ansi-color-faces-vector [default bold shadow italic underline bold bold-italic bold]))
     #+end_src
 
+
+    My hook above makes it easy to click on links in any output and
+    protects the buffer from runaway printing.
+    
 *** Eshell
 
     Built-in Eshell can provide a shell that works the same on windows
@@ -4705,15 +4694,19 @@
          (eshell/alias "ll" "ls -Aloh")
          (pcase system-type
            ('darwin (eshell/alias "llc" "*ls -AlohG"))
-           (- (eshell/alias "llc" "*ls -AlohG --color=always"))))
+           (-       (eshell/alias "llc" "*ls -AlohG --color=always"))))
 
        (use-package eshell
          :ensure nil
          :commands eshell
-         :hook (eshell-mode . (bnb/setup-eshell)))
+         :hook (eshell-mode . bnb/setup-eshell))
      #+end_src
 
 **** Eshell Commands
+
+     Like many shells, =eshell= allows for the definition of custom
+     commands.  The following settings add extra functionality for
+     command-line use.
 
      Fast fingers are used to typing =emacs= at a prompt to open a file.
      This gives the same behavior in =eshell=.
@@ -4733,8 +4726,8 @@
      #+end_src
 
      One can also keep the shell active and open files in the other
-     window.
-
+     window. (Mnemonic here is emacs other window)
+     
      #+begin_src emacs-lisp
        (defun eshell/emo (&rest args)
          (mapc
@@ -4753,7 +4746,6 @@
              (eshell-grep "c:/cygwin/bin/grep.exe" args t))))
      #+end_src
 
-
      For Magit, there are some niceties to add.
 
      #+begin_src emacs-lisp
@@ -4770,7 +4762,6 @@
          (eshell/echo))
      #+end_src
 
-
 **** Plan 9 Smart Shells
 
      See [[http://www.masteringemacs.org/article/complete-guide-mastering-eshell][the complete guide to mastering Eshell]] for more on this.
@@ -4779,13 +4770,14 @@
 
      #+begin_src emacs-lisp
        (elpaca nil
-         (require 'eshell)
-         (require 'em-smart)
+         (with-eval-after-load 'eshell
+           (require 'eshell)
+           (require 'em-smart)
 
-         (setq eshell-where-to-jump 'begin)
-         (setq eshell-review-quick-commands nil)
-         (setq eshell-smart-space-goes-to-end t)
-         (add-hook  'eshell-mode-hook 'eshell-smart-initialize))
+           (setq eshell-where-to-jump 'begin
+                 eshell-review-quick-commands nil
+                 eshell-smart-space-goes-to-end t)
+           (add-hook  'eshell-mode-hook 'eshell-smart-initialize)))
      #+end_src
 
 
