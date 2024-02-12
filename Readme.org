@@ -2789,6 +2789,48 @@
      | C-c >     | View index                         |
      | C-c &     | View crossref                      |
 
+*** HTML
+
+    The document standard that is ubiquitous, but typically authored
+    through some processing tool. This section helps wtih the real
+    hands-on editing of HTML (and other similarily structued)
+    documents.
+    
+**** Impatient mode
+
+     In order to play nicely with HTML+, it needs to be added to the
+     filters of impatient mode.
+
+     #+begin_src emacs-lisp
+       (use-package impatient-mode
+         :ensure t
+         :mode "\\.html\\'"
+         :bind
+         ("C-x C-h s" . httpd-start)
+         ("C-x C-h x" . httpd-stop)
+         ("C-x C-h d" . httpd-serve-directory)
+         :config
+         (add-to-list 'imp-default-user-filters '(mhtml-mode . nil)))
+     #+end_src
+
+     To use impatient mode, you'll first want to call [[help:httpd-start][httpd-start]] and
+     then navigate to [[http://localhost:8080/imp]] to see the rendered
+     buffers.
+
+**** Emmet
+     
+     [[https://github.com/smihica/emmet-mode][Emmet mode]] allows for terse description of nested elements. There
+     is great documentation on the approach at [[http://emmet.io][emmet.io]].
+
+     #+begin_src emacs-lisp
+       (use-package emmet-mode
+         :ensure t
+         :commands (emmet-mode)
+         :hook ((web-mode  . emmet-mode)
+                (sgml-mode . emmet-mode)
+                (css-mode  . emmet-mode)))
+     #+end_src
+
 *** Markdown
 
     Everything can't be as nice as [[*Orgmode][org-mode]]. Oh well.
