@@ -4421,9 +4421,15 @@
     #+end_src
 
 ** Programming Languages
+
+   Hardly needing an introduction, this section holds the modes and
+   settings related to authoring in, and connecting to my favorite
+   (and necessary) programming languages and interpreters.
+
 *** C++
 
-    Oh my! I finally have a C++ addition to make!
+    I don't need much extra for C++ support, but the following snippet
+    makes compilation nicer.
 
 **** Compilation Buffers
 
@@ -4443,125 +4449,43 @@
 
 *** Elisp
 
-    When modified =emacs-lisp=, it is most helpful to use =paredit= and
-    =eldoc=.
+    When modified =emacs-lisp=, it is most helpful to use [[*Paredit][paredit]],
+    [[*Paxedit][paxedit]], and [[*Eldoc][eldoc]].
 
     #+begin_src emacs-lisp
-      (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
-      (add-hook 'emacs-lisp-mode-hook 'paxedit-mode)
-      (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+      (use-package elisp-mode
+        :ensure nil
+        :hook
+        (emacs-lisp-mode . paredit-mode)
+        (emacs-lisp-mode . paxedit-mode)
+        (emacs-lisp-mode . turn-on-eldoc-mode))
     #+end_src
-
-*** HTML
-
-**** Impatient mode
-
-     In order to play nicely with HTML+, it needs to be added to the
-     filters of impatient mode.
-
-     #+begin_src emacs-lisp
-       (use-package impatient-mode
-         :ensure t
-         :mode "\\.html\\'"
-         :config
-         (add-to-list 'imp-default-user-filters '(mhtml-mode . nil)))
-     #+end_src
-
-     To use impatient mode, you'll first want to start with
-     ~httpd-start~ and then navigate to [[http://localhost:8080/imp]] to see
-     the rendered buffers.
-
-**** Emmet
-     
-     [[https://github.com/smihica/emmet-mode][Emmet mode]] allows for terse description of nested elements. There
-     is great documentation on the approach at [[http://emmet.io][emmet.io]].
-
-     #+begin_src emacs-lisp
-       (use-package emmet-mode
-         :ensure t
-         :commands (emmet-mode)
-         :hook ((web-mode . emmet-mode)
-                (sgml-mode . emmet-mode)
-                (css-mode . emmet-mode)))
-     #+end_src
 
 *** Javascript
 
-    Let's make some javascript settings!
+    For javascript, the only global setting is to shorten the
+    indentation level to 2.
 
     #+begin_src emacs-lisp
       (setq js-indent-level 2)
     #+end_src
-
-    Additional setup from https://emacs.cafe/emacs/javascript/setup/2017/04/23/emacs-setup-javascript.html
-
-**** JS2
-
-     These blocks set up JS2.
-     
-     #+begin_src emacs-lisp
-       (use-package js2-mode
-         :ensure t
-         :mode "\\.js\\'"
-         :hook (js2-mode . #'js2-imenu-extras-mode)
-         :config
-         (setq js2-basic-offset 2))
-     #+end_src
-     
-     #+begin_src emacs-lisp
-       (use-package js2-refactor
-         :ensure t
-         :after js2-mode
-         :functions (js2r-add-keybindings-with-prefix)
-         :bind (:map js2-mode-map
-                     ("C-k" . js2r-kill))
-         :config
-         (js2r-add-keybindings-with-prefix "C-c C-r"))
-     #+end_src
-     
-     #+begin_src emacs-lisp
-       (use-package xref-js2
-         :ensure t
-         :after js2-mode
-         :hook
-         (js2-mode .
-     	      (lambda ()
-     		(add-hook 'xref-backend-functions #'xref-js2-xref-backend nil t))))
-     #+end_src
-
-***** React Style JSX
-      
-            #+begin_src emacs-lisp
-        (use-package rjsx-mode
-          :mode "(components|src\\/pages)\\/.*\\.js\\'")
-      #+end_src
-
+    
 *** Plantuml
 
-    Not a /programming language/, but certainly a language.
+    Not a /programming language/, but certainly a language. I typically
+    use this in Org document blocks to generate diagrams. The
+    [[https://plantuml.com/guide][reference guide]] is available online.
 
     #+begin_src emacs-lisp
       (use-package plantuml-mode
-        :defer
-        :ensure t)
-    #+end_src
-
-*** Pollen
-    
-    #+begin_src emacs-lisp
-      (use-package pollen-mode
-        :ensure t
-        :defer t
-        :mode (("\\.pp\\'" . pollen-mode)))
-    
-      (use-package company-pollen
-        :defer t
         :ensure t)
     #+end_src
 
 *** Rust
 
-    Setup rust support with the following packages.
+    [[https://github.com/brotzeit/rustic][Rustic]] builds on rust-mode and adds [[https://github.com/emacs-lsp/lsp-mode][lsp]] support. This section does
+    the setup.
+
     #+begin_src emacs-lisp
       (use-package rustic
         :ensure t
@@ -4577,39 +4501,44 @@
                     ("C-c C-c e" . lsp-rust-analyzer-expand-macro)
                     ("C-c C-c d" . dap-hydra)
                     ("C-c C-c h" . lsp-ui-doc-glance))
-        :config
-        (setq lsp-inlay-hint-enable t
-              rustic-indent-offset 2)
+        :custom
+        (lsp-inlay-hint-enable t)
+        (rustic-indent-offset 2)
+        (rustic-analyzer-command '("rustup" "run" "stable" "rust-analyzer"))
         :hook ((rustic-mode . flycheck-mode)
                (rustic-mode . lsp-inlay-hints-mode)
                (rustic-mode . electric-pair-mode)))
-
-      (defun bnb/rustic-mode-hook ()
-        (when buffer-file-name
-          (setq-local buffer-save-without-query t)))
 
       (use-package toml-mode
         :ensure (toml-mode :host github :repo "dryman/toml-mode.el")
         :mode "\\.toml\\'")
     #+end_src
 
-*** Sass
-    
-    #+begin_src emacs-lisp
-      (use-package sass-mode
-        :defer
-        :ensure t)
-    #+end_src
-*** Shaders
-    
-    #+begin_src emacs-lisp
-      (use-package shader-mode
-        :ensure t
-        :defer t)
-    #+end_src
 
+    I also snuck in [[https://toml.io/en/][TOML]] support for the Cargo.toml files.
+    
+*** Statistics (R)
+
+    For my data crunching tasks, I use R and [[https://ess.r-project.org/][ESS]] (emacs speaks
+    statistics) provides an interface (repl) for developing analysis
+    and charts.
+    
+    #+begin_src emacs-lisp
+      (use-package ess
+        :ensure t
+        :init (require 'ess-site))
+    #+end_src
+    
 *** Utilities
+
+    These utilities make the programming experience easier across many
+    languages.
+    
 **** Flycheck
+
+     Similar to spellchecking, [[https://www.flycheck.org/en/latest/][Flycheck]] performs on-the-fly syntax
+     checking. I don't have it globally on, but easily available
+     through =H-!=.
      
      #+begin_src emacs-lisp
        (use-package flycheck
@@ -4640,15 +4569,21 @@
      #+end_src
 
 **** Prog fill
+
+     To go from wide lines to vertical, [[https://github.com/ahungry/prog-fill][prog-fill]] comes into the
+     rescue.
      
      #+begin_src emacs-lisp
        (use-package prog-fill
          :ensure t
          :commands (prog-fill)
-         :config
-         (setq
-          prog-fill-floating-close-paren-p nil
-          prog-fill-break-method-immediate-p t))
+         :hook
+         (prog-mode . (lambda () (local-set-key (kbd "M-q") #'prog-fill)))
+         :bind
+         ("H-q" . prog-fill)
+         :custom
+         (prog-fill-floating-close-paren-p nil)
+         (prog-fill-break-method-immediate-p t))
      #+end_src
 
 **** Smart Tabs
@@ -4669,14 +4604,12 @@
          :ensure t
          :init
          (setq-default indent-tabs-mode nil)
-         (smart-tabs-insinuate 'c 'cperl 'c++)
-         (setq-default tab-width 2))
+         (smart-tabs-insinuate 'c 'cperl 'c++))
      #+end_src
 
 ***** Notes
 
       To re-tab the whole file, use =C-x h C-M-\=.
-
 
 *** Web Mode
 
@@ -4689,22 +4622,18 @@
         :mode "\\.html\\'"
         :ensure t
         :bind ("H-b" . browse-url-of-file)
+        :custom
+        (web-mode-markup-indent-offset 2)
+        (web-mode-css-indent-offset 2)
+        (web-mode-code-indent-offset 2)
+        (web-mode-engines-alist '(("handlebars" . "\\.hbs\\'")))
         :config
-        (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-        (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-        (add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'"  . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.erb\\'"      . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.hbs\\'"      . web-mode))
         (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-        (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-        (add-to-list 'auto-mode-alist '("\\.svelte\\'" . web-mode))
-        (setq web-mode-engines-alist
-              '(("handlebars" . "\\.hbs\\'")))
-        (defun bnb/web-mode-hook ()
-          "Setup indentation when loading `web-mode`."
-          (setq web-mode-markup-indent-offset 2
-                web-mode-css-indent-offset 2
-                web-mode-code-indent-offset 2))
-        :hook
-        (web-mode . bnb/web-mode-hook))
+        (add-to-list 'auto-mode-alist '("\\.djhtml\\'"   . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.svelte\\'"   . web-mode)))
     #+end_src
 
 
