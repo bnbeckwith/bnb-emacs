@@ -4409,10 +4409,11 @@
         (elpaca-after-init . #'dashboard-initialize)
         :custom
         (dashboard-set-file-icons t)
+        (dashboard-icon-type 'all-the-icons)
         (dashboard-set-heading-icons t)
         :config
         (dashboard-modify-heading-icons
-         '((recents   . "file")
+         '((recents   . "file-text")
            (agenda    . "calendar")
            (bookmarks . "book")
            (registers . "clippy")))
