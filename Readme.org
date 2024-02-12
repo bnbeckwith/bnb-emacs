@@ -4502,6 +4502,17 @@
         (dashboard-setup-startup-hook))
     #+end_src
 
+*** Hyperbole                                                       :PENDING:
+
+    [[https://www.gnu.org/software/hyperbole/][GNU Hyperbole]] enriches buffers with links like hypertext.  Try =C-h
+    h= for the binding.  And =M-RET= for links (explicit and implicit).
+
+    #+begin_src emacs-lisp
+      (use-package hyperbole
+        :ensure t
+        :config (hyperbole-mode 1))
+    #+end_src
+
 ** Programming Languages
 
    Hardly needing an introduction, this section holds the modes and
