@@ -776,7 +776,7 @@
                '(marginalia-annotators-heavy marginalia-annotators-light)))
      #+end_src
 
-** Expansion
+** Expansion & Completion
 
    This section defines interations with text expansion systems.
    
@@ -811,73 +811,154 @@
         (setq-default abbrev-mode t))
     #+end_src
 
-*** Auto-completion
+*** Cape
 
-    Let the machine help with typing!
+    "Let your completions fly!" -- [[https://github.com/minad/cape][cape.el]]
 
-**** Company
+    Cape provies a set of completion backends avaialble right on bound
+    keys. It works with [[*Corfu][Corfu]].
 
-     [[http://company-mode.github.io][Company Mode]] is an in-buffer completion system. To get started, I
-     need to load the mode and bind some keys.
+    #+begin_src emacs-lisp
+      ;; Add extensions
+      (use-package cape
+        :ensure t
+        ;; Bind dedicated completion commands
+        ;; Alternative prefix keys: C-c p, M-p, M-+, ...
+        :bind (("C-c p p" . completion-at-point) ;; capf
+               ("C-c p t" . complete-tag)        ;; etags
+               ("C-c p d" . cape-dabbrev)        ;; or dabbrev-completion
+               ("C-c p h" . cape-history)
+               ("C-c p f" . cape-file)
+               ("C-c p k" . cape-keyword)
+               ("C-c p s" . cape-elisp-symbol)
+               ("C-c p e" . cape-elisp-block)
+               ("C-c p a" . cape-abbrev)
+               ("C-c p l" . cape-line)
+               ("C-c p w" . cape-dict)
+               ("C-c p :" . cape-emoji)
+               ("C-c p \\" . cape-tex)
+               ("C-c p _" . cape-tex)
+               ("C-c p ^" . cape-tex)
+               ("C-c p &" . cape-sgml)
+               ("C-c p r" . cape-rfc1345))
+        :init
+        ;; Add to the global default value of `completion-at-point-functions' which is
+        ;; used by `completion-at-point'.  The order of the functions matters, the
+        ;; first function returning a result wins.  Note that the list of buffer-local
+        ;; completion functions takes precedence over the global list.
+        (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+        (add-to-list 'completion-at-point-functions #'cape-file)
+        (add-to-list 'completion-at-point-functions #'cape-elisp-block)
+        ;;(add-to-list 'completion-at-point-functions #'cape-history)
+        ;;(add-to-list 'completion-at-point-functions #'cape-keyword)
+        ;;(add-to-list 'completion-at-point-functions #'cape-tex)
+        ;;(add-to-list 'completion-at-point-functions #'cape-sgml)
+        ;;(add-to-list 'completion-at-point-functions #'cape-rfc1345)
+        ;;(add-to-list 'completion-at-point-functions #'cape-abbrev)
+        ;;(add-to-list 'completion-at-point-functions #'cape-dict)
+        ;;(add-to-list 'completion-at-point-functions #'cape-elisp-symbol)
+        ;;(add-to-list 'completion-at-point-functions #'cape-line)
+        )
+    #+end_src
+
+*** Company
+
+    [[http://company-mode.github.io][Company Mode]] is an in-buffer completion system. To get started, I
+    need to load the mode and bind some keys.
+
+    #+begin_src emacs-lisp
+      (use-package company
+        :disabled t
+        :ensure t
+        :delight company-mode
+        :init
+        (global-company-mode)
+        :bind
+        (("C-<tab>" . company-complete-common-or-cycle)
+         :map company-active-map
+         ("s-<tab>" . company-complete-common-or-cycle)
+         ("C-n"     . company-select-next)
+         ("C-p"     . company-select-previous)
+         ("M-<"     . company-select-first)
+         ("M->"     . company-select-last))
+        :custom
+        ;; Turn off the auto downcasing of things
+        (company-dabbrev-downcase nil)
+        (company-show-numbers t)
+        (company-tooltip-align-annotations t)
+        (company-selection-wrap-around t)
+        (company-tooltip-flip-when-above t)
+        (company-dabbrev-code-everywhere t)
+        (company-dabbrev-code-ignore-case t))
+    #+end_src
+
+*** Corfu
+
+    Takng in-buffer completion to the next level, [[https://github.com/minad/corfu][Corfu]] gives familar
+    functionality with nice enhancements.  It integrates with
+    orderless for easier searching, and has the ability to show
+    documentation alongside of the completion popup.
+        
+    #+begin_src emacs-lisp
+      (use-package corfu
+        :ensure t
+        :custom
+        (corfu-auto nil)
+        (tab-always-indent 'complete)
+        :bind
+        (:map corfu-map ("SPC" . corfu-insert-separator))
+        :init
+        (global-corfu-mode)
+        (corfu-popupinfo-mode 1))
+    #+end_src
+
+**** Terminal support
+
+     Because Corfu uses child frames, terminal support needs to be
+     added that leverages overlays for non-graphical frames.
 
      #+begin_src emacs-lisp
-       (use-package company
-         :ensure t
-         :delight company-mode
-         :init
-         (global-company-mode)
-         :bind
-         (("C-<tab>" . company-complete-common-or-cycle)
-          :map company-active-map
-          ("s-<tab>" . company-complete-common-or-cycle)
-          ("C-n"     . company-select-next)
-          ("C-p"     . company-select-previous)
-          ("M-<"     . company-select-first)
-          ("M->"     . company-select-last))
-         :custom
-         ;; Turn off the auto downcasing of things
-         (company-dabbrev-downcase nil)
-         (company-show-numbers t)
-         (company-tooltip-align-annotations t)
-         (company-selection-wrap-around t)
-         (company-tooltip-flip-when-above t)
-         (company-dabbrev-code-everywhere t)
-         (company-dabbrev-code-ignore-case t))
+       (use-package corfu-terminal
+         :if (not (display-graphic-p))
+         :ensure (corfu-terminal
+                  :host github
+                  :repo "https://codeberg.org/akib/emacs-corfu-terminal.git"))
      #+end_src
+    
+*** Yasnippet                                                       :PENDING:
 
-**** Yasnippet                                                      :PENDING:
-
-     Text expansion makes sense in many programming modes. [[https://joaotavora.github.io/yasnippet/index.html][Yasnippet]]
-     comes in handy by providing a minor mode for easy expansions.
+    Text expansion makes sense in many programming modes. [[https://joaotavora.github.io/yasnippet/index.html][Yasnippet]]
+    comes in handy by providing a minor mode for easy expansions.
      
-     #+begin_src emacs-lisp
-       (use-package yasnippet
-         :ensure t
-         :defer 30
-         :hook
-         (prog-mode . yas-minor-mode)
-         (text-mode . yas-minor-mode)
-         :config
-         (yas-reload-all))
-     #+end_src
+    #+begin_src emacs-lisp
+      (use-package yasnippet
+        :ensure t
+        :defer 30
+        :hook
+        (prog-mode . yas-minor-mode)
+        (text-mode . yas-minor-mode)
+        :config
+        (yas-reload-all))
+    #+end_src
 
-     I also load a collection of [[https://github.com/AndreaCrotti/yasnippet-snippets][yasnippet snippets]] so I don't have to
-     maintain my own.
+    I also load a collection of [[https://github.com/AndreaCrotti/yasnippet-snippets][yasnippet snippets]] so I don't have to
+    maintain my own.
      
-     #+begin_src emacs-lisp
-       (use-package yasnippet-snippets
-         :ensure t)
-     #+end_src
+    #+begin_src emacs-lisp
+      (use-package yasnippet-snippets
+        :ensure t)
+    #+end_src
 
-**** Hippie Expand
+*** Hippie Expand
 
-     Try to expand the text before point in an intelligent way. Repeat
-     the keypress to cycle through options.
+    Try to expand the text before point in an intelligent way. Repeat
+    the keypress to cycle through options.
 
-     #+begin_src emacs-lisp
-       (elpaca nil
-         (bind-key "M-/" 'hippie-expand))
-     #+end_src
+    #+begin_src emacs-lisp
+      (elpaca nil
+        (bind-key "M-/" 'hippie-expand))
+    #+end_src
+
 
 ** Built-in Features
 
