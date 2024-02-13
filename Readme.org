@@ -3261,10 +3261,12 @@
             (format "| %s | %s | %s |" year ww score)))
       #+end_src
 
-      How about the hours logged last week? Let's give that a go.
+      How about the hours logged last week? Let's give that a go. Note
+      that if there are no clocked hours for a week, this comes up
+      empty.
 
       #+begin_src emacs-lisp
-        (defun bnb/org-time-logged-table-entry (&optional additional-weeks)
+        (defun bnb/org-time-logged-table-entry (&optional additional-weeks include-zeros)
           "Insert table of minutes per category.
           Optionally provide ADDITIONAL-WEEKS to get more history"
           (interactive "P")
@@ -3280,19 +3282,21 @@
                      (minutes (org-clock-sum-current-item start)))
                  (puthash category (+ minutes
                                       (or (gethash category minh) 0)) minh)))
-             "LEVEL=1"
+             t
              'agenda)
             ;; Print out table lines
             (let ((rows nil))
               (maphash
                (lambda (k v)
-                 (when (> v 0)
+                 (when (or (> v 0) include-zeros) 
                    (setq rows
                          (cons (format "| %s | %s | %d |" today k v) rows))))
                minh)
               (if (called-interactively-p 'any)
                   (insert (mapconcat 'identity rows "\n"))
                 (mapconcat 'identity rows "\n")))))
+
+        ; (bnb/org-time-logged-table-entry nil t)
       #+end_src
 
 **** Refile
