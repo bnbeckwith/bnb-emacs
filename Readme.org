@@ -4495,10 +4495,17 @@
         (dashboard-set-file-icons t)
         (dashboard-icon-type 'nerd-icons)
         (dashboard-set-heading-icons t)
+        (dashboard-projects-backend 'project-el)
+        (dashboard-items '((recents . 5)
+                           (agenda . 10)
+                           (projects . 5)
+                           (bookmarks . 10)
+                           (registers . 10)))
         :config
         (dashboard-modify-heading-icons
          '((recents   . "nf-oct-pin")      ;; 
            (agenda    . "nf-oct-goal")     ;; 
+           (projects  . "nf-oct-project")  ;; 
            (bookmarks . "nf-oct-bookmark") ;; 
            (registers . "nf-oct-rows")))   ;; 
         (dashboard-setup-startup-hook))
