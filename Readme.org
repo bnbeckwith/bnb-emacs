@@ -4353,6 +4353,7 @@
 
      #+begin_src emacs-lisp
        (use-package org-roam
+         :ensure t
          :after org
          :delight " 𝕫"
          :hook
