@@ -3349,8 +3349,6 @@
       underlying setting is just an ~alist~ of categories and the icons
       to use.
 
-      These are set in [[*All the icons][All the icons]].
-
 ***** Views
 
       The key to exploring open work are the agenda views. These
@@ -4250,7 +4248,7 @@
              org-pretty-entities t)
      #+end_src
 
-     Using [[*Prettify symbols mode][Prettify]], I add these symbols to make the structure of
+     Using [[*Prettify symbols][Prettify]], I add these symbols to make the structure of
      org-mode files cleaner to read. In the list, the strings on the
      left are replaced by the elements on the right. Moving a cursor
      over the symbols will show them in their original form.
@@ -4386,6 +4384,7 @@
 
      #+begin_src emacs-lisp
        (use-package org-ql
+         :after org
          :commands (org-ql-search org-ql-view-sidebar)
          :bind
          ("C-c q s" . org-ql-search)
@@ -4393,7 +4392,7 @@
          ("C-c q v" . org-ql-view)
          ("C-c q t" . org-ql-sparse-tree)
          ("C-c q r" . org-ql-view-recent-items)
-         (:map org-mode
+         (:map org-mode-map
                ("C-c q f" . org-ql-find))
          :ensure t)
      #+end_src
@@ -5205,7 +5204,7 @@
        (setq ⁂-format '((:eval (bnb/smaller-sky-color)))))
    #+end_src
 
-** Pretty Symbols
+** Prettify Symbols
 
    Emacs can be so pretty sometimes. The modes that follow are great
    for [[https://www.modernemacs.com/post/prettify-mode/][mathematical notation in Emacs]].
