@@ -2990,9 +2990,8 @@
 
 **** Hooks
 
-     There are three hooks to consider. These are initialized in
-     [[Orgmode Initialization]]. First, I add in a keystroke to toggle
-     the inline images.
+     There are two hooks to consider. Theone initialized in [[Orgmode]]
+     toggles on the inline images.
 
      The next hook just saves the org files opened before exiting
      emacs -- just in case.
