@@ -4954,8 +4954,8 @@
 ** Frame Changes
 
    These following items make Emacs really beautiful on every
-   platform.  I remove the menu bar, tool bar and the scroll bar for
-   starters.  Then, I setup the fringe area with some items
+   platform. I remove the menu bar, tool bar and the scroll bar for
+   starters.
    
    #+begin_src emacs-lisp
      (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -4979,12 +4979,16 @@
    #+end_src
 
 ** Faces
+
+   Emacs [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Faces.html][faces]] are text styled with attributes including font, slant,
+   weight, color, etc. These sections go over the necessary settings
+   to make them exactly right in all circumstances.
+
+   For configuration and debugging, [[help:list-faces-display][list-faces-display]] is useful.
+
 *** Default Fonts
 
-    I love /Source Code Pro/, but I'm giving /Fira Code a try/ for some
-    extra ligature fun.
-
-    https://github.com/tonsky/FiraCode/wiki/Setting-up-Emacs
+    
 
     #+begin_src emacs-lisp
       (elpaca nil
@@ -5015,136 +5019,12 @@
           (bind-keys
            ("H-f" . bnb/font-next)
            ("H-F" . bnb/font-prev))))
-
-      (defconst fira-code-font-lock-keywords-alist
-        (mapcar (lambda (regex-char-pair)
-                  `(,(car regex-char-pair)
-                    (0 (prog1 ()
-                         (compose-region (match-beginning 1)
-                                         (match-end 1)
-                                         ;; The first argument to concat is a string containing a literal tab
-                                         ,(concat "	" (list (decode-char 'ucs (cadr regex-char-pair)))))))))
-                '(("\\(www\\)"                   #Xe100)
-                  ("[^/]\\(\\*\\*\\)[^/]"        #Xe101)
-                  ("\\(\\*\\*\\*\\)"             #Xe102)
-                  ("\\(\\*\\*/\\)"               #Xe103)
-                  ("\\(\\*>\\)"                  #Xe104)
-                  ("[^*]\\(\\*/\\)"              #Xe105)
-                  ("\\(\\\\\\\\\\)"              #Xe106)
-                  ("\\(\\\\\\\\\\\\\\)"          #Xe107)
-                  ("\\({-\\)"                    #Xe108)
-                  ("\\(\\[\\]\\)"                #Xe109)
-                  ("\\(::\\)"                    #Xe10a)
-                  ("\\(:::\\)"                   #Xe10b)
-                  ("[^=]\\(:=\\)"                #Xe10c)
-                  ("\\(!!\\)"                    #Xe10d)
-                  ("\\(!=\\)"                    #Xe10e)
-                  ("\\(!==\\)"                   #Xe10f)
-                  ("\\(-}\\)"                    #Xe110)
-                  ("\\(--\\)"                    #Xe111)
-                  ("\\(---\\)"                   #Xe112)
-                  ("\\(-->\\)"                   #Xe113)
-                  ("[^-]\\(->\\)"                #Xe114)
-                  ("\\(->>\\)"                   #Xe115)
-                  ("\\(-<\\)"                    #Xe116)
-                  ("\\(-<<\\)"                   #Xe117)
-                  ("\\(-~\\)"                    #Xe118)
-                  ("\\(#{\\)"                    #Xe119)
-                  ("\\(#\\[\\)"                  #Xe11a)
-                  ("\\(##\\)"                    #Xe11b)
-                  ("\\(###\\)"                   #Xe11c)
-                  ("\\(####\\)"                  #Xe11d)
-                  ("\\(#(\\)"                    #Xe11e)
-                  ("\\(#\\?\\)"                  #Xe11f)
-                  ("\\(#_\\)"                    #Xe120)
-                  ("\\(#_(\\)"                   #Xe121)
-                  ("\\(\\.-\\)"                  #Xe122)
-                  ("\\(\\.=\\)"                  #Xe123)
-                  ("\\(\\.\\.\\)"                #Xe124)
-                  ("\\(\\.\\.<\\)"               #Xe125)
-                  ("\\(\\.\\.\\.\\)"             #Xe126)
-                  ("\\(\\?=\\)"                  #Xe127)
-                  ("\\(\\?\\?\\)"                #Xe128)
-                  ("\\(;;\\)"                    #Xe129)
-                  ("\\(/\\*\\)"                  #Xe12a)
-                  ("\\(/\\*\\*\\)"               #Xe12b)
-                  ("\\(/=\\)"                    #Xe12c)
-                  ("\\(/==\\)"                   #Xe12d)
-                  ("\\(/>\\)"                    #Xe12e)
-                  ("\\(//\\)"                    #Xe12f)
-                  ("\\(///\\)"                   #Xe130)
-                  ("\\(&&\\)"                    #Xe131)
-                  ("\\(||\\)"                    #Xe132)
-                  ("\\(||=\\)"                   #Xe133)
-                  ("[^|]\\(|=\\)"                #Xe134)
-                  ("\\(|>\\)"                    #Xe135)
-                  ("\\(\\^=\\)"                  #Xe136)
-                  ("\\(\\$>\\)"                  #Xe137)
-                  ("\\(\\+\\+\\)"                #Xe138)
-                  ("\\(\\+\\+\\+\\)"             #Xe139)
-                  ("\\(\\+>\\)"                  #Xe13a)
-                  ("\\(=:=\\)"                   #Xe13b)
-                  ("[^!/]\\(==\\)[^>]"           #Xe13c)
-                  ("\\(===\\)"                   #Xe13d)
-                  ("\\(==>\\)"                   #Xe13e)
-                  ("[^=]\\(=>\\)"                #Xe13f)
-                  ("\\(=>>\\)"                   #Xe140)
-                  ("\\(<=\\)"                    #Xe141)
-                  ("\\(=<<\\)"                   #Xe142)
-                  ("\\(=/=\\)"                   #Xe143)
-                  ("\\(>-\\)"                    #Xe144)
-                  ("\\(>=\\)"                    #Xe145)
-                  ("\\(>=>\\)"                   #Xe146)
-                  ("[^-=]\\(>>\\)"               #Xe147)
-                  ("\\(>>-\\)"                   #Xe148)
-                  ("\\(>>=\\)"                   #Xe149)
-                  ("\\(>>>\\)"                   #Xe14a)
-                  ("\\(<\\*\\)"                  #Xe14b)
-                  ("\\(<\\*>\\)"                 #Xe14c)
-                  ("\\(<|\\)"                    #Xe14d)
-                  ("\\(<|>\\)"                   #Xe14e)
-                  ("\\(<\\$\\)"                  #Xe14f)
-                  ("\\(<\\$>\\)"                 #Xe150)
-                  ("\\(<!--\\)"                  #Xe151)
-                  ("\\(<-\\)"                    #Xe152)
-                  ("\\(<--\\)"                   #Xe153)
-                  ("\\(<->\\)"                   #Xe154)
-                  ("\\(<\\+\\)"                  #Xe155)
-                  ("\\(<\\+>\\)"                 #Xe156)
-                  ("\\(<=\\)"                    #Xe157)
-                  ("\\(<==\\)"                   #Xe158)
-                  ("\\(<=>\\)"                   #Xe159)
-                  ("\\(<=<\\)"                   #Xe15a)
-                  ("\\(<>\\)"                    #Xe15b)
-                  ("[^-=]\\(<<\\)"               #Xe15c)
-                  ("\\(<<-\\)"                   #Xe15d)
-                  ("\\(<<=\\)"                   #Xe15e)
-                  ("\\(<<<\\)"                   #Xe15f)
-                  ("\\(<~\\)"                    #Xe160)
-                  ("\\(<~~\\)"                   #Xe161)
-                  ("\\(</\\)"                    #Xe162)
-                  ("\\(</>\\)"                   #Xe163)
-                  ("\\(~@\\)"                    #Xe164)
-                  ("\\(~-\\)"                    #Xe165)
-                  ("\\(~=\\)"                    #Xe166)
-                  ("\\(~>\\)"                    #Xe167)
-                  ("[^<]\\(~~\\)"                #Xe168)
-                  ("\\(~~>\\)"                   #Xe169)
-                  ("\\(%%\\)"                    #Xe16a)
-                  ;; ("\\(x\\)"                   #Xe16b) This ended up being hard to do properly so i'm leaving it out.
-                  ("[^:=]\\(:\\)[^:=]"           #Xe16c)
-                  ("[^\\+<>]\\(\\+\\)[^\\+<>]"   #Xe16d)
-                  ("[^\\*/<>]\\(\\*\\)[^\\*/<>]" #Xe16f))))
-
-      (defun add-fira-code-symbol-keywords ()
-        (font-lock-add-keywords nil fira-code-font-lock-keywords-alist))
-
-      ;;(add-fira-code-symbol-keywords)
     #+end_src
 
 *** Unicode                                                         :PENDING:
 
-    Support unicode fonts
+    Support unicode fonts throughout the system. Be sure to [[https://github.com/rolandwalker/unicode-fonts][install
+    recommended fonts for support]].
 
     #+begin_src emacs-lisp
       (use-package unicode-fonts
@@ -5156,6 +5036,10 @@
     #+end_src
 
 *** Trying out fonts on Windows
+
+    On Windows, this function shows a font selection screen and sets
+    the default face. This will not persist between sessions, but is
+    great for test driving.
 
     #+begin_src emacs-lisp
       (defun bnb/windows-set-font ()
@@ -5201,7 +5085,7 @@
 *** Mode Line Style
 
     I dislike the box around the =mode-line= making it look like a
-    button. I disable (set to =nil=) this face attribute, =box=, to get a
+    button. I disable (set to =nil=) the =box= face attribute to get a
     flat feel. Be sure to do it to all =mode-line= faces that have this
     attribute.
 
@@ -5233,8 +5117,8 @@
 
 ** Themes
 
-   I used to have [[http://www.greghendershott.com/2017/02/emacs-themes.html][something else]] from [[http://www.greghendershott.com][Greg Hendershot]], but now I
-   created my own theme override and layer it corectly.
+   This function ensures that all enabled themes are shut down -- not
+   just the most current one.
 
    #+begin_src emacs-lisp
      (defun bnb/disable-all-themes ()
@@ -5263,36 +5147,48 @@
 
 ** Sky Color Clock
 
-   This is a nice addition to any modeline. In a little block, it
+   [[https://github.com/zk-phi/sky-color-clock][This is a nice addition]] to any modeline. In a little block, it
    shows the date, time, moon phase
 
    #+begin_src emacs-lisp
      (use-package sky-color-clock
-       :defer 10
        :ensure
        (sky-color-clock :host github :repo "zk-phi/sky-color-clock")
+       :commands (sky-color-clock)
+       :custom
+       (sky-color-clock-enable-emoji-icon t)
        :config
        (sky-color-clock-initialize 40)
-       (setq sky-color-clock-enable-emoji-icon t)
        (sky-color-clock-initialize-openweathermap-client
         bnb/openweathermap-api-key
         bnb/openweathermap-city-id))
    #+end_src
 
+   The variables containging my city and API key are stored in [[*Local customizations (user-login-name)][local
+   customizations]].
+
 ** Doom Modeline
 
+   Keeping with the goal of a clean and tidy Emacs, [[https://seagle0128.github.io/doom-modeline/][Doom modeline]]
+   provides that fancy, fast, and minimal design.
+
+   I only customize the height to hug the font and keep everythig
+   small.
+   
    #+begin_src emacs-lisp
      (use-package doom-modeline
        :ensure t
-       :init (doom-modeline-mode t)
-       :config
-       (setq
-        doom-modeline-height 0))
+       :init
+       (doom-modeline-mode t)
+       :custom
+       (doom-modeline-height 0))
    #+end_src
 
-** ⁂ Mode
+** Asterism (⁂) Mode                                                :PENDING:
 
-   Let's try ⁂-mode for an interesting mini-buffer line.
+   Let's try ⁂-mode for an interesting mini-buffer line. It writes
+   information into the minibuffer. Here I have it set to show the
+   output of [[*Sky Color Clock][sky color clock]].
 
    #+begin_src emacs-lisp
      (use-package asterism-mode
@@ -5310,77 +5206,72 @@
        (setq ⁂-format '((:eval (bnb/smaller-sky-color)))))
    #+end_src
 
-** Font lock profiling
-
-   Allow for profiling of font-locking.
-
-   #+begin_src emacs-lisp
-     (use-package font-lock-profiler
-       :disabled t
-       :commands (font-lock-profiler-start
-                  font-lock-profiler-buffer
-                  font-lock-profiler-region))
-   #+end_src
-
 ** Pretty Symbols
 
-   Emacs can be so pretty sometimes.
+   Emacs can be so pretty sometimes. The modes that follow are great
+   for [[https://www.modernemacs.com/post/prettify-mode/][mathematical notation in Emacs]].
 
-*** Pretty mode
+   The built-in [[help:prettify-symbols-mode][prettify-symbols-mode]] is easy to use. Check out what
+   it does (and how it can be adjusted) in [[help:prettify-symbols-alist][prettify-symbols-alist]].
 
-   #+begin_src emacs-lisp
-     (use-package pretty-mode
-       :disabled t
-       :config
-       (global-pretty-mode t)
-       (pretty-activate-groups
-        '(:sub-and-superscripts :greek :arithmetic-nary)))
-   #+end_src
-
-*** Prettify symbols mode
-
-    Some reading to consider:
-
-    - http://endlessparentheses.com/using-prettify-symbols-in-clojure-and-elisp-without-breaking-indentation.html
-    - https://www.emacswiki.org/emacs/PrettySymbolsForLanguages
+   I have additional python settings to make it look sharp.
 
     #+begin_src emacs-lisp
+      (defun bnb/add-to-prettify-alist (pair)
+        "Push a given PAIR onto the prettify-symbols-alist"
+        (push pair prettify-symbols-alist))
+
+      (defun bnb/make-prettify-mode-hook (pairs)
+        "PAIRS is a list of elements of the form (SYMBOL . CHARACTER)
+      where SYMBOL is a string (not regexp)."
+        (lambda () (mapc #'bnb/add-to-prettify-alist pairs)))
+
+      (defvar bnb/pretty-python
+        '(;; Syntax
+          ("def" .      ?ℱ)
+          ("not" .      ?❗)
+          ("in" .       ?∈)
+          ("not in" .   ?∉)
+          ("return" .   ?⟼)
+          ("yield" .    ?⟻)
+          ("for" .      ?∀)
+          ;; Base Types
+          ("int" .      ?ℤ)
+          ("float" .    ?ℝ)
+          ("str" .      ?𝕊)
+          ("True" .     ?𝕋)
+          ("False" .    ?𝔽)
+          ;; Mypy
+          ("Dict" .     ?𝔇)
+          ("List" .     ?ℒ)
+          ("Tuple" .    ?⨂)
+          ("Set" .      ?Ω)
+          ("Iterable" . ?𝔊)
+          ("Any" .      ?❔)
+          ("Union" .    ?∪)))
+
+
       (use-package prog-mode ; Contains pretty-symbols-mode
         :ensure nil
         :defer
+        :custom 
+        (prettify-symbols-unprettify-at-point 'right-edge)
         :config
-        (setq prettify-symbols-unprettify-at-point 'right-edge)
         (global-prettify-symbols-mode t)
         :hook
-        (python-mode .
-                     (lambda ()
-                       (mapc (lambda (pair) (push pair prettify-symbols-alist))
-                             '(;; Syntax
-                               ("def" .      ?ℱ)
-                               ("not" .      ?❗)
-                               ("in" .       ?∈)
-                               ("not in" .   ?∉)
-                               ("return" .   ?⟼)
-                               ("yield" .    ?⟻)
-                               ("for" .      ?∀)
-                               ;; Base Types
-                               ("int" .      ?ℤ)
-                               ("float" .    ?ℝ)
-                               ("str" .      ?𝕊)
-                               ("True" .     ?𝕋)
-                               ("False" .    ?𝔽)
-                               ;; Mypy
-                               ("Dict" .     ?𝔇)
-                               ("List" .     ?ℒ)
-                               ("Tuple" .    ?⨂)
-                               ("Set" .      ?Ω)
-                               ("Iterable" . ?𝔊)
-                               ("Any" .      ?❔)
-                               ("Union" .    ?∪))))))
+        (python-mode . (bnb/make-prettify-mode-hook bnb/pretty-python)))
 
     #+end_src
 
+    Some resources for additional customization:
+    - http://endlessparentheses.com/using-prettify-symbols-in-clojure-and-elisp-without-breaking-indentation.html
+    - https://www.emacswiki.org/emacs/PrettySymbolsForLanguages
+    
 ** Color
+
+   Having nice colors can help understand status, types, symbols, or
+   even nesting.
+   
 *** Rainbow Mode
 
     In order to see the colors /in the buffer/ this mode higlights
