@@ -3353,6 +3353,24 @@
       underlying setting is just an ~alist~ of categories and the icons
       to use.
 
+      #+begin_src emacs-lisp
+        ;;;;;;;;;;;;;
+        ;; Org agenda category icons
+        (with-eval-after-load 'org
+          (with-eval-after-load 'nerd-icons
+            (add-to-list 'org-agenda-category-icon-alist ;; 
+                         `("[iI]nbox" ,(list (nerd-icons-octicon "nf-oct-inbox")) nil nil :ascent center))
+            (add-to-list 'org-agenda-category-icon-alist ;; 
+                         `("[Ww]ork" ,(list (nerd-icons-octicon "nf-oct-organization")) nil nil :ascent center))
+            (add-to-list 'org-agenda-category-icon-alist ;; 
+                         `("[Pp]ersonal" ,(list (nerd-icons-octicon "nf-oct-home")) nil nil :ascent center))
+            (add-to-list 'org-agenda-category-icon-alist ;; 
+                         `("[Ii][Cc]" ,(list (nerd-icons-octicon "nf-oct-person")) nil nil :ascent center))
+            (add-to-list 'org-agenda-category-icon-alist ;; 
+                         `("[Mm]anager" ,(list (nerd-icons-octicon "nf-oct-ruby")) nil nil :ascent center))))
+
+      #+end_src
+      
 ***** Views
 
       The key to exploring open work are the agenda views. These
