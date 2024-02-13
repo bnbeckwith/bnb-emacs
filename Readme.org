@@ -5299,7 +5299,11 @@
         :ensure t)
     #+end_src
 
+
 * Postamble
+
+  These elements are at the end to keep all customizations tidy.
+
 ** Local customizations (custom.el)
 
     I typically use the customize interface to generate any local
@@ -5311,7 +5315,7 @@
      (load-file custom-file)
    #+end_src
 
-** Local customizations (euser-login-name)
+** Local customizations (user-login-name)
 
    I also intend to have a generic call to an installed local file
    that may need to behave differently from =custom.el=. This loads
