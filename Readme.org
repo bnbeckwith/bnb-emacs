@@ -2206,13 +2206,13 @@
         :after (citar org-roam)
         :config
         (add-to-list 'org-roam-capture-templates
-                     ("n" "Literature note" plain
-                      "%?"
-                      :target
-                      (file+head
-                       "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
-                       "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+created: %U\n#+last_modified: %U\n\n")
-                      :unnarrowed t))
+                     '("n" "Literature note" plain
+                       "%?"
+                       :target
+                       (file+head
+                        "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
+                        "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+created: %U\n#+last_modified: %U\n\n")
+                       :unnarrowed t))
         (citar-org-roam-mode))
     #+end_src
 
