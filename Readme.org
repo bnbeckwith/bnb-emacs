@@ -23,7 +23,7 @@
   choices. 
 
   To clone, go to the [[http://github.com/bnbeckwith/bnb-emacs][github repository]]. For a pretty view, head over to
-  the [[http://bnbeckwith.com/bnb-emacs/][generated page]].  
+  the [[http://bnbeckwith.com/bnb-emacs/][generated page]].
   
 ** Installation
 
@@ -894,10 +894,10 @@
 
 *** Corfu
 
-    Takng in-buffer completion to the next level, [[https://github.com/minad/corfu][Corfu]] gives familar
-    functionality with nice enhancements.  It integrates with
-    orderless for easier searching, and has the ability to show
-    documentation alongside of the completion popup.
+    Taking in-buffer completion to the next level, [[https://github.com/minad/corfu][Corfu]] gives familar
+    functionality with nice enhancements. It integrates with orderless
+    for easier searching, and has the ability to show documentation
+    alongside of the completion popup.
         
     #+begin_src emacs-lisp
       (use-package corfu
