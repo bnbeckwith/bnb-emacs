@@ -3913,6 +3913,34 @@
           :ensure t)
       #+end_src
 
+***** Github Flavored Markdown
+
+      Useful on its own, but required for the [[*Slack][Slack]] exporter, the [[https://github.com/larstvei/ox-gfm][GFM]]
+      exporter transforms the current orgmode buffer into markdown
+      (yuck).
+
+      #+begin_src emacs-lisp
+        (use-package ox-gfm
+          :after org-mode
+          :ensure t)
+      #+end_src
+      
+***** Slack
+
+      [[https://github.com/titaniumbones/ox-slack][This exporter]] is not added to the export dispatcher, but
+      provides functions to copy the text into the clipboard or open a
+      buffer with the markdown.
+      
+      #+begin_src emacs-lisp
+        (use-package ox-slack
+          :after (ox-gfm org-mode)
+          :bind
+          (:map org-mode-map
+                ("C-c e c" . org-slack-export-to-clipboard-as-slack)
+                ("C-c e b" . org-slack-export-as-slack))
+          :ensure t)
+      #+end_src
+
 **** Clocking
 
      I have found clocking to be useful in understanding where my time
