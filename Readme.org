@@ -1526,17 +1526,19 @@
     ones on the list.
 
     #+begin_src emacs-lisp
+      (defvar bnb/export-theme '(sanityinc-tomorrow-day))
       (defun bnb/export-readme ()
         "Export the tangled org setting as html.
 
-      `sanityinc-tomorrow-day` is used to style the code exports."
+      `bnb/export-theme` sets the theme for the code exports."
         (interactive)
         (let ((themes custom-enabled-themes))
-          (mapc 'disable-theme themes)
-          (load-theme 'sanityinc-tomorrow-day)
-          (org-html-export-to-html)
-          (disable-theme 'sanityinc-tomorrow-day)
-          (mapcar 'load-theme (reverse themes))))
+          (elpaca-wait)                           ;; Wait for initialization is complete
+          (mapc 'disable-theme themes)            ;; Disable current themes
+          (mapc 'load-theme bnb/export-theme)     ;; Load the export theme
+          (org-html-export-to-html)               ;; Do the export
+          (mapc 'disable-theme bnb/export-theme)  ;; Disable the export theme
+          (mapcar 'load-theme (reverse themes)))) ;; Load the previous themes
     #+end_src
 
 *** Transparency
@@ -4297,7 +4299,7 @@
              org-pretty-entities t)
      #+end_src
 
-     Using [[*Prettify symbols][Prettify]], I add these symbols to make the structure of
+     Using [[*Prettify Symbols][Prettify]], I add these symbols to make the structure of
      org-mode files cleaner to read. In the list, the strings on the
      left are replaced by the elements on the right. Moving a cursor
      over the symbols will show them in their original form.
@@ -4444,7 +4446,8 @@
          ("C-c q r" . org-ql-view-recent-items)
          (:map org-mode-map
                ("C-c q f" . org-ql-find))
-         :ensure t)
+         :ensure t
+         :demand t)
      #+end_src
 
      This package is built on a library of searching functions, so it
