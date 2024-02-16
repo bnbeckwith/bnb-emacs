@@ -486,6 +486,7 @@
             ("e" toggle-debug-on-error "debug-on-error")
             ("f" emacs-lisp-byte-compile-and-load "byte-compile-and-load")
             ("r" eval-region "eval-region")
+            ("s" shortdoc "Short documentation")
             ("q" nil))
           emacs-lisp-mode-map))
      #+end_src
@@ -4632,6 +4633,11 @@
         (emacs-lisp-mode . turn-on-eldoc-mode))
     #+end_src
 
+    When programming in =elisp=, a [[https://www.masteringemacs.org/article/emacs-builtin-elisp-cheat-sheet][cheat sheet]] of functions can be very
+    useful. New to Emacs 28, [[help:shortdoc][shortdoc]] provides that useful, quick,
+    navigatable list of documentation. I can quickly find it via =C-c e=
+    (in =elisp=) as set in [[*Elisp Maps][Elisp Maps]].
+    
 *** Javascript
 
     For javascript, the only global setting is to shorten the
