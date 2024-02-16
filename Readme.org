@@ -1,9 +1,9 @@
 #+TITLE: Beckwith Tangled Emacs Initialization
+#+STARTUP: show2levels
 #+OPTIONS: html-link-use-abs-url:nil html-postamble:auto
 #+OPTIONS: html-preamble:t html-scripts:t html-style:t
 #+OPTIONS: html5-fancy:nil tex:t
 #+CREATOR: <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.3.1 (<a href="http://orgmode.org">Org</a> mode 8.2.7a)
-#+SETUPFILE: ./org-html-themes/org/theme-readtheorg-local.setup
 #+EXPORT_FILE_NAME: index.html
 #+HTML_CONTAINER: div
 #+HTML_DOCTYPE: xhtml-strict
@@ -1532,15 +1532,47 @@
 
       `bnb/export-theme` sets the theme for the code exports."
         (interactive)
-        (let ((themes custom-enabled-themes))
-          (elpaca-wait)                           ;; Wait for initialization is complete
-          (mapc 'disable-theme themes)            ;; Disable current themes
-          (mapc 'load-theme bnb/export-theme)     ;; Load the export theme
-          (org-html-export-to-html)               ;; Do the export
-          (mapc 'disable-theme bnb/export-theme)  ;; Disable the export theme
-          (mapcar 'load-theme (reverse themes)))) ;; Load the previous themes
+        (let ((themes custom-enabled-themes)
+              (file "~/.emacs.d/bnb-emacs/Readme.org"))
+          (with-temp-buffer
+           (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup\n")
+           (insert (format "#+include: %s\n" (file-truename file)))
+           (org-mode)
+           (elpaca-wait) ;; ensure all modules are loaded
+           (mapc 'disable-theme themes)
+           (mapc 'load-theme bnb/export-theme)
+           (let ((exported (org-export-as 'html))
+                 (save-silently-p t))
+             (with-temp-file
+                 (format "%sindex.html" (file-name-directory file))
+               (insert exported))
+             (mapc 'disable-theme bnb/export-theme)
+             (mapcar 'load-theme (reverse themes))))))
     #+end_src
 
+    The process is to create a temp buffer and insert the setupfile
+    and an include to this file. Some of the finer points are that I
+    ensure =org-mode= is on, themes are loaded/unloaded correctly and
+    the export goes to the right file.
+
+    Not all of the links I use in this file easily export. Some
+    require some tweaking to show up nicely on the web. This next
+    block sets up some handlers for the link types that need a little
+    extra care and attention.
+
+    #+begin_src emacs-lisp
+      (defun bnb/link-fallback-export (link description format _)
+	"Exporter for help: links"
+	(let ((desc (or description link)))
+	  (pcase format
+	    ('html (format "<code>%s</code>" desc))
+	    (t desc))))
+
+      (with-eval-after-load 'org
+	(org-link-set-parameters "help" :export #'bnb/link-fallback-export)
+	(org-link-set-parameters "org-ql-search" :export #'bnb/link-fallback-export))
+    #+end_src
+    
 *** Transparency
 
     Using the =ring= package, these commands will cycles through
