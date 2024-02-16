@@ -3923,26 +3923,14 @@
                 "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
       #+end_src
 
+***** Tufte      
 
       Other contributed org-mode exporters require activiation to show
-      up in the export menus. I use exporters for github-flavored
-      markdown and tufte html.
+      up in the export menus. This exporter stylizes =html= in a
+      beautiful way.
 
       #+begin_src emacs-lisp
-        (use-package ox-gfm
-          :after org-mode
-          :ensure t)
         (use-package ox-tufte
-          :after org-mode
-          :ensure t)
-      #+end_src
-
-***** EPUB                                                          :PENDING:
-
-      E-readers may be a thing that sticks around.
-
-      #+begin_src emacs-lisp
-        (use-package ox-epub
           :after org-mode
           :ensure t)
       #+end_src
