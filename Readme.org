@@ -326,9 +326,17 @@
 
     #+begin_src emacs-lisp
       (use-package hydra
-        :defer t
         :ensure t)
     #+end_src
+
+**** Major mode and Pretty Hydra
+
+     #+begin_src emacs-lisp
+       (use-package major-mode-hydra
+         :ensure t
+         :demand t
+         :bind  ("s-." . major-mode-hydra))
+     #+end_src
 
 *** Seq
 
@@ -429,69 +437,28 @@
      | =m=   | [[help:bnb/hide-mode-line-mode][bnb/hide-mode-line-mode]]   | Toggle mode line                             |
      
      #+begin_src emacs-lisp
-       (defmacro toggle-setting-string (setting)
-         `(if (and (boundp ',setting) ,setting) '[x] '[_]))
-
        (elpaca nil
-         (bind-key
-          "C-x t"
-          (defhydra hydra-toggle (:color amaranth)
-            "
-           _c_ column-number : %(toggle-setting-string column-number-mode)  _b_ orgtbl-mode    : %(toggle-setting-string orgtbl-mode)
-           _e_ debug-on-error: %(toggle-setting-string debug-on-error)  _B_ battery-mode   : %(toggle-setting-string display-battery-mode)  
-           _u_ debug-on-quit : %(toggle-setting-string debug-on-quit)  _l_ highlight-line : %(toggle-setting-string hl-line-mode)  
-           _f_ auto-fill     : %(toggle-setting-string auto-fill-function)  _n_ line-numbers   : %(toggle-setting-string linum-mode)
-           _t_ truncate-lines: %(toggle-setting-string truncate-lines)  _x_/_X_ trans         : %(identity bnb/transparency)
-           _r_ read-only     : %(toggle-setting-string buffer-read-only)
-           _w_ whitespace    : %(toggle-setting-string whitespace-mode)
-           _q_ quit
-           "
-            ("c" column-number-mode nil)
-            ("e" toggle-debug-on-error nil)
-            ("u" toggle-debug-on-quit nil)
-            ("f" auto-fill-mode nil)
-            ("t" toggle-truncate-lines nil)
-            ("r" dired-toggle-read-only nil)
-            ("w" whitespace-mode nil)
-            ("b" orgtbl-mode nil)
-            ("x" bnb/transparency-next nil)
-            ("B" display-battery-mode nil)
-            ("X" bnb/transparency-previous nil)
-            ("l" hl-line-mode nil)
-            ("n" linum-mode nil)
-            ("m" bnb/hide-mode-line-mode nil)
-            ("q" nil))))
+         (pretty-hydra-define hydra-toggle (:color amaranth :quit-key "q" :title "  TOGGLES")
+           ("Basic"
+            (("c" column-number-mode "col number" :toggle t)
+             ("l" hl-line-mode "highlight line" :toggle t)
+             ("f" auto-fill-mode "auto-fill" :toggle t)
+             ("t" toggle-truncate-lines "truncate lines" :toggle truncate-lines))
+            "Minor"
+            (("r" rainbow-mode "rainbow" :toggle t)
+             ("w" whitespace-mode "whitespace" :toggle t)
+             ("b" orgtbl-mode "Org table" :toggle t)
+             ("R" dired-toggle-read-only "dired read only" :toggle t))
+            "UI"
+            (("m" bnb/hide-mode-line-mode "hide mode line" :toggle t)
+             ("B" display-battery-mode "display battery" :toggle t)
+             ("x" bnb/transparency-next "transparency next")
+             ("X" bnb/transparency-previous "transparency prev"))
+            "Emacs"
+            (("D" toggle-debug-on-error "debug on error" :toggle (default-value 'debug-on-error))
+             ("X" toggle-debug-on-quit "debug on quit" :toggle (default-value 'debug-on-quit)))))
+         (bind-key "C-x t" 'hydra-toggle/body))
      #+end_src
-
-**** Elisp Maps
-
-     Here are some nice-to-have features when in /elisp-mode/.
-
-     #+CAPTION: Elisp Map Functions
-     #+LABEL: tbl:elisp-map
-     | Key | Function                         | Description                 |
-     |-----+----------------------------------+-----------------------------|
-     | =b=   | [[help:eval-buffer][eval-buffer]]                      | Evaluate entire buffer      |
-     | =e=   | [[help:toggle-debug-on-error][toggle-debug-on-error]]            | Start the debugger on error |
-     | =f=   | [[help:emacs-lisp-byte-compile-and-load][emacs-lisp-byte-compile-and-load]] | Byte compile then load file |
-     | =r=   | [[help:eval-region][eval-region]]                      | Evaluate region             |
-     
-     #+begin_src emacs-lisp
-       (elpaca nil
-         (bind-key
-          "C-c e"
-          (defhydra hydra-elisp-cmds (:color blue)
-            ("b" eval-buffer "eval buffer")
-            ("e" toggle-debug-on-error "debug-on-error")
-            ("f" emacs-lisp-byte-compile-and-load "byte-compile-and-load")
-            ("r" eval-region "eval-region")
-            ("s" shortdoc "Short documentation")
-            ("q" nil))
-          emacs-lisp-mode-map))
-     #+end_src
-
-     There is one block for execuing items and another for looking up
-     specific =elisp= help.
 
 **** Whitespace
 
@@ -1109,7 +1076,7 @@
 
      #+begin_src emacs-lisp
        (use-package ace-flyspell
-         :after hydra
+         :after (hydra major-mode-hydra) 
          :ensure t
          :commands (ace-flyspell-setup)
          :bind
@@ -1117,12 +1084,16 @@
          :hook
          (flyspell-mode . ace-flyspell-setup)
          :init
-         (defhydra hydra-fly (:color pink)
-           ("n" flyspell-goto-next-error "Next error")
-           ("c" ispell-word "Correct word")
-           ("j" ace-flyspell-jump-word "Jump word")
-           ("." ace-flyspell-dwim "dwim")
-           ("q" nil "Quit")))
+         (pretty-hydra-define hydra-fly (:color pink :quit-key "q" :title "  Flyspell")
+           ("Checking"
+            (("b" flyspell-buffer "Check buffer")
+             ("r" flyspell-region "Check region"))
+            "Correction"
+            (("c" ispell-word "Correct word")
+             ("." ace-flyspell-dwim "dwim"))
+            "Movement"
+            (("n" flyspell-goto-next-error "Next error")
+             ("j" ace-flyspell-jump-word "Jump word")))))
      #+end_src
 
 
@@ -1189,31 +1160,24 @@
 
        (elpaca nil
          (progn
-           (defhydra hydra-window-size (:color amaranth)
-             "Window size"
-             ("h" shrink-window-horizontally "shrink horizontal")
-             ("j" shrink-window "shrink vertical")
-             ("k" enlarge-window "enlarge vertical")
-             ("l" enlarge-window-horizontally "enlarge horizontal")
-             ("q" nil "quit"))
-
-           (defhydra hydra-window-frame (:color red)
-             "Frame"
-             ("f" make-frame "new frame")
-             ("x" delete-frame "delete frame")
-             ("q" nil "quit"))
-
-           (defhydra hydra-window-scroll (:color amaranth)
-             "Scroll other window"
-             ("n" scroll-other-window "scroll")
-             ("p" scroll-other-window-down "scroll down")
-             ("q" nil "quit"))
-
+           (pretty-hydra-define hydra-window-controls (:color amaranth :quit-key "q" :title " Window controls")
+             ("Window Size"
+              (("h" shrink-window-horizontally "shrink horizontal")
+               ("j" shrink-window "shrink vertical")
+               ("k" enlarge-window "enlarge vertical")
+               ("l" enlarge-window-horizontally "enlarge horizontal"))
+              "Scroll other window"
+              (("n" scroll-other-window "scroll")
+               ("p" scroll-other-window-down "scroll down"))))
+           (pretty-hydra-define hydra-frame-controls (:color red :title " Frame controls")
+             ("Modification"
+              (("f" make-frame "new frame")
+               ("x" delete-frame "delete frame"))))
            (with-eval-after-load 'ace-window
              (progn
-               (add-to-list 'aw-dispatch-alist '(?w hydra-window-size/body) t)
-               (add-to-list 'aw-dispatch-alist '(?\; hydra-window-frame/body) t)
-               (add-to-list 'aw-dispatch-alist '(?o hydra-window-scroll/body) t)
+               (add-to-list 'aw-dispatch-alist '(?w hydra-window-controls/body) t)
+               (add-to-list 'aw-dispatch-alist '(?F hydra-frame-controls/body) t)
+               (add-to-list 'aw-dispatch-alist '(?B balance-windows) t)
                (set-face-attribute 'aw-leading-char-face nil :height 2.0)))))
      #+end_src
 
@@ -1829,43 +1793,26 @@
         ("s-<mouse-1>" . mc/add-cursor-on-click)
         ("C-x M" . compose-mail)
         :config
-        (defhydra hydra-mc (:hint nil)
-          "
-           ^Up^            ^Down^        ^Miscellaneous^
-      -----------------------------------------------------------
-      [_p_]   Next    [_n_]   Next    [_l_] Edit lines  [_x_] Arrows
-      [_P_]   Skip    [_N_]   Skip    [_a_] Mark all    [_g_] Regexp
-      [_M-p_] Unmark  [_M-n_] Unmark  [_q_] Quit"
-          ("l"   mc/edit-lines :exit t)
-          ("a"   mc/mark-all-like-this-dwim :exit t)
-          ("n"   mc/mark-next-like-this)
-          ("N"   mc/skip-to-next-like-this)
-          ("M-n" mc/unmark-next-like-this)
-          ("p"   mc/mark-previous-like-this)
-          ("P"   mc/skip-to-previous-like-this)
-          ("M-p" mc/unmark-previous-like-this)
-          ("g"   mc/mark-all-in-region-regexp :exit t)
-          ("r"   mc/mark-sgml-tag-pair :exit t)
-          ("x"   mc/mark-more-like-this-extended)
-          ("q"   nil))
-        (add-hydra-mc-funcs))
-
-      (defun add-hydra-mc-funcs ()
-        "Add my hydra-mc funcs to the proper whitelist"
-        (let* ((hydra-mc-funcs
-                (cl-remove-if-not
-                 'functionp
-                 (apply #'append hydra-mc/heads)))
-               (mc-funcs-to-ignore (cl-intersection
-                                    hydra-mc-funcs
-                                    mc--default-cmds-to-run-once))
-               (funcs-to-whitelist
-                (cl-mapcar
-                 (lambda (x) (intern (concat "hydra-mc/" (symbol-name x))))
-                 mc-funcs-to-ignore)))
-          (let (value)
-            (dolist (element funcs-to-whitelist nil)
-              (add-to-list 'mc/cmds-to-run-once element)))))
+        (pretty-hydra-define hydra-mc (:hint nil :title " Multiple cursors" :quit-key "q")
+          ("Down"
+           (("n"   mc/mark-next-like-this "Mark next line")
+            ("N"   mc/skip-to-next-like-this "Skip next line")
+            ("M-n" mc/unmark-next-like-this "Unmark line going down"))
+           "Up"
+           (("p"   mc/mark-previous-like-this "Mark previous line")
+            ("P"   mc/skip-to-previous-like-this "Skip previous line")
+            ("M-p" mc/unmark-previous-like-this "Unmark line going up"))
+           "Mark many"
+           (("l" mc/edit-lines "Convert region")
+            ("a" mc/mark-all-like-this-dwim :exit t "Mark all like selection")
+            ("g" mc/mark-all-in-region-regexp :exit t "Mark regexp in region")
+            ("r" mc/mark-sgml-tag-pair :exit t "Mark tag pair")
+            ("x" mc/mark-more-like-this-extended "Extended marking"))
+           "Special"
+           (("1" mc/insert-numbers "Insert numbers")
+            ("^" mc/sort-regions   "Sort regions")
+            ("|" mc/vertical-align "Vertially align")
+            ("A" mc/insert-numbers "Insert letters")))))
     #+end_src
 
 *** Regexp-Builder
@@ -2324,16 +2271,17 @@
         :ensure nil
         :bind
         (:map smerge-mode-map ("C-c ^ h" . hydra-smerge/body))
-        :init
-        (defhydra hydra-smerge (:color amaranth)
-          ("a" smerge-keep-all "Keep all")
-          ("b" smerge-keep-base "Keep base")
-          ("m" smerge-keep-mine "Keep mine")
-          ("o" smerge-keep-other "Keep other")
-          ("n" smerge-next "Next conflict")
-          ("p" smerge-previous "Previous conflict")
-          ("r" smerge-resolve "Keep mine")
-          ("q" nil "quit")))
+        :mode-hydra
+        (pretty-hydra-define hydra-smerge (:color amaranth :title " SMerge" :quit-key "q")
+          ("Selection"
+           (("a" smerge-keep-all "Keep all")
+            ("b" smerge-keep-base "Keep base")
+            ("m" smerge-keep-mine "Keep mine")
+            ("o" smerge-keep-other "Keep other")
+            ("r" smerge-resolve "Keep mine"))
+           "Movement"
+           (("n" smerge-next "Next conflict")
+            ("p" smerge-previous "Previous conflict")))))
     #+end_src
 
 ** Checking
@@ -4626,6 +4574,26 @@
     #+begin_src emacs-lisp
       (use-package elisp-mode
         :ensure nil
+        :after (major-mode-hydra)
+        :mode-hydra
+        (emacs-lisp-mode
+         (:title "Elisp Commands")
+         ("Eval"
+          (("b" eval-buffer "buffer")
+           ("e" eval-defun "defun")
+           ("r" eval-region "region")
+           ("d" edebug-defun "edebug-defun"))
+          "REPL"
+          (("I" ielm "ielm"))
+          "Test"
+          (("t" ert "prompt")
+           ("T" (ert t) "all")
+           ("F" (ert :failed) "failed"))
+          "Doc"
+          (("." describe-foo-at-point "thing-at-pt")
+           ("f" describe-function "function")
+           ("v" descrive-variable "variable")
+           ("i" info-lookup-symbol "info lookup"))))
         :hook
         (emacs-lisp-mode . paredit-mode)
         (emacs-lisp-mode . paxedit-mode)
@@ -4636,7 +4604,7 @@
     useful. New to Emacs 28, [[help:shortdoc][shortdoc]] provides that useful, quick,
     navigatable list of documentation. I can quickly find it via =C-c e=
     (in =elisp=) as set in [[*Elisp Maps][Elisp Maps]].
-    
+
 *** Javascript
 
     For javascript, the only global setting is to shorten the
@@ -4724,25 +4692,20 @@
          :ensure t
                                                ;:init (global-flycheck-mode)
          :init
-         (defhydra hydra-flycheck (:color amaranth)
-           "
-         _c_ Check buffer      _x_ Explain error
-         _n_ Next error        _h_ Show error
-         _p_ Previous error    _g_ Toggle global flycheck
-         _l_ Show all errors   _s_ Select syntax checker
-         _C_ Clear errors      _?_ Describe syntax checker
-         "
-           ("c" flycheck-buffer)
-           ("n" flycheck-next-error)
-           ("p" flycheck-previous-error)
-           ("g" global-flycheck-mode)
-           ("l" flycheck-list-errors)
-           ("C" flycheck-clear-errors)
-           ("x" flycheck-explain-error-at-point)
-           ("h" flycheck-display-error-at-point)
-           ("s" flycheck-select-checker)
-           ("?" flycheck-describe-checker)
-           ("q" nil))
+         (pretty-hydra-define hydra-flycheck (:color amaranth :quit-key "q" :title " FlyCheck")
+           ("Action"
+            (("c" flycheck-mode "Buffer flycheck")
+             ("g" global-flycheck-mode "Global flycheck mode"))
+            "Errors"
+            (("n" flycheck-next-error "Next error")
+             ("p" flycheck-previous-error "Previous error")
+             ("l" flycheck-list-errors "List errors")
+             ("C" flycheck-clear-errors "Clear errors"))
+            "Explanation"
+            (("x" flycheck-explain-error-at-point "Explain error")
+             ("h" flycheck-display-error-at-point "Dieplay error")
+             ("s" flycheck-select-checker "Select checker")
+             ("?" flycheck-describe-checker "Describe checker"))))
          :bind
          ("H-!" . hydra-flycheck/body))
      #+end_src
