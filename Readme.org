@@ -862,37 +862,6 @@
         )
     #+end_src
 
-*** Company
-
-    [[http://company-mode.github.io][Company Mode]] is an in-buffer completion system. To get started, I
-    need to load the mode and bind some keys.
-
-    #+begin_src emacs-lisp
-      (use-package company
-        :disabled t
-        :ensure t
-        :delight company-mode
-        :init
-        (global-company-mode)
-        :bind
-        (("C-<tab>" . company-complete-common-or-cycle)
-         :map company-active-map
-         ("s-<tab>" . company-complete-common-or-cycle)
-         ("C-n"     . company-select-next)
-         ("C-p"     . company-select-previous)
-         ("M-<"     . company-select-first)
-         ("M->"     . company-select-last))
-        :custom
-        ;; Turn off the auto downcasing of things
-        (company-dabbrev-downcase nil)
-        (company-show-numbers t)
-        (company-tooltip-align-annotations t)
-        (company-selection-wrap-around t)
-        (company-tooltip-flip-when-above t)
-        (company-dabbrev-code-everywhere t)
-        (company-dabbrev-code-ignore-case t))
-    #+end_src
-
 *** Corfu
 
     Taking in-buffer completion to the next level, [[https://github.com/minad/corfu][Corfu]] gives familar
@@ -4861,15 +4830,11 @@
      environment. Because this is running in Emacs, there is no need
      for a pager.
 
-     Then provide a helper functionm to turn off ~company-mode~ and add
-     some convient aliases.
-
      #+begin_src emacs-lisp
        (setenv "PAGER" "cat")
 
        (defun bnb/setup-eshell ()
          "Setup functions to run in the eshell hook"
-         (company-mode -1)
          (eshell/alias "em" "emacs")
          (eshell/alias "ll" "ls -Aloh")
          (pcase system-type
