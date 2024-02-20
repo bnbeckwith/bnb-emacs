@@ -1,0 +1,31 @@
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  display: none;
+  visibility: hidden;
+  padding: 12px;
+  border-radius: 2px;
+  
+  position: absolute;
+  z-index: 1;
+
+  font-family: Consolas,"Andale Mono WT","Andale Mono","Lucida Console","Lucida Sans Typewriter","DejaVu Sans Mono","Bitstream Vera Sans Mono","Liberation Mono","Nimbus Mono L",Monaco,"Courier New",Courier,monospace;
+  font-size: 75%;
+
+  line-height: normal;
+  background: #edf0f2;
+  border: 1px solid #e1e4e5;
+
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  display: block;
+}

@@ -15,6 +15,8 @@
 #+INFOJS_OPT:
 #+LATEX_HEADER:
 #+PROPERTY: header-args:emacs-lisp :results silent
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css"/>
+
 
 * Introduction
 
@@ -121,7 +123,6 @@
     | Rebuilding Packages                   | =r x=                               | [[help:elpaca-rebuild][elpaca-rebuild]]                                   |
     | Deleting Packages                     | =d x=                               | [[help:elpaca-delete][elpaca-delete]]                                    |
     | View Package Logs                     | =l= filters log to current package  | [[help:elpaca-log][elpaca-log]]                                       |
-    | View Package Statuses                 | =t= show most recent log entries    | [[help:elpaca-status][elpaca-status]]                                    |
     | Visit Package Repository Directory    | =v=                                 | [[help:elpaca-visit][elpaca-visit]]                                     |
     | Visit Package Build Directory         | =C-u v=                             | =C-u M-x elpaca-visit=                             |
     | Browse Package Website                | =b=                                 | [[help:elpaca-browse][elpaca-browse]]                                    |
@@ -214,7 +215,7 @@
     on the specific system in question.
     
     In the code below, I add =~/.emacs.d/= to the load path and have a
-    protected call to =load-library=.  If the file exists, it gets
+    protected call to [[help:load-library][load-library]].  If the file exists, it gets
     loaded, otherwise the error normally returned if the file is
     non-existent gets ignored.
 
@@ -425,8 +426,6 @@
      | =X=   | [[help:bnb/transparency-previous][bnb/transparency-previous]] | Cycle backward through transparency settings |
      | =B=   | [[help:display-battery-mode][display-battery-mode]]      | Show battery info in modeline                |
      | =l=   | [[help:hl-line-mode][hl-line-mode]]              | Highlight current line                       |
-     | =n=   | [[help:linum-mode][linum-mode]]                | Absolute ine numbers                         |
-     | =N=   | [[help:linum-relative-toggle][linum-relative-toggle]]     | Relative line numbers                        |
      | =m=   | [[help:bnb/hide-mode-line-mode][bnb/hide-mode-line-mode]]   | Toggle mode line                             |
      
      #+begin_src emacs-lisp
@@ -953,14 +952,14 @@
 
     Here's a quick rundown of the settings:
 
-    - [[help:backup-by-copying][~backup-by-copying~]] :: Use copying to create backups when ~t~
-    - [[help:create-lockfile][~create-lockfiles~]] :: Don't use lockfiles if ~nil~
-    - [[help:backup-directory-alist][~backup-directory-alist~]] :: List of regexp/location pairs of where to backup files
-    - [[help:backup-directory-alist][~kill-buffer-delete-auto-save-files~]] :: Killing a buffer with an auto-save file will prompt for deletion
-    - [[help:delete-old-versions][~delete-old-versions~]] :: Delete excess backups silently if ~t~
-    - [[help:kept-new-versions][~kept-new-versions~]] :: Number of newest versions to keep
-    - [[help:kept-old-versions][~kept-old-versions~]] :: Number of oldest versions to keep
-    - [[help:version-control][~version-control~]] :: When ~t~, make numeric backup versions always
+    - [[help:backup-by-copying][backup-by-copying]] :: Use copying to create backups when ~t~
+    - [[help:create-lockfile][create-lockfiles]] :: Don't use lockfiles if ~nil~
+    - [[help:backup-directory-alist][backup-directory-alist]] :: List of regexp/location pairs of where to backup files
+    - [[help:backup-directory-alist][kill-buffer-delete-auto-save-files]] :: Killing a buffer with an auto-save file will prompt for deletion
+    - [[help:delete-old-versions][delete-old-versions]] :: Delete excess backups silently if ~t~
+    - [[help:kept-new-versions][kept-new-versions]] :: Number of newest versions to keep
+    - [[help:kept-old-versions][kept-old-versions]] :: Number of oldest versions to keep
+    - [[help:version-control][version-control]] :: When ~t~, make numeric backup versions always
 
 *** Default File encoding
 
@@ -1531,16 +1530,50 @@
     extra care and attention.
 
     #+begin_src emacs-lisp
-      (defun bnb/link-fallback-export (link description format _)
-	"Exporter for help: links"
-	(let ((desc (or description link)))
-	  (pcase format
-	    ('html (format "<code>%s</code>" desc))
-	    (t desc))))
+      (defun bnb/export-tooltip (link description format)
+        "Exporter for help: links"
+        (let ((desc (or description link)))
+          (pcase format
+            ('html (format "<span class=\"tooltip\"><code>%s</code>%s</span>" desc (bnb/make-doc-tooltip desc)))
+            (_ desc))))
+
+      (defun bnb/space-to-html-entity (text)
+        "Change spaces to html entities in TEXT."
+        (string-replace " " "&nbsp;" text))
+
+      (defun bnb/linebreak-to-html-entity (text)
+        "Change linebreaks to html entities in TEXT."
+        (string-replace "\n" "<br>" text))
+
+      (defun bnb/html-entity-replacement (text)
+        "Perform html entity conversions on TEXT."
+        (bnb/linebreak-to-html-entity
+         (bnb/space-to-html-entity text)))
+
+      (defun bnb/make-doc-tooltip (element)
+        "Pop out tooltip text if we have it"
+        (condition-case err
+            (let* ((template "<span class=\"tooltiptext\">%s</span>")
+                   (sym (intern element))
+                   (doc (if (symbolp sym)
+                            (or (documentation-property sym 'variable-documentation)
+                                (documentation sym))
+                          "")))
+              (format template (bnb/html-entity-replacement doc)))
+          (error (message "Skipping Error: %s" err))))
+
+      (defun bnb/export-help-links (link description format)
+        (bnb/export-tooltip link description format))
+
+      (defun bnb/export-org-ql-links (link description format)
+        (let ((desc (or description link)))
+          (pcase format
+            ('html (format "<span class=\"tooltip\"><code>%s</code>%s</span>" desc "<span class=\"tooltiptext\">Org QL search links only work in Emacs.</span>"))
+            (_ desc))))
 
       (with-eval-after-load 'org
-	(org-link-set-parameters "help" :export #'bnb/link-fallback-export)
-	(org-link-set-parameters "org-ql-search" :export #'bnb/link-fallback-export))
+        (org-link-set-parameters "help" :export #'bnb/export-help-links)
+        (org-link-set-parameters "org-ql-search" :export #'bnb/export-org-ql-links))
     #+end_src
     
 *** Transparency
@@ -2656,15 +2689,11 @@
 
      #+begin_src emacs-lisp
        (setq dired-kill-when-opening-new-dired-buffer t
-             dired-do-revert-buffer t
              dired-mark-region t)
      #+end_src
 
      The first setting, [[help:dired-kill-when-opening-new-dired-buffer][dired-kill-when-opening-new-dired-buffer]] keeps
      =dired= from littering little visited folder buffers along the way.
-
-     To automatically revert buffers upon detected changes,
-     [[help:dired-do-revert-buffer][dired-do-revert-buffer]] is set to ~t~.
 
      Marking commands can now act on regions with [[help:dired-mark-region][dired-mark-region]]
      set to ~t~. 
@@ -3846,7 +3875,7 @@
         (setq org-export-html-inline-images t)
       #+end_src
 
-      I suppress the postamble with [[help:org-export-html-postamble][org-export-html-postamble]].
+      I suppress the postamble with [[help:org-html-postamble][org-html-postamble]].
 
       #+begin_src emacs-lisp
         (setq org-html-postamble nil)
@@ -3860,19 +3889,20 @@
       #+end_src
 
       Striped tables are nice in email, but this is terribly difficult
-      due to cruddy CSS support. Luckily, [[help:org-html-table-row-tags][org-html-table-row-tags]]
+      due to cruddy CSS support. Luckily, [[https://orgmode.org/manual/Tables-in-HTML-export.html][org-html-table-row-tags]]
       saves the day and assigns the right classes to the table rows
       with a little bit of help. This makes styling correct in
       CSS-reduced instances.
 
       #+begin_src emacs-lisp
-        (setq org-html-table-row-tags
-              (cons '(cond (top-row-p "<tr class=\"tr-top\">")
-                           (bottom-row-p "<tr class=\"tr-bottom\">")
-                           (t (if (= (mod row-number 2) 1)
-                                  "<tr class=\"tr-odd\">"
-                                "<tr class=\"tr-even\">")))
-                    "</tr>"))
+        (with-eval-after-load 'org
+          (setq org-html-table-row-tags
+                (cons '(cond (top-row-p "<tr class=\"tr-top\">")
+                             (bottom-row-p "<tr class=\"tr-bottom\">")
+                             (t (if (= (mod row-number 2) 1)
+                                    "<tr class=\"tr-odd\">"
+                                  "<tr class=\"tr-even\">")))
+                      "</tr>"))) 
       #+end_src
 
 ***** LaTeX
