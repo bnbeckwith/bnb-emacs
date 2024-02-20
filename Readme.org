@@ -1133,7 +1133,7 @@
 
      Set the keys to something other than the default numbers. Note
      that this also limits the number of windows that can be used, but
-     given my usage, I doubt it goes up to 'j' often.
+     given my usage, I doubt it goes up to 'm' often.
 
      Also, I modify the face attribute to make the window numbers large.
 
@@ -1143,20 +1143,12 @@
        (use-package ace-window
          :ensure t
          :bind
-         ("H-SPC"    . ace-window)
+         ("H-SPC"  . ace-window)
          ("<f9> a" . ace-window)
          :custom
-         (aw-keys '(?j ?k ?l ?\; ?n ?m))
+         (aw-keys '(?j ?k ?l ?\; ?a ?s ?d ?f))
          (aw-leading-char-style 'path)
-         (aw-dispatch-always t)
-         (aw-dispatch-alist
-          '((?x aw-delete-window "Ace - Delete Window")
-            (?c aw-swap-window   "Ace - Swap window")
-            (?n aw-flip-window   "Ace - Flip window")
-            (?v aw-split-window-vert "Ace - Split Vert Window")
-            (?h aw-split-window-horz "Ace - Split Horz Window")
-            (?m delete-other-windows "Ace - Maximize Window")
-            (?b balance-windows))))
+         (aw-dispatch-always t))
 
        (elpaca nil
          (progn
