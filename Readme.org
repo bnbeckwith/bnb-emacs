@@ -5026,30 +5026,29 @@
 
     #+begin_src emacs-lisp
       (elpaca nil
-        (if window-system
-            (progn
-              (defun bnb/filter-existing-fonts (fl)
-                "Filter the list for only existing fonts"
-                (seq-filter #'font-info fl))
-              (setq bnb/fontlist
-                    '("-*-Lunar Mono-*-expanded-*-12" "-*-Lunar Mono-*-*-*-12" "Fira Code-13" "Source Code Pro-13")
-                    bnb/font-ring
-                    (ring-convert-sequence-to-ring (seq-filter #'font-info bnb/fontlist))
-                    bnb/font
-                    (ring-ref bnb/font-ring 0))
-              (defun bnb/font-apply (font)
-                "Change the default font to FONT."
-                (set-frame-font (setq bnb/font font))
-                (message "Set default font to %s" bnb/font))
-              (defun bnb/font-next ()
-                "Cycle the default font to the next in the ring."
-                (interactive)
-                (bnb/font-apply (ring-next bnb/font-ring bnb/font)))
-              (defun bnb/font-prev ()
-                "Cycle the default font to the previous in the ring."
-                (interactive)
-                (bnb/font-apply (ring-prev bnb/font-ring bnb/font)))
-              (set-frame-font bnb/font))
+        (when window-system
+          (defun bnb/filter-existing-fonts (fl)
+            "Filter the list for only existing fonts"
+            (seq-filter #'font-info fl))
+          (setq bnb/fontlist
+                '("-*-Lunar Mono-*-expanded-*-12" "-*-Lunar Mono-*-*-*-12" "Fira Code-13" "Source Code Pro-13")
+                bnb/font-ring
+                (ring-convert-sequence-to-ring (seq-filter #'font-info bnb/fontlist))
+                bnb/font
+                (ring-ref bnb/font-ring 0))
+          (defun bnb/font-apply (font)
+            "Change the default font to FONT."
+            (set-frame-font (setq bnb/font font))
+            (message "Set default font to %s" bnb/font))
+          (defun bnb/font-next ()
+            "Cycle the default font to the next in the ring."
+            (interactive)
+            (bnb/font-apply (ring-next bnb/font-ring bnb/font)))
+          (defun bnb/font-prev ()
+            "Cycle the default font to the previous in the ring."
+            (interactive)
+            (bnb/font-apply (ring-prev bnb/font-ring bnb/font)))
+          (set-frame-font bnb/font)
           (bind-keys
            ("H-f" . bnb/font-next)
            ("H-F" . bnb/font-prev))))
