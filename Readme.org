@@ -5388,6 +5388,6 @@
    this method supports a pre-tangling that speeds up initialization.
    
 # Local Variables:
-# eval: (add-hook 'after-save-hook (lambda () (org-babel-tangle nil "~/.emacs.d/full.el")) 0 t)
+# eval: (add-hook 'after-save-hook (lambda () (org-babel-tangle nil "~/.emacs.d/full.el" "emacs-lisp")) 0 t)
 # End:
     
