@@ -2500,47 +2500,13 @@
         (eldoc-add-command-completions "paredit-"))
     #+end_src
 
-*** LSP
+*** Eglot
 
-    [[https://emacs-lsp.github.io/lsp-mode/][Language Server Protocol]] support for Emacs lets us have a very
-    active and informed development process.
-
-    | Key   | Function            |
-    |-------+---------------------|
-    | C-M-i | completion at point |
-    | M-.   | Goto definition     |
-    | M-?   | Symbol references   |
-    | M-x   | Rename              |
-    
     #+begin_src emacs-lisp
-      (use-package lsp-mode
-        :ensure t
-        :commands (lsp lsp-deferred)
-        :custom
-        (lsp-edoc-render-all t)
-        (lsp-idle-delay 0.6)
-        :hook
-        ((lsp-mode . lsp-enable-which-key-integration)
-         (lsp-mode . lsp-ui-mode)
-         (html-mode . lsp)
-         (json-mode . lsp)
-         (lisp-mode . lsp)
-         (python-mode . lsp)
-         (r-mode . lsp)
-         (racket-mode . lsp)
-         (rust-mode . lsp)
-         (sh-mode . lsp)
-         (yaml-mode . lsp)))
-
-      (use-package lsp-ui
-        :ensure t
-        :commands lsp-ui-mode
-        :custom
-        (lsp-ui-peek-always-show t)
-        (lsp-ui-sideline-show-hover t)
-        (lsp-ui-doc-enable nil))
-     #+end_src
-
+      (use-package eglot
+        :ensure nil)
+    #+end_src
+    
 *** Paredit
 
     I added =paredit-mode= to several of the lisp modes that follow.
@@ -4694,32 +4660,23 @@
     
 *** Rust
 
-    [[https://github.com/brotzeit/rustic][Rustic]] builds on rust-mode and adds [[https://github.com/emacs-lsp/lsp-mode][lsp]] support. This section does
-    the setup.
+    #+begin_src emacs-lisp
+      (use-package rust-mode
+        :ensure t
+        :custom
+        (rust-mode-treesitter-derive t))
+    #+end_src
+
 
     #+begin_src emacs-lisp
-      (use-package rustic
-        :ensure t
-        :bind (:map rustic-mode-map
-                    ("C-c C-c j" . lsp-ui-imenu)
-                    ("C-c C-c f" . lst-find-references)
-                    ("C-c C-c l" . flycheck-list-errors)
-                    ("C-c C-c a" . lsp-execute-code-action)
-                    ("C-c C-c n" . lsp-rename)
-                    ("C-c C-c q" . lsp-workspace-restart)
-                    ("C-c C-c Q" . lsp-workspace-shutdown)
-                    ("C-c C-c s" . lsp-rust-analyzer-status)
-                    ("C-c C-c e" . lsp-rust-analyzer-expand-macro)
-                    ("C-c C-c d" . dap-hydra)
-                    ("C-c C-c h" . lsp-ui-doc-glance))
-        :custom
-        (lsp-inlay-hint-enable t)
-        (rustic-indent-offset 2)
-        (rustic-analyzer-command '("rustup" "run" "stable" "rust-analyzer"))
-        :hook ((rustic-mode . flycheck-mode)
-               (rustic-mode . lsp-inlay-hints-mode)
-               (rustic-mode . electric-pair-mode)))
+      (use-package flycheck-rust
+        :after rust-mode
+        :hook
+        (flycheck-mode-hook . flycheck-rust-setup))
+    #+end_src
+    
 
+    #+begin_src emacs-lisp
       (use-package toml-mode
         :ensure (toml-mode :host github :repo "dryman/toml-mode.el")
         :mode "\\.toml\\'")
