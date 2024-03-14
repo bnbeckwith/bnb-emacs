@@ -1317,7 +1317,7 @@
                       (org-fit-window-to-buffer))
                   (with-selected-window (display-buffer buf)
                     (org-fit-window-to-buffer))))
-            (bnb/org-agenda-with-tip nil))))
+            (org-agenda nil "f."))))
 
       (defun bnb/idle-agenda (&optional arg)
         "Set or cancel idle agenda timer based on [ARG]."
@@ -3356,6 +3356,23 @@
              org-agenda-breadcrumbs-separator " ❱ ")
      #+end_src
 
+***** Super agenda
+
+      Enriching the agenda view is easy with [[https://github.com/alphapapa/org-super-agenda/tree/master][org-super-agenda]]. I don't
+      make any default settings here, but override
+      [[help:org-super-agenda-groups][org-super-agenda-groups]] for each agenda view dispatcher.
+      
+      #+begin_src emacs-lisp
+        (use-package org-super-agenda
+          :after org
+          :ensure t
+          :config
+          (org-super-agenda-mode))
+      #+end_src
+
+      The [[https://github.com/alphapapa/org-super-agenda/blob/master/examples.org][examples]] online provide a good idea of the grouping
+      customization (and ease).
+      
 ***** Category Icons
 
       Org-mode can show category icons in some agenda views. The
@@ -3431,20 +3448,9 @@
             '("p" . "PROCESS...") t))
        #+end_src
 
-       The first view (=pp=) shows the contents of the inbox file (set
-       via [[help:org-default-notes-file][org-default-notes-file]]).
-       
-       #+begin_src emacs-lisp
-         (with-eval-after-load 'org
-           (add-to-list
-            'org-agenda-custom-commands
-            `("pp" "Inbox" alltodo ""
-              ((org-agenda-files (list ,org-default-notes-file)))) t))
-       #+end_src
-
-       The next view is very similar to the first, but grabs anything
-       tagged =inbox=. In my setup, my default notes file does have a
-       filetag of =inbox=, so all of those will also show up in this view.
+       The first view grabs anything tagged =inbox=. In my setup, my
+       default notes file does have a filetag of =inbox=, so all of
+       those will also show up in this view.
 
        The nice part is that I can have other agenda files with
        inboxes that need addressed This helps them stay in the
@@ -3454,9 +3460,12 @@
          (with-eval-after-load 'org
            (add-to-list
             'org-agenda-custom-commands
-            '("pi" "All TODOs in Inboxen" tags-todo "inbox"
-              ((org-agenda-overriding-header "List of all TODO tasks in Inbox")
-               (org-agenda-sorting-strategy '(priority-down)))) t))
+            '("pp" "All TODOs in Inboxen"
+              ((org-ql-block '(and (tags "inbox") (or (todo) (done)))
+                             ((org-ql-block-header "Inboxed tasks")
+                              (org-agenda-overriding-header "List of all TODO tasks in Inbox")
+                              (org-agenda-sorting-strategy '(priority-down))
+                              (org-super-agenda-groups '((:auto-category t))))))) t))
        #+end_src
 
        I try to put effort estimates on all of my tasks. As part of
@@ -3471,9 +3480,11 @@
          (with-eval-after-load 'org
            (add-to-list
             'org-agenda-custom-commands
-            '("pe" "No Estimates" tags-todo "EFFORT<>{.}"
-              ((org-agenda-overriding-header "Lacking ESTIMATES")
-               (org-agenda-sorting-strategy '(priority-down)))) t))
+            '("pe" "No Estimates" 
+              ((org-ql-block '(not (effort))
+                             ((org-agenda-overriding-header "Lacking ESTIMATES")
+                              (org-agenda-sorting-strategy '(priority-down))
+                              (org-super-agenda-groups '((:auto-category t))))))) t))
        #+end_src
 
        This view (reachable via =ps=) is similar to the previous one,
@@ -3485,9 +3496,10 @@
          (with-eval-after-load 'org
            (add-to-list
             'org-agenda-custom-commands
-            '("ps" "No Score" tags-todo "SCORE<>{.}"
-              ((org-agenda-overriding-header "Lacking SCORE")
-               (org-agenda-sorting-strategy '(priority-down)))) t))
+            '("ps" "No Score"
+              ((org-ql-block '(not (property "SCORE"))
+                             ((org-agenda-overriding-header "Lacking SCORE")
+                              (org-agenda-sorting-strategy '(priority-down)))))) t))
        #+end_src
 
        Finally, this view shows the items tagged =someday=. As process
