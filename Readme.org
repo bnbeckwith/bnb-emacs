@@ -355,10 +355,15 @@
                 (list '+elpaca-unload-seq 'elpaca--activate-package)))
 
       (use-package seq :ensure `(seq :build ,(+elpaca-seq-build-steps)))
-      ;;; Wait for this to be processed before packages that depend on it
-      (elpaca-wait)
     #+end_src
 
+** Coda
+
+   #+begin_src emacs-lisp
+     ;;; Wait for this to be processed before packages that depend on it
+     (elpaca-wait)
+   #+end_src
+   
 * Settings
 
   The sections here contain mostly settings that configure keymaps,
