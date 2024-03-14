@@ -5313,50 +5313,8 @@
    I have additional python settings to make it look sharp.
 
     #+begin_src emacs-lisp
-      (defun bnb/add-to-prettify-alist (pair)
-        "Push a given PAIR onto the prettify-symbols-alist"
-        (push pair prettify-symbols-alist))
-
-      (defun bnb/make-prettify-mode-hook (pairs)
-        "PAIRS is a list of elements of the form (SYMBOL . CHARACTER)
-      where SYMBOL is a string (not regexp)."
-        (lambda () (mapc #'bnb/add-to-prettify-alist pairs)))
-
-      (defvar bnb/pretty-python
-        '(;; Syntax
-          ("def" .      ?ℱ)
-          ("not" .      ?❗)
-          ("in" .       ?∈)
-          ("not in" .   ?∉)
-          ("return" .   ?⟼)
-          ("yield" .    ?⟻)
-          ("for" .      ?∀)
-          ;; Base Types
-          ("int" .      ?ℤ)
-          ("float" .    ?ℝ)
-          ("str" .      ?𝕊)
-          ("True" .     ?𝕋)
-          ("False" .    ?𝔽)
-          ;; Mypy
-          ("Dict" .     ?𝔇)
-          ("List" .     ?ℒ)
-          ("Tuple" .    ?⨂)
-          ("Set" .      ?Ω)
-          ("Iterable" . ?𝔊)
-          ("Any" .      ?❔)
-          ("Union" .    ?∪)))
-
-
-      (use-package prog-mode ; Contains pretty-symbols-mode
-        :ensure nil
-        :defer
-        :custom 
-        (prettify-symbols-unprettify-at-point 'right-edge)
-        :config
-        (global-prettify-symbols-mode t)
-        :hook
-        (python-mode . (bnb/make-prettify-mode-hook bnb/pretty-python)))
-
+      (setq global-prettify-symbols-mode t
+            prettify-symbols-unprettify-at-point 'right-edge)
     #+end_src
 
     Some resources for additional customization:
