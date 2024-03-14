@@ -265,8 +265,7 @@
       gc-cons-percentage 0.6)
 
      (setq
-      default-file-name-handler-alist
-      file-name-handler-alist
+      default-file-name-handler-alist file-name-handler-alist
       file-name-handler-alist nil)
 
      (add-hook
@@ -280,12 +279,6 @@
 
         ;; delete no longer necessary startup variable
         (makunbound 'default-file-name-handler-alist)))
-
-     ;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
-     (push '(menu-bar-lines . 0) default-frame-alist)
-     (push '(tool-bar-lines . 0) default-frame-alist)
-     (push '(vertical-scroll-bars) default-frame-alist)
-
    #+end_src
 
    The block above is written to [[file+emacs:~/.emacs.d/early-init.el][~/.emacs.d/early-init.el]] and
@@ -5059,11 +5052,12 @@
    These following items make Emacs really beautiful on every
    platform. I remove the menu bar, tool bar and the scroll bar for
    starters.
-   
-   #+begin_src emacs-lisp
-     (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-     (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-     (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+
+   #+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el" :exports code :results silent
+     ;; Prevent the glimpse of un-styled Emacs by disabling these UI elements early.
+     (push '(menu-bar-lines . 0)   default-frame-alist)
+     (push '(tool-bar-lines . 0)   default-frame-alist)
+     (push '(vertical-scroll-bars) default-frame-alist)
    #+end_src
 
 ** Window Changes
