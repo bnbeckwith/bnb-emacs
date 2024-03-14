@@ -2986,7 +2986,8 @@
 
      #+begin_src emacs-lisp
        (use-package org-contrib
-         :ensure t)
+	 :after org
+	 :ensure t)
      #+end_src
      
 **** Auto mode
