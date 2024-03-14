@@ -1902,8 +1902,8 @@
 
     #+begin_src emacs-lisp
       (elpaca nil
-        (when (fboundp 'imagemagick-register-types)
-          (imagemagick-register-types)))
+	(when (fboundp 'imagemagick-register-types)
+	  (imagemagick-register-types)))
     #+end_src
 
 * Minor Modes
@@ -2623,8 +2623,8 @@
 
     #+begin_src emacs-lisp
       (setq bookmark-save-flag t
-            bookmark-set-fringe-mark t
-            bookmark-menu-confirm-deletion t)
+	    bookmark-set-fringe-mark t
+	    bookmark-menu-confirm-deletion t)
     #+end_src
 
 *** Project
@@ -2927,12 +2927,12 @@
 
     #+begin_src emacs-lisp
       (use-package markdown-mode
-        :ensure t
-        :commands (markdown-mode gfm-mode)
-        :mode (("README\\.md\\'" . gfm-mode)
-               ("\\.md\\'" . markdown-mode)
-               ("\\.markdown\\'" . markdown-mode))
-        :init (setq markdown-command "multimarkdown"))
+	:ensure t
+	:commands (markdown-mode gfm-mode)
+	:mode (("README\\.md\\'" . gfm-mode)
+	       ("\\.md\\'" . markdown-mode)
+	       ("\\.markdown\\'" . markdown-mode))
+	:init (setq markdown-command "multimarkdown"))
     #+end_src
 
 *** Orgmode
