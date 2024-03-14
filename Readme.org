@@ -1443,6 +1443,29 @@
     #+end_src
 
 
+*** Prettify macro
+
+    There is a little bit of boilerplate to get the right set or
+    replacements set for prettify correctly. This is exactly why
+    macros are a thing. This one simplifies the call to provide a
+    mode, and the list of replacements.
+    
+    #+begin_src emacs-lisp
+      (defmacro bnb/prettify (mode replacements)
+        "Set the prettify REPLACEMETS for MODE in a mode hook"
+        `(progn
+           (setq ,(intern (concat "bnb/prettify-" mode "-replacements")) ,replacements)
+           (defun ,(intern (concat "bnb/prettify-" mode "-setup"))
+               ()
+             (mapc
+              (lambda (pair) (push pair prettify-symbols-alist))
+              ,(intern (concat "bnb/prettify-" mode "-replacements")))
+             (prettify-symbols-mode t))
+           (add-hook
+            (quote ,(intern (concat mode "-hook")))
+            (function ,(intern (concat "bnb/prettify-" mode "-setup"))))))
+    #+end_src
+    
 *** Styled HTML Export
 
     This is how I get the one-page html output for Github Pages. There
@@ -4278,16 +4301,14 @@
      over the symbols will show them in their original form.
 
      #+begin_src emacs-lisp
-       (add-hook
-        'org-mode-hook
-        (lambda ()
-          (mapc (lambda (pair) (push pair prettify-symbols-alist))
-                '(("#+BEGIN_SRC" . "⌈")
-                  ("#+END_SRC" . "⌊")
-                  ("#+begin_src" . "⌈")
-                  ("#+end_src" . "⌊")
-                  (">=" . "≥")
-                  ("=>" . "⇨")))))
+       (bnb/prettify
+        "org-mode"
+        '(("#+BEGIN_SRC" . "⌈")
+          ("#+END_SRC"   . "⌊")
+          ("#+begin_src" . "⌈")
+          ("#+end_src"   . "⌊")
+          (">="          . "≥")
+          ("=>"          . "⇨")))
      #+end_src
 
 ***** Org Bullets
@@ -4630,6 +4651,35 @@
         :ensure t)
     #+end_src
 
+*** Python
+
+    #+begin_src emacs-lisp
+      (bnb/prettify
+       "python-mode"
+       '(;; Syntax
+         ("def"      . ?ℱ)
+         ("not"      . ?❗)
+         ("in"       . ?∈)
+         ("not in"   . ?∉)
+         ("return"   . ?⟼)
+         ("yield"    . ?⟻)
+         ("for"      . ?∀)
+         ;; Base Types
+         ("int"      . ?ℤ)
+         ("float"    . ?ℝ)
+         ("str"      . ?𝕊)
+         ("True"     . ?𝕋)
+         ("False"    . ?𝔽)
+         ;; Mypy
+         ("Dict"     . ?𝔇)
+         ("List"     . ?ℒ)
+         ("Tuple"    . ?⨂)
+         ("Set"      . ?Ω)
+         ("Iterable" . ?𝔊)
+         ("Any"      . ?❔)
+         ("Union"    . ?∪)))
+    #+end_src
+    
 *** Rust
 
     [[https://github.com/brotzeit/rustic][Rustic]] builds on rust-mode and adds [[https://github.com/emacs-lsp/lsp-mode][lsp]] support. This section does
