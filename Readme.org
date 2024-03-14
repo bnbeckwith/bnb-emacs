@@ -284,6 +284,14 @@
 
    The block above is written to [[file+emacs:~/.emacs.d/early-init.el][~/.emacs.d/early-init.el]] and
    automatically evaluated first by emacs.
+
+*** Init debug assistance
+
+    #+begin_src emacs-lisp
+      (defmacro comment (&rest body)
+	"Comment out sexps in BODY"
+	nil)
+    #+end_src
    
 ** Libraries
 
