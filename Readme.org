@@ -2299,7 +2299,7 @@
         :bind
         (:map smerge-mode-map ("C-c ^ h" . hydra-smerge/body))
         :mode-hydra
-        (pretty-hydra-define hydra-smerge (:color amaranth :title " SMerge" :quit-key "q")
+        (hydra-smerge (:color amaranth :title " SMerge" :quit-key "q")
           ("Selection"
            (("a" smerge-keep-all "Keep all")
             ("b" smerge-keep-base "Keep base")
