@@ -4606,8 +4606,7 @@
 
     When programming in =elisp=, a [[https://www.masteringemacs.org/article/emacs-builtin-elisp-cheat-sheet][cheat sheet]] of functions can be very
     useful. New to Emacs 28, [[help:shortdoc][shortdoc]] provides that useful, quick,
-    navigatable list of documentation. I can quickly find it via =C-c e=
-    (in =elisp=) as set in [[*Elisp Maps][Elisp Maps]].
+    navigatable list of documentation.
 
 *** Javascript
 
