@@ -36,8 +36,6 @@
 
    #+begin_src emacs-lisp :tangle "~/.emacs.d/init.el" :exports code :results silent
      ;;; init.el --- bnbeckwith config -*- eval: (read-only-mode 1) -*-
-     (setq package-enable-at-startup nil)
-
      ;; START ELPACA INSTALLER
      (defvar elpaca-installer-version 0.7)
      (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
@@ -253,7 +251,11 @@
    streamlined interface.
 
    #+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el" :exports code :results silent
-     (defvar default-gc-cons-threshold 16777216; 16mb
+     ;; Disable package enabling at startup
+     (setq package-enable-at-startup nil)
+
+     ;; Tweak garbage collection threshold
+     (defvar default-gc-cons-threshold 16777216 ; 16mb
        "my default desired value of `gc-cons-threshold'
      during normal emacs operations.")
 
