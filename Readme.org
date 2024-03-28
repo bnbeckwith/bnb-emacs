@@ -1742,16 +1742,8 @@
           (defun bnb/workweek ()
             "Return the current workweek number."
             (interactive)
-            (let* ((now (current-time))
-                   (weeks (string-to-number
-                           (format-time-string "%W" now)))
-                   (days (time-to-day-in-year now))
-                   (daynum (string-to-number
-                            (format-time-string "%w" now)))
-                   (left (% days 7)))
-              (if (and (= 0 daynum) (= left 0))
-                  weeks
-                (+ 1 weeks))))
+            (string-to-number
+             (format-time-string "%W" (current-time))))
 
           (defun bnb/workweek-string ()
             "Convert the current workweek into a string.
