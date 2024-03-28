@@ -2494,10 +2494,16 @@
 
 *** Eglot
 
+    Use the built-in `eglot` functionality.
+    
     #+begin_src emacs-lisp
       (use-package eglot
         :ensure nil)
     #+end_src
+
+    In Emacs devel, there is also an `eglot-x` that will be available,
+    but it is tracking some development versions for now, so I have
+    left it out.
     
 *** Paredit
 
