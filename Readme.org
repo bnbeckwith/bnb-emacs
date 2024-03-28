@@ -178,12 +178,14 @@
   This sections houses the settings that need to be made up front and
   support subsuquent package installation and activiation.
 
-** Personal Information
+** Default Setup
 
-   The full name is used for email messages.
+   The full name is used for email messages. And =bnb/biblio= is set to a sensible default.
+   These can be overridden in =<username>.var.el=.
 
    #+begin_src emacs-lisp
-     (setq user-full-name "Benjamin Beckwith")
+     (setq user-full-name "Benjamin Beckwith"
+           bnb/biblio '("~/references.bib"))
    #+end_src
 
 ** Local customizations (custom.el, username.var.el)
