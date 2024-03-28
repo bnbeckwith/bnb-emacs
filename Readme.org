@@ -4655,7 +4655,11 @@
       (use-package rust-mode
         :ensure t
         :custom
-        (rust-mode-treesitter-derive t))
+        (rust-mode-treesitter-derive t)
+        :config
+        (add-to-list 'eglot-server-programs
+                   '((rust-ts-mode rust-mode) .
+                     ("rust-analyzer" :initializationOptions (:check (:command "clippy"))))))
     #+end_src
 
 
