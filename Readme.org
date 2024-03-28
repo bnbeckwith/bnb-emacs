@@ -3902,7 +3902,7 @@
       #+begin_src emacs-lisp
         (use-package ox-gfm
           :after org-mode
-          :ensure t)
+          :ensure (ox-gfm :depth nil))
       #+end_src
       
 ***** Slack
