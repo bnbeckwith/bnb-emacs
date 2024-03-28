@@ -5131,8 +5131,6 @@
 
 *** Default Fonts
 
-    
-
     #+begin_src emacs-lisp
       (elpaca nil
         (when window-system
