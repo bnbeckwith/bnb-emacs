@@ -2503,7 +2503,8 @@
     
     #+begin_src emacs-lisp
       (use-package eglot
-        :ensure nil)
+        :ensure nil
+        :demand t)
     #+end_src
 
     In Emacs devel, there is also an `eglot-x` that will be available,
