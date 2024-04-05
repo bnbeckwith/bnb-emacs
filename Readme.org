@@ -4634,31 +4634,57 @@
 *** Python
 
     #+begin_src emacs-lisp
-      (bnb/prettify
-       "python-mode"
-       '(;; Syntax
-         ("def"      . ?ℱ)
-         ("not"      . ?❗)
-         ("in"       . ?∈)
-         ("not in"   . ?∉)
-         ("return"   . ?⟼)
-         ("yield"    . ?⟻)
-         ("for"      . ?∀)
-         ;; Base Types
-         ("int"      . ?ℤ)
-         ("float"    . ?ℝ)
-         ("str"      . ?𝕊)
-         ("True"     . ?𝕋)
-         ("False"    . ?𝔽)
-         ;; Mypy
-         ("Dict"     . ?𝔇)
-         ("List"     . ?ℒ)
-         ("Tuple"    . ?⨂)
-         ("Set"      . ?Ω)
-         ("Iterable" . ?𝔊)
-         ("Any"      . ?❔)
-         ("Union"    . ?∪)))
+      (elpaca nil
+        (bnb/prettify
+         "python-base-mode"
+         '(;; Syntax
+           ("def"      . ?ℱ)
+           ("not"      . ?❗)
+           ("in"       . ?∈)
+           ("not in"   . ?∉)
+           ("return"   . ?⟼)
+           ("yield"    . ?⟻)
+           ("for"      . ?∀)
+           ;; Base Types
+           ("int"      . ?ℤ)
+           ("float"    . ?ℝ)
+           ("str"      . ?𝕊)
+           ("True"     . ?𝕋)
+           ("False"    . ?𝔽)
+           ;; Mypy
+           ("Dict"     . ?𝔇)
+           ("List"     . ?ℒ)
+           ("Tuple"    . ?⨂)
+           ("Set"      . ?Ω)
+           ("Iterable" . ?𝔊)
+           ("Any"      . ?❔)
+           ("Union"    . ?∪)))
+
+        (add-to-list
+         'major-mode-remap-alist
+         '(python-mode . python-ts-mode)))
     #+end_src
+
+**** PET
+
+     The [[https://github.com/wyuenho/emacs-pet][Python Executable Tracker]] seeks to solve the issue of LSP and
+     python virtual environments.
+
+     #+begin_src emacs-lisp
+       (defun bnb/pet-setup ()
+         (setq-local python-shell-interpreter (pet-executable-find "python")
+                     python-sehll-virtualenv-root (pet-virtualenv-root))
+         (pet-eglot-setup)
+         (eglot-ensure)
+         (pet-flycheck-setup)
+         (flycheck-mode))
+
+       (use-package pet
+         :hook
+         (python-base-mode . bnb/pet-setup)
+         (python-base-mode . pet-mode))
+     #+end_src
+    
     
 *** Rust
 
