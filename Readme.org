@@ -17,7 +17,6 @@
 #+PROPERTY: header-args:emacs-lisp :results silent
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css"/>
 
-
 * Introduction
 
   This document tangles (in literate programming style) the necessary
@@ -2510,7 +2509,7 @@
     In Emacs devel, there is also an `eglot-x` that will be available,
     but it is tracking some development versions for now, so I have
     left it out.
-    
+
 *** Paredit
 
     I added =paredit-mode= to several of the lisp modes that follow.
