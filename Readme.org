@@ -3362,8 +3362,8 @@
                    ,(list (nerd-icons-octicon "nf-oct-home")) nil nil :ascent center)
                   ("[Ii][Cc]"     ;; 
                    ,(list (nerd-icons-octicon "nf-oct-person")) nil nil :ascent center)
-                  ("[Mm]anager"   ;; 
-                   ,(list (nerd-icons-octicon "nf-oct-ruby")) nil nil :ascent center))))
+                  ("[Mm]anager"   ;; 
+                   ,(list (nerd-icons-faicon "nf-fa-cogs")) nil nil :ascent center))))
       #+end_src
       
 ***** Views
