@@ -3631,7 +3631,6 @@
                         (org-agenda-prefix-format " %?-11t %i %-12:c% s")
                         (org-agenda-show-log 'clockcheck)
                         (org-agenda-span 7)
-                        (org-agenda-start-day "-1w")
                         (org-deadline-warning-days 0)))
                (agenda ""
                        ((org-agenda-overriding-header "NEXT MONTH")
