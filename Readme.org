@@ -5459,14 +5459,13 @@
    non-existent gets ignored.
 
    #+begin_src emacs-lisp
-     (elpaca nil
-       (condition-case err
+     (condition-case err
          (progn
            (load-file (format "~/.emacs.d/%s.el"  user-login-name))
            (message "Loaded local settings file %s.el" user-login-name))
        (file-error
         (message "Skipping %s library as it does not exist." user-login-name))
-       nil))
+       nil)
    #+end_src
 
 ** Housekeeping
