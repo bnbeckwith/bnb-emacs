@@ -5171,7 +5171,13 @@
             "Filter the list for only existing fonts"
             (seq-filter #'font-info fl))
           (setq bnb/fontlist
-                '("-*-Lunar Mono-*-expanded-*-12" "-*-Lunar Mono-*-*-*-12" "Fira Code-13" "Source Code Pro-13")
+                '("-*-LunarMono Nerd Font-regular-normal-condensed-*-*-*-*-*-p-0-iso10646-1"
+                  "LunarMono Nerd Font-12"
+                  "Fira Code-12"
+                  "Fira Code-13"
+                  "Source Code Pro-13"
+                  "Menlo-12"
+                  "Consolas-12")
                 bnb/font-ring
                 (ring-convert-sequence-to-ring (seq-filter #'font-info bnb/fontlist))
                 bnb/font
