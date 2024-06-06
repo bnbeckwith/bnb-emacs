@@ -2264,13 +2264,12 @@
     Here I set a global key for ~magit-status~. Think 'G' looks like 6.
 
     #+begin_src emacs-lisp
+      (use-package transient)
+
       (use-package magit
-        :ensure
-        (magit
-          :repo "magit/magit"
-          :tag "v3.3.0"
-          :fetcher github)
-        :bind ("<F6>" . magit-status)
+        :ensure t
+        :after transient
+        :bind ("<f6>" . magit-status)
         :custom
         (magit-last-seen-setup-instructions "1.4.0"))
     #+END_SRC
@@ -2289,9 +2288,9 @@
 
      #+begin_src emacs-lisp
        (use-package forge
-         :after magit
-         :ensure (forge :host github :repo "magit/forge" :tag "v0.3.2")
-         :commands (forge-pull))
+	 :after magit
+	 :ensure (forge :host github :repo "magit/forge")
+	 :commands (forge-pull))
      #+end_src
 
 *** Smerge
