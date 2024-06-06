@@ -3284,7 +3284,7 @@
                   (insert (mapconcat 'identity rows "\n"))
                 (mapconcat 'identity rows "\n")))))
 
-        ; (bnb/org-time-logged-table-entry nil t)
+        ; (bnb/org-time-logged-table-entry 1 t)
       #+end_src
 
 **** Refile
@@ -3460,7 +3460,7 @@
            (add-to-list
             'org-agenda-custom-commands
             '("pe" "No Estimates" 
-              ((org-ql-block '(not (effort))
+              ((org-ql-block '(and (not (effort)) (todo))
                              ((org-agenda-overriding-header "Lacking ESTIMATES")
                               (org-agenda-sorting-strategy '(priority-down))
                               (org-super-agenda-groups '((:auto-category t))))))) t))
@@ -3476,9 +3476,30 @@
            (add-to-list
             'org-agenda-custom-commands
             '("ps" "No Score"
-              ((org-ql-block '(not (property "SCORE"))
+              ((org-ql-block '(and (not (property "SCORE")) (or (todo) (done)))
                              ((org-agenda-overriding-header "Lacking SCORE")
                               (org-agenda-sorting-strategy '(priority-down)))))) t))
+       #+end_src
+
+       The archivable view =pa= is also similar to the previous one,
+       only it finds tasks that are complete and ready to be refiled
+       or archived. 
+       
+       #+begin_src emacs-lisp
+         (with-eval-after-load 'org
+           (add-to-list
+            'org-agenda-custom-commands
+            '("pa" "Archivable"
+              ((agenda "DONE|PROJECTDONE"
+                     ((org-agenda-clockreport-mode t)
+                      (org-agenda-start-day "-7")
+                      (org-agenda-overriding-header "PAST WEEK")
+                      (org-agenda-prefix-format " %?-11t %i %-12:c% s")
+                      (org-agenda-show-log 'clockcheck)))
+               (org-ql-block '(done)
+                             ((org-agenda-overriding-header "Completed Tasks")
+                              (org-agenda-sorting-strategy '(priority-down))
+                              (org-super-agenda-groups '((:auto-category t)))))))))
        #+end_src
 
        Finally, this view shows the items tagged =someday=. As process
