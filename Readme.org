@@ -137,6 +137,16 @@
     #+begin_src emacs-lisp
       (setq bnb/start-time (float-time))
     #+end_src
+
+
+    To aid with general code that needs to run /after/ =elpaca=, the
+    following macro sets up the right hook.
+
+    #+begin_src emacs-lisp
+      (defmacro with-after-elpaca-init (&rest body)
+          "Adds BODY to `elpaca-after-init-hook`"
+          `(add-hook 'elpaca-after-init-hook (lambda () ,@body)))
+    #+end_src
     
 *** Emacs Build
 
@@ -388,7 +398,7 @@
     easily bind keys, but it does so with some nice features.
 
     #+begin_src emacs-lisp
-      (elpaca nil
+      (with-after-elpaca-init
         (bind-keys ("C-h B" . describe-personal-keybindings)
                    ("<f7>"  . (lambda () (interactive (find-file custom-file))))))
     #+end_src
@@ -450,7 +460,7 @@
      | =m=   | [[help:bnb/hide-mode-line-mode][bnb/hide-mode-line-mode]]   | Toggle mode line                             |
      
      #+begin_src emacs-lisp
-       (elpaca nil
+       (with-after-elpaca-init
          (pretty-hydra-define hydra-toggle (:color amaranth :quit-key "q" :title "  TOGGLES")
            ("Basic"
             (("c" column-number-mode "col number" :toggle t)
@@ -496,7 +506,7 @@
        possible. The =fixup-whitespace= function will do that.
 
        #+begin_src emacs-lisp
-         (elpaca nil
+         (with-after-elpaca-init
            (bind-key "M-k" 'fixup-whitespace))
        #+end_src
 
@@ -517,7 +527,7 @@
           (interactive)
           (cua-scroll-down 1))
 
-        (elpaca nil
+        (with-after-elpaca-init
           (with-eval-after-load 'bind-key
             (bind-keys
              ("M-n" . bnb/scroll-up-1)
@@ -530,7 +540,7 @@
       all of that nasty text.
 
       #+begin_src emacs-lisp
-        (elpaca nil
+        (with-after-elpaca-init
           (with-eval-after-load 'bind-key
             (bind-key "C-c TAB" 'align-regexp)))
       #+end_src
@@ -547,7 +557,7 @@
          (interactive)
          (kill-buffer (current-buffer)))
 
-       (elpaca nil
+       (with-after-elpaca-init
          (bind-keys
           ("C-x C-k" . bnb/kill-this-buffer)))
      #+end_src
@@ -904,7 +914,7 @@
     the keypress to cycle through options.
 
     #+begin_src emacs-lisp
-      (elpaca nil
+      (with-after-elpaca-init
         (bind-key "M-/" 'hippie-expand))
     #+end_src
 
@@ -1022,7 +1032,7 @@
     feeds into the candidates for [[*Consult][Consult]].
 
     #+begin_src emacs-lisp
-      (elpaca nil
+      (with-after-elpaca-init
         (recentf-mode t))
     #+end_src
 
@@ -1066,7 +1076,7 @@
     sessions.
 
     #+begin_src emacs-lisp
-      (elpaca nil
+      (with-after-elpaca-init
         (setq savehist-additional-variables '(search-ring regexp-search-ring)
               savehist-file "~/.emacs.d/savehist")
         (savehist-mode t))
@@ -1163,7 +1173,7 @@
          (aw-leading-char-style 'path)
          (aw-dispatch-always t))
 
-       (elpaca nil
+       (with-after-elpaca-init
          (progn
            (pretty-hydra-define hydra-window-controls (:color amaranth :quit-key "q" :title " Window controls")
              ("Window Size"
@@ -1328,7 +1338,7 @@
                   (cancel-timer bnb/iagenda)
                 (run-with-idle-timer 3600 t 'bnb/jump-to-org-agenda))))
 
-      (elpaca nil
+      (with-after-elpaca-init
         (bnb/idle-agenda))
     #+end_src
 
@@ -1367,7 +1377,7 @@
         (other-window 1 nil)
         (switch-to-next-buffer))
 
-      (elpaca nil
+      (with-after-elpaca-init
         (bind-keys
          ("C-x 2" . bnb/vplit-last-buffer)
          ("C-x 3" . bnb/hsplit-last-buffer)))
@@ -1403,7 +1413,7 @@
                    "Use M-x bnb/hide-mode-line-mode to make the mode-line appear"))))
 
       ;; Bind global key
-      (elpaca nil
+      (with-after-elpaca-init
         (bind-key "H-0" 'bnb/hide-mode-line-mode))
     #+end_src
 
@@ -1414,7 +1424,7 @@
     is just a button-push away.
 
     #+begin_src emacs-lisp
-      (elpaca nil
+      (with-after-elpaca-init
         (bind-key
          "<f5>"
          (lambda ()
@@ -1738,7 +1748,7 @@
     their idea of a work week number.
 
     #+begin_src emacs-lisp
-      (elpaca nil
+      (with-after-elpaca-init
         (progn
           (defun bnb/workweek ()
             "Return the current workweek number."
@@ -1894,7 +1904,7 @@
     to do anything.
 
     #+begin_src emacs-lisp
-      (elpaca nil
+      (with-after-elpaca-init
 	(when (fboundp 'imagemagick-register-types)
 	  (imagemagick-register-types)))
     #+end_src
@@ -2025,7 +2035,7 @@
     why I enable it.
 
     #+begin_src emacs-lisp
-      (elpaca nil
+      (with-after-elpaca-init
         (progn
           (cua-mode t)
           (setq cua-enable-cua-keys nil)))
@@ -2333,7 +2343,7 @@
     CamelCase spell checking.
 
     #+begin_src emacs-lisp
-      (elpaca nil
+      (with-after-elpaca-init
         (progn
           (cond
            ((executable-find "aspell")
@@ -3930,7 +3940,7 @@
      twice (interrupted task).
 
      #+begin_src emacs-lisp
-       (elpaca nil
+       (with-after-elpaca-init
          (org-clock-persistence-insinuate)
          (setq org-clock-history-length 28
                org-clock-in-resume t))
@@ -4029,7 +4039,7 @@
      This is the list of languages I like to have enabled for use.
      
      #+begin_src emacs-lisp
-       (elpaca nil
+       (with-after-elpaca-init
          (org-babel-do-load-languages
           'org-babel-load-languages
           '((calc       . t)
@@ -4635,7 +4645,7 @@
 *** Python
 
     #+begin_src emacs-lisp
-      (elpaca nil
+      (with-after-elpaca-init
         (bnb/prettify
          "python-base-mode"
          '(;; Syntax
@@ -5040,7 +5050,7 @@
      necessary.
 
      #+begin_src emacs-lisp
-       (elpaca nil
+       (with-after-elpaca-init
          (with-eval-after-load 'eshell
            (require 'eshell)
            (require 'em-smart)
@@ -5165,7 +5175,7 @@
 *** Default Fonts
 
     #+begin_src emacs-lisp
-      (elpaca nil
+      (with-after-elpaca-init
         (when window-system
           (defun bnb/filter-existing-fonts (fl)
             "Filter the list for only existing fonts"
@@ -5252,7 +5262,7 @@
         (interactive)
         (bnb/change-frame-font-size '1-))
 
-      (elpaca nil
+      (with-after-elpaca-init
         (bind-keys
          ("C-+" . text-scale-increase)
          ("C--" . text-scale-decrease)
@@ -5480,7 +5490,7 @@
    
    #+begin_src emacs-lisp
      (message "README EVALUATION DURATION: %3.2f seconds" (- (float-time) bnb/start-time))
-     (elpaca nil
+     (with-after-elpaca-init
        (message "ELPACA LOADING COMPLETE: %s" (emacs-init-time)))
    #+end_src
 
