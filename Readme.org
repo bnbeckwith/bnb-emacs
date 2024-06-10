@@ -3254,24 +3254,26 @@
       empty.
 
       #+begin_src emacs-lisp
+        (defun bnb/get-clocked-categories-hashtbl (days-ago)
+          "Get clocktable of categories starting DAYS-AGO"
+          (let ((clocked-fmt (- 0 days-ago))
+                (org-fmt (format-time-string "%Y-%m-%d" (time-subtract (current-time) (days-to-time days-ago)))))
+            (let ((clocktbl (make-hash-table :test 'equal))
+                  (entries (org-ql-select (org-agenda-files) '(clocked :from clocked-fmt)
+                             :action (lambda ()
+                                       (list (org-entry-get-with-inheritance "CATEGORY" t)
+                                             (org-clock-sum-current-item org-fmt))))))
+              (dolist (e entries clocktbl)
+                (puthash (car e) (+ (cadr e)
+                                       (or (gethash (car e) clocktbl) 0))
+                         clocktbl)))))
+
         (defun bnb/org-time-logged-table-entry (&optional additional-weeks include-zeros)
           "Insert table of minutes per category.
           Optionally provide ADDITIONAL-WEEKS to get more history"
           (interactive "P")
-          (unless additional-weeks (setq additional-weeks 0))
-          (let* ((minh (make-hash-table :test 'equal))
-                 (now (decode-time))
-                 (start (encode-time 0 0 0 (- (nth 3 now) (nth 6 now) (* 7 (or additional-weeks 1))) (nth 4 now) (nth 5 now)))
+          (let* ((minh (bnb/get-clocked-categories-hashtbl (+ 7 (* 7 (or additional-weeks 0)))))
                  (today (format-time-string "%Y-%m-%d" (current-time))))
-            ;; Collect minutes clocked per category
-            (org-map-entries
-             (lambda ()
-               (let ((category (org-entry-get-with-inheritance "CATEGORY" t))
-                     (minutes (org-clock-sum-current-item start)))
-                 (puthash category (+ minutes
-                                      (or (gethash category minh) 0)) minh)))
-             t
-             'agenda)
             ;; Print out table lines
             (let ((rows nil))
               (maphash
