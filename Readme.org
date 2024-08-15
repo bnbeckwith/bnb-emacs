@@ -2781,11 +2781,11 @@
 
     #+begin_src emacs-lisp
       (use-package auctex
-        :defer t
         :after org
-        :ensure (auctex :pre-build (("./autogen.sh")
-                                    ("./configure" "--without-texmf-dir" "--with-lispdir=.")
-                                    ("make")))
+        :ensure (auctex
+                 :pre-build (("./autogen.sh")
+                             ("./configure" "--without-texmf-dir" "--with-lispdir=.")
+                             ("make")))
         :mode (("\\.tex\\'" . LaTeX-mode)
                ("\\.tex\\.erb\\'" . LaTeX-mode)
                ("\\.etx\\'" . LaTeX-mode))
