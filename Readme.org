@@ -4512,6 +4512,16 @@
         (pdf-loader-install))
     #+end_src
 
+*** Typst                                                           :PENDING:
+
+    #+begin_src emacs-lisp
+      (use-package typst-ts-mode
+        :ensure (:type git :host sourcehut :repo "meow_king/typst-ts-mode" :files (:defaults "*.el"))
+        :custom
+        ;; (optional) If you want to ensure your typst tree sitter grammar version is greater than the minimum requirement
+        ;; Note this only check and compare file modification time
+        (typst-ts-mode-grammar-location (expand-file-name "tree-sitter/libtree-sitter-typst.so" user-emacs-directory)))
+    #+end_src
 ** Miscellaneous
 
    This sections holds configuration details for some of the
@@ -4901,7 +4911,8 @@
                        (python     . ("https://github.com/tree-sitter/tree-sitter-python" "v0.20.4"))
                        (toml       . ("https://github.com/tree-sitter/tree-sitter-toml" "v0.5.1"))
                        (rust       . ("https://github.com/tree-sitter/tree-sitter-rust" "v0.21.2" "src"))
-                       (yaml       . ("https://github.com/ikatyang/tree-sitter-yaml" "v0.5.0"))))
+                       (yaml       . ("https://github.com/ikatyang/tree-sitter-yaml" "v0.5.0"))
+                       (typst      . ("https://github.com/uben0/tree-sitter-typst" "v0.11.0"))))
              (add-to-list 'treesit-language-source-alist grammar)
              ;; Only install `grammar' if we don't already have it
              ;; installed. However, if you want to *update* a grammar then
