@@ -1789,7 +1789,7 @@
    Similar to movement, editing happens /every day/, so I use a few
    customizations to make it nice.
    
-*** Ediff single frame
+*** Ediff Window Setup
 
     I really dislike the multi-frame mode of =ediff=.  It is confusing
     to use and really messes up my [[http://dwm.suckless.org][dwm]] usage. By explicitly setting
@@ -1797,7 +1797,9 @@
     frame.
 
     #+begin_src emacs-lisp
-      (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+      (setq ediff-window-setup-function 'ediff-setup-windows-plain
+            ediff-diff-options "-w"
+            ediff-split-window-function 'split-window-horizontally)
     #+end_src
 
     Now the control window will be a small window instead of a
