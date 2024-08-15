@@ -4522,6 +4522,12 @@
         ;; Note this only check and compare file modification time
         (typst-ts-mode-grammar-location (expand-file-name "tree-sitter/libtree-sitter-typst.so" user-emacs-directory)))
     #+end_src
+*** Polymode                                                        :PENDING:
+
+    #+begin_src emacs-lisp
+      (use-package poly-markdown
+        :ensure t)
+    #+end_src
 ** Miscellaneous
 
    This sections holds configuration details for some of the
