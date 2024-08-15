@@ -5234,6 +5234,16 @@
      (setq-default frame-title-format '("%b %f %I"))
    #+end_src
 
+*** Window Splitting
+
+    By default, I usually want to have vertial window splits. The
+    following settings achieve that.
+
+    #+begin_src emacs-lisp
+      (setq split-width-threshold 0
+            split-height-threshold nil)
+    #+end_src
+   
 ** Faces
 
    Emacs [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Faces.html][faces]] are text styled with attributes including font, slant,
