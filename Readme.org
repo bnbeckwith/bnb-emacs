@@ -302,7 +302,7 @@
 	"Comment out sexps in BODY"
 	nil)
     #+end_src
-   
+
 ** Libraries
 
    This section hosts early loading of libraries required by
@@ -917,7 +917,6 @@
       (with-after-elpaca-init
         (bind-key "M-/" 'hippie-expand))
     #+end_src
-
 
 ** Built-in Features
 
