@@ -158,6 +158,11 @@
       brew install emacs-plus@29 --with-nobu417-big-sur-icon --with-imagemagick --with-native-comp
     #+end_src
 
+    And then, to link in =/Applications=, run the following command:
+    #+begin_src sh :tangle no :eval no
+      oascript -e 'tell application "Finder" to make alias file to posix file "<prefix>/Emacs.app" at POSIX file "/Applications"
+    #+end_src
+
     Notes: [[https://www.masteringemacs.org/article/whats-new-in-emacs-29-1][What's new in 29.1]]
 
 *** Pending sections
