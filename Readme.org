@@ -2926,7 +2926,7 @@
 
     #+begin_src emacs-lisp
       (use-package org
-        :ensure (org :type git :repo "https://git.savannah.gnu.org/git/emacs/org-mode.git" :tag "release_9.6.19")
+        :ensure (org :type git :repo "https://git.savannah.gnu.org/git/emacs/org-mode.git" :tag "release_9.7.12")
         :delight (org-mode "🦄" :major)
         :mode ("\\.org\\(_archive\\)?\\'" . org-mode)
         :bind
