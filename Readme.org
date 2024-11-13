@@ -5272,8 +5272,8 @@
             "Filter the list for only existing fonts"
             (seq-filter #'font-info fl))
           (setq bnb/fontlist
-                '("-*-LunarMono Nerd Font-regular-normal-condensed-*-*-*-*-*-p-0-iso10646-1"
-                  "LunarMono Nerd Font-12"
+                '("-*-LunarISO Nerd Font-regular-normal-condensed-*-*-*-*-*-p-0-iso10646-1"
+                  "LunarISO Nerd Font-12"
                   "Fira Code-12"
                   "Fira Code-13"
                   "Source Code Pro-13"
