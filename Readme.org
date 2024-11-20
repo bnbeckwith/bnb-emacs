@@ -2350,15 +2350,15 @@
     CamelCase spell checking.
 
     #+begin_src emacs-lisp
-      (with-after-elpaca-init
-        (progn
-          (cond
-           ((executable-find "aspell")
-            (setq ispell-program-name (executable-find "aspell")
-                  ispell-extra-args '("--sug-mode=ultra" "--lang=en_US")))
-           (t (setq ispell-program-name nil)
-              (message "No aspell found!")))
-          (bind-key "H-$" 'ispell-word)))
+      (with-eval-after-load "exec-path-from-shell"
+       (progn
+         (cond
+          ((executable-find "aspell")
+           (setq ispell-program-name (executable-find "aspell")
+                 ispell-extra-args '("--sug-mode=ultra" "--lang=en_US")))
+          (t (setq ispell-program-name nil)
+             (message "No aspell found!")))
+         (bind-key "H-$" 'ispell-word)))
     #+end_src
 
 *** Proselint
