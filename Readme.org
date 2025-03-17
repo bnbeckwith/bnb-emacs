@@ -2511,6 +2511,31 @@
         (eldoc-add-command-completions "paredit-"))
     #+end_src
 
+*** Ellama
+
+    #+begin_src emacs-lisp
+      (use-package ellama
+        :ensure t
+        :defer 10
+        :init
+        (require 'llm-ollama)
+        (setopt ellama-keymap-prefix "C-c e")
+        (setopt ellama-provider
+                (make-llm-ollama
+                 :chat-model "hermes3:latest"
+                 :embedding-model "nomic-embed-text"))
+        (setopt ellama-summarization-provider
+      	  (make-llm-ollama
+      	   :chat-model "qwen2.5:latest"
+      	   :embedding-model "nomic-embed-text"
+      	   :default-chat-non-standard-params '(("num_ctx" . 32768))))
+        (setopt ellama-coding-provider
+      	  (make-llm-ollama
+      	   :chat-model "qwen2.5-coder:latest"
+      	   :embedding-model "nomic-embed-text"
+      	   :default-chat-non-standard-params '(("num_ctx" . 32768))))) 
+    #+end_src
+    
 *** Eglot
 
     Use the built-in `eglot` functionality.
