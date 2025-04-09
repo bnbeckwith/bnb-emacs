@@ -2506,9 +2506,7 @@
         :hook
         (prog-mode . turn-on-eldoc-mode)
         (ielm-mode . turn-on-eldoc-mode)
-        :custom (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
-        :config
-        (eldoc-add-command-completions "paredit-"))
+        :custom (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
     #+end_src
 
 *** Ellama
