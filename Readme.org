@@ -3961,7 +3961,7 @@
       #+begin_src emacs-lisp
         (use-package ox-gfm
           :after org-mode
-          :ensure (ox-gfm :depth nil :version "1.0"))
+          :ensure (ox-gfm :depth nil :version (lambda (x) "1.0")))
       #+end_src
       
 ***** Slack
