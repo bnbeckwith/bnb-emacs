@@ -34,7 +34,7 @@
    code block (=C-c C-c=) to bootstrap the system.
 
    #+begin_src emacs-lisp :tangle "~/.emacs.d/init.el" :exports code :results silent
-     ;;; init.el --- bnbeckwith config -*- eval: (read-only-mode 1) -*-
+     ;;; init.el --- bnbeckwith config -*- eval: (read-only-mode 1); mode: emacs-lisp; coding: utf-8-unix; lexical-binding: t; -*-
      ;; START ELPACA INSTALLER
      (defvar elpaca-installer-version 0.11)
      (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
@@ -105,6 +105,14 @@
 
    This section has specific notes that are relevant to my emacs setup
    in general and this document in particular.
+
+   But, before all of the detail, let's ensure =lexical-binding= gods are
+   appeased and credit/rights are retained.
+
+   #+begin_src emacs-lisp
+     ;; -*- mode: emacs-lisp; lexical-binding: t; -*-
+     ;; copyright (c) Ben Beckwith, 2010-2025
+   #+end_src
 
 *** Elpaca
 
@@ -267,6 +275,7 @@
    streamlined interface.
 
    #+begin_src emacs-lisp :tangle "~/.emacs.d/early-init.el" :exports code :results silent
+     ;; -*- mode: emacs-lisp; lexical-binding: t; -*-
      (defun homebrew-gcc-paths ()
        "Return GCC library paths from Homebrew installations.
      Detects paths for gcc and libgccjit packages to be used in LIBRARY_PATH."
