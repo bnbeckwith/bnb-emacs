@@ -3215,13 +3215,13 @@ and what the user needs to type.
   (setq org-capture-templates
         `(("t" "Todo" entry
            (file ,org-default-notes-file)
-           "* TODO %?\n  %U\n%^{Score}p" :clock-in t :clock-resume t)
+           "* TODO %?\n%U\n%^{Score}p" :clock-in t :clock-resume t)
           ("r" "todo (Remember location)" entry
            (file org-default-notes-file)
-           "* TODO %?\n  %U\n  %a" :clock-in t :clock-resume t)
+           "* TODO %?\n%U\n  %a" :clock-in t :clock-resume t)
           ("n" "Note" entry
            (file org-default-notes-file)
-           "* %?                                                                            :NOTE:\n  %U\n  %a\n  :CLOCK:\n  :END:")
+           "* %?                                                                            :NOTE:\n%U\n%a\n:CLOCK:\n:END:")
           ("c" "Capture current TODO mix in table" table-line (file+headline ,bnb/weekly-reports-file "Burndown")
            "%(bnb/org-count-tasks-by-status)")
           ("s" "Capture Weekly Score in table" table-line (file+headline ,bnb/weekly-reports-file "Scores")
