@@ -2653,6 +2653,19 @@ For a lighter-weight alternative, check out [[help:show-paren-mode][show-paren-m
     :hook (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
+*** HTTP Client
+
+[[https://github.com/federicotdn/verb/][Verb]] creates a minor mode that works with Org-mode to create a way to
+store and evaluate HTTP requests.
+
+#+begin_src emacs-lisp
+  (use-package verb
+    :ensure t
+    :bind
+    (:map org-mode-map
+          ("C-c C-r" .  verb-command-map)))
+#+end_src
+
 ** Organization
 
 There are a couple of built-in features that help with
