@@ -4421,6 +4421,7 @@ real humans.
 #+begin_src emacs-lisp
   (use-package org-ai
     :ensure t
+    :defer t
     :commands (org-ai-mode
                org-ai-global-mode)
     :init
