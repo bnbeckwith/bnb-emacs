@@ -2878,15 +2878,28 @@ correctly. The main settings deal with setting up =PDF= output and the
             (quote
              (("^pdf$" "." "evince -f %o")
               ("^html?$" "." "start %o"))))
-          TeX-command-extra-options "-shell-escape"
           TeX-PDF-mode 1
-          TeX-engine 'xetex)
+          TeX-engine 'default
+          TeX-engine-alist '((default
+                              "Tectonic"
+                              "tectonic -c minimal -X compile -f plain %t"
+                              "tectonic -c minimal -X compile %t"
+                              nil))
+          TeX-check-TeX nil
+          TeX-process-asynchronous t
+          LaTeX-command-style '(("" "%(latex)")))
+    (let ((tex-list (assoc "TeX" TeX-command-list))
+          (latex-list (assoc "LaTeX" TeX-command-list)))
+      (setf (cadr tex-list) "%(tex)"
+            (cadr latex-list) "%l"))
     (setq-default TeX-master nil)
     (setq-default TeX-global-PDF-mode 1)
     (add-to-list 'org-latex-packages-alist
                  '("" "tikz" t))
+;;    (add-to-list 'org-latex-packages-alist
+;;                 '("" "listings" t))
     (add-to-list 'org-latex-packages-alist
-                 '("" "minted" t))
+                 '("" "fvextra" t))
     (setq org-latex-create-formula-image-program 'imagemagick)
     (eval-after-load "preview"
       '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t)))
@@ -3962,15 +3975,12 @@ For \LaTeX, I want to convert fragments to images, and use [[https://ctan.org/pk
 any source blocks. I also want to have [[https://en.wikipedia.org/wiki/XeTeX][XeTeX]] as the backend.
 
 #+begin_src emacs-lisp
-  (setq org-export-latex-listings 'minted
+  (setq org-export-latex-listings 'engraved
         org-export-latex-custom-lang-environments
         '((emacs-lisp "common-lispcode"))
-        org-export-latex-minted-options '()
         org-highlight-latex-and-related '(latex script entities)
-        org-latex-to-pdf-process
-        '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-          "xelatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+        org-latex-pdf-process
+        '("tectonic -c minimal -X compile -o %o %f"))
 #+end_src
 
 ***** Tufte
