@@ -4230,6 +4230,19 @@ type. Note that this may slow down some files.
   (setq org-src-fontify-natively t)
 #+end_src
 
+For regular usage, subscripts interpolation is too aggressive. Ensure
+that subscripts only show when I use the brackets.
+
+#+begin_src emacs-lisp
+  (setq org-use-sub-superscripts "{}")
+#+end_src
+
+For images, I want them to be limited to the window width upon
+toggling. The default is `fill-column` which can be too small.
+#+begin_src emacs-lisp
+  (setq org-image-max-width 'window)
+#+end_src
+
 ***** File Applications
 
 This list lets org know how to handle the links of given file
