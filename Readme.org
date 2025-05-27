@@ -4598,6 +4598,12 @@ annotations. They all live on =C-c C-a=.
     (pdf-loader-install))
 #+end_src
 
+*** Polymode                                                        :PENDING:
+
+#+begin_src emacs-lisp
+  (use-package poly-markdown
+    :ensure t)
+#+end_src
 *** Typst                                                           :PENDING:
 
 #+begin_src emacs-lisp
@@ -4608,12 +4614,7 @@ annotations. They all live on =C-c C-a=.
     ;; Note this only check and compare file modification time
     (typst-ts-mode-grammar-location (expand-file-name "tree-sitter/libtree-sitter-typst.so" user-emacs-directory)))
 #+end_src
-*** Polymode                                                        :PENDING:
 
-#+begin_src emacs-lisp
-  (use-package poly-markdown
-    :ensure t)
-#+end_src
 ** Miscellaneous
 
 This sections holds configuration details for some of the
@@ -5523,7 +5524,7 @@ I only customize the height to hug the font and keep everythig small.
     (doom-modeline-height 0))
 #+end_src
 
-** Asterism (⁂) Mode                                                :PENDING:
+** Asterism (⁂) Mode                                                  :PENDING:
 
 Let's try ⁂-mode for an interesting mini-buffer line. It writes
 information into the minibuffer. Here I have it set to show the output
