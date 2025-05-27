@@ -2531,6 +2531,16 @@ times. I highly recommend.
   (add-hook 'after-save-hook  'check-parens nil t)
 #+end_src
 
+*** Edit indirect
+
+Working like =org-edit-src-code=, [[https://github.com/Fanael/edit-indirect/blob/master/edit-indirect.el][=edit-indirect=]] allows for source-code
+style editing of arbitrary regions. This is most useful with [[Markdown]].
+
+#+begin_src emacs-lisp
+  (use-package edit-indirect
+    :ensure t)
+#+end_src
+
 *** Eldoc
 
 While developing, documentation is nice to have handy and automatic.
