@@ -364,6 +364,19 @@ automatically evaluated first by emacs.
     nil)
 #+end_src
 
+*** Path
+
+Sometimes Emacs' idea of path differs from the shell. The package
+[[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] seeks to bring those in line with each other.
+
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :config
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
+#+end_src
+
 ** Libraries
 
 This section hosts early loading of libraries required by subsequent
@@ -1046,18 +1059,6 @@ processes.
             native-comp-async-report-warnings-errors t))
 #+end_src
 
-*** Path
-
-Sometimes Emacs' idea of path differs from the shell. The package
-[[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] seeks to bring those in line with each other.
-
-#+begin_src emacs-lisp
-  (use-package exec-path-from-shell
-    :ensure t
-    :config
-    (when (memq window-system '(mac ns x))
-      (exec-path-from-shell-initialize)))
-#+end_src
 
 *** Server
 
