@@ -4867,12 +4867,11 @@ For my data crunching tasks, I use R and [[https://ess.r-project.org/][ESS]] (em
 provides an interface (repl) for developing analysis and charts.
 
 #+begin_src emacs-lisp
-  (use-package ess
-    :ensure t
+  (use-package ess-site
+    :ensure ess
     :commands (R)
     :custom
-    (ess-default-style 'Rstudio-)
-    :init (require 'ess-site))
+    (ess-default-style 'Rstudio-))
 #+end_src
 
 *** Utilities
