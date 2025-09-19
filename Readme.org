@@ -3017,7 +3017,7 @@ The one feature I cannot do without. Let's set up some basics.
 
 #+begin_src emacs-lisp
   (use-package org
-    :ensure (org :type git :repo "https://git.savannah.gnu.org/git/emacs/org-mode.git" :tag "release_9.7.12")
+    :ensure (org :type git :repo "https://git.savannah.gnu.org/git/emacs/org-mode.git" :tag "release_9.7.34")
     :delight (org-mode "🦄" :major)
     :mode ("\\.org\\(_archive\\)?\\'" . org-mode)
     :bind
