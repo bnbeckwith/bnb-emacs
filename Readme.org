@@ -3308,7 +3308,7 @@ amount and mix at a glance.
        'agenda)
       (setq values (mapcar (lambda (x)
                              (or (gethash x counts) 0))
-                           '("DONE" "TODO" "WAITING" "CANCELLED" "SOMEDAY")))
+                           '("DONE" "TODO" "WAITING" "CANCELED" "SOMEDAY")))
       (setq output
             (concat "| " today " | "
                     (mapconcat 'number-to-string values " | ")
@@ -3421,7 +3421,7 @@ show a time grid if a scheduled tasks exists.
 
 #+begin_src emacs-lisp
   (setq org-agenda-show-inherited-tags t
-        org-agenda-log-mode-items '(clock)
+        org-agenda-log-mode-items '(closed clock)
         org-agenda-clockreport-parameter-plist '(:link nil :maxlevel 2 :fileskip0 t)
         org-agenda-block-separator nil
         org-agenda-dim-blocked-tasks nil
@@ -3478,34 +3478,48 @@ default.
 Adapted from [[https://github.com/fniessen/emacs-leuven/blob/master/lisp/org-leuven-agenda-views.txt][org-leuven-agenda-views.txt]].
 
 #+begin_src emacs-lisp
-  ;; Reset everything to nil
-  (setq org-agenda-custom-commands nil)
+  (setq bnb/views/all-tasks-search
+        "DONE|TODO|WAITING|CANCELED|SOMEDAY")
+
+  (setq bnb/views/agenda
+        '("." "󰃶 Agenda"
+          ((agenda ""
+                   ((org-agenda-entry-types '(:scheduled))
+                    (org-agenda-overriding-header "󰃶 Agenda")
+                    (org-agenda-sorting-strategy
+                     '(priority-down time-down))
+                    (org-agenda-show-log '(state clock))
+                    (org-agenda-start-on-weekday nil)))
+           (todo bnb/views/all-tasks-search
+                 ((org-agenda-overriding-header "")
+                  (org-super-agenda-groups
+                   '((:name "󰃶 TODAY" :deadline today)
+                     (:name "󰞏 Overdue" :deadline past)
+                     (:name "󰃰 Scheduled" :scheduled t)
+                     (:name "󰏑 Inbox (move to right home)" :tag "inbox")
+                     (:discard (:anything t)))))))))
 #+end_src
 
-#+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("o" "My Agenda"
-       ((todo "TODO"
-              ((org-agenda-overriding-header "\n⚡ Do Today\n┄┄┄┄┄┄┄┄┄┄")
-               (org-agenda-remove-tags t)
-               (org-agenda-prefix-format " %-2i %-15b")
-               (org-agenda-todo-keyword-format "")))
-        (agenda ""
-                ((org-agenda-start-day "+0d")
-                 (org-agenda-span 5)
-                 (org-agenda-overriding-header "⚡ Schedule\n┄┄┄┄┄┄┄┄┄┄")
-                 (org-agenda-repeating-timestamp-show-all nil)
-                 (org-agenda-remove-tags t)
-                 (org-agenda-prefix-format   "  %-3i  %-15b %t%s")
-                 (org-agenda-todo-keyword-format " ☐ ")
-                 (org-agenda-current-time-string "⮜┈┈┈┈┈┈┈ now")
-                 (org-agenda-scheduled-leaders '("" ""))
-                 (org-agenda-time-grid (quote ((daily today remove-match)
-                                               (0900 1200 1500 1800 2100)
-                                               "      " "┈┈┈┈┈┈┈┈┈┈┈┈┈")))))))))
-#+end_src
+The /agenda/ view unfolds like a compass guiding through the day's
+tasks, presenting a constellation of sections aimed at pinpointing the
+most crucial endeavors to tackle next.
+
+In the calendar section, a mosaic of diary entries and timestamps for
+today awaits exploration, offering a glimpse into the rhythm of the
+day.
+
+Tasks not already on the agenda are broken out into subsections.
+
+First, I concern myself with items due /Today/ or in the past (/Overdue/). These
+lists help me focus on these timed items that should garner immediate
+attention.
+
+Meanwhile, the /Scheduled/ section offers a glimpse into the near
+future, showcasing the tasks slated for today, like eager performers
+awaiting their cue.
+
+Lastly, the /Inbox/ section is the list of recently captured items
+awaiting further work or filing into the correct location.
 
 ****** Process
 
@@ -3514,211 +3528,99 @@ and process them.  There is a menu key, =p=, that will open up
 the different views.
 
 #+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("p" . "PROCESS...") t))
+  (setq bnb/views/process-prefix '("p" . "  PROCESS..."))
 #+end_src
 
-The first view grabs anything tagged =inbox=. In my setup, my default
-notes file does have a filetag of =inbox=, so all of those will also
-show up in this view.
+Onto the views allowing me to process my tasks.
 
-The nice part is that I can have other agenda files with inboxes that
-need addressed This helps them stay in the forefront of processing.
+The /housekeeping/ view has blocks of tasks that require a score, are
+lacking estimates, need refiled from the inbox, or be archivable.
+These four groups help me keep the work and files clean and tidy. The
+score is most important and up front because I use that elsewhere to
+track how well my week went in terms of productivity.
 
 #+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("pp" "All TODOs in Inboxen"
-       ((org-ql-block
-         '(and (tags "inbox") (or (todo) (done)))
-         ((org-ql-block-header "Inboxed tasks")
-          (org-agenda-overriding-header "List of all TODO tasks in Inbox")
-          (org-agenda-sorting-strategy '(priority-down))
-          (org-super-agenda-groups '((:auto-category t))))))) t))
+  (setq bnb/views/process-housekeeping
+        `("pp" "󰠧 Housekeeping items"
+          ((alltodo bnb/views/all-tasks-search
+                 ((org-agenda-overriding-header "󰠧 Housekeeping")
+                  (org-super-agenda-groups
+                   '((:name "󱉿 Scoreless" :not (:property "SCORE"))
+                     (:name "󰣽 Lacking Estimates" :not (:effort> "0:00"))
+                     (:name "󰏑 Inbox (move to right home)" :tag "inbox")
+                     (:name " Archivable" :todo ("DONE" "CANCELED"))
+                     (:discard (:anything t)))))))))
 #+end_src
 
-I try to put effort estimates on all of my tasks. As part of
-processing, the =pe= view lists tasks without effort. Typically I then
-edit with [[help:org-columns][org-columns]] (=C-c C-x C-c=).
+Next, I try to put effort estimates on all of my tasks. This section
+lists tasks without effort. Typically I then edit with [[help:org-columns][org-columns]]
+(=C-c C-x C-c=). Providing an estimate will drive other views when it's
+time to find work that is quick to complete.
 
 In the column view, navigating to the effort column and hitting the
 right number will set the effort to one of the predefined settings
 (found in [[help:org-global-properties][org-global-properties]]).
 
-#+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("pe" "No Estimates" 
-       ((org-ql-block
-         '(and (not (effort)) (todo))
-         ((org-agenda-overriding-header "Lacking ESTIMATES")
-          (org-agenda-sorting-strategy '(priority-down))
-          (org-super-agenda-groups '((:auto-category t))))))) t))
-#+end_src
+The /Inbox/ section reminds me that tasks cannot live there, but need to
+be moved to their real home.
 
-This view (reachable via =ps=) is similar to the previous one,
-only it finds tasks without scores. This helps me process them
-in the same way -- ensure everthing that /can/ have a score,
-does.
+Archivable tasks are last to keep the list clean. I only really do
+this once a week, but it's also a nice way to quickly see what's been
+done or canceled.
+
+The /Deferred/ view lists the /someday/ or /waiting/ tasks. These require
+periodic checking to see if something needs prodded for an update or
+is no longer relevant.
 
 #+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("ps" "No Score"
-       ((org-ql-block
-         '(and (not (property "SCORE")) (or (todo) (done)))
-         ((org-agenda-overriding-header "Lacking SCORE")
-          (org-agenda-sorting-strategy '(priority-down)))))) t))
+  (setq bnb/views/process-deferred
+        `("pd" "  Deferred tasks"
+          ((todo ""
+                 ((org-agenda-overriding-header "  Deferred Tasks")
+                  (org-agenda-sorting-strategy '(priority-down))
+                  (org-super-agenda-groups
+                   '((:name " Waiting on" :todo ("WAITING"))
+                     (:name "󰧓 Someday" :todo ("SOMEDAY"))
+                     (:discard (:anything t)))))))))
 #+end_src
 
-The archivable view =pa= is also similar to the previous one,
-only it finds tasks that are complete and ready to be refiled
-or archived.
+****** Quickfire
 
-#+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("pa" "Archivable"
-       ((agenda "DONE|PROJECTDONE"
-                ((org-agenda-clockreport-mode t)
-                 (org-agenda-start-day "-7")
-                 (org-agenda-overriding-header "PAST WEEK")
-                 (org-agenda-prefix-format " %?-11t %i %-12:c% s")
-                 (org-agenda-show-log 'clockcheck)))
-        (org-ql-block
-         '(done)
-         ((org-agenda-overriding-header "Completed Tasks")
-          (org-agenda-sorting-strategy '(priority-down))
-          (org-super-agenda-groups '((:auto-category t)))))))))
-#+end_src
-
-Finally, this view shows the items tagged =someday=. As process
-goes, this could be part of review, but I like it better as a
-processing step.
-
-#+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("pd" "Somday items" tags-todo "SOMEDAY"
-       ((org-agenda-overriding-header "SOMEDAY tasks")
-        (org-agenda-sorting-strategy '(priority-down)))) t))
-#+end_src
-
-****** Focus
-
-The /focus/ section builds up views to help focus on tasks. The
-dispatcher starts with an =f=.
-
-#+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("f" . "FOCUS...") t))
-#+end_src
-
-The /today/ focus view unfolds like a compass guiding through the day's
-tasks, presenting a constellation of sections aimed at pinpointing the
-most crucial endeavors to tackle next.
-
-In the calendar section, a mosaic of diary entries and timestamps for
-today awaits exploration, offering a glimpse into the rhythm of the
-day.
-
-The inbox section beckons with its array of unscheduled top-level
-items, each a potential gem awaiting processing. Here lie tasks in
-need of scheduling, refining, or simply bringing to completion.
-
-For those with deadlines looming, the due today and overdue sections
-serve as a stark reminder, listing tasks teetering on the edge of
-time. They demand attention, beckoning to be brought to fruition.
-
-Meanwhile, the scheduled section offers a glimpse into the near
-future, showcasing the tasks slated for today, like eager performers
-awaiting their cue.
-
-Lastly, the completed section stands as a testament to progress, a
-growing archive of triumphs marked by tasks conquered. As the week
-unfolds, this section burgeons, reflecting the journey traversed and
-milestones achieved.
-
-#+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     `("f." "Today"
-       ((agenda ""
-                ((org-agenda-entry-types '(:timestamp :sexp))
-                 (org-agenda-overriding-header
-                  (concat "CALENDAR Today "
-                          (format-time-string "%a %d" (current-time))))
-                 (org-agenda-span 'day)))
-        (tags-todo "LEVEL=1+inbox"
-                   ((org-agenda-overriding-header "INBOX (Unscheduled)")))
-        (tags-todo "DEADLINE<\"<+1d>\"+DEADLINE>\"<-1d>\""
-                   ((org-agenda-overriding-header "DUE TODAY")
-                    (org-agenda-skip-function
-                     '(org-agenda-skip-entry-if 'notdeadline))
-                    (org-agenda-sorting-strategy '(priority-down))))
-        (tags-todo "DEADLINE<\"<today>\""
-                   ((org-agenda-overriding-header "OVERDUE")
-                    (org-agenda-skip-function
-                     '(org-agenda-skip-entry-if 'notdeadline))
-                    (org-agenda-sorting-strategy '(priority-down))))
-        (agenda ""
-                ((org-agenda-entry-types '(:scheduled))
-                 (org-agenda-overriding-header "SCHEDULED")
-                 (org-agenda-skip-function
-                  '(org-agenda-skip-entry-if 'todo 'done))
-                 (org-agenda-sorting-strategy
-                  '(priority-down time-down))
-                 (org-agenda-span 'day)
-                 (org-agenda-start-on-weekday nil)))
-        (todo "DONE"
-              ((org-agenda-overriding-header "COMPLETED"))))
-       ((org-agenda-format-date "")
-        (org-agenda-start-with-clockreport-mode nil))) t))
-#+end_src
+The /quickfire/ views ensure that nothing is missed and the most important
+tasks are brought together dispatcher starts with an =f=.
 
 The hotlist keeps a focus on tasks that may be heating up. This has
 three sections: overdue tasks, ones due within a week, and anything
 marked FLAGGED.
 
 #+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("fh" "Hotlist"
-       ((tags-todo "DEADLINE<\"<+0d>\""
-                   ((org-agenda-overriding-header "OVERDUE")))
-        (tags-todo "DEADLINE>=\"<+0d>\"+DEADLINE<=\"<+1w>\""
-                   ((org-agenda-overriding-header "DUE IN NEXT 7 DAYS")))
-        (tags-todo "DEADLINE=\"\"+FLAGGED|DEADLINE>\"<+1w>\"+FLAGGED"
-                   ((org-agenda-overriding-header "FLAGGED"))))
-       ((org-agenda-todo-ignore-scheduled 'future)
-        (org-agenda-sorting-strategy '(deadline-up)))) t))
+  (setq bnb/views/hotlist
+        `("h" "󰈸 Hotlist"
+          ((todo ""
+                 ((org-agenda-overriding-header "󰈸 Hotlist")
+                  (org-super-agenda-groups
+                   '((:name "󰞏 Overdue" :deadline past)
+                     (:name " Due Today" :deadline today)
+                     (:name "󱙴 Upcoming" :deadline future)
+                     (:name "󰈽 Flagged" :tag "FLAGGED")
+                     (:discard (:anything t)))))))))
 #+end_src
 
-Finally the /Hot & Fast/ view assembles tasks into three sections:
-overdue, take less then 1 hour, or a score of 1.
+The /Hot & Fast/ view assembles tasks into three sections:
+overdue, takes less than 30 minutes, or a score of 1.
 
 #+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("ff" "Hot & Fast"
-       ((tags-todo "DEADLINE<\"<+0d>\""
-                   ((org-agenda-overriding-header "OVERDUE")))
-        (tags-todo "Effort={.}+Effort<\"1:00\""
-                   ((org-agenda-overriding-header "QUICK")))
-        (tags-todo "SCORE=1"
-                   ((org-agenda-overriding-header "EASY"))))) t))
+  (setq bnb/views/hot-n-fast
+     `("f" "󰈸 Hot & Fast"
+       ((todo ""
+              ((org-agenda-overriding-header "󰈸 Hot & Fast")
+               (org-agenda-prefix-format
+                " %i %(string (+ 130032 (string-to-number (or (org-entry-get nil \"score\") \"0\")))) ")
+               (org-super-agenda-groups
+                '((:name "󰞏 Overdue" :deadline past)
+                  (:name "󰑮 Quick" :effort< "0:30")
+                  (:name " Easy" (:property ("SCORE" "1")))
+                  (:discard (:anything t)))))))))
 #+end_src
 
 ****** Review
@@ -3730,43 +3632,39 @@ right spots.
 The set of views start on the =r= key.
 
 #+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("r" . "REVIEW...") t))
+  (setq bnb/views/review-prefix
+          '("r" . "󰍉 REVIEW..."))
 #+end_src
 
 On a weekly basis, the view (=rw=) prvides a look back and look forward
 for all tasks.
 
 #+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("rw" "Weekly review"
-       ((tags "{INBOX}&LEVEL<=2"
-              ((org-agenda-overriding-header "NEW TASKS")))
-        (agenda ""
-                ((org-agenda-clockreport-mode t)
-                 (org-agenda-format-date
-                  (concat "\n"
-                          "%Y-%m-%d" " %a "
-                          (make-string (window-width) ?_)))
-                 (org-agenda-overriding-header "PAST WEEK")
-                 (org-agenda-prefix-format " %?-11t %i %-12:c% s")
-                 (org-agenda-show-log 'clockcheck)
-                 (org-agenda-span 7)
-                 (org-deadline-warning-days 0)))
-        (agenda ""
-                ((org-agenda-overriding-header "NEXT MONTH")
-                 (org-agenda-span 'month)
-                 (org-agenda-start-day "+0d")
-                 (org-deadline-warning-days 0)))
-        (todo "PROJECT"
-              ((org-agenda-overriding-header "PROJECT LIST")))
-        (todo "DONE|PROJECTDONE"
-              ((org-agenda-overriding-header
-                "Candidates to be archived"))))) t))
+  (setq bnb/views/review-weekly
+        `("rw" "󰨳 Weekly review"
+          ((agenda ""
+                   ((org-agenda-clockreport-mode t)
+                    (org-agenda-format-date
+                     (concat "\n"
+                             "%Y-%m-%d" " %a "
+                             (make-string (window-width) ?_)))
+                    (org-agenda-overriding-header "󱄴 WEEK REVIEW")
+                    (org-agenda-prefix-format " %?-11t %i %-12:c% s")
+                    (org-agenda-show-log '(closed))
+                    (org-agenda-span 7)
+                    (org-deadline-warning-days 0)))
+           (agenda ""
+                   ((org-agenda-overriding-header "\n󱄵 NEXT MONTH")
+                    (org-agenda-span 'month)
+                    (org-agenda-start-day "+0d")
+                    (org-deadline-warning-days 0)))
+           (alltodo bnb/views/all-tasks-search
+                 ((org-super-agenda-groups
+                   '((:name "󰏑 NEW TASKS" :tag "INBOX")
+                     (:name " PROJECT LIST" :todo "PROJECT")
+                     (:name "󱝑 To Archive" :todo ("DONE" "PROJECTDONE"))
+                     (:discard (:anything t))))
+                  (org-agenda-overriding-header "\n󰞇 Other Battles"))))))
 #+end_src
 
 ******* All Tasks
@@ -3774,10 +3672,8 @@ for all tasks.
 The first review section is for all tasks and launchable via =ra=.
 
 #+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("ra" . "All Tasks...") t))
+  (setq bnb/views/review-all-tasks-prefix
+     '("ra" . "  All Tasks..."))
 #+end_src
 
 The first view lists tasks grouped by due dates.  The sections of this
@@ -3786,106 +3682,64 @@ a week, due within a month, due later, waiting for, and tasks without
 a due date.
 
 #+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("rad" "All Tasks (grouped by Due Date)"
-       ((tags-todo "DEADLINE<\"<+0d>\""
-                   ((org-agenda-overriding-header "OVERDUE")
-                    (org-agenda-skip-function
-                     '(org-agenda-skip-entry-if 'notdeadline))))
-        (tags-todo "DEADLINE=\"<+0d>\""
-                   ((org-agenda-overriding-header "DUE TODAY")
-                    (org-agenda-skip-function
-                     '(org-agenda-skip-entry-if 'notdeadline))))
-        (tags-todo "DEADLINE=\"<+1d>\""
-                   ((org-agenda-overriding-header "DUE TOMORROW")
-                    (org-agenda-skip-function
-                     '(org-agenda-skip-entry-if 'notdeadline))))
+  (setq bnb/views/review-all-by-due
+        `("rad" "  All Tasks by due date"
+          ((todo ""
+                 ((org-super-agenda-groups
+                   '((:name "󰞏 Overdue" :deadline past)
+                     (:name "󰏑 Today" :deadline today)
+                     (:discard (:anything t))))
+                  (org-agenda-overriding-header "󱙴 SHARKS CLOSEST")))
         (tags-todo "DEADLINE>\"<+1d>\"+DEADLINE<=\"<+7d>\""
-                   ((org-agenda-overriding-header "DUE WITHIN A WEEK")
+                   ((org-agenda-overriding-header "\n󱨲 DUE WITHIN A WEEK")
                     (org-agenda-skip-function
                      '(org-agenda-skip-entry-if 'notdeadline))))
         (tags-todo "DEADLINE>\"<+7d>\"+DEADLINE<=\"<+28d>\""
-                   ((org-agenda-overriding-header "DUE WITHIN A MONTH")
+                   ((org-agenda-overriding-header "\n󰭧 DUE WITHIN A MONTH")
                     (org-agenda-skip-function
                      '(org-agenda-skip-entry-if 'notdeadline))))
-        (tags-todo "DEADLINE>\"<+28d>\""
-                   ((org-agenda-overriding-header "DUE LATER")
-                    (org-agenda-skip-function
-                     '(org-agenda-skip-entry-if 'notdeadline))))
-        (tags-todo "TODO={WAIT}"
-                   ((org-agenda-overriding-header "WAITING FOR")
-                    (org-agenda-skip-function
-                     '(org-agenda-skip-entry-if 'deadline))))
         (todo ""
-              ((org-agenda-overriding-header "NO DUE DATE")
-               (org-agenda-skip-function
-                '(org-agenda-skip-entry-if 'deadline)))))
-       ((org-agenda-sorting-strategy '(priority-down))
-        (org-agenda-write-buffer-name "All Tasks (grouped by Due Date)"))
-       "~/Documents/Org/all-tasks-by-due-date.pdf") t))
+                 ((org-super-agenda-groups
+                   '((:name "󱙴 Upcoming" :deadline future)
+                     (:name " Waiting on" :todo "WAITING")
+                     (:name "󱁕 Someday" :todo "SOMEDAY")
+                     (:name " Undue" :anything t)))
+                  (org-agenda-overriding-header "\n REMAINING TASKS"))))
+            ((org-agenda-sorting-strategy '(priority-down))
+             (org-agenda-overriding-header "  All Tasks by due date"))))
 #+end_src
 
 Hitting =ra1= lists all tasks (with a due date) by due date.
 
 #+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("ra1" "All Tasks with a due date" alltodo ""
-       ((org-agenda-overriding-header "All Tasks (sorted by Due Date)")
-        (org-agenda-skip-function
-         '(org-agenda-skip-entry-if 'notdeadline))
-        (org-agenda-sorting-strategy '(deadline-up)))) t))
+  (setq bnb/views/review-only-dated
+      '("ra1" "  All Dated Tasks" alltodo ""
+       ((org-agenda-overriding-header "  All Dated Tasks")
+        (org-agenda-sorting-strategy '(deadline-up))
+        (org-super-agenda-groups
+         '((:name "󰏑 Today" :date today)
+           (:name "󰧓 Dated" :date t)
+           (:discard (:date nil)))))))
 #+end_src
 
 
 #+begin_src emacs-lisp
-  (defconst bnb/org-completed-date-regexp
-    (concat " \\("
-            "CLOSED: \\[%Y-%m-%d"
-            "\\|"
-            "- State \"\\(DONE\\)\" * from .* \\[%Y-%m-%d"
-            "\\|"
-            "- State .* ->  *\"\\(DONE\\)\" * \\[%Y-%m-%d"
-            "\\) ")
-    "Matches any completion time stamp.")
-
-  (defun current-time-ndays-ago (n)
-    "Return the current time minus N days."
-    (time-subtract (current-time) (days-to-time n)))
-
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     `("rac" "Completed view"
-       ((todo "TODO|DONE"
-              ((org-agenda-overriding-header
-                (format "YESTERDAY [%s]" (format-time-string "%a %d" (current-time-ndays-ago 1))))
-               (org-agenda-skip-function
-                '(org-agenda-skip-entry-if
-                  'notregexp
-                  (format-time-string bnb/org-completed-date-regexp (current-time-ndays-ago 1))))
-               (org-agenda-sorting-strategy '(priority-down))))
-        (todo "TODO|DONE"
-              ((org-agenda-overriding-header
-                (format "2 DAYS AGO [%s]" (format-time-string "%a %d" (current-time-ndays-ago 2))))
-               (org-agenda-skip-function
-                '(org-agenda-skip-entry-if
-                  'notregexp
-                  (format-time-string bnb/org-completed-date-regexp (current-time-ndays-ago 2))))
-               (org-agenda-sorting-strategy '(priority-down))))
-        (todo "TODO|DONE"
-              ((org-agenda-overriding-header
-                (format "3 DAYS AGO [%s]" (format-time-string "%a %d" (current-time-ndays-ago 3))))
-               (org-agenda-skip-function
-                '(org-agenda-skip-entry-if
-                  'notregexp
-                  (format-time-string bnb/org-completed-date-regexp (current-time-ndays-ago 3))))
-               (org-agenda-sorting-strategy '(priority-down)))))
-       ((org-agenda-format-date "")
-        (org-agenda-start-with-clockreport-mode nil)))))
+  (setq bnb/views/review-clocked
+        `("rac" "󰃰 Clocked View"
+          ((org-ql-block '(and (clocked :from -1)
+                               (clocked :to today))
+                         ((org-ql-block-header "󰇊  YESTERDAY")
+                          (org-super-agenda-groups '((:auto-group t)))))
+           (org-ql-block '(and (clocked :from -2)
+                               (clocked :to -1))
+                         ((org-ql-block-header "\n󰇋 2 DAYS AGO")))
+           (org-ql-block '(and (clocked :from -3)
+                               (clocked :to -2))
+                         ((org-ql-block-header "\n󰇌 3 DAYS AGO")))
+           (org-ql-block '(and (todo "DONE")
+                               (clocked :to -3p))
+                         ((org-ql-block-header "\n ANCIENT HISTORY")))
+           ((org-agenda-overriding-header "󰃰 Clocked View")))))
 #+end_src
 
 ******* Timesheets
@@ -3894,50 +3748,64 @@ As part of a review, timesheets (reachable at =rt=) illustrate where the
 time went.
 
 #+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    (add-to-list
-     'org-agenda-custom-commands
-     '("rt" . "Timesheet...") t))
+  (setq bnb/views/review-timesheet
+     '("rt" . "󰔠 Timesheet..."))
 #+end_src
 
 The first timesheet is a daily one that includes the logged tasks and
 a clockreport.
 
 #+begin_src emacs-lisp
-  (with-eval-after-load 'org
-    ;; Show what happened today.
-    (add-to-list
-     'org-agenda-custom-commands
-     '("rtd" "Daily Timesheet" agenda ""
-       ((org-agenda-log-mode-items '(clock closed))
-        (org-agenda-overriding-header "DAY TIMESHEET")
-        (org-agenda-show-log '(clock closed clockcheck))
-        (org-agenda-span 'day)
-        (org-agenda-start-with-clockreport-mode t)
-        (org-agenda-start-with-log-mode t)
-        (org-agenda-time-grid nil))) t))
+  (setq bnb/views/review-timesheet-daily
+        '("rtd" "󰏑 Daily Timesheet" agenda ""
+          ((org-agenda-overriding-header "󰏑 DAY TIMESHEET")
+           (org-agenda-start-with-log-mode '(closed))
+           (org-agenda-span 'day)
+           (org-agenda-start-with-clockreport-mode t)
+           (org-agenda-time-grid nil))))
 #+end_src
 
 Naturally, the level up from a daily timesheet is a weekly timesheet
 (reachable via =rtw=).
 
 #+begin_src emacs-lisp
+  (setq bnb/views/review-timesheet-weekly
+        '("rtw" "Weekly Timesheet" agenda ""
+          ((org-agenda-overriding-header "󱨲 WEEKLY TIMESHEET")
+           (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
+           (org-agenda-span 'week)
+           (org-agenda-start-on-weekday 1)
+           (org-agenda-start-with-clockreport-mode t)
+           (org-agenda-start-with-log-mode '(closed))
+           (org-agenda-time-grid nil))))
+#+end_src
+
+****** Finalize Views
+
+Finally, setup all of the views by adding them tot he custom commands.
+Organizing the list in this way helps me edit along the way easily in
+this file.
+
+#+begin_src emacs-lisp
   (with-eval-after-load 'org
-    ;; Show what happened this week.
-    (add-to-list
-     'org-agenda-custom-commands
-     '("rtw" "Weekly Timesheet" agenda ""
-       (
-        ;; (org-agenda-format-date "")
-        (org-agenda-overriding-header "WEEKLY TIMESHEET")
-        (org-agenda-skip-function '(org-agenda-skip-entry-if 'timestamp))
-        (org-agenda-span 'week)
-        (org-agenda-log-mode-items '(closed clock))
-        (org-agenda-show-log '(closed clock))
-        (org-agenda-start-on-weekday 1)
-        (org-agenda-start-with-clockreport-mode t)
-        (org-agenda-start-with-log-mode t)
-        (org-agenda-time-grid '(weekly)))) t))
+    (setq org-agenda-custom-commands
+          (list
+           bnb/views/agenda
+           bnb/views/hotlist
+           bnb/views/hot-n-fast
+           bnb/views/process-prefix
+           bnb/views/process-housekeeping
+           bnb/views/process-deferred
+           bnb/views/review-prefix
+           bnb/views/review-weekly
+           bnb/views/review-all-tasks-prefix
+           bnb/views/review-all-by-due
+           bnb/views/review-only-dated
+           bnb/views/review-clocked
+           bnb/views/review-timesheet
+           bnb/views/review-timesheet-daily
+           bnb/views/review-timesheet-weekly
+           )))
 #+end_src
 
 **** Export
