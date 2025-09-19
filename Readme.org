@@ -3865,6 +3865,27 @@ any source blocks. I also want to have [[https://en.wikipedia.org/wiki/XeTeX][Xe
         '("tectonic -c minimal -X compile -o %o %f"))
 #+end_src
 
+Also ensure that we have the right preview backend.
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (add-to-list 'org-preview-latex-process-alist
+                 '(tectonic :programs ("tectonic" "convert")
+                            :description "pdf > png"
+                            :message "install the programs: tectonic and imagemagick"
+                            :image-input-type "pdf"
+                            :image-output-type "png"
+                            :image-size-adjust (1.0 1.0)
+                            :latex-compiler ("tectonic -X compile -Z continue-on-errors --outfmt pdf %f")
+                            :image-converter ("convert -density %D -trim -antialias %f -quality 100 %O"))))
+
+  (setq org-latex-create-formula-image-program 'tectonic)
+#+end_src
+
+\[
+e^{i\pi} = -1
+\]
+
 ***** Tufte
 
 Other contributed org-mode exporters require activiation to show up in
@@ -4144,6 +4165,16 @@ toggling. The default is `fill-column` which can be too small.
 #+begin_src emacs-lisp
   (setq org-image-max-width 'window)
 #+end_src
+
+****** \LaTeX fragments
+
+#+begin_src emacs-lisp
+  (use-package org-fragtog
+    :ensure t
+    :hook (org-mode-hook . org-fragtog-mode))
+#+end_src
+
+\LaTeX fragments and shit $\LaTeX$. 
 
 ***** File Applications
 
