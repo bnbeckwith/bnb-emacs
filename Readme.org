@@ -4134,7 +4134,7 @@ stars.
 
 #+begin_src emacs-lisp
   (setq org-odd-levels-only nil
-        org-hide-leading-stars nil)
+        org-hide-leading-stars t)
 #+end_src
 
 Cycling the headline states can produce different views of the
@@ -4309,10 +4309,6 @@ symbols will show them in their original form.
      ("#+BEGIN_QUOTE" . ?❝)
      ("#+END_QUOTE" . ?❞)
      ;; Source Code
-     ("#+BEGIN_SRC" . "⌈")
-     ("#+END_SRC"   . "⌊")
-     ("#+begin_src" . "⌈")
-     ("#+end_src"   . "⌊")
      (">="          . "≥")
      ("=>"          . "⇨")
      ;; TODOS
@@ -4330,24 +4326,38 @@ symbols will show them in their original form.
      ))
 #+end_src
 
-***** Org Bullets
+***** Modern Org
 
-Bullet shapes do a better job conveying depth then just position/depth
-of stars. This snippet loads the package and sets the list of bullets
-to use.
+To modernize the look of my ~org-mode~ buffers, [[https://github.com/minad/org-modern][org-modern]] fits the
+bill. I customize it to not take over the todos, tags, and progress in
+a windowing system as I use svg as described in [[*SVG Elements][SVG Elements]].
 
 #+begin_src emacs-lisp
-  (use-package org-bullets
+  (use-package org-modern
     :ensure t
-    :custom
-    (org-bullets-bullet-list '("◉" "◊" "○" "⧫" "✸" "⬨" "⬟" "⬧" "⬢" "⬫" "⌑" "⬪" "▱"))
-    (org-ellipsis "˯") ;; Options: ˯⇂↯⤵🠻🢗
-    :hook (org-mode . org-bullets-mode))
+    :after org
+    :config
+    (when window-system
+      (setq
+       org-modern-todo nil
+       org-modern-tag nil
+       org-modern-progress nil))
+    (setq
+     org-modern-fold-stars
+     '((?𝍠 . ?𝍩) 
+       (?𝍡 . ?𝍪) 
+       (?𝍢 . ?𝍫) 
+       (?𝍣 . ?𝍬) 
+       (?𝍤 . ?𝍭) 
+       (?𝍥 . ?𝍮) 
+       (?𝍦 . ?𝍯) 
+       (?𝍧 . ?𝍰) 
+       (?𝍨 . ?𝍱)))
+    (global-org-modern-mode t))
 #+end_src
 
 ***** Org Appear
 
-,
 #+begin_src emacs-lisp
   (use-package org-appear
     :ensure t
