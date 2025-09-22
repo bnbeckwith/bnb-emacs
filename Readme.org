@@ -5346,37 +5346,41 @@ For configuration and debugging, [[help:list-faces-display][list-faces-display]]
 #+begin_src emacs-lisp
   (with-after-elpaca-init
    (when window-system
-     (defun bnb/filter-existing-fonts (fl)
-       "Filter the list for only existing fonts"
-       (seq-filter #'font-info fl))
-     (setq bnb/fontlist
-           '("-*-LunarISO Nerd Font-regular-normal-condensed-*-*-*-*-*-p-0-iso10646-1"
-             "LunarISO Nerd Font-12"
-             "Fira Code-12"
-             "Fira Code-13"
-             "Source Code Pro-13"
-             "Menlo-12"
-             "Consolas-12")
-           bnb/font-ring
-           (ring-convert-sequence-to-ring (seq-filter #'font-info bnb/fontlist))
-           bnb/font
-           (ring-ref bnb/font-ring 0))
-     (defun bnb/font-apply (font)
-       "Change the default font to FONT."
-       (set-frame-font (setq bnb/font font))
-       (message "Set default font to %s" bnb/font))
-     (defun bnb/font-next ()
-       "Cycle the default font to the next in the ring."
+     (setq bnb/fonts/preferred
+           '("LunarISO Nerd Font" "Fira Code" "Source Code Pro" "Menlo" "Consolas")
+           bnb/fonts/available
+           (seq-intersection bnb/fonts/preferred (font-family-list))
+           bnb/fonts/family-ring
+           (ring-convert-sequence-to-ring bnb/fonts/available)
+           bnb/fonts/size-ring
+           (ring-convert-sequence-to-ring '(8 10 12 14 13 11 9))
+           bnb/fonts/current/family
+           (ring-ref bnb/fonts/family-ring 0)
+           bnb/fonts/current/size
+           (ring-ref bnb/fonts/size-ring 2))
+     (defun bnb/fonts/apply ()
+       "Change the default font to the current setting
+  BNB/FONTS/CURRENT/FAMILY is the font family
+  BNB/FONTS/CURRENT/SIZE is the size"
+       (set-frame-font (font-spec :family bnb/fonts/current/family
+                                  :size bnb/fonts/current/size))
+       (message "Set default font to be %s at size %d"
+                bnb/fonts/current/family
+                bnb/fonts/current/size))
+     (defun bnb/fonts/family-next ()
+       "Cycle the default font family to the next in the ring."
        (interactive)
-       (bnb/font-apply (ring-next bnb/font-ring bnb/font)))
-     (defun bnb/font-prev ()
-       "Cycle the default font to the previous in the ring."
+       (setq bnb/fonts/current/family (ring-next bnb/fonts/family-ring bnb/fonts/current/family))
+       (bnb/fonts/apply))
+     (defun bnb/fonts/size-next ()
+       "Cycle the default font family to the previous in the ring."
        (interactive)
-       (bnb/font-apply (ring-prev bnb/font-ring bnb/font)))
-     (set-frame-font bnb/font)
+       (setq bnb/fonts/current/size (ring-next bnb/fonts/size-ring bnb/fonts/current/size))
+       (bnb/fonts/apply))
      (bind-keys
-      ("H-f" . bnb/font-next)
-      ("H-F" . bnb/font-prev))))
+      ("H-f" . bnb/fonts/family-next)
+      ("H-F" . bnb/fonts/size-next))
+     (bnb/fonts/apply)))
 #+end_src
 
 *** Unicode                                                         :PENDING:
@@ -5469,6 +5473,24 @@ Make the cursor the full width of the character at point.
 
 #+begin_src emacs-lisp
   (setq x-stretch-cursor t)
+#+end_src
+
+*** Org Font changes
+
+Let's modify the heading sizes for org mode.
+
+#+begin_src emacs-lisp
+  (with-after-elpaca-init
+   (with-eval-after-load 'org
+     (dolist (face '((org-level-1 . 1.35)
+                     (org-level-2 . 1.3)
+                     (org-level-3 . 1.2)
+                     (org-level-4 . 1.1)
+                     (org-level-5 . 1.1)
+                     (org-level-6 . 1.1)
+                     (org-level-7 . 1.1)
+                     (org-level-8 . 1.1)))
+       (set-face-attribute (car face) nil :height (cdr face)))))
 #+end_src
 
 ** Themes
