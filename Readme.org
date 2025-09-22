@@ -3494,10 +3494,11 @@ Adapted from [[https://github.com/fniessen/emacs-leuven/blob/master/lisp/org-leu
            (todo bnb/views/all-tasks-search
                  ((org-agenda-overriding-header "")
                   (org-super-agenda-groups
-                   '((:name "󰃶 TODAY" :deadline today)
-                     (:name "󰞏 Overdue" :deadline past)
-                     (:name "󰃰 Scheduled" :scheduled t)
-                     (:name "󰏑 Inbox (move to right home)" :tag "inbox")
+                   '((:name "󰃶 TODAY" :deadline today :order 1)
+                     (:name "󰃰 Scheduled" :scheduled t :order 3)
+                     (:name "󰏑 Inbox (move to right home)" :tag "inbox" :order 4)
+                     (:discard (:todo ("DONE" "CANCELED")))
+                     (:name "󰞏 Overdue" :deadline past :order 2)
                      (:discard (:anything t)))))))))
 #+end_src
 
@@ -3543,13 +3544,13 @@ track how well my week went in terms of productivity.
 #+begin_src emacs-lisp
   (setq bnb/views/process-housekeeping
         `("pp" "󰠧 Housekeeping items"
-          ((alltodo bnb/views/all-tasks-search
+          ((todo bnb/views/all-tasks-search
                  ((org-agenda-overriding-header "󰠧 Housekeeping")
                   (org-super-agenda-groups
                    '((:name "󱉿 Scoreless" :not (:property "SCORE"))
+                     (:name " Archivable" :todo ("DONE" "CANCELED") :order 10)
                      (:name "󰣽 Lacking Estimates" :not (:effort> "0:00"))
                      (:name "󰏑 Inbox (move to right home)" :tag "inbox")
-                     (:name " Archivable" :todo ("DONE" "CANCELED"))
                      (:discard (:anything t)))))))))
 #+end_src
 
@@ -3620,7 +3621,7 @@ overdue, takes less than 30 minutes, or a score of 1.
                (org-super-agenda-groups
                 '((:name "󰞏 Overdue" :deadline past)
                   (:name "󰑮 Quick" :effort< "0:30")
-                  (:name " Easy" (:property ("SCORE" "1")))
+                  (:name " Easy" :property ("SCORE" "1"))
                   (:discard (:anything t)))))))))
 #+end_src
 
