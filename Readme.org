@@ -3894,7 +3894,7 @@ the export menus. This exporter stylizes =html= in a beautiful way.
 
 #+begin_src emacs-lisp
   (use-package ox-tufte
-    :after org-mode
+    :after org
     :ensure t)
 #+end_src
 
@@ -3905,7 +3905,7 @@ exporter transforms the current orgmode buffer into markdown (yuck).
 
 #+begin_src emacs-lisp
   (use-package ox-gfm
-    :after org-mode
+    :after org
     :ensure (ox-gfm :depth nil :version (lambda (x) "1.0")))
 #+end_src
 
@@ -4057,11 +4057,12 @@ These two packages assist with making HTTP requets. They can act like
 an alternative to Postman.
 
 #+begin_src emacs-lisp
-  (use-package ob-http :after org-mode
+  (use-package ob-http
+    :after org
     :ensure t)
 
   (use-package ob-restclient
-    :after org-mode
+    :after org
     :ensure (ob-restclient :host github :repo "alf/ob-restclient.el")
     :config
     (org-babel-do-load-languages
