@@ -3548,9 +3548,9 @@ track how well my week went in terms of productivity.
                  ((org-agenda-overriding-header "󰠧 Housekeeping")
                   (org-super-agenda-groups
                    '((:name "󱉿 Scoreless" :not (:property "SCORE"))
+                     (:name "󰏑 Inbox (move to right home)" :tag "inbox")
                      (:name " Archivable" :todo ("DONE" "CANCELED") :order 10)
                      (:name "󰣽 Lacking Estimates" :not (:effort> "0:00"))
-                     (:name "󰏑 Inbox (move to right home)" :tag "inbox")
                      (:discard (:anything t)))))))))
 #+end_src
 
