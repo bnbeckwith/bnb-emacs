@@ -5548,11 +5548,12 @@ I like to have a few options for themes easily available. This set
 respresents my favorite go-to combinations.
 
 #+begin_src emacs-lisp
-  (use-package minimal-theme :ensure t :defer t)
   (use-package gruvbox-theme :ensure t :defer t)
-  (use-package material-theme :ensure t :defer t)
-  (use-package tango-plus-theme :ensure t :defer t)
   (use-package color-theme-sanityinc-tomorrow :ensure t :defer t)
+  (use-package material-theme :ensure t :defer t)
+  (use-package ef-themes :ensure t :defer t)
+  (use-package nord-theme :ensure t :defer t)
+
   ;; dichromacy
   ;; adwaita
 #+end_src
