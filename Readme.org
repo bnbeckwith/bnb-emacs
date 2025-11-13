@@ -1720,8 +1720,8 @@ error type formatting under.
         (propertize goal-separator 'face 'org-agenda-structure)))))
 
   ;; This hook runs first in the agenda (and before it is set to read-only)
-  (with-eval-after-load 'org
-    (add-hook 'org-agenda-mode-hook 'bnb/agenda-score-goal))
+  ;;(with-eval-after-load 'org
+  ;;  (add-hook 'org-agenda-mode-hook 'bnb/agenda-score-goal))
 #+end_src
 
 *** Weekly Time Reporting
@@ -3523,6 +3523,24 @@ awaiting their cue.
 Lastly, the /Inbox/ section is the list of recently captured items
 awaiting further work or filing into the correct location.
 
+There is one utility that I use for sorting the entries.
+
+#+begin_src emacs-lisp
+  (defun bnb/org-agenda-fmt-score ()
+    (let ((score (string-to-number (or (org-entry-get nil "score") "0"))))
+      (propertize (format "%2s" score) 'org-score score)))
+
+  (defun bnb/cmp-by-score (a b)
+    (let ((sa (get-text-property 4 'org-score a))
+          (sb (get-text-property 4 'org-score b)))
+      (message "SA: %s ;; SB: %s" sa sb)
+      (cond ((> sa sb) +1)
+            ((< sa sb) -1))))
+
+  (setq org-agenda-cmp-user-defined #'bnb/cmp-by-score)
+#+end_src
+
+
 ****** Process
 
 In the /process/ section, the goal is to take the incoming items
@@ -3624,6 +3642,109 @@ overdue, takes less than 30 minutes, or a score of 1.
                   (:name " Easy" :property ("SCORE" "1"))
                   (:discard (:anything t)))))))))
 #+end_src
+
+****** Tasks
+
+Almost a silly section, /tasks/ helps find out what to work on next.
+The [[*Process][Process]] secion deals with metadata around tasks themselves
+ensuring that everything is configured correctly. The [[*Quickfire][Quickfire]] views
+help surface important items quickly.  Following this one, the [[*Review][Review]]
+section shows ways to look back on tasks.
+
+One key feature of these views is the use of
+=org-agenda-sorting-strategy= to properly organize the long list of
+tasks into managable chunks of order.
+
+This section deals with finding out what to work on next. Naturally,
+tasks should start ont he =t= key.
+
+#+begin_src emacs-lisp
+  (setq bnb/views/task-prefix
+          '("t" . " TASKS..."))
+#+end_src
+
+By /category/ is how I often think of my task grouping. Within each, I
+want the TODOs to be separate from the WAITING and SOMEDAY
+tasks. Sorting begins with the todo state. Next, I use my user defined
+sorting to go by my =SCORE= attribute. Finally, the tasks are sorted by
+effort and then alphabetically.
+
+#+begin_src emacs-lisp
+  (setq bnb/views/task-by-category
+     `("tc" " By Category"
+       ((todo ""
+              ((org-agenda-overriding-header " By Category")
+               (org-agenda-sorting-strategy '(todo-state-up user-defined-down effort-up alpha-up))
+               (org-agenda-prefix-format
+                  " %i %(bnb/org-agenda-fmt-score) ")
+               (org-super-agenda-groups
+                '((:auto-category t))))))))
+#+end_src
+
+The next view groups tasks by /score/. Within each group tasks are
+sorted by category, todo state, effort, and finally alphabetically.
+
+#+begin_src emacs-lisp
+  (setq bnb/views/task-by-score
+     `("ts" "󱉿 By Score"
+       ((todo ""
+              ((org-agenda-overriding-header "󱉿 By Score")
+               (org-agenda-sorting-strategy '(category-up todo-state-up effort-up alpha-up))
+               (org-super-agenda-groups
+                '((:auto-property "SCORE"))))))))
+#+end_src
+
+/Effort/ groups tasks by the estimated time effort required to
+complete. Effort comes in values like 0:10, 0:30, 1:00, 2:00, etc.
+After sorting by effort, the tasks go by category, todo, and
+alphabetical.
+
+#+begin_src emacs-lisp
+  (setq bnb/views/task-by-effort
+     `("te" "󰥯 By Effort"
+       ((todo ""
+              ((org-agenda-overriding-header "󰥯 By Effort")
+               (org-agenda-sorting-strategy '(effort-up category-up todo-state-up alpha-up))
+               (org-super-agenda-groups
+                '((:auto-property "EFFORT"))))))))
+#+end_src
+
+
+/Tag/ groups allow items with the same tags to be grouped together. This is flexible 
+
+#+begin_src emacs-lisp
+  (setq bnb/views/task-by-tags
+     `("tt" " By Tag"
+       ((todo ""
+              ((org-agenda-overriding-header " By Tag")
+               (org-agenda-sorting-strategy '(effort-up category-up todo-state-up alpha-up))
+               (org-super-agenda-groups
+                '((:auto-tags))))))))
+#+end_src
+
+The final view is for projects.
+
+#+begin_src emacs-lisp
+  (setq bnb/views/task-by-project-id
+     `("tx" "󰍘 By Project"
+       ((todo ""
+              ((org-agenda-overriding-header "󰍘 By Project")
+               (org-agenda-sorting-strategy '(effort-up category-up todo-state-up alpha-up))
+               (org-super-agenda-groups
+                '((:auto-property "ProjectId")
+                  (:name "Projects sans ID (child headings)" :children t)
+                  (:discard (:anything t)))))))))
+
+  (defun bnb/bulk-set-project-id (&optional project-id)
+    (interactive "sProject ID: ")
+    (let ((marker (or (org-get-at-bol 'org-hd-marker)
+                      (org-agenda-error)))
+          (project-id (or project-id (read-from-minibuffer "Project ID: "))))
+      (org-with-point-at marker
+        (org-back-to-heading t)
+        (org-set-property "ProjectId" project-id))))
+#+end_src
+
 
 ****** Review
 
@@ -3798,6 +3919,12 @@ this file.
            bnb/views/process-prefix
            bnb/views/process-housekeeping
            bnb/views/process-deferred
+           bnb/views/task-prefix
+           bnb/views/task-by-category
+           bnb/views/task-by-score
+           bnb/views/task-by-effort
+           bnb/views/task-by-tags
+           bnb/views/task-by-project-id
            bnb/views/review-prefix
            bnb/views/review-weekly
            bnb/views/review-all-tasks-prefix
@@ -4118,9 +4245,8 @@ task), the score, the effort estimate, and the current clock sum (time
 already spent).
 
 #+begin_src emacs-lisp
-  (setq
-   org-columns-default-format
-   "%80ITEM(Task) %5Score{+} %10Effort(Effort){:} %10CLOCKSUM")
+  (setq org-columns-default-format
+   "%40ITEM(Task) %3Score(SCR){+} %1PRIORITY(⧊) %5Effort(EST){:} %5CLOCKSUM(CLK+){:} %25CLOSED")
 #+end_src
 
 ***** Display settings
@@ -4411,24 +4537,32 @@ https://github.com/rougier/svg-tag-mode
           `(
             ;; Task types
 
-            ("TODO\\|NEXT\\|WAITING\\|SOMEDAY" . ((lambda (tag) (svg-tag-make tag :face 'org-todo :inverse t))))
-            ("DONE\\|CANCELED" . ((lambda (tag) (svg-tag-make tag :face 'org-done :inverse t))))
-            
-            
+            ;;("TODO\\|NEXT\\|WAITING" . ((lambda (tag) (svg-tag-make tag :face 'org-done :inverse t))))
+            ("TODO\\|NEXT\\|WAITING" . ((lambda (tag) (svg-tag-make tag :face 'nerd-icons-red :inverse t))))
+            ("SOMEDAY" . ((lambda (tag) (svg-tag-make tag :face 'nerd-icons-dyellow :inverse t))))
+            ;;("DONE\\|CANCELED" . ((lambda (tag) (svg-tag-make tag :face 'org-done :inverse t))))
+            ("DONE\\|CANCELED" . ((lambda (tag) (svg-tag-make tag :face 'nerd-icons-green :inverse t))))
+
+
             ;; Task priority
+            ;; [#A] [#B] [#C]
             ("\\[#[A-Z]\\]" . ( (lambda (tag)
-                                  (svg-tag-make tag :face 'org-priority
+                                  (svg-tag-make tag :face 'nerd-icons-cyan
                                                 :beg 2 :end -1 :margin 0))))
 
             ;; Progress
+            ;; [0/3]
+            ;; [33%]
             ("\\(\\[[0-9]\\{1,3\\}%\\]\\)" . ((lambda (tag)
                                                 (svg-progress-percent (substring tag 1 -2)))))
             ("\\(\\[[0-9]+/[0-9]+\\]\\)" . ((lambda (tag)
                                               (svg-progress-count (substring tag 1 -1)))))
 
-            ;; Citation of the form [cite:@Knuth:1984]
+            ;; Citations
+            ;; [cite:@Knuth:1984]
             ("\\(\\[cite:@[A-Za-z]+:\\)" . ((lambda (tag)
                                               (svg-tag-make tag
+                                                            :face 'nerd-icons-blue-alt
                                                             :inverse t
                                                             :beg 7 :end -1
                                                             :crop-right t))))
