@@ -5409,6 +5409,9 @@ Be sure to run [[elisp:(nerd-icons-install-fonts)][nerd-icons-install-fonts]] fo
         :ensure t)
 #+end_src
 
+In choosing the right characters or glyphs,
+https://www.nerdfonts.com/cheat-sheet is a great reference.
+
 **** Icons in Corfu
 
 [[https://github.com/LuigiPiucco/nerd-icons-corfu?tab=readme-ov-file][This package]] adds icons to th [[*Corfu][Corfu]] completion list.
