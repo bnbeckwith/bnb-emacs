@@ -4578,6 +4578,29 @@ code blocks.
 For example, to get a link to a dynamic list of pending items (in this
 file), click on this: [[org-ql-search:tags:PENDING]].
 
+**** Org TOC
+
+To gain better rendering on [[https://github.com][github]] and the like, [[https://github.com/alphapapa/org-make-toc][org-make-toc]] can
+generate Tables of Content within the file. This is a generation step
+and not automatic by default, so it does require some setup.
+
+#+begin_src emacs-lisp
+  (use-package org-make-toc
+    :after org
+    :ensure t)
+#+end_src
+
+
+To use:
+
+1. Move the point to the heading that needs to contain the TOC
+2. Run `org-make-toc-insert` to make a =:CONTENTS:= drawer for TOC properties
+3. Run `org-make-toc` to update the TOCs in the doc
+
+
+Optionally, `org-make-toc-set` will change TOC properties at the
+current point.
+
 *** PDF Tools
 
 This replaces the built-in DocView for PDF files. Find out the
