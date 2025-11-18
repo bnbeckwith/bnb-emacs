@@ -3660,7 +3660,7 @@ tasks should start ont he =t= key.
 
 #+begin_src emacs-lisp
   (setq bnb/views/task-prefix
-          '("t" . " TASKS..."))
+          '("x" . " TASKS..."))
 #+end_src
 
 By /category/ is how I often think of my task grouping. Within each, I
@@ -3671,7 +3671,7 @@ effort and then alphabetically.
 
 #+begin_src emacs-lisp
   (setq bnb/views/task-by-category
-     `("tc" " By Category"
+     `("xc" " By Category"
        ((todo ""
               ((org-agenda-overriding-header " By Category")
                (org-agenda-sorting-strategy '(todo-state-up user-defined-down effort-up alpha-up))
@@ -3686,7 +3686,7 @@ sorted by category, todo state, effort, and finally alphabetically.
 
 #+begin_src emacs-lisp
   (setq bnb/views/task-by-score
-     `("ts" "󱉿 By Score"
+     `("xs" "󱉿 By Score"
        ((todo ""
               ((org-agenda-overriding-header "󱉿 By Score")
                (org-agenda-sorting-strategy '(category-up todo-state-up effort-up alpha-up))
@@ -3701,7 +3701,7 @@ alphabetical.
 
 #+begin_src emacs-lisp
   (setq bnb/views/task-by-effort
-     `("te" "󰥯 By Effort"
+     `("xe" "󰥯 By Effort"
        ((todo ""
               ((org-agenda-overriding-header "󰥯 By Effort")
                (org-agenda-sorting-strategy '(effort-up category-up todo-state-up alpha-up))
@@ -3714,7 +3714,7 @@ alphabetical.
 
 #+begin_src emacs-lisp
   (setq bnb/views/task-by-tags
-     `("tt" " By Tag"
+     `("xt" " By Tag"
        ((todo ""
               ((org-agenda-overriding-header " By Tag")
                (org-agenda-sorting-strategy '(effort-up category-up todo-state-up alpha-up))
@@ -3726,7 +3726,7 @@ The final view is for projects.
 
 #+begin_src emacs-lisp
   (setq bnb/views/task-by-project-id
-     `("tx" "󰍘 By Project"
+     `("xx" "󰍘 By Project"
        ((todo ""
               ((org-agenda-overriding-header "󰍘 By Project")
                (org-agenda-sorting-strategy '(effort-up category-up todo-state-up alpha-up))
@@ -4723,7 +4723,6 @@ and not automatic by default, so it does require some setup.
     :after org
     :ensure t)
 #+end_src
-
 
 To use:
 
