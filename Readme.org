@@ -5391,6 +5391,18 @@ Basically, the cursor stays on the command for editing if necessary.
      (add-hook  'eshell-mode-hook 'eshell-smart-initialize)))
 #+end_src
 
+*** Fish Shell
+
+Not really /in/ emacs, but the [[https://fishshell.com/][fish shell]] is one I use elsewhere. So,
+it's nice to have a mode that can help me edit those files.
+
+#+begin_src emacs-lisp
+  (use-package fish-shell
+    :defer
+    :mode "\\.fish\\'"
+    :ensure t)
+#+end_src
+
 ** Visual
 
 This section contains settings and packages relevant to visual
