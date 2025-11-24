@@ -5396,10 +5396,22 @@ Not really /in/ emacs, but the [[https://fishshell.com/][fish shell]] is one I u
 it's nice to have a mode that can help me edit those files.
 
 #+begin_src emacs-lisp
-  (use-package fish-shell
+  (use-package fish-mode
     :defer
     :mode "\\.fish\\'"
     :ensure t)
+#+end_src
+
+Also, to use this in =eshell=, let's make it nice.
+
+#+begin_src emacs-lisp
+  (use-package fish-completion
+    :ensure t
+    :defer
+    :config
+    (when (and (executable-find "fish")
+               (require 'fish-completion nil t))
+      (global-fish-completion-mode)))
 #+end_src
 
 ** Visual
