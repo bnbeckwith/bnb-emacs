@@ -4981,16 +4981,21 @@ python virtual environments.
 #+begin_src emacs-lisp
   (defun bnb/pet-setup ()
     (setq-local python-shell-interpreter (pet-executable-find "python")
-                python-sehll-virtualenv-root (pet-virtualenv-root))
+                python-shell-virtualenv-root (pet-virtualenv-root))
     (pet-eglot-setup)
     (eglot-ensure)
     (pet-flycheck-setup)
     (flycheck-mode))
 
   (use-package pet
+    :ensure t
+    :custom
+    (pet-find-file-functions '(pet-find-file-from-project-root
+                               pet-locate-dominating-file))
+    :config
+    (add-hook 'python-base-mode-hook 'pet-mode -10)
     :hook
-    (python-base-mode . bnb/pet-setup)
-    (python-base-mode . pet-mode))
+    (python-mode . bnb/pet-setup))
 #+end_src
 
 **** Ruff                                                           :PENDING:
@@ -5251,6 +5256,7 @@ on the right things.
     (add-to-list 'auto-mode-alist '("\\.djhtml\\'"   . web-mode))
     (add-to-list 'auto-mode-alist '("\\.svelte\\'"   . web-mode)))
 #+end_src
+
 
 ** Shells
 
