@@ -4710,6 +4710,8 @@ filter, and sort org entries.
     ("C-c q r" . org-ql-view-recent-items)
     (:map org-mode-map
           ("C-c q f" . org-ql-find))
+    :config
+    (require 'org-ql-search)
     :ensure t
     :demand t)
 #+end_src
