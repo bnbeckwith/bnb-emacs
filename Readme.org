@@ -5236,11 +5236,39 @@ greater, and installs come common grammars.
 
 #+begin_src emacs-lisp
   (use-package treesit-auto
+    :disabled t
     :custom
     (treesit-auto-install 'prompt)
     :config
     (treesit-auto-add-to-auto-mode-alist 'all)
     (global-treesit-auto-mode))
+#+end_src
+
+*** Treesit Fold
+
+A nice semantic fold is enabeld with [[https://github.com/emacs-tree-sitter/treesit-fold][treesit fold]]. This mode leverages
+treesitter to understand where the blocks of text exist and what can
+be folded.
+
+The code below enables it globally with indicators on the right
+fringe.  =C-<tab>= toggles the folding of any one element. =s-<tab>=
+opens recursively -- that is, it opens any closed children.
+
+What I don't have a key for yet is to close everything with
+=treesit-fold-close-all=. This could possible be a nice default
+setting. For now, I'll have to think of a key press.
+
+
+#+begin_src emacs-lisp
+  (use-package treesit-fold
+    :ensure (treesit-fold :type git :host github :repo "emacs-tree-sitter/treesit-fold")
+    :bind
+    (("C-<tab>" . treesit-fold-toggle)
+     ("s-<tab>" . treesit-fold-open-recursively))
+    :custom
+    ((treesit-fold-line-count-show t)
+     (treesit-fold-indicators-fringe 'right-fringe)
+     (global-treesit-fold-indicators-mode 1)))
 #+end_src
 
 **** Combobulate                                                    :PENDING:
