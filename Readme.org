@@ -4804,7 +4804,8 @@ annotations. They all live on =C-c C-a=.
     :custom
     ;; (optional) If you want to ensure your typst tree sitter grammar version is greater than the minimum requirement
     ;; Note this only check and compare file modification time
-    (typst-ts-mode-grammar-location (expand-file-name "tree-sitter/libtree-sitter-typst.so" user-emacs-directory)))
+    (typst-ts-mode-grammar-location (expand-file-name "tree-sitter/libtree-sitter-typst.so" user-emacs-directory))
+    (typst-ts-mode-indent-offset 2))
 #+end_src
 
 ** Miscellaneous
