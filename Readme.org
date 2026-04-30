@@ -2306,15 +2306,24 @@ git, it may have the best interface.
 Here I set a global key for ~magit-status~. Think 'G' looks like 6.
 
 #+begin_src emacs-lisp
-  (use-package transient)
+  (use-package transient
+    :elpaca (transient :host github
+  		     :repo "magit/transient"
+  		     :rev "v0.13.0"))
 
   (use-package magit
-    :ensure t
+    :elpaca (magit :host github
+                   :repo "magit/magit"
+                   :rev "v4.5.0")
     :after transient
     :bind ("<f6>" . magit-status)
     :custom
     (magit-last-seen-setup-instructions "1.4.0"))
 #+END_SRC
+
+I've gone to pinning the versions. It seems this is the best way to
+work with [[elpaca]]. It may be the best way to work with any of the
+package managers.
 
 **** Release 1.4.0
 
