@@ -5065,6 +5065,18 @@ python virtual environments.
                    ("rust-analyzer" :initializationOptions (:check (:command "clippy"))))))
 #+end_src
 
+
+https://github.com/emacs-rustic/rustic
+#+begin_src emacs-lisp
+  (use-package rustic
+    :ensure t
+    :custom
+    (rustic-cargo-use-last-stored-arguements t)
+    :config
+    (setq rustic-format-on-save nil)
+    :after (rust-mode))
+#+end_src
+
 #+begin_src emacs-lisp
   (use-package flycheck-rust
     :after rust-mode
