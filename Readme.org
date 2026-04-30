@@ -5760,7 +5760,7 @@ customizations]].
 Keeping with the goal of a clean and tidy Emacs, [[https://seagle0128.github.io/doom-modeline/][Doom modeline]]
 provides that fancy, fast, and minimal design.
 
-I only customize the height to hug the font and keep everythig small.
+I only customize the height to hug the font and keep everything small.
 
 #+begin_src emacs-lisp
   (use-package doom-modeline
