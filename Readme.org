@@ -838,6 +838,31 @@ relevant extra information about each element on the line.
           '(marginalia-annotators-heavy marginalia-annotators-light)))
 #+end_src
 
+*** Casual
+
+Less of a proper /launcher/, the [[https://github.com/kickingvegas/casual-suite][casual suite]] provides transitent,
+keyboard-driven menus to help access and remember commands.
+
+#+begin_src emacs-lisp
+  (use-package casual-suite
+    :ensure t
+    :bind
+    (("H-o" . #'casual-editkit-main-tmenu)
+     ("M-c" .  #'casual-avy-tmenu)
+     (:map calc-mode-map ("C-o" . #'casual-calc-tmenu))
+     (:map dired-mode-map ("C-o" . #'casual-dired-tmenu))
+     (:map isearch-mode-map ("C-o" . #'casual-isearch-tmenu))
+     (:map ibuffer-mode-map ("C-o" . #'casual-ibuffer-tmenu))
+     (:map ibuffer-mode-map ("F" . #'casual-ibuffer-filter-tmenu))
+     (:map ibuffer-mode-map ("s" . #'casual-ibuffer-sortby-tmenu))
+     (:map Info-mode-map ("C-o" . #'casual-info-tmenu))
+     (:map reb-mode-map ("C-o" . #'casual-re-builder-tmenu))
+     (:map reb-lisp-mode-map ("C-o" . #'casual-re-builder-tmenu))
+     (:map bookmark-bmenu-mode-map ("C-o" . #'casual-bookmarks-tmenu))
+     (:map org-agenda-mode-map ("C-o" . #'casual-agenda-tmenu))
+     (:map symbol-overlay-map ("C-o" . #'casual-symbol-overlay-tmenu))))
+#+end_src
+
 ** Expansion & Completion
 
 This section defines interations with text expansion systems.
