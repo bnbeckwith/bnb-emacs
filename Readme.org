@@ -2246,13 +2246,15 @@ When in the undo mode, some keys help with navigation.
 *** Expand Region
 
 Easily one of my favorite packages, this is a nice way to expand
-selections to semantic regions. Read more on
-[[https://github.com/magnars/expand-region.el]].
+selections to semantic regions.
+
+This package was moved from the orignal expand-region to [[https://github.com/casouri/expreg][expreg]].
 
 #+begin_src emacs-lisp
-      (use-package expand-region
-        :ensure t
-        :bind ("C-=" . er/expand-region))
+  (use-package expreg
+    :ensure t
+    :bind ("C-=" . expreg-expand)
+    ("C--" . expreg-contract))
 #+end_src
 
 *** Citar (Bibtex completions)
