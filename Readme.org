@@ -813,10 +813,7 @@ relevant extra information about each element on the line.
     :bind (:map minibuffer-local-map
                 ("M-A" . marginalia-cycle))
     :init
-    (marginalia-mode)
-    :config
-    (setq marginalia-annotators
-          '(marginalia-annotators-heavy marginalia-annotators-light)))
+    (marginalia-mode))
 #+end_src
 
 *** Casual
