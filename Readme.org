@@ -2550,6 +2550,22 @@ While developing, documentation is nice to have handy and automatic.
     :custom (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly))
 #+end_src
 
+**** Eldoc Box
+
+Documentation while coding is always beneficial. [[https://github.com/casouri/eldoc-box][ElDoc Box]] does this
+beautifully.
+
+#+begin_src emacs-lisp
+  (use-package eldoc-box
+    :ensure t
+    :hook
+    (eglot-managed-mode . eldoc-box-hover-mode)
+    (ielm-mode . eldoc-box-hover-mode))
+#+end_src
+
+A beneficial command, =eldoc-box-help-at-point= is not yet bound to a
+useful key.
+
 *** Ellama
 
 #+begin_src emacs-lisp
