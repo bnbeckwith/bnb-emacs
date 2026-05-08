@@ -2208,13 +2208,14 @@ There are also modifiers to treat how the saved text is handled.
 | =C-g=        | abort                             |
 | =?=          | help                              |
 
-*** Vundo                                                           :PENDING:
+*** Vundo
 
 I like to have undo navigation. [[https://github.com/casouri/vundo][Vundo]] gives a nice mini interface
 (git-style) to move around undo history.
 
 #+begin_src emacs-lisp
   (use-package vundo
+    :ensure t
     :bind
     ("C-x u" . vundo)
     :custom
