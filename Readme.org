@@ -4310,7 +4310,7 @@ toggling. The default is `fill-column` which can be too small.
 #+begin_src emacs-lisp
   (use-package org-fragtog
     :ensure t
-    :hook (org-mode-hook . org-fragtog-mode))
+    :hook (org-mode . org-fragtog-mode))
 #+end_src
 
 \LaTeX fragments and shit $\LaTeX$. 
@@ -4514,7 +4514,7 @@ https://github.com/rougier/svg-tag-mode
 #+begin_src emacs-lisp
   (use-package svg-tag-mode
     :ensure t
-    :hook (org-mode-hook . svg-tag-mode)
+    :hook (org-mode . svg-tag-mode)
     :config
     (defconst date-re "[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}")
     (defconst time-re "[0-9]\\{2\\}:[0-9]\\{2\\}")
@@ -4846,9 +4846,9 @@ Instead of the normal "splash" screen, show a [[https://github.com/emacs-dashboa
     :unless (daemonp)
     :ensure t
     :hook
-    (elpaca-after-init . #'dashboard-insert-startupify-lists)
-    (elpaca-after-init . #'dashboard-initialize)
-    (server-after-make-frame-hook . #'dashboard-open)
+    (elpaca-after-init . dashboard-insert-startupify-lists)
+    (elpaca-after-init . dashboard-initialize)
+    (server-after-make-frame . dashboard-open)
     :custom
     (dashboard-set-file-icons t)
     (dashboard-icon-type 'nerd-icons)
@@ -4890,7 +4890,7 @@ ANSI escape sequences in compilation buffers.
 #+begin_src emacs-lisp
   (use-package ansi-color
     :ensure nil
-    :hook ((compliation-filter . colorize-compilation-buffer))
+    :hook (compliation-filter . colorize-compilation-buffer)
     :config
     (defun colorize-compilation-buffer ()
       (toggle-read-only)
@@ -5081,7 +5081,7 @@ https://github.com/emacs-rustic/rustic
   (use-package flycheck-rust
     :after rust-mode
     :hook
-    (flycheck-mode-hook . flycheck-rust-setup))
+    (flycheck-mode . flycheck-rust-setup))
 #+end_src
 
 
