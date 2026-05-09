@@ -2280,26 +2280,6 @@ together.
     (citar-org-roam-mode))
 #+end_src
 
-*** Tree Sitter
-
-Introduced in emacs 29, [[https://tree-sitter.github.io/tree-sitter/][tree sitter]] transforms code into a concrete
-syntax tree.  [[https://www.masteringemacs.org/article/how-to-get-started-tree-sitter][Read up on how to get started with tree-sitter]]
-
-**** Treesit Auto
-
-Automatically install treesit grammars
-
-#+begin_src emacs-lisp
-  (use-package treesit-auto
-    :defer t
-    :ensure t
-    :custom
-    (treesit-auto-install 'prompt)
-    :config
-    (treesit-auto-add-to-auto-mode-alist 'all)
-    (global-treesit-auto-mode))
-#+end_src
-
 *** Writeroom
 
 Allow the ability to dive into writing without extra
@@ -5232,10 +5212,13 @@ the default width will result in code that still aligns.
 
 To re-tab the whole file, use =C-x h C-M-\=.
 
-**** Treesit
+**** Tree sitter
 
-Now built into Emacs 29, Tree-Sitter is a new parsing library. [[https://www.masteringemacs.org/article/how-to-get-started-tree-sitter][Read
-more about it online.]] This code sets up the library for Emacs 29 and
+Introduced in emacs 29, [[https://tree-sitter.github.io/tree-sitter/][tree sitter]] transforms code into a concrete
+syntax tree.  [[https://www.masteringemacs.org/article/how-to-get-started-tree-sitter][Read up on how to get started with tree-sitter]]
+
+
+This code sets up the library for Emacs 29 and
 greater, and installs come common grammars.
 
 #+begin_src emacs-lisp
@@ -5283,6 +5266,10 @@ greater, and installs come common grammars.
     (bnb/treesit-setup-install-grammars))
 #+end_src
 
+***** Treesit Auto
+
+Automatically install treesit grammars
+
 #+begin_src emacs-lisp
   (use-package treesit-auto
     :disabled t
@@ -5293,7 +5280,7 @@ greater, and installs come common grammars.
     (global-treesit-auto-mode))
 #+end_src
 
-*** Treesit Fold
+***** Treesit Fold
 
 A nice semantic fold is enabeld with [[https://github.com/emacs-tree-sitter/treesit-fold][treesit fold]]. This mode leverages
 treesitter to understand where the blocks of text exist and what can
