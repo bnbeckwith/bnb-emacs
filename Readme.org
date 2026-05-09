@@ -2634,7 +2634,20 @@ Use the built-in `eglot` functionality.
 #+begin_src emacs-lisp
   (use-package eglot
     :ensure nil
-    :demand t)
+    :demand t
+    :bind (:map eglot-mode-map
+                ("C-c C-l a" . eglot-code-actions)
+                ("C-c C-l d" . eglot-find-declaration)
+                ("C-c C-l f" . eglot-format)
+                ("C-c C-l F" . eglot-format-buffer)
+                ("C-c C-l h" . eldoc-box-help-at-point)
+                ("C-c C-l i" . eglot-find-implementation)
+                ("C-c C-l I" . eglot-code-action-organize-imports)
+                ("C-c C-l r" . eglot-rename)
+                ("C-c C-l R" . eglot-reconnect)
+                ("C-c C-l t" . eglot-find-typeDefinition)
+                ("C-c C-l W" . eglot-signal-didChangeConfiguration)
+                ("C-c C-l x" . xref-find-definitions-at-mouse)))
 #+end_src
 
 In Emacs devel, there is also an `eglot-x` that will be available, but
