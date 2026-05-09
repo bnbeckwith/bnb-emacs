@@ -2593,6 +2593,7 @@ beautifully.
 #+begin_src emacs-lisp
   (use-package eldoc-box
     :ensure t
+    :commands (eldoc-box-hover-mode eldoc-box-help-at-point)
     :hook
     (eglot-managed-mode . eldoc-box-hover-mode)
     (ielm-mode . eldoc-box-hover-mode))
