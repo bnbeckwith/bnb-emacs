@@ -4900,6 +4900,16 @@ Instead of the normal "splash" screen, show a [[https://github.com/emacs-dashboa
     (dashboard-setup-startup-hook))
 #+end_src
 
+**** Weather
+
+#+begin_src emacs-lisp
+  (use-package ewth
+    :ensure (ewth :host github :repo "ISouthRain/ewth.el")
+    :commands (ewth--update ewth--modeline-string ewth--start-timer)
+    :custom
+    (ewth-url bnb/ewth-url))
+#+end_src
+
 ** Programming Languages
 
 Hardly needing an introduction, this section holds the modes and
@@ -5826,28 +5836,6 @@ respresents my favorite go-to combinations.
   ;; adwaita
 #+end_src
 
-** Sky Color Clock
-
-[[https://github.com/zk-phi/sky-color-clock][This is a nice addition]] to any modeline. In a little block, it
-shows the date, time, moon phase
-
-#+begin_src emacs-lisp
-  (use-package sky-color-clock
-    :ensure
-    (sky-color-clock :host github :repo "zk-phi/sky-color-clock")
-    :commands (sky-color-clock)
-    :custom
-    (sky-color-clock-enable-emoji-icon t)
-    :config
-    (sky-color-clock-initialize 40)
-    (sky-color-clock-initialize-openweathermap-client
-     bnb/openweathermap-api-key
-     bnb/openweathermap-city-id))
-#+end_src
-
-The variables containging my city and API key are stored in [[*Local customizations (user-login-name)][local
-customizations]].
-
 ** Doom Modeline
 
 Keeping with the goal of a clean and tidy Emacs, [[https://seagle0128.github.io/doom-modeline/][Doom modeline]]
@@ -5864,26 +5852,46 @@ I only customize the height to hug the font and keep everything small.
     (doom-modeline-height 0))
 #+end_src
 
-** Asterism (⁂) Mode                                                  :PENDING:
-
-Let's try ⁂-mode for an interesting mini-buffer line. It writes
-information into the minibuffer. Here I have it set to show the output
-of [[*Sky Color Clock][sky color clock]].
+** Awesome Tray
 
 #+begin_src emacs-lisp
-     (use-package asterism-mode
-       :after sky-color-clock
-       :ensure
-       (asterism-mode :host gitlab :repo "lunar.studio/asterism-mode")
-       :init
-       (defun bnb/smaller-sky-color ()
-         (let* ((scc (sky-color-clock))
-                (len (length scc)))
-           (add-face-text-property 0 len '(:height 90) t scc)
-                                             ;(add-face-text-property 0 len '(:justification right) t scc)
-           scc))
-       :config
-       (setq ⁂-format '((:eval (bnb/smaller-sky-color)))))
+  (defun bnb/awesome-module/weather-start ()
+    (ewth--start-timer)
+    (ewth--update))
+
+  (defun bnb/awesome-module/weather-stop ()
+    (when ewth--timer
+      (cancel-timer ewth--timer)
+      (setq ewth--timer nil)))
+
+  (defun bnb/awesome-module/weather-management ()
+    (if awesome-tray-mode
+        (bnb/awesome-module/weather-start)
+      (bnb/awesome-module/weather-stop)))
+
+  (defun bnb/awesome-module/weather ()
+    (ewth--modeline-string))
+
+  (defface bnb/awesome-module/weather-face
+    '((t ()))
+    "Weather face"
+    :group 'awesome-tray)
+
+  (use-package awesome-tray
+    :ensure (awesome-tray
+             :host github
+             :repo "manateelazycat/awesome-tray")
+    :hook
+    (awesome-tray-mode . bnb/awesome-module/weather-management)
+    :custom
+    (awesome-tray-hide-mode-line nil)
+    (awesome-tray-info-padding-right 2)
+    (awesome-tray-active-modules '("location" "belong" "file-path" "git" "battery" "bnb/weather"))
+    :config
+    (add-to-list 'awesome-tray-module-alist
+                 '("bnb/weather" . (bnb/awesome-module/weather bnb/awesome-module/weather-face)))
+    (ewth--start-timer)
+    (ewth--update))
 #+end_src
 
 ** Prettify Symbols
