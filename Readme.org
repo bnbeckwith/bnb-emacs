@@ -4888,7 +4888,7 @@ Instead of the normal "splash" screen, show a [[https://github.com/emacs-dashboa
                        (projects . 5)
                        (bookmarks . 10)
                        (registers . 10)))
-    (initial-buffer-choice 'dashboard-icon)
+    (initial-buffer-choice 'dashboard-open)
     (dashboard-week-agenda t)
     :config
     (dashboard-modify-heading-icons
