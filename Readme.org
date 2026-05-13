@@ -2902,21 +2902,6 @@ such as =~/.config/foo/config=.
 Also, there is a nice faculty to run an external command on a given
 file with ==!==.
 
-*** Neotree
-
-Neotree is a file sidebar for navigation.  Dired has a superior
-interface for interacting with files, but =Neotree= offers the tree
-stucture view for the times you need to see the whole folder tree.
-
-#+begin_src emacs-lisp
-  (use-package neotree
-    :ensure t
-    :commands (neotree)
-    :bind ("H-t" . neotree-toggle)
-    :config
-    (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
-#+end_src
-
 ** Documents
 
 These days, one of my favorite uses of the one true editor is to
