@@ -1180,7 +1180,7 @@ After reading [[https://github.com/abo-abo/ace-window/wiki][the wiki]], I superc
   (use-package ace-window
     :ensure t
     :bind
-    ("H-SPC"  . ace-window)
+    ("H-a"  . ace-window)
     ("<f9> a" . ace-window)
     :custom
     (aw-keys '(?j ?k ?l ?\; ?a ?s ?d ?f))
