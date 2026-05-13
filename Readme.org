@@ -1204,8 +1204,8 @@ After reading [[https://github.com/abo-abo/ace-window/wiki][the wiki]], I superc
          ("x" delete-frame "delete frame"))))
      (with-eval-after-load 'ace-window
        (progn
-         (add-to-list 'aw-dispatch-alist '(?w hydra-window-controls/body) t)
-         (add-to-list 'aw-dispatch-alist '(?F hydra-frame-controls/body) t)
+         (add-to-list 'aw-dispatch-alist '(?w hydra-window-controls/body " Window controls") t)
+         (add-to-list 'aw-dispatch-alist '(?r hydra-frame-controls/body " Frame controls") t)
          (add-to-list 'aw-dispatch-alist '(?B balance-windows) t)
          (set-face-attribute 'aw-leading-char-face nil :height 2.0)))))
 #+end_src
