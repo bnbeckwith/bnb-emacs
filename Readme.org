@@ -207,7 +207,7 @@ sensible default. These can be overridden in =<username>.var.el=.
         bnb/biblio '("~/references.bib"))
 #+end_src
 
-** Local customizations (custom.el, username.var.el)
+** Local customizations
 
 I typically use the customize interface to generate any local settings
 such as proxies, paths, fonts, etc. that may vary from machine to
@@ -230,7 +230,7 @@ changes are made through the /custom interface/.
 Sometimes I'll get bad settings or cruft in that file. I now have a
 key, ~<F7>~, for easy navigation to wherever the =custom-file= points.
 
-*** Local variables (user-login-name)
+*** Local variables
 
 I also intend to have a generic call to an installed local file that
 may need to behave differently from =custom.el=. This loads last so that
@@ -446,12 +446,12 @@ day-to-day life.
 
 ** Keys
 
-These sections contain setting related to keys and keymaps.
+These sections contain settings related to keys and keymaps.
 
 *** Binding Keys
 
-For binding keys, I use the [[https://github.com/jwiegley/use-package/blob/master/bind-key.el][bind-key]] package. Not only does it
-easily bind keys, but it does so with some nice features.
+For creating key sequences, I use the [[https://github.com/jwiegley/use-package/blob/master/bind-key.el][bind-key]] package. Not only does
+it easily bind keys, but it does so with some nice features.
 
 #+begin_src emacs-lisp
   (with-after-elpaca-init
@@ -460,9 +460,10 @@ easily bind keys, but it does so with some nice features.
 #+end_src
 
 By using ~bind-key~, you can specify the keystrokes that invoke a
-command. In the example above, we bind functions to the global key
-map. Note that in later settings, there are also examples of mapping
-keys within local keymaps.
+command. In the example above, we bind functions to the global key map
+-- available at all times. Note that in later settings, there are
+examples of mapping keys within local keymaps -- abvailable in those
+modes or contexts.
 
 If you also want to override any possible minor-mode bindings of the
 same keys, you can use ~bind-key*~ instead.
@@ -624,14 +625,23 @@ shortcuts. I need to take care to not interfere with the built-in
 operating system shortcuts or my bindings will not work.
 
 #+begin_src emacs-lisp
-  (setq mac-function-modifier 'hyper
-        mac-pass-command-to-system nil
-        mac-right-option-modifier 'none
-        mac-right-command-modifier 'hyper
-        mac-right-control-modifier 'hyper
-        mac-command-modifier 'meta
-        mac-control-modifier 'ctrl
-        mac-option-modifier 'super)
+  (setq
+   ;; fn => hyper
+   mac-function-modifier 'hyper
+   ;; option_r => option_r
+   mac-right-option-modifier 'none
+   ;; command_r => hyper
+   mac-right-command-modifier 'hyper
+   ;; control_r => hyper
+   mac-right-control-modifier 'hyper
+   ;; command_l => meta
+   mac-command-modifier 'meta
+   ;; control_l => ctrl
+   mac-control-modifier 'ctrl
+   ;; option_l => super
+   mac-option-modifier 'super
+   ;; Don't pass command to system
+   mac-pass-command-to-system nil)
 #+end_src
 
 Note that the right =option= and =command= keys will pass through to the
@@ -880,7 +890,7 @@ future corrections.
 
 "Let your completions fly!" -- [[https://github.com/minad/cape][cape.el]]
 
-Cape provies a set of completion backends avaialble right on bound
+Cape provies a set of completion backends available right on bound
 keys. It works with [[*Corfu][Corfu]].
 
 #+begin_src emacs-lisp
@@ -981,7 +991,6 @@ maintain my own.
 #+begin_src emacs-lisp
   (use-package yasnippet-snippets
     :ensure t)
-
 
 *** Hippie Expand
 
@@ -1286,7 +1295,7 @@ characters and then show the candidates after an elapsed timer.
 #+end_src
 
 The commands begin with the normal prefix of =M-g= for the goto commands
-and use l,c and w for lines, characters and words respectively.
+and use =l=, =c= and =w= for lines, characters and words respectively.
 
 **** Avy Zap
 
@@ -1950,9 +1959,8 @@ handled in this section.
 
 *** ImageMagick
 
-Register image file types that can be handled by ImageMagick. Note
-that Emacs needs to be compiled with ImageMagick support for this to
-do anything.
+Register image file types handled by ImageMagick. Note that Emacs
+needs ImageMagick support for this to do anything.
 
 #+begin_src emacs-lisp
   (with-after-elpaca-init
@@ -1960,10 +1968,11 @@ do anything.
      (imagemagick-register-types)))
 #+end_src
 
+
 * Minor Modes
 
-The minor modes can be used in a variety of situations to enhance the
-editing experience overall.
+This section holds the minor modes can used across situations and
+modes to enhance the editing experience overall.
 
 ** Reference
 
@@ -1989,8 +1998,8 @@ organized screen with contextual information and linked references.
 *** Which Key
 
 This [[https://github.com/justbur/emacs-which-key][helpful little package]] makes it easy to remember emacs prefixed
-commands.  Start typing a prefix such as =C-x= after a brief delay, the
-options for any following commands are shown.
+commands.  Start typing a prefix such as =C-x=, and after a brief delay, the
+options for any following commands display in a side buffer.
 
 I am using a setup that tries the right side of emacs first, and punts
 to a bottom window if there is not enough room.
@@ -2163,28 +2172,30 @@ The way the binding works is as a prefix key that also tries a default
 "kill" and replaces [[help:kill-ring-save][kill-ring-save]]. The thing at point is saved to the
 kill ring. The following table shows the details.
 
-| Key   | Saves at point                        |
-|-------+---------------------------------------|
-| =M-w w= | word                                  |
-| =M-w s= | sexp                                  |
-| =M-w l= | list                                  |
-| =M-w d= | defun                                 |
-| =M-w D= | defun name                            |
-| =M-w f= | filename                              |
-| =M-w b= | buffer file name or default directory |
+| Key         | Saves at point                        |
+|-------------+---------------------------------------|
+| =M-w w=       | word                                  |
+| =M-w s=       | sexp                                  |
+| =M-w l=       | list                                  |
+| =M-w d=       | defun                                 |
+| =M-w D=       | defun name                            |
+| =M-w f=       | filename                              |
+| =M-w b=       | buffer file name or default directory |
 
-There are also modifiers to treat how the saved text is handled.
+There are also modifiers to specifiy handling of the saved text.
 
-| Modifier   | Effect                            |
-|------------+-----------------------------------|
-| =@=          | append to previous kill           |
-| =C-w=        | kill selection                    |
-| =+=, =-=, =1..9= | expand/shrink selection           |
-| =0=          | shrink selection to initial size  |
-| =<SPC>=      | cycle through =easy-kill-alist=     |
-| =C-<SPC>=    | turn selection into active region |
-| =C-g=        | abort                             |
-| =?=          | help                              |
+| Modifier    | Effect                            |
+|-------------+-----------------------------------|
+| =@=           | append to previous kill           |
+| =C-w=         | kill selection                    |
+| =+=, =-=, =1..9=  | expand/shrink selection           |
+| =0=           | shrink selection to initial size  |
+| =<SPC>=       | cycle through =easy-kill-alist=     |
+| =C-<SPC>=     | turn selection into active region |
+| =C-g=         | abort                             |
+| =?=           | help                              |
+| =ESC ESC ESC= | Easy way to escape (quit) cleanly |
+
 
 *** Vundo
 
@@ -2227,7 +2238,7 @@ When in the undo mode, some keys help with navigation.
 Easily one of my favorite packages, this is a nice way to expand
 selections to semantic regions.
 
-This package was moved from the orignal expand-region to [[https://github.com/casouri/expreg][expreg]].
+This package moved from the orignal =expand-region= to [[https://github.com/casouri/expreg][expreg]].
 
 #+begin_src emacs-lisp
   (use-package expreg
@@ -2504,8 +2515,8 @@ view.
 
 *** Unique Buffer Names
 
-When editing files with the same name, but different location, a
-unique identifier (based on path) is preferred over a number. The
+When editing files with the same name, but different location, this
+mode appends a unique identifier (based on path) over a number. The
 format below shows the buffername as =<filename>:<parent directory>=.
 
 #+begin_src emacs-lisp
@@ -2527,6 +2538,7 @@ binding.
     :ensure t
     :bind ("C-c z" . reveal-in-osx-finder))
 #+end_src
+
 
 ** Development
 
@@ -2636,7 +2648,7 @@ out.
 
 *** Paredit
 
-I added =paredit-mode= to several of the lisp modes that follow.
+I added =paredit-mode= to the lisp modes that follow.
 
 [[http://www.emacswiki.org/emacs/PareditCheatsheet][Paredit Cheatsheet]]
 
@@ -3111,7 +3123,8 @@ available.
 I add =_archive= to the list of known org files. This alternative
 extensions correctly identifies org archives (=.org_archive=).
 
-This mode is set above with =use-package=.
+Apply Org-mode to these files is part of the =:mode= filename matcher
+above with =use-package=.
 
 **** Hooks
 
@@ -4831,6 +4844,8 @@ annotations. They all live on =C-c C-a=.
 #+end_src
 *** Typst                                                           :PENDING:
 
+Writing documentation in [[https://typst.app/docs/][Typst]] is easier with this mode.
+
 #+begin_src emacs-lisp
   (use-package typst-ts-mode
     :ensure (:type git :host sourcehut :repo "meow_king/typst-ts-mode" :files (:defaults "*.el"))
@@ -4902,6 +4917,9 @@ Instead of the normal "splash" screen, show a [[https://github.com/emacs-dashboa
 
 **** Weather
 
+Leverging the very nice [[https://wttr.in][wttr.in]] service, [[https://github.com/ISouthRain/ewth.el][ewth]] drives the information
+behind [[Awesome Tray]]. 
+
 #+begin_src emacs-lisp
   (use-package ewth
     :ensure (ewth :host github :repo "ISouthRain/ewth.el")
@@ -4909,6 +4927,8 @@ Instead of the normal "splash" screen, show a [[https://github.com/emacs-dashboa
     :custom
     (ewth-url bnb/ewth-url))
 #+end_src
+
+The =bnb/ewth-url= is expected to be set in [[Local variables]]. 
 
 ** Programming Languages
 
@@ -4997,6 +5017,14 @@ is available online.
 
 *** Python
 
+Development with Python is enhanced by [[Prettify Python][making it look great]], [[PET][ensuring
+we have a good executable]], and [[Ruff][linting the code]].
+
+**** Prettify Python
+
+This block matches some strings to unicode characters making Python
+source look better overall.
+
 #+begin_src emacs-lisp
   (with-after-elpaca-init
    (bnb/prettify
@@ -5032,7 +5060,8 @@ is available online.
 **** PET
 
 The [[https://github.com/wyuenho/emacs-pet][Python Executable Tracker]] seeks to solve the issue of LSP and
-python virtual environments.
+python virtual environments. It supports [[https://github.com/astral-sh/uv][uv]] which is the bulk of my
+work.
 
 #+begin_src emacs-lisp
   (defun bnb/pet-setup ()
@@ -5054,7 +5083,10 @@ python virtual environments.
     (python-mode . bnb/pet-setup))
 #+end_src
 
-**** Ruff                                                           :PENDING:
+**** Ruff
+
+Linting and formatting never looked better than with [[https://github.com/astral-sh/ruff][ruff]]. Using it as
+the backed to =flycheck= ensures that code is correct and tidy.
 
 #+begin_src emacs-lisp
   (comment
@@ -5093,6 +5125,12 @@ python virtual environments.
 
 *** Rust
 
+Supporting [[https://rust-lang.org/][Rust]] is critical. Here I setup =rust-mode=, =rustic=,
+=flycheck-rust=, and =toml-mode=.
+
+For [[https://github.com/rust-lang/rust-mode][rust-mode]], it's important to have =rust-analyzer= installed as a
+linter/checker with =eglot=.
+
 #+begin_src emacs-lisp
   (use-package rust-mode
     :ensure t
@@ -5105,7 +5143,9 @@ python virtual environments.
 #+end_src
 
 
-https://github.com/emacs-rustic/rustic
+[[https://github.com/emacs-rustic/rustic][Rustic]] adds features to =rust-mode=, namely a cargo popup, better
+multiline error parsing, and LSP configuration with eglot.
+
 #+begin_src emacs-lisp
   (use-package rustic
     :ensure t
@@ -5116,6 +5156,7 @@ https://github.com/emacs-rustic/rustic
     :after (rust-mode))
 #+end_src
 
+[[https://github.com/flycheck/flycheck-rust][Flycheck for rust]] ensures automatic checking for rust code.
 #+begin_src emacs-lisp
   (use-package flycheck-rust
     :after rust-mode
@@ -5123,15 +5164,12 @@ https://github.com/emacs-rustic/rustic
     (flycheck-mode . flycheck-rust-setup))
 #+end_src
 
-
+I also snuck in [[https://toml.io/en/][TOML]] support for the Cargo.toml files.
 #+begin_src emacs-lisp
   (use-package toml-mode
     :ensure (toml-mode :host github :repo "dryman/toml-mode.el")
     :mode "\\.toml\\'")
 #+end_src
-
-
-I also snuck in [[https://toml.io/en/][TOML]] support for the Cargo.toml files.
 
 *** Emacs Speaks Statistics (ESS)
 
@@ -5160,7 +5198,6 @@ checking. I don't have it globally on, but easily available through
 #+begin_src emacs-lisp
   (use-package flycheck
     :ensure t
-                                          ;:init (global-flycheck-mode)
     :init
     (pretty-hydra-define hydra-flycheck (:color amaranth :quit-key "q" :title " FlyCheck")
       ("Action"
@@ -5949,18 +5986,7 @@ and brightness.
 
 These elements are at the end to keep all customizations tidy.
 
-** Local customizations (custom.el)
-
-I typically use the customize interface to generate any local settings
-such as proxies, paths, fonts, etc. that may vary from machine to
-machine.
-
-#+begin_src emacs-lisp
-  (setq custom-file "~/.emacs.d/custom.el")
-  (load-file custom-file)
-#+end_src
-
-** Local customizations (user-login-name)
+** Local customizations (post-init)
 
 I also intend to have a generic call to an installed local file that
 may need to behave differently from =custom.el=. This loads last so that
