@@ -2803,7 +2803,7 @@ First, add the basic dired settings.
 The first setting, [[help:dired-kill-when-opening-new-dired-buffer][dired-kill-when-opening-new-dired-buffer]] keeps
 =dired= from littering little visited folder buffers along the way.
 
-Marking commands can now act on regions with [[help:dired-mark-region][dired-mark-region]] set to
+Marking commands now act on selected regions with [[help:dired-mark-region][dired-mark-region]] set to
 ~t~.
 
 **** Hacks
@@ -2818,9 +2818,9 @@ These are part of the [[https://github.com/Fuco1/dired-hacks][dired-hacks reposi
 
 ***** Filter mode
 
-This first package provides [[help:dired-filter-mode][dired-filter-mode]] giving some very handy
-ways to filter the view. Enable it with =C-c C-d f= and then get to the
-commands with =C-c C-f=.
+This first package provides [[help:dired-filter-mode][dired-filter-mode]] giving some handy ways
+to filter the view. Enable it with =, f= and then get to the
+commands with =/=.
 
 #+begin_src emacs-lisp
   (use-package dired-filter
@@ -2828,15 +2828,14 @@ commands with =C-c C-f=.
     :hook (dired-mode . dired-filter-mode)
     :ensure t
     :bind
-    ("C-c C-d f" . dired-filter-mode)
-    :bind-keymap
-    ("C-c C-f" . dired-filter-map))
+    (:map dired-mode-map
+          (", f" . dired-filter-mode)))
 #+end_src
 
 ***** Colorized Files
 
-This next addition colorizes files in dired accorting to type or
-the =chmod= bits.
+This next addition colorizes files in dired according to type or the
+=chmod= bits.
 
 #+begin_src emacs-lisp
   (use-package dired-rainbow
@@ -2875,8 +2874,8 @@ buffer to only the matches. The flavors of filterring are /fuzzy/ or
   (use-package dired-narrow
     :defer t
     :bind (:map dired-mode-map
-                ("C-c C-d n" . dired-narrow-fuzzy)
-                ("C-c C-d r" . dired-narrow-regexp))
+                (", n" . dired-narrow-fuzzy)
+                (", r" . dired-narrow-regexp))
     :ensure t)
 #+end_src
 
@@ -2893,7 +2892,8 @@ such as =~/.config/foo/config=.
   (use-package dired-collapse
     :defer t
     :bind
-    ("C-c C-d c" . dired-collapse-mode)
+    (:map dired-mode-map
+          (", c" . dired-collapse-mode))
     :ensure t)
 #+end_src
 
