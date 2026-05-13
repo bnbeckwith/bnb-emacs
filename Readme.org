@@ -4232,7 +4232,7 @@ This is the list of languages I like to have enabled for use.
       (R          . t))))
 #+end_src
 
-***** Extra Babel Packages
+***** HTTP Requests
 
 These two packages assist with making HTTP requets. They can act like
 an alternative to Postman.
@@ -4251,7 +4251,22 @@ an alternative to Postman.
      (append org-babel-load-languages '((restclient . t)))))
 #+end_src
 
-***** Customization
+***** Mermaid
+
+Be sure to have [[https://github.com/mermaid-js/mermaid-cli][mermaid-cli]] installed. After that, [[https://mermaidjs.github.io/][mermaid diagrams]]
+are at your fingertips for babel.
+
+#+begin_src emacs-lisp
+  (use-package ob-mermaid
+    :after org
+    :ensure (ob-mermaid :host github :repo "arnm/ob-mermaid")
+    :config
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     (append org-babel-load-languages '((mermaid . t)))))
+#+end_src
+
+***** Python Block Customization
 
 Python needs to find the right executable, so I hard code what babel
 should use for a command.
