@@ -3070,7 +3070,7 @@ The one feature I cannot do without. Let's set up some basics.
 
 #+begin_src emacs-lisp
   (use-package org
-    :ensure (org :type git :repo "https://git.savannah.gnu.org/git/emacs/org-mode.git" :tag "release_9.7.34")
+    :ensure (org :type git :repo "https://git.savannah.gnu.org/git/emacs/org-mode.git" :tag "release_9.8.4")
     :delight (org-mode "🦄" :major)
     :mode ("\\.org\\(_archive\\)?\\'" . org-mode)
     :bind
@@ -3085,12 +3085,12 @@ The one feature I cannot do without. Let's set up some basics.
     ("<f9> i" . org-clock-in)
     ("<f9> o" . org-clock-out)
     (:map org-mode-map
-          ("M-i"   . org-toggle-inline-images)
+          ("M-i"   . org-link-preview)
           ("C-c ," . org-insert-structure-template)
           ("C-c ," . org-insert-structure-template)
           ("M-o"   . ace-link-org))
     :hook
-    (org-babel-after-execute . (lambda () (org-display-inline-images t t))))
+    (org-babel-after-execute . (lambda () (org-link-preview-region t t))))
 #+end_src
 
 This block installs [[https://orgmode.org/][org-mode]] along with some bindings.
