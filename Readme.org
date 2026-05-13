@@ -1010,17 +1010,15 @@ windows. That one gets =utf-16le= to be compatible.
 Emacs 28.1 introduced [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Native-Compilation.html][Native Compilation]]. When this feature is
 available, I use it to compile the packages.
 
-There are also two settings to make the process slightly more verbose
-and ensure that warnings and erros are bubbled up from any async
-processes.
+There are also two settings to make compilation more verbose and
+ensure that warnings and errors are logged from any async processes.
 
 #+begin_src emacs-lisp
   (if (native-comp-available-p)
       (setq package-native-compile t
             native-comp-verbose 1
-            native-comp-async-report-warnings-errors t))
+            native-comp-async-report-warnings-errors 'silent))
 #+end_src
-
 
 *** Server
 
