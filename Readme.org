@@ -540,67 +540,6 @@ What are these settings?
    (bind-key "C-x t" 'hydra-toggle/body))
 #+end_src
 
-**** Whitespace
-
-This mode (used in the keymap above) toggles a mode that shows the
-different whitespace in a buffer.
-
-#+begin_src emacs-lisp
-  (use-package whitespace
-    :ensure nil
-    :commands (whitespace-mode)
-    :custom
-    (whitespace-line-column nil)
-    :delight " 🟂")
-#+end_src
-
-****** Deletion
-
-By default, ~M-\~ performs =delete-horizontal-space= and will consume all
-of the whitespace present.
-
-I'd like it to be smart and leave one or no spaces if possible. The
-=fixup-whitespace= function will do that.
-
-#+begin_src emacs-lisp
-  (with-after-elpaca-init
-    (bind-key "M-k" 'fixup-whitespace))
-#+end_src
-
-***** Scroll window up/down
-
-In addition to moving the cursor, it is also interesting to scroll the
-screen (without moving the cursor with respect to the frame).
-
-#+begin_src emacs-lisp
-  (defun bnb/scroll-up-1 ()
-    "Scroll up by one line."
-    (interactive)
-    (cua-scroll-up 1))
-
-  (defun bnb/scroll-down-1 ()
-    "Scroll down by one line."
-    (interactive)
-    (cua-scroll-down 1))
-
-  (with-after-elpaca-init
-   (with-eval-after-load 'bind-key
-     (bind-keys
-      ("M-n" . bnb/scroll-up-1)
-      ("M-p" . bnb/scroll-down-1))))
-#+end_src
-
-***** Align Regexp
-
-When selecting a region, a quick trip to [[help:align-regexp][align-regexp]] can align all of
-that nasty text.
-
-#+begin_src emacs-lisp
-  (with-after-elpaca-init
-   (with-eval-after-load 'bind-key
-     (bind-key "C-c TAB" 'align-regexp)))
-#+end_src
-
 **** Kill current buffer
 
 Another great tip from [[http://pragmaticemacs.com/emacs/dont-kill-buffer-kill-this-buffer-instead/][Pragmatic Emacs]], use [[help:kill-this-buffer][kill-this-buffer]] to kill
@@ -2306,10 +2245,78 @@ provides focus on the writing at hand.
                 ("C-c C-w =" . #'writeroom-adjust-width)))
 #+end_src
 
+*** Whitespace
+
+Two packages help manage whitespace in files.
+
+**** Viewing
+
+This mode (used in the keymap above) toggles a mode that shows the
+different whitespace in a buffer.
+
+#+begin_src emacs-lisp
+  (use-package whitespace
+    :ensure nil
+    :commands (whitespace-mode)
+    :custom
+    (whitespace-line-column nil)
+    :delight " 🟂")
+#+end_src
+
+**** Deletion
+
+By default, ~M-\~ performs =delete-horizontal-space= and will consume all
+of the whitespace present.
+
+I'd like it to be smart and leave one or no spaces if possible. The
+=fixup-whitespace= function will do that.
+
+#+begin_src emacs-lisp
+  (with-after-elpaca-init
+    (bind-key "M-k" 'fixup-whitespace))
+#+end_src
+
+
+
+*** Movement - scrolling
+
+In addition to moving the cursor, it is also interesting to scroll the
+screen (without moving the cursor with respect to the frame).
+
+#+begin_src emacs-lisp
+  (defun bnb/scroll-up-1 ()
+    "Scroll up by one line."
+    (interactive)
+    (cua-scroll-up 1))
+
+  (defun bnb/scroll-down-1 ()
+    "Scroll down by one line."
+    (interactive)
+    (cua-scroll-down 1))
+
+  (with-after-elpaca-init
+   (with-eval-after-load 'bind-key
+     (bind-keys
+      ("M-n" . bnb/scroll-up-1)
+      ("M-p" . bnb/scroll-down-1))))
+#+end_src
+
+
+*** Align Regexp
+
+When selecting a region, a quick trip to [[help:align-regexp][align-regexp]] can align all of
+that nasty text.
+
+#+begin_src emacs-lisp
+  (with-after-elpaca-init
+   (with-eval-after-load 'bind-key
+     (bind-key "C-c TAB" 'align-regexp)))
+#+end_src
+
 ** Version Control
 
 Emacs is fantastic for interfacing with version control systems. For
-git, it may have the best interface.
+=git=, it may have the best interface.
 
 *** Magit
 
