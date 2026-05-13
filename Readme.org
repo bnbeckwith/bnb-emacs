@@ -891,8 +891,15 @@ of the completion popup.
     :custom
     (corfu-auto nil)
     (tab-always-indent 'complete)
+    (corfu-cycle t)
+    (corfu-preselect 'prompt)
     :bind
-    (:map corfu-map ("SPC" . corfu-insert-separator))
+    (:map corfu-map
+          ("SPC" . corfu-insert-separator)
+          ("TAB" . corfu-next)
+          ([tab] . corfu-next)
+          ("S-TAB" . corfu-previous)
+          ([backtab] . corfu-previous))
     :init
     (global-corfu-mode)
     (corfu-popupinfo-mode 1))
@@ -905,7 +912,8 @@ added that leverages overlays for non-graphical frames.
 
 #+begin_src emacs-lisp
   (use-package corfu-terminal
-    :if (not (display-graphic-p))
+    :if (and (not (display-graphic-p))
+             (version<= emacs-version "30"))
     :ensure (corfu-terminal
              :host github
              :repo "https://codeberg.org/akib/emacs-corfu-terminal.git"))
