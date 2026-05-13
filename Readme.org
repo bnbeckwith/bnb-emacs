@@ -528,12 +528,15 @@ What are these settings?
       (("r" rainbow-mode "rainbow" :toggle t)
        ("w" whitespace-mode "whitespace" :toggle t)
        ("b" orgtbl-mode "Org table" :toggle t)
-       ("R" dired-toggle-read-only "dired read only" :toggle t))
+       ("R" dired-toggle-read-only "dired read only" :toggle t)
+       ("o" focus-mode "focus mode" :toggle t)
+       ("O" focus-mode "read-only focus mode" :toggle t))
       "UI"
       (("m" bnb/hide-mode-line-mode "hide mode line" :toggle t)
        ("B" display-battery-mode "display battery" :toggle t)
        ("x" bnb/transparency-next "transparency next")
-       ("X" bnb/transparency-previous "transparency prev"))
+       ("X" bnb/transparency-previous "transparency prev")
+       ("W" writeroom-mode "Writeroom mode" :toggle t))
       "Emacs"
       (("D" toggle-debug-on-error "debug on error" :toggle (default-value 'debug-on-error))
        ("X" toggle-debug-on-quit "debug on quit" :toggle (default-value 'debug-on-quit)))))
