@@ -3195,7 +3195,7 @@ The characters in =()= also allow fast access to these states described
 #+end_src
 
 #+CAPTION: TODO keyword states
-#+begin_src mermaid :file keywords.png :exports results
+#+begin_src mermaid :file images/keywords.png :exports results
   ---
   config:
     layout: elk
@@ -3224,7 +3224,7 @@ The characters in =()= also allow fast access to these states described
 #+end_src
 
 #+RESULTS:
-[[file:keywords.png]]
+[[file:images/keywords.png]]
 
 ***** Tags
 
