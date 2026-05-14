@@ -941,6 +941,7 @@ maintain my own.
 #+begin_src emacs-lisp
   (use-package yasnippet-snippets
     :ensure t)
+#+end_src
 
 *** Hippie Expand
 
