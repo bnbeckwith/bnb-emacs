@@ -1517,7 +1517,7 @@ disables the last theme and renables all of the ones on the list.
     (let ((themes custom-enabled-themes)
           (file "~/.emacs.d/bnb-emacs/Readme.org"))
       (with-temp-buffer
-        (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup\n")
+        (insert "#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/html-theme-readtheorg.setup\n")
         (insert (format "#+include: %s\n" (file-truename file)))
         (org-mode)
         (elpaca-wait) ;; ensure all modules are loaded
