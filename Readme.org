@@ -3189,10 +3189,42 @@ The characters in =()= also allow fast access to these states described
 #+begin_src emacs-lisp
   (with-eval-after-load 'org
     (setq org-todo-keywords
-          '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!/!)")
-  	  (sequence "WAITING(w@/!)" "SOMEDAY(s!)" "|" "CANCELED(c@/!)")
-  	  (sequence "CANCELED(c@/!)"))))
+          '((sequence "TODO(t)" "NEXT(n)" "WAIT(w@/!)" "|" "DONE(d!/!)")
+  	  (sequence "IDEA(i!)" "|" "NOTE(o@/!)")
+            (sequence "|" "STOP(s@/!)"))))
 #+end_src
+
+#+CAPTION: TODO keyword states
+#+begin_src mermaid :file keywords.png :exports results
+  ---
+  config:
+    layout: elk
+    look: handDrawn
+  ---
+
+  stateDiagram-v2
+      n1 : NOTE
+      [*] --> TASK
+      [*] --> SOMEDAY
+
+      state TASK {
+          TODO --> NEXT
+          TODO --> WAIT
+          TODO --> DONE
+          NEXT --> DONE
+          WAIT --> DONE
+      }
+
+      state SOMEDAY {
+         IDEA --> n1
+      }
+
+      TASK --> STOP
+      SOMEDAY --> STOP
+#+end_src
+
+#+RESULTS:
+[[file:keywords.png]]
 
 ***** Tags
 
@@ -3234,13 +3266,13 @@ means to remove it.
 #+begin_src emacs-lisp
   (with-eval-after-load 'org
     (setq org-todo-state-tags-triggers
-          '(("CANCELED" ("CANCELED" . t))
-            ("WAITING"  ("WAITING" . t))
-            ("SOMEDAY"  ("SOMEDAY" . t))
-            (done       ("WAITING"))
-            ("TODO"     ("WAITING") ("CANCELED"))
-            ("NEXT"     ("WAITING"))
-            ("DONE"     ("WAITING") ("CANCELED")))))
+          '(("STOP" ("STOP" . t))
+            ("WAIT"  ("WAIT" . t))
+            ("IDEA"  ("IDEA" . t))
+            (done       ("WAIT"))
+            ("TODO"     ("WAIT") ("STOP"))
+            ("NEXT"     ("WAIT"))
+            ("DONE"     ("WAIT") ("STOP")))))
 #+end_src
 
 Along with tags and states are priorities. I do not use task
@@ -3364,7 +3396,7 @@ amount and mix at a glance.
        'agenda)
       (setq values (mapcar (lambda (x)
                              (or (gethash x counts) 0))
-                           '("DONE" "TODO" "WAITING" "CANCELED" "SOMEDAY")))
+                           '("DONE" "TODO" "WAIT" "NEXT" "STOP" "IDEA")))
       (setq output
             (concat "| " today " | "
                     (mapconcat 'number-to-string values " | ")
@@ -3535,7 +3567,7 @@ Adapted from [[https://github.com/fniessen/emacs-leuven/blob/master/lisp/org-leu
 
 #+begin_src emacs-lisp
   (setq bnb/views/all-tasks-search
-        "DONE|TODO|WAITING|CANCELED|SOMEDAY")
+        "DONE|TODO|NEXT|WAIT|IDEA|STOP")
 
   (setq bnb/views/agenda
         '("." "󰃶 Agenda"
@@ -3552,7 +3584,7 @@ Adapted from [[https://github.com/fniessen/emacs-leuven/blob/master/lisp/org-leu
                    '((:name "󰃶 TODAY" :deadline today :order 1)
                      (:name "󰃰 Scheduled" :scheduled t :order 3)
                      (:name "󰏑 Inbox (move to right home)" :tag "inbox" :order 4)
-                     (:discard (:todo ("DONE" "CANCELED")))
+                     (:discard (:todo ("DONE" "STOP")))
                      (:name "󰞏 Overdue" :deadline past :order 2)
                      (:discard (:anything t)))))))))
 #+end_src
@@ -3622,7 +3654,7 @@ track how well my week went in terms of productivity.
                   (org-super-agenda-groups
                    '((:name "󱉿 Scoreless" :not (:property "SCORE"))
                      (:name "󰏑 Inbox (move to right home)" :tag "inbox")
-                     (:name " Archivable" :todo ("DONE" "CANCELED") :order 10)
+                     (:name " Archivable" :todo ("DONE" "STOP") :order 10)
                      (:name "󰣽 Lacking Estimates" :not (:effort> "0:00"))
                      (:discard (:anything t)))))))))
 #+end_src
@@ -3654,8 +3686,8 @@ is no longer relevant.
                  ((org-agenda-overriding-header "  Deferred Tasks")
                   (org-agenda-sorting-strategy '(priority-down))
                   (org-super-agenda-groups
-                   '((:name " Waiting on" :todo ("WAITING"))
-                     (:name "󰧓 Someday" :todo ("SOMEDAY"))
+                   '((:name " Waiting on" :todo ("WAIT"))
+                     (:name "󰧓 Someday" :todo ("IDEA"))
                      (:discard (:anything t)))))))))
 #+end_src
 
@@ -3719,7 +3751,7 @@ tasks should start ont he =t= key.
 #+end_src
 
 By /category/ is how I often think of my task grouping. Within each, I
-want the TODOs to be separate from the WAITING and SOMEDAY
+want the TODOs to be separate from the WAIT and IDEA
 tasks. Sorting begins with the todo state. Next, I use my user defined
 sorting to go by my =SCORE= attribute. Finally, the tasks are sorted by
 effort and then alphabetically.
@@ -3879,8 +3911,8 @@ a due date.
         (todo ""
                  ((org-super-agenda-groups
                    '((:name "󱙴 Upcoming" :deadline future)
-                     (:name " Waiting on" :todo "WAITING")
-                     (:name "󱁕 Someday" :todo "SOMEDAY")
+                     (:name " Waiting on" :todo "WAIT")
+                     (:name "󱁕 Someday" :todo "IDEA")
                      (:name " Undue" :anything t)))
                   (org-agenda-overriding-header "\n REMAINING TASKS"))))
             ((org-agenda-sorting-strategy '(priority-down))
@@ -4608,11 +4640,11 @@ https://github.com/rougier/svg-tag-mode
             ;; Task types
 
             ;;("TODO\\|NEXT\\|WAITING" . ((lambda (tag) (svg-tag-make tag :face 'org-done :inverse t))))
-            ("TODO\\|NEXT\\|WAITING" . ((lambda (tag) (svg-tag-make tag :face 'nerd-icons-red :inverse t))))
-            ("SOMEDAY" . ((lambda (tag) (svg-tag-make tag :face 'nerd-icons-dyellow :inverse t))))
+            ("TODO\\|NEXT\\|WAIT" . ((lambda (tag) (svg-tag-make tag :face 'nerd-icons-red :inverse t))))
+            ("IDEA\\|NOTE" . ((lambda (tag) (svg-tag-make tag :face 'nerd-icons-dyellow :inverse t))))
             ;;("DONE\\|CANCELED" . ((lambda (tag) (svg-tag-make tag :face 'org-done :inverse t))))
-            ("DONE\\|CANCELED" . ((lambda (tag) (svg-tag-make tag :face 'nerd-icons-green :inverse t))))
-
+            ("DONE\\|NOTE" . ((lambda (tag) (svg-tag-make tag :face 'nerd-icons-green :inverse t))))
+            ("STOP" . ((lambda (tag) (svg-tag-make tag :face 'nerd-icons-silver :inverse t))))
 
             ;; Task priority
             ;; [#A] [#B] [#C]
