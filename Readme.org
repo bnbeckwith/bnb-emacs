@@ -2224,20 +2224,6 @@ together.
     :config (citar-embark-mode)
     :custom
     (citar-at-point-function 'embark-act))
-
-  (use-package citar-org-roam
-    :ensure t
-    :after (citar org-roam)
-    :config
-    (add-to-list 'org-roam-capture-templates
-                 '("n" "Literature note" plain
-                   "%?"
-                   :target
-                   (file+head
-                    "%(expand-file-name (or citar-org-roam-subdir \"\") org-roam-directory)/${citar-citekey}.org"
-                    "#+title: ${citar-citekey} (${citar-date}). ${note-title}.\n#+created: %U\n#+last_modified: %U\n\n")
-                   :unnarrowed t))
-    (citar-org-roam-mode))
 #+end_src
 
 *** Writeroom
@@ -3010,6 +2996,101 @@ Automatically turn it on in LaTeX modes.
 | C-c <     | Index entry                        |
 | C-c >     | View index                         |
 | C-c &     | View crossref                      |
+
+*** Denote
+
+The best of all worlds? Org-mode and a Zettelkasten system? Yes,
+[[https://protesilaos.com/emacs/denote][Denote]] sets up a knowledge capture and organization system built
+allowing the likes of [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]].
+
+#+begin_src emacs-lisp
+  (use-package denote
+    :ensure t
+    :after org
+    :delight "🗈"
+    :hook
+    (dired-mode . denote-dired-mode)
+    :custom
+    (denote-directory (file-truename "~/Documents/Org/denote/"))
+    (denote-save-buffers nil)
+    (denote-infer-keywords t)
+    (denote-sort-keywords t)
+    (denote-prompts '(title keywords))
+    (denote-excluded-directories-regexp nil)
+    (denote-keywords-to-not-infer-regexp nil)
+    (denote-rename-confirmations '(rewrite-front-matter modify-file-name))
+    ;; Pick dates, where relevant, with Org's advanced interface:
+    (denote-date-prompt-use-org-read-date t)
+    :bind
+    (("C-c n n" . denote)
+     ("C-c n r" . denote-rename-file)
+     ("C-c n g" . denote-grep)
+     ("C-c n d" . denote-dired)
+     ("C-c n l" . denote-link)
+     ("C-c n b" . denote-backlinks)
+     ("C-c n L" . denote-add-links)
+     ("C-c n b" . denote-backlinks)
+     ("C-c n q c" . denote-query-contents-link) ; create link that triggers a grep
+     ("C-c n q f" . denote-query-filenames-link) ; create link that triggers a dired
+     ;; Note that `denote-rename-file' can work from any context, not just
+     ;; Dired bufffers.  That is why we bind it here to the `global-map'.
+     ("C-c n r" . denote-rename-file)
+     ("C-c n R" . denote-rename-file-using-front-matter)
+
+     ;; Key bindings specifically for Dired.
+     :map dired-mode-map
+     ("C-c C-d C-i" . denote-dired-link-marked-notes)
+     ("C-c C-d C-r" . denote-dired-rename-files)
+     ("C-c C-d C-k" . denote-dired-rename-marked-files-with-keywords)
+     ("C-c C-d C-R" . denote-dired-rename-marked-files-using-front-matter))
+    :config
+    (denote-rename-buffer-mode 1))  
+#+end_src
+
+One of the more interesting features is the ability to keep separate
+silos of notes.  This is done through a =.dir-locals.el= file.
+
+#+begin_example
+  ;;; Directory Local Variables.  For more information evaluate:
+  ;;;
+  ;;;     (info "(emacs) Directory Variables")
+
+  ((nil . ((denote-directory . "/path/to/silo/"))))
+#+end_example
+
+**** Denote Explore
+
+As soon as a pile of notes exists, it's nice to have extra mechanisms
+to summarize, visualize, navigate, and manage the notes. The
+=denote-explore= package provides this extra functionality.
+
+#+begin_src emacs-lisp
+  (use-package denote-explore
+    :ensure t
+    :bind
+    (;; Statistics
+     ("C-x n x c" . denote-explore-count-notes)
+     ("C-x n x C" . denote-explore-count-keywords)
+     ("C-x n x b" . denote-explore-barchart-keywords)
+     ("C-x n x B" . denote-explore-barchart-filetypes)
+     ;; Random Walks
+     ("C-x n x r" . denote-explore-random-note)
+     ("C-x n x l" . denote-explore-random-link)
+     ("C-x n x k" . denote-explore-random-keyword)
+     ("C-x n x x" . denote-explore-random-regex)
+     ;; Janitor (cleanup)
+     ("C-x n x d" . denote-explore-identify-duplicate-notes)
+     ("C-x n x z" . denote-explore-zero-keywords)
+     ("C-x n x s" . denote-explore-single-keywords)
+     ("C-x n x o" . denote-explore-sort-keywords)
+     ("C-x n x w" . denote-explore-rename-keyword)   
+     ;; Visualize
+     ("C-x n x n" . denote-explore-network)
+     ("C-x n x g" . denote-explore-network-regenerate)
+     ("C-x n x D" . denote-explore-degree-barchart)))
+#+end_src
+
+My setup is adapted from [[https://lucidmanager.org/productivity/denote-explore/][the nice writeup at lucidmanager.org]].
 
 *** HTML
 
@@ -4747,43 +4828,6 @@ that.
   (use-package org-noter
     :ensure t
     :bind ("H-n" . org-noter))
-#+end_src
-
-**** Org Roam
-
-The best of all worlds? Org-mode and a Zettelkasten system? Yes,
-[[https://www.orgroam.com/][Org-roam]] sets up a knowledge capture and organization system built on
-the principles of [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]].
-
-#+begin_src emacs-lisp
-  (use-package org-roam
-    :ensure t
-    :after org
-    :delight " 𝕫"
-    :hook
-    (after-init . org-roam-setup)
-    :init
-    (setq org-roam-v2-ack t)
-    :custom
-    (org-roam-directory (file-truename "~/Documents/Org/zettel/"))
-    :bind
-    (("C-c n f" . org-roam-node-find)
-     ("C-c n r" . org-roam-node-random)
-     ("C-c n g" . org-roam-graph)
-     ("C-c n c" . org-roam-capture)
-     ("C-c n j" . org-roam-dailies-capture-today)
-     (:map org-mode-map
-           (("C-c n l" . org-roam-buffer-toggle)
-            ("C-c n a" . org-roam-alias-add)
-            ("C-c n i" . org-roam-node-insert)
-            ("C-c n I" . org-roam-insert-immediate)))
-     (:map org-roam-mode-map
-           (("C-c n l" . org-roam)
-            ("C-c n t" . org-roam-dailies-find-today)
-            ("C-c n w" . org-roam-dailies-find-tomorrow)
-            ("C-c n d" . org-roam-date)
-            ("C-c n f" . org-roam-find-file)
-            ("C-c n g" . org-roam-show-graph)))))
 #+end_src
 
 **** Org QL                                                         :PENDING:
