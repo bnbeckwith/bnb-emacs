@@ -2762,6 +2762,18 @@ Useful key mappings
 | =C-x p b= | Find buffer in project |
 | =C-x p e= | Eshell in project      |
 
+*** Breadcrumb
+
+To help navigate documents and projects, [[https://github.com/joaotavora/breadcrumb][breadcrumb]] gives an indicator
+of the current location.
+
+#+begin_src emacs-lisp
+  (use-package breadcrumb
+    :ensure t
+    :config
+    (breadcrumb-mode 1))
+#+end_src
+
 * Major Modes
 
 This section holds the details for major modes. These are interfaces
