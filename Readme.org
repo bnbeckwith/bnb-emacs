@@ -3016,6 +3016,10 @@ The best of all worlds? Org-mode and a Zettelkasten system? Yes,
 [[https://protesilaos.com/emacs/denote][Denote]] sets up a knowledge capture and organization system built
 allowing the likes of [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten]].
 
+At it's core, it's really just a defined file-naming scheme with the
+tools to manage the files, link effectively, manage metadata, and
+providing easy searching.
+
 #+begin_src emacs-lisp
   (use-package denote
     :ensure t
@@ -3024,7 +3028,7 @@ allowing the likes of [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten
     :hook
     (dired-mode . denote-dired-mode)
     :custom
-    (denote-directory (file-truename "~/Documents/Org/denote/"))
+    (denote-directory (file-truename "~/Documents/notes/"))
     (denote-save-buffers nil)
     (denote-infer-keywords t)
     (denote-sort-keywords t)
@@ -3035,7 +3039,8 @@ allowing the likes of [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten
     ;; Pick dates, where relevant, with Org's advanced interface:
     (denote-date-prompt-use-org-read-date t)
     :bind
-    (("C-c n n" . denote)
+    (("C-c n n" . denote-open-or-create)
+     ("C-c n i" . denote-link-or-create)
      ("C-c n r" . denote-rename-file)
      ("C-c n g" . denote-grep)
      ("C-c n d" . denote-dired)
@@ -3057,7 +3062,7 @@ allowing the likes of [[https://en.wikipedia.org/wiki/Zettelkasten][Zettelkasten
      ("C-c C-d C-k" . denote-dired-rename-marked-files-with-keywords)
      ("C-c C-d C-R" . denote-dired-rename-marked-files-using-front-matter))
     :config
-    (denote-rename-buffer-mode 1))  
+    (denote-rename-buffer-mode 1))
 #+end_src
 
 One of the more interesting features is the ability to keep separate
@@ -3082,28 +3087,71 @@ to summarize, visualize, navigate, and manage the notes. The
     :ensure t
     :bind
     (;; Statistics
-     ("C-x n x c" . denote-explore-count-notes)
-     ("C-x n x C" . denote-explore-count-keywords)
-     ("C-x n x b" . denote-explore-barchart-keywords)
-     ("C-x n x B" . denote-explore-barchart-filetypes)
+     ("C-c n x c" . denote-explore-count-notes)
+     ("C-c n x C" . denote-explore-count-keywords)
+     ("C-c n x b" . denote-explore-barchart-keywords)
+     ("C-c n x B" . denote-explore-barchart-filetypes)
      ;; Random Walks
-     ("C-x n x r" . denote-explore-random-note)
-     ("C-x n x l" . denote-explore-random-link)
-     ("C-x n x k" . denote-explore-random-keyword)
-     ("C-x n x x" . denote-explore-random-regex)
+     ("C-c n x r" . denote-explore-random-note)
+     ("C-c n x l" . denote-explore-random-link)
+     ("C-c n x k" . denote-explore-random-keyword)
+     ("C-c n x x" . denote-explore-random-regex)
      ;; Janitor (cleanup)
-     ("C-x n x d" . denote-explore-identify-duplicate-notes)
-     ("C-x n x z" . denote-explore-zero-keywords)
-     ("C-x n x s" . denote-explore-single-keywords)
-     ("C-x n x o" . denote-explore-sort-keywords)
-     ("C-x n x w" . denote-explore-rename-keyword)   
+     ("C-c n x d" . denote-explore-duplicate-notes)
+     ("C-c n x z" . denote-explore-zero-keywords)
+     ("C-c n x s" . denote-explore-single-keywords)
+     ("C-c n x o" . denote-explore-sync-metadata)
+     ("C-c n x w" . denote-explore-rename-keyword)   
      ;; Visualize
-     ("C-x n x n" . denote-explore-network)
-     ("C-x n x g" . denote-explore-network-regenerate)
-     ("C-x n x D" . denote-explore-degree-barchart)))
+     ("C-c n x n" . denote-explore-network)
+     ("C-c n x g" . denote-explore-network-regenerate)
+     ("C-c n x D" . denote-explore-degree-barchart)))
 #+end_src
 
 My setup is adapted from [[https://lucidmanager.org/productivity/denote-explore/][the nice writeup at lucidmanager.org]].
+
+**** Denote Org
+
+#+begin_src emacs-lisp
+  (use-package denote-org
+    :ensure t
+    :after org
+    :bind
+    (("C-c n o #" . denote-org-link-to-heading)
+     ("C-c n o !" . denote-org-backlinks-for-heading)
+     ("C-c n o >" . denote-org-extract-org-subtree)
+     ("C-c n o x" . denote-org-convert-links-to-file-type)
+     ("C-c n o X" . denote-org-convert-links-to-denote-dype)
+     ("C-c n o F" . denote-org-dblock-insert-files)
+     ("C-c n o b" . denote-org-dblock-insert-links)
+     ("C-c n o /" . denote-org-dblock-insert-backlinks)
+     ("C-c n o ~" . denote-org-dblock-insert-missing-links)
+     ("C-c n o H" . denote-org-dblock-insert-files-as-headings)))
+#+end_src
+
+**** Denote Sequence
+
+#+begin_src emacs-lisp
+  (use-package denote-sequence
+    :ensure t
+    :bind
+    (("C-c n s s" . denote-sequence)
+     ("C-c n s f" . denote-sequence-find)
+     ("C-c n s l" . denote-sequence-link)
+     ("C-c n s d" . denote-sequence-dired)
+     ("C-c n s r" . denote-sequence-reparent)
+     ("C-c n s c" . denote-sequence-convert)))
+#+end_src
+
+**** Denote Zettel
+
+#+begin_src emacs-lisp
+  (use-package tablist
+    :ensure t)
+
+  (use-package denote-zettel-interface
+    :ensure (denote-zettel-interface :host github :repo "krisbalintona/denote-zettel-interface"))
+#+end_src
 
 *** HTML
 
