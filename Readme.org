@@ -3084,6 +3084,7 @@ to summarize, visualize, navigate, and manage the notes. The
 
 #+begin_src emacs-lisp
   (use-package denote-explore
+    :after denote
     :ensure t
     :bind
     (;; Statistics
@@ -3115,7 +3116,7 @@ My setup is adapted from [[https://lucidmanager.org/productivity/denote-explore/
 #+begin_src emacs-lisp
   (use-package denote-org
     :ensure t
-    :after org
+    :after (org denote)
     :bind
     (("C-c n o #" . denote-org-link-to-heading)
      ("C-c n o !" . denote-org-backlinks-for-heading)
@@ -3133,6 +3134,7 @@ My setup is adapted from [[https://lucidmanager.org/productivity/denote-explore/
 
 #+begin_src emacs-lisp
   (use-package denote-sequence
+    :after denote
     :ensure t
     :bind
     (("C-c n s s" . denote-sequence)
@@ -3150,6 +3152,7 @@ My setup is adapted from [[https://lucidmanager.org/productivity/denote-explore/
     :ensure t)
 
   (use-package denote-zettel-interface
+    :after denote
     :ensure (denote-zettel-interface :host github :repo "krisbalintona/denote-zettel-interface"))
 #+end_src
 
