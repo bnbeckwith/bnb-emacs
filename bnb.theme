@@ -1,0 +1,7 @@
+#+OPTIONS: org-html-head-include-default-style:nil
+#+HTML_HEAD: <link rel="stylesheet" href="stylish.css">
+#+HTML_HEAD: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/styles/grayscale.min.css">
+#+HTML_HEAD: <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/highlight.min.js"></script>
+#+HTML_HEAD: <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/languages/lisp.min.js"></script>
+#+HTML_HEAD: <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.12.0/languages/shell.min.js"></script>
+#+HTML_HEAD: <script src="./scriptish.js"></script>

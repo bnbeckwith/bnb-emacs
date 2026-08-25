@@ -1,0 +1,445 @@
+@import url('https://fonts.googleapis.com/css2?family=Sometype+Mono:ital,wght@0,400..700;1,400..700&display=swap');
+
+:root, html[data-theme="rams"] {
+  /* Color Palette: Warm paper, charcoal text, industrial orange accent */
+    --bg-primary: #f4f3ef;
+    --bg-surface: #eae9e4;
+    --text-main: #1a1a1a;
+    --text-muted: #666660;
+    --accent-orange: #d94f26;
+    --border-color: #d1cfc7;
+  
+  /* Typography */
+    --font-mono: "Sometype Mono", monospace;
+    --font-sans: var(--font-mono);
+    --font-size: 16px;
+}
+
+html[data-theme="olivetti"] {
+  --bg-primary: #f0f2f2;
+  --bg-surface: #e2e6e6;
+  --text-main: #1c2324;
+  --text-muted: #5a6566;
+  --accent-orange: #2b7a78;
+  --border-color: #ccd4d4;
+}
+
+html[data-theme="mod"] {
+  --bg-primary: #fafafa;
+  --bg-surface: #eeeeee;
+  --text-main: #121212;
+  --text-muted: #686868;
+  --accent-orange: #c88a2a;
+  --border-color: #d8d8d8;
+}
+
+html {
+    /* TYPOGRAPHY */
+    vertical-align: baseline;
+    line-height: var(--line-height);
+    
+    /* FONT */
+    font-family: var(--font-sans);
+    font-optical-sizing: auto;
+    font-size: var(--font-size);
+    font-variant-numeric: tabular-nums lining-nums;
+    
+    /* COLOR */
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+}
+
+* {
+    margin: 0;
+    margin-block: 0;
+    padding: 0;
+    box-sizing: content-box;
+    border: none;
+}
+
+body {
+    /* TYPOGRAPHY */
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+
+    /* LAYOUT */
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-main);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+h1.title {
+  font-size: 2.25rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--text-main);
+  padding-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.25rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+p {
+  margin-bottom: 1.25rem;
+}
+
+ul, ol {
+    /* Options: "⬧ " "⬢ " "⬣ " */
+    list-style-type: "⭓ " ;
+    padding-left: 1.5rem;
+    margin-bottom: 1.25rem;
+}
+
+li {
+  margin-bottom: 0.25rem;
+    
+    ul, ol {
+        /* Options: "⬨ " "⬡ " "⬠ " */
+        list-style-type: "⭔ ";
+    }
+}
+
+/* ==========================================================================
+   ORG-MODE DEFINITION LIST (.org-dl)
+   ========================================================================== */
+
+dl.org-dl {
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) 2fr;
+  gap: 0;
+  margin: 1.5rem 0;
+  border-top: 2px solid var(--text-main);
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.9rem;
+}
+
+/* Term (Left Column) */
+dl.org-dl dt {
+  grid-column: 1;
+  padding: 0.75rem 0.5rem 0.75rem 0;
+  border-bottom: 1px solid var(--border-color);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+/* Description (Right Column) */
+dl.org-dl dd {
+  grid-column: 2;
+  margin: 0;
+  padding: 0.75rem 0 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-main);
+}
+
+/* Row Hover Highlight */
+dl.org-dl dt:hover,
+dl.org-dl dt:hover + dd {
+  background-color: var(--bg-surface);
+}
+
+/* Tooltip Adjustments inside DL */
+dl.org-dl dt {
+    .tooltip {
+        width: 100%;
+        border: none;
+    }
+}
+
+dl.org-dl dt .tooltip code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-size: 0.85rem;
+}
+
+/* Position tooltip popovers cleanly relative to the grid row */
+dl.org-dl dt .tooltip .tooltiptext {
+  left: 0;
+  margin-left: 0;
+  bottom: 115%;
+}
+
+dl.org-dl dt .tooltip .tooltiptext::after {
+  left: 1.5rem;
+  margin-left: 0;
+}
+
+/* Responsive collapse for small screens */
+@media (max-width: 600px) {
+  dl.org-dl {
+    display: block;
+  }
+  
+  dl.org-dl dt {
+    padding-bottom: 0.25rem;
+    border-bottom: none;
+  }
+  
+  dl.org-dl dd {
+    padding-top: 0;
+    padding-left: 0;
+    margin-bottom: 1rem;
+  }
+}
+
+#text-table-of-contents {
+    columns: 2;
+}
+
+.org-src-container {
+    background: var(--background-color-alt);
+    padding: var(--baseline) 0 var(--baseline) var(--baseline);
+    font-size: var(--font-size-y);
+    line-height: 1.5em;
+}
+
+code {
+    font-size: 0.875em;
+    background-color: var(--bg-surface);
+    padding: 0.15em 0.35em;
+    border-radius: 2px;
+    border: 1px solid var(--border-color);
+}
+
+pre {
+    background-color: var(--bg-surface) !important;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-orange);
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border-radius: 0;
+    overflow-x: auto;
+}
+
+code, pre {
+    font-family: var(--font-mono);
+}
+  
+pre code {
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--text-main);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+th, td {
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--text-main);
+  border-bottom: 2px solid var(--text-main);
+}
+
+hr {
+  border: none;
+  border-top: 1px dashed var(--border-color);
+  margin: 2.5rem 0;
+}
+
+thead {
+    text-transform: uppercase;
+    color: var(--background-color);
+    background: var(--text-color-alt);
+}
+
+tbody tr:hover {
+    background: var(--background-color-alt);
+}
+
+/* Tooltip Container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  border-bottom: 1px dotted var(--accent-orange);
+}
+
+.tooltip code {
+  color: var(--accent-orange);
+  font-weight: 600;
+}
+
+/* Popover Card */
+.tooltip .tooltiptext {
+  /* Visibility & State */
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+  transform: translateY(6px);
+  
+  /* Positioning */
+  position: absolute;
+  z-index: 100;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -200px; /* Centers a 400px wide box */
+  
+  /* Dimensions & Constraints */
+  width: 400px;
+  max-height: 280px;
+  overflow-y: auto;
+  
+  /* Industrial Styling */
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  border: 1px solid var(--text-main);
+  border-left: 4px solid var(--accent-orange);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 0.85rem 1rem;
+  
+  /* Crucial for raw Info text formatting */
+  white-space: pre-wrap; 
+  word-break: break-word;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+/* Hover & Focus Triggers */
+.tooltip:hover .tooltiptext,
+.tooltip:focus-within .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Subtle Technical Arrow at Bottom */
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--text-main) transparent transparent transparent;
+}
+
+/* Minimalist Scrollbar inside Popover */
+.tooltip .tooltiptext::-webkit-scrollbar {
+  width: 5px;
+}
+
+.tooltip .tooltiptext::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+
+.tooltip .tooltiptext::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+}
+
+.tooltip .tooltiptext::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: 0.5rem 1rem;
+  border-left: 2px solid var(--text-main);
+  background-color: var(--bg-surface);
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+a {
+  color: var(--accent-orange);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease;
+}
+
+a:hover {
+  border-bottom-color: var(--accent-orange);
+}
+
+/* TOP NAV SECTION */
+table.org-info-js_info-navigation {
+  width: 100% !important;
+  margin: 0 0 2rem 0 !important;
+  padding: 0.5rem 0 !important;
+  border-collapse: collapse !important;
+  background-color: var(--bg-surface) !important;
+  border-top: 1px solid var(--text-main) !important;
+  border-bottom: 2px solid var(--text-main) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.8rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+table.org-info-js_info-navigation td {
+  padding: 0.5rem 0.75rem !important;
+  border: none !important;
+  color: var(--text-muted) !important;
+  background-color: transparent !important;
+}
+
+/* Links inside navigation */
+table.org-info-js_info-navigation a {
+  color: var(--text-main) !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid transparent !important;
+}
+
+table.org-info-js_info-navigation a:hover {
+  color: var(--accent-orange) !important;
+  border-bottom-color: var(--accent-orange) !important;
+}
+
+/* Section indicator formatting */
+table.org-info-js_info-navigation .section-number-3,
+table.org-info-js_info-navigation .section-number-2,
+table.org-info-js_info-navigation .section-number-1 {
+  color: var(--accent-orange);
+  font-weight: 700;
+  margin-right: 0.25rem;
+}
+
+/* Clean up spans generated by org-info */
+table.org-info-js_info-navigation span {
+  font-variant: normal !important;
+  font-style: normal !important;
+}
+
+/* SECTION CONTENT TOC */
+.org-info-js_local-toc {
+    border-top: 1px solid var(--border-color);
+}

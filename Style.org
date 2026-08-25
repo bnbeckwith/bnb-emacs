@@ -1,0 +1,625 @@
+#+TITLE: Field Guide: Styles and Scripts
+#+STARTUP: show2levels
+#+OPTIONS: html-link-use-abs-url:nil html-postamble:auto
+#+OPTIONS: html-preamble:t html-scripts:t html-style:t
+#+OPTIONS: html5-fancy:nil tex:t
+#+CREATOR: <a href="http://www.gnu.org/software/emacs/">Emacs</a> 30.0.50 (<a href="http://orgmode.org">Org</a> mode 9.7.12)
+#+EXPORT_FILE_NAME: index.html
+#+HTML_CONTAINER: div
+#+HTML_DOCTYPE: xhtml-strict
+#+HTML_HEAD:
+#+HTML_HEAD_EXTRA:
+#+HTML_LINK_HOME:
+#+HTML_LINK_UP:
+#+HTML_MATHJAX:
+#+INFOJS_OPT:
+#+LATEX_HEADER:
+#+PROPERTY: header-args:css :tangle "./stylish.css" :exports code :results silent
+#+SETUPFILE: bnb.theme
+
+This document walks through the styling used for my [[./Readme.org][Readme]].
+
+* Introduction
+
+The goal of this document is to walk through a stylesheet, documenting
+the design decisions, and generating a CSS file along the way in
+[[https://en.wikipedia.org/wiki/Literate_programming][Literate Programming]] style.
+
+** Defaults
+
+The first step is to setup some defaults. We'll begin with the font
+import. To evoke that nice, classic UNIX feel, I'm going with a
+monospace font.
+
+Here's [[https://fonts.google.com/specimen/Sometype+Mono][Sometype Mono]]:
+#+begin_src css 
+  @import url('https://fonts.googleapis.com/css2?family=Sometype+Mono:ital,wght@0,400..700;1,400..700&display=swap');
+#+end_src
+
+Note that for CSS, all =@import= statements must be at the top of the
+file. Eventually, if this splits out into multiple files, imports of
+those files will need to appear here.
+
+The next step is to setup some =:root= level variables.
+
+#+begin_src css
+  :root, html[data-theme="rams"] {
+    /* Color Palette: Warm paper, charcoal text, industrial orange accent */
+      --bg-primary: #f4f3ef;
+      --bg-surface: #eae9e4;
+      --text-main: #1a1a1a;
+      --text-muted: #666660;
+      --accent-orange: #d94f26;
+      --border-color: #d1cfc7;
+    
+    /* Typography */
+      --font-mono: "Sometype Mono", monospace;
+      --font-sans: var(--font-mono);
+      --font-size: 16px;
+  }
+
+  html[data-theme="olivetti"] {
+    --bg-primary: #f0f2f2;
+    --bg-surface: #e2e6e6;
+    --text-main: #1c2324;
+    --text-muted: #5a6566;
+    --accent-orange: #2b7a78;
+    --border-color: #ccd4d4;
+  }
+
+  html[data-theme="mod"] {
+    --bg-primary: #fafafa;
+    --bg-surface: #eeeeee;
+    --text-main: #121212;
+    --text-muted: #686868;
+    --accent-orange: #c88a2a;
+    --border-color: #d8d8d8;
+  }
+
+#+end_src
+
+#+begin_src css
+  html {
+      /* TYPOGRAPHY */
+      vertical-align: baseline;
+      line-height: var(--line-height);
+      
+      /* FONT */
+      font-family: var(--font-sans);
+      font-optical-sizing: auto;
+      font-size: var(--font-size);
+      font-variant-numeric: tabular-nums lining-nums;
+      
+      /* COLOR */
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+  }
+#+end_src
+
+** Reset
+
+After my imports, a [[https://en.wikipedia.org/wiki/Reset_style_sheet][CSS Reset]] strips away default browser styling in a
+broad way and then allowing me to add back only the style I want and
+need.
+
+#+begin_src css
+  ,* {
+      margin: 0;
+      margin-block: 0;
+      padding: 0;
+      box-sizing: content-box;
+      border: none;
+  }
+#+end_src
+
+
+* Layout
+
+** Body
+
+#+begin_src css
+  body {
+      /* TYPOGRAPHY */
+      line-height: 1.6;
+      letter-spacing: -0.01em;
+
+      /* LAYOUT */
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+  }
+#+end_src    
+
+* Structuring Elements
+** Headers
+
+#+begin_src css
+  h1, h2, h3, h4 {
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-main);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+}
+
+h1.title {
+  font-size: 2.25rem;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--text-main);
+  padding-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.25rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+#+end_src
+
+** Text Blocks
+
+#+begin_src css
+  p {
+    margin-bottom: 1.25rem;
+  }
+#+end_src
+
+** Lists
+
+#+begin_src css
+
+
+  ul, ol {
+      /* Options: "⬧ " "⬢ " "⬣ " */
+      list-style-type: "⭓ " ;
+      padding-left: 1.5rem;
+      margin-bottom: 1.25rem;
+  }
+
+  li {
+    margin-bottom: 0.25rem;
+      
+      ul, ol {
+          /* Options: "⬨ " "⬡ " "⬠ " */
+          list-style-type: "⭔ ";
+      }
+  }
+
+#+end_src
+
+
+#+begin_src css
+  /* ==========================================================================
+     ORG-MODE DEFINITION LIST (.org-dl)
+     ========================================================================== */
+
+  dl.org-dl {
+    display: grid;
+    grid-template-columns: minmax(200px, 1fr) 2fr;
+    gap: 0;
+    margin: 1.5rem 0;
+    border-top: 2px solid var(--text-main);
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+  }
+
+  /* Term (Left Column) */
+  dl.org-dl dt {
+    grid-column: 1;
+    padding: 0.75rem 0.5rem 0.75rem 0;
+    border-bottom: 1px solid var(--border-color);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Description (Right Column) */
+  dl.org-dl dd {
+    grid-column: 2;
+    margin: 0;
+    padding: 0.75rem 0 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-main);
+  }
+
+  /* Row Hover Highlight */
+  dl.org-dl dt:hover,
+  dl.org-dl dt:hover + dd {
+    background-color: var(--bg-surface);
+  }
+
+  /* Tooltip Adjustments inside DL */
+  dl.org-dl dt {
+      .tooltip {
+          width: 100%;
+          border: none;
+      }
+  }
+
+  dl.org-dl dt .tooltip code {
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-size: 0.85rem;
+  }
+
+  /* Position tooltip popovers cleanly relative to the grid row */
+  dl.org-dl dt .tooltip .tooltiptext {
+    left: 0;
+    margin-left: 0;
+    bottom: 115%;
+  }
+
+  dl.org-dl dt .tooltip .tooltiptext::after {
+    left: 1.5rem;
+    margin-left: 0;
+  }
+
+  /* Responsive collapse for small screens */
+  @media (max-width: 600px) {
+    dl.org-dl {
+      display: block;
+    }
+    
+    dl.org-dl dt {
+      padding-bottom: 0.25rem;
+      border-bottom: none;
+    }
+    
+    dl.org-dl dd {
+      padding-top: 0;
+      padding-left: 0;
+      margin-bottom: 1rem;
+    }
+  }
+#+end_src
+
+** Table of Contents
+
+#+begin_src css
+  #text-table-of-contents {
+      columns: 2;
+  }
+#+end_src
+
+
+* Blocks
+
+The blocks here are what would traditionally be called /figures/ in
+documentation and layout systems. As such, they require some
+considerations for display.
+
+** =Code= and =Pre=
+
+All code is put into a container, =org-src-container=, and then a =code=
+or =pre= block.
+
+#+begin_src css
+  .org-src-container {
+      background: var(--background-color-alt);
+      padding: var(--baseline) 0 var(--baseline) var(--baseline);
+      font-size: var(--font-size-y);
+      line-height: 1.5em;
+  }
+
+  code {
+      font-size: 0.875em;
+      background-color: var(--bg-surface);
+      padding: 0.15em 0.35em;
+      border-radius: 2px;
+      border: 1px solid var(--border-color);
+  }
+
+  pre {
+      background-color: var(--bg-surface) !important;
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-orange);
+      padding: 1rem;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      border-radius: 0;
+      overflow-x: auto;
+  }
+
+  code, pre {
+      font-family: var(--font-mono);
+  }
+    
+  pre code {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: var(--text-main);
+  }
+#+end_src
+
+
+** Tables
+
+#+begin_src css
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+th, td {
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--text-main);
+  border-bottom: 2px solid var(--text-main);
+}
+
+hr {
+  border: none;
+  border-top: 1px dashed var(--border-color);
+  margin: 2.5rem 0;
+}
+#+end_src
+
+*** Header
+
+#+begin_src css
+  thead {
+      text-transform: uppercase;
+      color: var(--background-color);
+      background: var(--text-color-alt);
+  }
+#+end_src
+
+
+*** Hilighting rows on hover
+
+To highlight the current row, just define a new background for
+=tr:hover=.
+
+#+begin_src css
+  tbody tr:hover {
+      background: var(--background-color-alt);
+  }
+#+end_src
+
+
+** Tooltips
+
+I have an exporter setting that uses emacs information as tool-tip
+popovers.
+
+#+begin_src css
+  /* Tooltip Container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  border-bottom: 1px dotted var(--accent-orange);
+}
+
+.tooltip code {
+  color: var(--accent-orange);
+  font-weight: 600;
+}
+
+/* Popover Card */
+.tooltip .tooltiptext {
+  /* Visibility & State */
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+  transform: translateY(6px);
+  
+  /* Positioning */
+  position: absolute;
+  z-index: 100;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -200px; /* Centers a 400px wide box */
+  
+  /* Dimensions & Constraints */
+  width: 400px;
+  max-height: 280px;
+  overflow-y: auto;
+  
+  /* Industrial Styling */
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  border: 1px solid var(--text-main);
+  border-left: 4px solid var(--accent-orange);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 0.85rem 1rem;
+  
+  /* Crucial for raw Info text formatting */
+  white-space: pre-wrap; 
+  word-break: break-word;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+/* Hover & Focus Triggers */
+.tooltip:hover .tooltiptext,
+.tooltip:focus-within .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Subtle Technical Arrow at Bottom */
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: var(--text-main) transparent transparent transparent;
+}
+
+/* Minimalist Scrollbar inside Popover */
+.tooltip .tooltiptext::-webkit-scrollbar {
+  width: 5px;
+}
+
+.tooltip .tooltiptext::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+
+.tooltip .tooltiptext::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+}
+
+.tooltip .tooltiptext::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+#+end_src
+
+** Blockquotes
+
+#+begin_src css
+  blockquote {
+    margin: 1.5rem 0;
+    padding: 0.5rem 1rem;
+    border-left: 2px solid var(--text-main);
+    background-color: var(--bg-surface);
+    font-style: italic;
+    color: var(--text-muted);
+  }
+#+end_src
+
+* Styling
+
+** Links
+
+#+begin_src css
+  a {
+    color: var(--accent-orange);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.15s ease;
+  }
+
+  a:hover {
+    border-bottom-color: var(--accent-orange);
+  }
+#+end_src
+
+** Info.js
+
+#+begin_src css
+  /* TOP NAV SECTION */
+  table.org-info-js_info-navigation {
+    width: 100% !important;
+    margin: 0 0 2rem 0 !important;
+    padding: 0.5rem 0 !important;
+    border-collapse: collapse !important;
+    background-color: var(--bg-surface) !important;
+    border-top: 1px solid var(--text-main) !important;
+    border-bottom: 2px solid var(--text-main) !important;
+    font-family: var(--font-mono) !important;
+    font-size: 0.8rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  table.org-info-js_info-navigation td {
+    padding: 0.5rem 0.75rem !important;
+    border: none !important;
+    color: var(--text-muted) !important;
+    background-color: transparent !important;
+  }
+
+  /* Links inside navigation */
+  table.org-info-js_info-navigation a {
+    color: var(--text-main) !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    border-bottom: 1px solid transparent !important;
+  }
+
+  table.org-info-js_info-navigation a:hover {
+    color: var(--accent-orange) !important;
+    border-bottom-color: var(--accent-orange) !important;
+  }
+
+  /* Section indicator formatting */
+  table.org-info-js_info-navigation .section-number-3,
+  table.org-info-js_info-navigation .section-number-2,
+  table.org-info-js_info-navigation .section-number-1 {
+    color: var(--accent-orange);
+    font-weight: 700;
+    margin-right: 0.25rem;
+  }
+
+  /* Clean up spans generated by org-info */
+  table.org-info-js_info-navigation span {
+    font-variant: normal !important;
+    font-style: normal !important;
+  }
+
+  /* SECTION CONTENT TOC */
+  .org-info-js_local-toc {
+      border-top: 1px solid var(--border-color);
+  }
+
+#+end_src 
+
+* Utility
+
+** Configuring Highlight.js
+
+#+begin_src javascript :tangle "./scriptish.js" :exports code :results silent
+  document.addEventListener('DOMContentLoaded',function() {
+    hljs.registerAliases(['emacs-lisp','elisp'], {languageName: 'lisp'});
+    hljs.highlightAll();
+  })
+#+end_src
+
+
+** Changing Themes
+
+#+begin_src javascript :tangle "./scriptish.js" :exports code :results silent
+  document.addEventListener('keydown', (e) => {
+    // Trigger on Shift + T (ignores input fields)
+    if (e.key === 'T' && e.shiftKey && !['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
+      const themes = ['rams', 'olivetti', 'mod'];
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme') || 'default';
+      
+      // Find next theme index and loop around
+      const nextIndex = (themes.indexOf(currentTheme) + 1) % themes.length;
+      const nextTheme = themes[nextIndex];
+
+      html.setAttribute('data-theme', nextTheme);
+      localStorage.setItem('theme', nextTheme); // Persist across reloads
+    }
+  });
+
+  // Restore saved theme on load
+  (function() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+  })();
+#+end_src
