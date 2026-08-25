@@ -2310,6 +2310,13 @@ that nasty text.
      (bind-key "C-c TAB" 'align-regexp)))
 #+end_src
 
+*** Uniline                                                           :PENDING:
+
+#+begin_src emacs-lisp
+  (use-package uniline
+    :ensure t)
+#+end_src
+
 ** Version Control
 
 Emacs is fantastic for interfacing with version control systems. For
