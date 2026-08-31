@@ -1,6 +1,31 @@
+// Initialize Highlight.js
 document.addEventListener('DOMContentLoaded',function() {
+  // Register my elisp code as lisp
   hljs.registerAliases(['emacs-lisp','elisp'], {languageName: 'lisp'});
+  // Highlight everything!!!
   hljs.highlightAll();
+
+  document.querySelectorAll('.hljs').forEach((block) => {
+    // get the parent pre block
+    const pre = block.parentElement;
+
+    // Look for a language class
+    const match = pre.className.match(/src-([\w-]+)/);
+
+    if (match) {
+      // Grab the found name
+      const langName = match[1].toUpperCase();
+
+      // Create the label
+      const label = document.createElement('div');
+      label.className = 'hljs-language-label';
+      label.textContent = langName;
+
+      // Add it to the pre container
+      pre.style.position = 'relative';
+      pre.insertBefore(label, block);
+    }
+  });
 })
 
 document.addEventListener('keydown', (e) => {

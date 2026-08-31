@@ -6,7 +6,7 @@
     --bg-surface: #eae9e4;
     --text-main: #1a1a1a;
     --text-muted: #666660;
-    --accent-orange: #d94f26;
+    --accent: #d94f26;
     --border-color: #d1cfc7;
   
   /* Typography */
@@ -20,7 +20,7 @@ html[data-theme="olivetti"] {
   --bg-surface: #e2e6e6;
   --text-main: #1c2324;
   --text-muted: #5a6566;
-  --accent-orange: #2b7a78;
+  --accent: #2b7a78;
   --border-color: #ccd4d4;
 }
 
@@ -29,7 +29,7 @@ html[data-theme="mod"] {
   --bg-surface: #eeeeee;
   --text-main: #121212;
   --text-muted: #686868;
-  --accent-orange: #c88a2a;
+  --accent: #c88a2a;
   --border-color: #d8d8d8;
 }
 
@@ -222,12 +222,14 @@ code {
 pre {
     background-color: var(--bg-surface) !important;
     border: 1px solid var(--border-color);
-    border-left: 4px solid var(--accent-orange);
+    border-left: 4px solid var(--accent);
     padding: 1rem;
     overflow-x: auto;
     margin: 1.5rem 0;
     border-radius: 0;
     overflow-x: auto;
+    position: relative;
+    padding-top: 2.5rem;
 }
 
 code, pre {
@@ -241,6 +243,20 @@ pre code {
   font-size: 0.85rem;
   line-height: 1.45;
   color: var(--text-main);
+}
+
+
+.hljs-language-label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    background-color: color-mix(in srgb, var(--border-color) 50%, transparent);
+    border-bottom-left-radius: 4px;
+    text-transform: uppercase;
+    pointer-events: none; /* Keeps code text copyable under badge */
 }
 
 table {
@@ -288,11 +304,11 @@ tbody tr:hover {
   position: relative;
   display: inline-block;
   cursor: help;
-  border-bottom: 1px dotted var(--accent-orange);
+  border-bottom: 1px dotted var(--accent);
 }
 
 .tooltip code {
-  color: var(--accent-orange);
+  color: var(--accent);
   font-weight: 600;
 }
 
@@ -320,7 +336,7 @@ tbody tr:hover {
   background-color: var(--bg-surface);
   color: var(--text-main);
   border: 1px solid var(--text-main);
-  border-left: 4px solid var(--accent-orange);
+  border-left: 4px solid var(--accent);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   padding: 0.85rem 1rem;
   
@@ -379,14 +395,14 @@ blockquote {
 }
 
 a {
-  color: var(--accent-orange);
+  color: var(--accent);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.15s ease;
 }
 
 a:hover {
-  border-bottom-color: var(--accent-orange);
+  border-bottom-color: var(--accent);
 }
 
 /* TOP NAV SECTION */
@@ -420,15 +436,15 @@ table.org-info-js_info-navigation a {
 }
 
 table.org-info-js_info-navigation a:hover {
-  color: var(--accent-orange) !important;
-  border-bottom-color: var(--accent-orange) !important;
+  color: var(--accent) !important;
+  border-bottom-color: var(--accent) !important;
 }
 
 /* Section indicator formatting */
 table.org-info-js_info-navigation .section-number-3,
 table.org-info-js_info-navigation .section-number-2,
 table.org-info-js_info-navigation .section-number-1 {
-  color: var(--accent-orange);
+  color: var(--accent);
   font-weight: 700;
   margin-right: 0.25rem;
 }
