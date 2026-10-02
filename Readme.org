@@ -5528,9 +5528,8 @@ greater, and installs come common grammars.
                  (python     . ("https://github.com/tree-sitter/tree-sitter-python" "v0.20.4"))
                  (rust       . ("https://github.com/tree-sitter/tree-sitter-rust" "v0.21.2" "src"))
                  (toml       . ("https://github.com/tree-sitter/tree-sitter-toml" "v0.5.1"))
-                 (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "typscript/src"))
-                 (tsx        . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "tsx/src"))
-                 (typst      . ("https://github.com/uben0/tree-sitter-typst" "v0.11.0"))
+                 (typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "typescript/src"))
+                 (rust       . ("https://github.com/tree-sitter/tree-sitter-rust" "v0.21.2" "src"))
                  (yaml       . ("https://github.com/ikatyang/tree-sitter-yaml" "v0.5.0"))
                  ))
 
