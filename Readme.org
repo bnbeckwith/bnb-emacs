@@ -572,23 +572,27 @@ shortcuts. I need to take care to not interfere with the built-in
 operating system shortcuts or my bindings will not work.
 
 #+begin_src emacs-lisp
+  ;; OSX Setup
   (setq
-   ;; fn => hyper
-   mac-function-modifier 'hyper
-   ;; option_r => option_r
-   mac-right-option-modifier 'none
-   ;; command_r => hyper
-   mac-right-command-modifier 'hyper
-   ;; control_r => hyper
-   mac-right-control-modifier 'hyper
-   ;; command_l => meta
-   mac-command-modifier 'meta
-   ;; control_l => ctrl
-   mac-control-modifier 'ctrl
-   ;; option_l => super
-   mac-option-modifier 'super
-   ;; Don't pass command to system
-   mac-pass-command-to-system nil)
+     ;; fn => hyper
+     mac-function-modifier 'hyper
+     ;; option_r => option_r
+     mac-right-option-modifier 'none
+     ;; command_r => hyper
+     mac-right-command-modifier 'hyper
+     ;; control_r => hyper
+     mac-right-control-modifier 'hyper
+     ;; command_l => meta
+     mac-command-modifier 'meta
+     ;; control_l => ctrl
+     mac-control-modifier 'ctrl
+     ;; option_l => super
+     mac-option-modifier 'super
+     ;; Don't pass command to system
+     mac-pass-command-to-system nil)
+
+    ;; fallback on other systems
+    (define-key function-key-map (kbd "<f24>") 'event-apply-hyper-modifier)
 #+end_src
 
 Note that the right =option= and =command= keys will pass through to the
