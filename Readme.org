@@ -5407,7 +5407,8 @@ multiline error parsing, and LSP configuration with eglot.
     :custom
     (rustic-cargo-use-last-stored-arguements t)
     :config
-    (setq rustic-format-on-save nil)
+    (setq rustic-format-on-save nil
+          rustic-lsp-client 'eglot)
     :after (rust-mode))
 #+end_src
 
