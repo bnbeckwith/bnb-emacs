@@ -787,19 +787,29 @@ keyboard-driven menus to help access and remember commands.
     :ensure t
     :bind
     (("H-o" . #'casual-editkit-main-tmenu)
-     ("M-c" .  #'casual-avy-tmenu)
-     (:map calc-mode-map ("C-o" . #'casual-calc-tmenu))
-     (:map dired-mode-map ("C-o" . #'casual-dired-tmenu))
-     (:map isearch-mode-map ("C-o" . #'casual-isearch-tmenu))
-     (:map ibuffer-mode-map ("C-o" . #'casual-ibuffer-tmenu))
-     (:map ibuffer-mode-map ("F" . #'casual-ibuffer-filter-tmenu))
-     (:map ibuffer-mode-map ("s" . #'casual-ibuffer-sortby-tmenu))
-     (:map Info-mode-map ("C-o" . #'casual-info-tmenu))
-     (:map reb-mode-map ("C-o" . #'casual-re-builder-tmenu))
-     (:map reb-lisp-mode-map ("C-o" . #'casual-re-builder-tmenu))
-     (:map bookmark-bmenu-mode-map ("C-o" . #'casual-bookmarks-tmenu))
-     (:map org-agenda-mode-map ("C-o" . #'casual-agenda-tmenu))
-     (:map symbol-overlay-map ("C-o" . #'casual-symbol-overlay-tmenu))))
+     ("M-c" .  #'casual-avy-tmenu))
+    :config
+    (with-eval-after-load 'calc
+      (keymap-set calc-mode-map "C-o" #'casual-calc-tmenu))
+    (with-eval-after-load 'dired
+      (keymap-set dired-mode-map "C-o" #'casual-dired-tmenu))
+    (with-eval-after-load 'isearch
+      (keymap-set isearch-mode-map "C-o" #'casual-isearch-tmenu))
+    (with-eval-after-load 'ibuffer
+      (keymap-set ibuffer-mode-map "C-o" #'casual-ibuffer-tmenu)
+      (keymap-set ibuffer-mode-map "F" #'casual-ibuffer-filter-tmenu)
+      (keymap-set ibuffer-mode-map "s" #'casual-ibuffer-sortby-tmenu))
+    (with-eval-after-load 'info
+      (keymap-set Info-mode-map "C-o" #'casual-info-tmenu))
+    (with-eval-after-load 're-builder
+      (keymap-set reb-mode-map "C-o" #'casual-re-builder-tmenu)
+      (keymap-set reb-lisp-mode-map "C-o" #'casual-re-builder-tmenu))
+    (with-eval-after-load 'bookmark
+      (keymap-set bookmark-bmenu-mode-map "C-o" #'casual-bookmarks-tmenu))
+    (with-eval-after-load 'org-agenda
+      (keymap-set org-agenda-mode-map "C-o" #'casual-agenda-tmenu))
+    (with-eval-after-load 'symbol-overlay
+      (keymap-set symbol-overlay-map "C-o" #'casual-symbol-overlay-tmenu)))
 #+end_src
 
 ** Expansion & Completion
